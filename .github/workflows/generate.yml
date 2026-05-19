@@ -1,0 +1,65 @@
+name: Generate today's article
+
+on:
+  schedule:
+    - cron: "0 0 * * *"   # 05:30 IST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Scrape sources
+        run: python scrape_sources.py
+
+      - name: Pick today's topic
+        run: python pick_topic.py
+
+      - name: Write article (Gemini)
+        env:
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python write_article.py
+
+      - name: Generate hero image
+        env:
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python generate_image.py || echo "image step failed, continuing"
+
+      - name: Render HTML + sitemap
+        run: python publish.py
+
+      - name: Commit data + article + output
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ articles/ output/
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+          else
+            git commit -m "content: article for $(date -u +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

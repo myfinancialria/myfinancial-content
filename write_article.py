@@ -1,0 +1,314 @@
+"""Generate an SEO + AEO optimised article via an LLM provider.
+
+Providers (pick via LLM_PROVIDER env var, default = gemini):
+  - gemini    → Google Gemini 2.5 Flash (free tier: 1,500 req/day, no card)
+                Set GEMINI_API_KEY. Get one at https://aistudio.google.com/app/apikey
+  - groq      → Groq Llama 3.3 70B (free tier: 30 RPM, no card)
+                Set GROQ_API_KEY. Get one at https://console.groq.com/keys
+  - anthropic → Claude Sonnet 4.6 (paid, ~₹30-50/mo)
+                Set ANTHROPIC_API_KEY.
+
+Input:   data/today_topic.json
+Output:  articles/YYYY-MM-DD-<slug>.md + data/article.json
+"""
+from __future__ import annotations
+
+import datetime as dt
+import json
+import os
+import re
+import sys
+from pathlib import Path
+from typing import Optional
+
+import requests
+
+HERE = Path(__file__).parent
+DATA = HERE / "data"
+ARTS = HERE / "articles"
+TOPIC = DATA / "today_topic.json"
+META = DATA / "article.json"
+
+# Authoritative source links to encourage Claude to cite
+AUTH_SOURCES = """
+Authoritative sources to cite where relevant (use canonical URLs only):
+- Income Tax India: https://incometax.gov.in
+- CBDT notifications: https://incometaxindia.gov.in
+- RBI: https://rbi.org.in
+- SEBI: https://sebi.gov.in
+- AMFI India: https://amfiindia.com
+- EPFO: https://epfindia.gov.in
+- NPS Trust: https://npstrust.org.in
+- IRDAI: https://irdai.gov.in
+- PFRDA: https://pfrda.org.in
+- Ministry of Finance: https://finmin.nic.in
+"""
+
+SYSTEM = """You write India-focused personal-finance articles for myfinancial.in, run by Nithin (a Certified Financial Planner).
+
+Audience: salaried + self-employed Indians earning ₹15L+/year, plus Non-Resident Indians (especially Gulf-based). They want depth without jargon.
+
+Voice: clear, calm, practical. Indian English. Use ₹ symbol. Use lakhs/crores naturally. Never preachy. Never hyperbolic. No emojis.
+
+REQUIRED article structure — you MUST include EVERY ONE of these 8 sections, in this exact order, with EXACTLY these H2 headings. Do not stop until all 8 sections are written:
+
+1. `# <Title>` — single H1, max 65 chars, includes the primary keyword naturally
+2. `**TL;DR**` block — exactly 5 bullet lines (one full sentence each). Use `- ` for bullets.
+3. `## What this means in plain terms` — 2-3 short paragraphs in jargon-free language
+4. 3-4 `## ...` deep-dive H2 sections covering the topic. Use H3 subheads. Keep each section focused — do NOT keep nesting H4/H5 lists indefinitely.
+5. `## A real example` — H2 with one named persona (e.g. "Rahul, 38, ₹28L CTC, Bengaluru") and step-by-step math with rupee figures.
+6. `## What to do this week` — H2 with 3-5 numbered concrete action items the reader can do in 30 minutes.
+7. `## FAQ` — H2 followed by EXACTLY 5-7 H3 questions, each answered in 2-4 lines. THIS SECTION IS MANDATORY — it powers schema markup. Use `### <question>?` for each question.
+8. `## Sources` — H2 listing authoritative sources cited above, with full URLs.
+
+Then end with one line: "This is general information, not personalised advice. For your situation, consult a Certified Financial Planner."
+
+Constraints:
+- Target: 1,300-1,700 words total. Be DECISIVE — finish writing rather than padding any section.
+- DO NOT exceed 4 H2 deep-dive sections (between sections 3 and 5). Brevity beats exhaustive nesting.
+- Cite official government sources inline by name with link.
+- Use ₹ symbol, lakhs/crores phrasing.
+
+Reply with ONLY the article in Markdown. No preamble. Start with the H1 line.
+After writing section 8 (Sources), STOP — do not add commentary."""
+
+USER_TEMPLATE = """Today's topic:
+
+Primary headline: {primary_title}
+Source: {primary_source}
+Link: {primary_link}
+Source summary: {primary_summary}
+
+Related coverage from other personal-finance outlets:
+{related_block}
+
+{auth_sources}
+
+Write the article now."""
+
+
+def slugify(text: str) -> str:
+    text = re.sub(r"[^a-zA-Z0-9\s-]", "", text.lower())
+    text = re.sub(r"\s+", "-", text).strip("-")
+    return text[:80]
+
+
+def _call_gemini(prompt: str, system: str) -> Optional[str]:
+    key = os.environ.get("GEMINI_API_KEY")
+    if not key:
+        print("GEMINI_API_KEY not set", file=sys.stderr)
+        return None
+    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+    url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
+           f"{model}:generateContent?key={key}")
+    payload = {
+        "system_instruction": {"parts": [{"text": system}]},
+        "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.6,
+            "maxOutputTokens": 16000,
+            "topP": 0.95,
+        },
+    }
+    try:
+        r = requests.post(url, json=payload, timeout=90)
+        r.raise_for_status()
+        j = r.json()
+        return j["candidates"][0]["content"]["parts"][0]["text"]
+    except Exception as e:
+        print(f"Gemini call failed: {e}", file=sys.stderr)
+        if hasattr(e, "response") and getattr(e, "response", None) is not None:
+            try:
+                print(e.response.text[:600], file=sys.stderr)
+            except Exception:
+                pass
+        return None
+
+
+def _call_groq(prompt: str, system: str) -> Optional[str]:
+    key = os.environ.get("GROQ_API_KEY")
+    if not key:
+        print("GROQ_API_KEY not set", file=sys.stderr)
+        return None
+    model = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+    try:
+        r = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            headers={"Authorization": f"Bearer {key}",
+                     "Content-Type": "application/json"},
+            json={
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                "temperature": 0.7,
+                "max_tokens": 6000,
+            },
+            timeout=90,
+        )
+        r.raise_for_status()
+        return r.json()["choices"][0]["message"]["content"]
+    except Exception as e:
+        print(f"Groq call failed: {e}", file=sys.stderr)
+        return None
+
+
+def _call_anthropic(prompt: str, system: str) -> Optional[str]:
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        print("ANTHROPIC_API_KEY not set", file=sys.stderr)
+        return None
+    try:
+        from anthropic import Anthropic
+    except ImportError:
+        print("anthropic SDK not installed (pip install anthropic)", file=sys.stderr)
+        return None
+    client = Anthropic()
+    msg = client.messages.create(
+        model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6"),
+        max_tokens=4500, system=system,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    return msg.content[0].text
+
+
+def call_llm(prompt: str, system: str) -> Optional[str]:
+    provider = os.environ.get("LLM_PROVIDER", "gemini").lower()
+    print(f"Using LLM provider: {provider}")
+    if provider == "gemini":
+        return _call_gemini(prompt, system)
+    if provider == "groq":
+        return _call_groq(prompt, system)
+    if provider == "anthropic":
+        return _call_anthropic(prompt, system)
+    print(f"Unknown LLM_PROVIDER: {provider}", file=sys.stderr)
+    return None
+
+
+def derive_meta(article_md: str, fallback_title: str) -> dict:
+    title_match = re.search(r"^#\s+(.+)$", article_md, re.MULTILINE)
+    title = title_match.group(1).strip() if title_match else fallback_title
+    # TL;DR block becomes meta description seed
+    tldr = re.search(
+        r"\*\*TL;DR\*\*\s*\n((?:[-*]\s+.+\n?)+)",
+        article_md,
+    )
+    meta_desc = ""
+    if tldr:
+        # First two bullets, content only, max ~155 chars
+        bullets = re.findall(r"^[-*]+\s+(.+)$", tldr.group(1), re.MULTILINE)[:2]
+        joined = " ".join(b.strip() for b in bullets)
+        # Defensive: strip any stray leading bullet markers / asterisks
+        joined = re.sub(r"^[*\-\s]+", "", joined)
+        meta_desc = joined[:158].rstrip(".") + "."
+    if not meta_desc:
+        # Fall back to the first paragraph
+        paras = re.findall(r"^(?!#|\*|-)([^\n]{60,300})", article_md, re.MULTILINE)
+        meta_desc = (paras[0][:158].rstrip(".") + ".") if paras else title
+
+    # Keywords: dumb but works — top distinct lower-case words >5 chars
+    words = re.findall(r"[a-zA-Z]{6,}", article_md.lower())
+    stop = {"income", "should", "section", "between", "before", "another",
+            "however", "include", "amount", "person", "people"}
+    common = {}
+    for w in words:
+        if w in stop:
+            continue
+        common[w] = common.get(w, 0) + 1
+    keywords = [w for w, _ in sorted(common.items(),
+                                      key=lambda x: x[1], reverse=True)[:8]]
+    return {"title": title, "meta_description": meta_desc, "keywords": keywords}
+
+
+def extract_faq(article_md: str) -> list[dict]:
+    """Pull H3 Q/A pairs under the FAQ section for FAQPage schema."""
+    faq = []
+    m = re.search(
+        r"##\s*(?:FAQ|Frequently Asked Questions|F\.A\.Q\.?)\b[^\n]*\n([\s\S]+?)(?=\n##\s|\Z)",
+        article_md, re.IGNORECASE,
+    )
+    if not m:
+        return faq
+    block = m.group(1)
+    pairs = re.split(r"\n###\s+", "\n" + block)
+    for p in pairs[1:]:
+        lines = p.strip().split("\n", 1)
+        if len(lines) < 2:
+            continue
+        q = lines[0].strip().rstrip("?") + "?"
+        a = " ".join(lines[1].strip().split())
+        if q and a:
+            faq.append({"q": q, "a": a})
+    return faq[:7]
+
+
+def main() -> int:
+    if not TOPIC.exists():
+        print("today_topic.json missing — run pick_topic.py first", file=sys.stderr)
+        return 1
+    topic = json.loads(TOPIC.read_text())
+    primary = topic["primary"]
+    related = topic.get("related", [])
+    related_block = "\n".join(
+        f"- [{r['source']}] {r['title']} ({r.get('link', '')})"
+        for r in related[:6]
+    ) or "(none)"
+    prompt = USER_TEMPLATE.format(
+        primary_title=primary["title"],
+        primary_source=primary["source"],
+        primary_link=primary.get("link", ""),
+        primary_summary=primary.get("summary", ""),
+        related_block=related_block,
+        auth_sources=AUTH_SOURCES,
+    )
+
+    print(f"Generating article on: {primary['title'][:80]}")
+    body = call_llm(prompt, SYSTEM)
+    if not body:
+        return 1
+
+    today = dt.date.today().isoformat()
+    meta = derive_meta(body, primary["title"])
+    title_slug = slugify(meta["title"])
+    dated_slug = f"{today}-{title_slug}"
+    filename = f"{dated_slug}.md"
+    faq = extract_faq(body)
+
+    canonical = f"https://myfinancialria.github.io/myfinancial-content/articles/{dated_slug}/"
+    frontmatter = (
+        "---\n"
+        f"title: \"{meta['title'].replace(chr(34), chr(39))}\"\n"
+        f"date: {today}\n"
+        f"author: Nithin (CFP)\n"
+        f"description: \"{meta['meta_description'].replace(chr(34), chr(39))}\"\n"
+        f"keywords: [{', '.join(meta['keywords'])}]\n"
+        f"canonical: {canonical}\n"
+        f"slug: {dated_slug}\n"
+        "---\n\n"
+    )
+    ARTS.mkdir(exist_ok=True)
+    (ARTS / filename).write_text(frontmatter + body)
+    print(f"Wrote {ARTS / filename}")
+
+    META.write_text(json.dumps({
+        "date": today,
+        "slug": dated_slug,
+        "filename": filename,
+        "title": meta["title"],
+        "description": meta["meta_description"],
+        "keywords": meta["keywords"],
+        "canonical": canonical,
+        "faq": faq,
+        "topic_score": topic.get("score"),
+        "based_on": {
+            "title": primary["title"],
+            "source": primary["source"],
+            "link": primary.get("link"),
+        },
+    }, indent=2, default=str))
+    print(f"Wrote {META}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
