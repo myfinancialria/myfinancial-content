@@ -17,6 +17,7 @@ from pathlib import Path
 HERE = Path(__file__).parent
 ARTS = HERE / "articles"
 OUT = HERE / "output"
+STATIC = HERE / "static"   # files copied as-is into output/ (verification, etc.)
 META = HERE / "data" / "article.json"
 
 BASE_URL = "https://myfinancialria.github.io/myfinancial-content"
@@ -320,8 +321,21 @@ def render_sitemap(articles: list[dict]) -> None:
     )
 
 
+def copy_static() -> None:
+    """Copy anything in static/ into output/ as-is."""
+    if not STATIC.exists():
+        return
+    import shutil
+    for src in STATIC.iterdir():
+        if src.is_file():
+            shutil.copy2(src, OUT / src.name)
+        elif src.is_dir():
+            shutil.copytree(src, OUT / src.name, dirs_exist_ok=True)
+
+
 def main() -> int:
     OUT.mkdir(exist_ok=True)
+    copy_static()
     md_files = sorted(ARTS.glob("*.md"))
     if not md_files:
         print("No articles in articles/ — run write_article.py first")
