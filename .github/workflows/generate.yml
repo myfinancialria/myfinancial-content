@@ -41,6 +41,18 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python generate_image.py || echo "image step failed, continuing"
 
+      - name: Fact-check (Gemini grounded)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python fact_check.py || echo "fact-check step failed, continuing"
+
+      - name: Slack alert (only if rewrite/review)
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CONTENT_CHANNEL: ${{ secrets.SLACK_CONTENT_CHANNEL }}
+          SLACK_CONTENT_WEBHOOK_URL: ${{ secrets.SLACK_CONTENT_WEBHOOK_URL }}
+        run: python slack_alert.py || echo "alert failed, continuing"
+
       - name: Render HTML + sitemap
         run: python publish.py
 

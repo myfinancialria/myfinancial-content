@@ -49,6 +49,10 @@ article figure.hero img { width:100%; height:100%; object-fit:cover; display:blo
 .list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
 .tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
 .tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.fc { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; margin-left:8px; }
+.fc.ship { background:#DCFCE7; color:#166534; }
+.fc.review { background:#FEF3C7; color:#92400E; }
+.fc.rewrite { background:#FEE2E2; color:#991B1B; }
 .list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
 .list-item h3 { margin:0 0 6px; font-size:20px; }
 .list-item h3 a { color:var(--navy); border:none; }
@@ -240,7 +244,7 @@ def seo_block(meta: dict, faq: list[dict], hero_url: str | None = None) -> str:
 
 def render_article(md_path: Path) -> dict:
     fm, body = parse_frontmatter(md_path.read_text())
-    faq, hero_url, hero_local = [], None, None
+    faq, hero_url, hero_local, fact_check = [], None, None, None
     if META.exists():
         try:
             m = json.loads(META.read_text())
@@ -248,6 +252,7 @@ def render_article(md_path: Path) -> dict:
             if m.get("slug") == (fm.get("slug") or md_path.stem):
                 hero_url = m.get("hero_url")
                 hero_local = m.get("hero_local")
+                fact_check = m.get("fact_check")
         except Exception:
             pass
     html_body = md_to_html(body)
@@ -265,10 +270,18 @@ def render_article(md_path: Path) -> dict:
             '</figure>'
         )
 
+    fc_badge = ""
+    if fact_check and fact_check.get("verdict") in ("ship", "review", "rewrite"):
+        verdict = fact_check["verdict"]
+        label = {"ship": "Fact-checked",
+                 "review": "Review",
+                 "rewrite": "Needs revision"}[verdict]
+        fc_badge = f'<span class="fc {verdict}" title="{html.escape(fact_check.get("summary", ""))}">✓ {label}</span>'
+
     page = (HEAD.format(css=CSS, seo=seo)
             + '<article class="wrap">'
             + hero_html
-            + (f'<div class="byline">By {fm.get("author", "Nithin")} · {fm.get("date", "")}</div>'
+            + (f'<div class="byline">By {fm.get("author", "Nithin")} · {fm.get("date", "")}{fc_badge}</div>'
                if fm.get("date") else "")
             + html_body
             + "</article>" + FOOTER)
