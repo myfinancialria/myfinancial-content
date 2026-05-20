@@ -110,19 +110,40 @@ def _call_gemini(prompt: str, system: str) -> Optional[str]:
             "topP": 0.95,
         },
     }
-    try:
-        r = requests.post(url, json=payload, timeout=90)
-        r.raise_for_status()
-        j = r.json()
-        return j["candidates"][0]["content"]["parts"][0]["text"]
-    except Exception as e:
-        print(f"Gemini call failed: {e}", file=sys.stderr)
-        if hasattr(e, "response") and getattr(e, "response", None) is not None:
-            try:
-                print(e.response.text[:600], file=sys.stderr)
-            except Exception:
-                pass
-        return None
+    import time as _time
+    delays = [10, 30, 60, 120]  # exponential-ish backoff for transient errors
+    last_err = None
+    for attempt in range(len(delays) + 1):
+        try:
+            r = requests.post(url, json=payload, timeout=120)
+            if r.status_code in (429, 500, 502, 503, 504):
+                if attempt < len(delays):
+                    wait = delays[attempt]
+                    print(f"Gemini {r.status_code} (transient) — retrying in {wait}s "
+                          f"[{attempt+1}/{len(delays)}]", file=sys.stderr)
+                    _time.sleep(wait)
+                    continue
+                print(f"Gemini failed after retries: HTTP {r.status_code}",
+                      file=sys.stderr)
+                print(r.text[:400], file=sys.stderr)
+                return None
+            r.raise_for_status()
+            j = r.json()
+            return j["candidates"][0]["content"]["parts"][0]["text"]
+        except requests.exceptions.RequestException as e:
+            last_err = e
+            if attempt < len(delays):
+                wait = delays[attempt]
+                print(f"Gemini network error — retrying in {wait}s "
+                      f"[{attempt+1}/{len(delays)}]: {e}", file=sys.stderr)
+                _time.sleep(wait)
+                continue
+            break
+        except Exception as e:
+            print(f"Gemini call failed (non-retryable): {e}", file=sys.stderr)
+            return None
+    print(f"Gemini failed after retries: {last_err}", file=sys.stderr)
+    return None
 
 
 def _call_groq(prompt: str, system: str) -> Optional[str]:
