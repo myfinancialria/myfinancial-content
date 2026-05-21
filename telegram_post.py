@@ -225,8 +225,8 @@ def build_post(slot: str, meta: dict, body: str) -> tuple[str, str]:
         body_clean,
         "",
         "—",
-        "<b>MyFinancial</b>, a financial diagnostics platform for Indians and NRIs",
-        f'<a href="{url}">myfinancial.in</a> · <a href="{url}">read on the web</a>',
+        "<b>MyFinancial</b> — <i>for Indians who'd rather understand than be sold to.</i>",
+        f'<a href="{url}">Read the full article on myfinancial.in →</a>',
     ]
     body_msg = "\n".join(body_msg_parts)
     body_msg = _truncate(body_msg, MESSAGE_LIMIT - 50)

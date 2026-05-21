@@ -75,7 +75,7 @@ HEAD = """<!doctype html>
 <header class="site"><a href="/">myfinancial.in</a><span class="meta">Personal finance · For 15L+ earners and NRIs</span></header>
 """
 
-FOOTER = """<footer class="site">© myfinancial.in · Built by Nithin (CFP) · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+FOOTER = """<footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
 </body></html>
 """
 
@@ -230,7 +230,7 @@ def seo_block(meta: dict, faq: list[dict], hero_url: str | None = None) -> str:
         f'<title>{html.escape(title)}</title>\n'
         f'<meta name="description" content="{html.escape(desc)}">\n'
         f'<meta name="keywords" content="{html.escape(keywords)}">\n'
-        f'<meta name="author" content="Nithin (CFP)">\n'
+        f'<meta name="author" content="MyFinancial">\n'
         f'<link rel="canonical" href="{canonical}">\n'
         f'<meta property="og:title" content="{html.escape(title)}">\n'
         f'<meta property="og:description" content="{html.escape(desc)}">\n'
@@ -281,7 +281,7 @@ def render_article(md_path: Path) -> dict:
     page = (HEAD.format(css=CSS, seo=seo)
             + '<article class="wrap">'
             + hero_html
-            + (f'<div class="byline">By {fm.get("author", "Nithin")} · {fm.get("date", "")}{fc_badge}</div>'
+            + (f'<div class="byline">MyFinancial · {fm.get("date", "")}{fc_badge}</div>'
                if fm.get("date") else "")
             + html_body
             + "</article>" + FOOTER)

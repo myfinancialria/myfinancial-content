@@ -135,7 +135,7 @@ def build_blocks(slot: str, meta: dict, body: str) -> tuple[str, list[dict]]:
         ]},
         {"type": "context", "elements": [
             {"type": "mrkdwn",
-             "text": f"By Nithin (CFP) · myfinancial.in · {meta.get('date', '')}"}
+             "text": f"*MyFinancial* — for Indians who'd rather understand than be sold to · myfinancial.in · {meta.get('date', '')}"}
         ]},
     ])
     return text, blocks
