@@ -1,7 +1,7 @@
 ---
 title: "Why Salaried Taxpayers Should Wait to File ITR for FY26"
 date: 2026-05-19
-author: Nithin (CFP)
+author: myfinancial
 description: "The Income-Tax Department has released ITR forms for the Financial Year 2025-26 (Assessment Year 2026-27), but salaried taxpayers should exercise caution. It ."
 keywords: [filing, return, information, interest, employer, financial, revised, department]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-05-19-why-salaried-taxpayers-should-wait-to-file-itr-for-fy26/

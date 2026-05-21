@@ -1,7 +1,7 @@
 ---
 title: "Easy e-Pay: Clearing Income Tax Dues Online"
 date: 2026-05-21
-author: Nithin (CFP)
+author: myfinancial
 description: "The Income Tax Department's e-Pay portal simplifies the process of paying various tax dues online. Taxpayers can clear self-assessment tax, advance tax, and t."
 keywords: [payment, assessment, challan, advance, online, portal, details, liability]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-05-21-easy-e-pay-clearing-income-tax-dues-online/

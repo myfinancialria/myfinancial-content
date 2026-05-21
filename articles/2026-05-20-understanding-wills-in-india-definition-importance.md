@@ -1,7 +1,7 @@
 ---
 title: "Understanding Wills in India: Definition & Importance"
 date: 2026-05-20
-author: Nithin (CFP)
+author: myfinancial
 description: "A Will is a crucial legal document that dictates how your assets will be distributed after your demise. In India, Wills are primarily governed by the Indian S."
 keywords: [assets, testator, succession, specific, indian, wishes, legally, beneficiaries]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-05-20-understanding-wills-in-india-definition-importance/

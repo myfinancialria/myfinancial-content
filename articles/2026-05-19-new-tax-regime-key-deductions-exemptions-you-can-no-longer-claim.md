@@ -1,7 +1,7 @@
 ---
 title: "New Tax Regime: Key Deductions & Exemptions You Can No Longer Claim"
 date: 2026-05-19
-author: Nithin (CFP)
+author: myfinancial
 description: "The new income tax regime, introduced from FY 2020-21, offers lower tax rates across various income slabs. However, opting for this regime means foregoing ove."
 keywords: [regime, deductions, deduction, individuals, salaried, investments, standard, insurance]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-05-19-new-tax-regime-key-deductions-exemptions-you-can-no-longer-claim/

@@ -300,7 +300,7 @@ def main() -> int:
         "---\n"
         f"title: \"{meta['title'].replace(chr(34), chr(39))}\"\n"
         f"date: {today}\n"
-        f"author: Nithin (CFP)\n"
+        f"author: myfinancial\n"
         f"description: \"{meta['meta_description'].replace(chr(34), chr(39))}\"\n"
         f"keywords: [{', '.join(meta['keywords'])}]\n"
         f"canonical: {canonical}\n"

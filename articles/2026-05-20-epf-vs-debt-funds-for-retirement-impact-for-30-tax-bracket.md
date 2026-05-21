@@ -1,7 +1,7 @@
 ---
 title: "EPF vs Debt Funds for Retirement: Impact for 30% Tax Bracket"
 date: 2026-05-20
-author: Nithin (CFP)
+author: myfinancial
 description: "For high-income earners in the 30% tax bracket, the choice between EPF and debt mutual funds for retirement savings requires careful evaluation. EPF offers gu."
 keywords: [interest, mutual, returns, contribution, contributions, retirement, taxable, additional]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-05-20-epf-vs-debt-funds-for-retirement-impact-for-30-tax-bracket/

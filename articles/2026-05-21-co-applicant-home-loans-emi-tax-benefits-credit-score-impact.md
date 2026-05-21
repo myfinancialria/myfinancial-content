@@ -1,7 +1,7 @@
 ---
 title: "Co-applicant Home Loans: EMI, Tax Benefits & Credit Score Impact"
 date: 2026-05-21
-author: Nithin (CFP)
+author: myfinancial
 description: "Adding a co-applicant can significantly boost your home loan eligibility by combining incomes. Both co-applicants can individually claim tax deductions on pri."
 keywords: [applicant, credit, applicants, property, benefits, deduction, eligibility, financial]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-05-21-co-applicant-home-loans-emi-tax-benefits-credit-score-impact/

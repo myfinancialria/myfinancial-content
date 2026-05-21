@@ -1,7 +1,7 @@
 ---
 title: "New Tax Regime: Deductions and Exemptions You Can No Longer Claim"
 date: 2026-05-19
-author: Nithin (CFP)
+author: myfinancial
 description: "India's income tax system offers two regimes: the old, with higher rates but many deductions, and the new, with lower rates but fewer deductions. The new regi."
 keywords: [regime, deductions, allowance, deduction, interest, individuals, exemptions, investments]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-05-19-new-tax-regime-deductions-and-exemptions-you-can-no-longer-claim/

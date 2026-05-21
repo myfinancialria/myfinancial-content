@@ -1,7 +1,7 @@
 ---
 title: "Merge Multiple EPF Accounts for Easier Management"
 date: 2026-05-20
-author: Nithin (CFP)
+author: myfinancial
 description: "Many salaried individuals accumulate multiple Employee Provident Fund (EPF) accounts due to job changes over their career. Consolidating these accounts into y."
 keywords: [accounts, account, transfer, employer, member, previous, current, online]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-05-20-merge-multiple-epf-accounts-for-easier-management/

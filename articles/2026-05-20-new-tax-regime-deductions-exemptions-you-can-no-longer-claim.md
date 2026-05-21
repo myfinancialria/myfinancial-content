@@ -1,7 +1,7 @@
 ---
 title: "New Tax Regime: Deductions & Exemptions You Can No Longer Claim"
 date: 2026-05-20
-author: Nithin (CFP)
+author: myfinancial
 description: "The new income tax regime, now the default, offers lower tax rates but requires taxpayers to forego most common deductions and exemptions. Taxpayers still ret."
 keywords: [regime, deductions, deduction, financial, interest, individuals, exemptions, investments]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-05-20-new-tax-regime-deductions-exemptions-you-can-no-longer-claim/
