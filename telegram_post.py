@@ -176,6 +176,19 @@ def _truncate(s: str, limit: int) -> str:
     return cut + "…"
 
 
+def _truncate_clean(body: str, limit: int) -> str:
+    """Truncate at a paragraph or sentence boundary so the cut feels natural."""
+    if len(body) <= limit:
+        return body
+    snippet = body[:limit]
+    # Prefer paragraph break, then sentence end, then space
+    for marker in ("\n\n", ". ", "\n", " "):
+        idx = snippet.rfind(marker)
+        if idx > limit * 0.6:
+            return snippet[:idx].rstrip()
+    return snippet.rstrip() + "…"
+
+
 def build_post(slot: str, meta: dict, body: str) -> tuple[str, str]:
     """Return (image_caption, body_text). Both already HTML-escaped + formatted."""
     title = meta["title"]
@@ -208,35 +221,57 @@ def build_post(slot: str, meta: dict, body: str) -> tuple[str, str]:
             teaser_lines.append("Wrap of today's piece — full breakdown linked below.")
         teaser = "\n".join(teaser_lines)
 
-    # Caption header
+    # ─── Caption (under image): ~1000 chars under 1024 limit ───
+    # Put the read-more link FIRST inside the teaser so it's always visible
+    read_more = f'<a href="{url}"><b>📖 Read the full article →</b></a>'
     caption_parts = [
         f"{framing_emoji} <b>{framing_label}</b>",
         f"<b>{_md_to_html(title)}</b>",
         "",
-        _md_to_html(teaser),
+        _truncate_clean(_md_to_html(teaser),
+                          CAPTION_LIMIT - len(read_more) - 200),
         "",
-        f'<a href="{url}">Read the full article →</a>',
+        read_more,
     ]
     caption = "\n".join(caption_parts)
-    caption = _truncate(caption, CAPTION_LIMIT - 50)
+    if len(caption) > CAPTION_LIMIT:
+        # Hard fallback — strip teaser to fit
+        caption = "\n".join([
+            f"{framing_emoji} <b>{framing_label}</b>",
+            f"<b>{_md_to_html(title)}</b>",
+            "",
+            read_more,
+        ])
 
-    # ─── Body message — full article up to MESSAGE_LIMIT ──────────────────
-    # Strip TL;DR (already in caption for morning slot) + use the meat
-    body_clean = re.sub(r"\*\*TL;DR\*\*\s*\n(?:[-*]\s+.+\n?)+\n*", "", body)
-    body_clean = _md_to_html(body_clean)
+    # ─── Body message — link at top, truncated body, link at bottom ───
+    # Strip TL;DR (already shown in caption for morning slot) — keep rest
+    body_clean = re.sub(r"\*\*TL;DR\*\*\s*\n(?:[-*]\s+.+\n?)+\n*",
+                        "", body)
+    body_clean_html = _md_to_html(body_clean)
 
-    body_msg_parts = [
-        f"<b>{_md_to_html(title)}</b>",
+    # Reserve space for: title + 2 links + footer + line breaks
+    title_html = f"<b>{_md_to_html(title)}</b>"
+    top_link = f'<a href="{url}">📖 Read full article →</a>'
+    bottom_link = (f'<a href="{url}">'
+                   f'<b>Continue reading on myfinancial.in →</b></a>')
+    footer = "<i>For Indians who'd rather understand than be sold to.</i>"
+
+    fixed_chars = (len(title_html) + len(top_link) + len(bottom_link)
+                   + len(footer) + 80)  # 80 for separators
+    body_budget = MESSAGE_LIMIT - fixed_chars - 100  # safety margin
+    body_trimmed = _truncate_clean(body_clean_html, body_budget)
+    truncated = len(body_clean_html) > len(body_trimmed)
+
+    body_msg = "\n".join([
+        title_html,
+        top_link,
         "",
-        body_clean,
+        body_trimmed,
         "",
-        "—",
-        "<b>MyFinancial</b> — <i>for Indians who'd rather understand than be sold to.</i>",
-        f'<a href="{url}">Read the full article on myfinancial.in →</a>',
-    ]
-    body_msg = "\n".join(body_msg_parts)
-    body_msg = _truncate(body_msg, MESSAGE_LIMIT - 50)
-
+        "—" + (" (truncated — link below for full piece)" if truncated else ""),
+        footer,
+        bottom_link,
+    ])
     return caption, body_msg
 
 
