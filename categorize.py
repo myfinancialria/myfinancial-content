@@ -63,11 +63,51 @@ CATEGORY_KEYWORDS: dict[str, dict[str, int]] = {
 }
 
 
+# Some sources are category-typed by their nature — strong prior
+SOURCE_HINTS: dict[str, str] = {
+    "Dhan Closing Bell": "post_market",
+}
+
+# URL slug fragments that strongly indicate a category
+URL_HINTS: dict[str, str] = {
+    "closing-bell": "post_market",
+    "market-today": "post_market",
+    "market-wrap": "post_market",
+    "market-recap": "post_market",
+    "pre-market": "pre_market",
+    "premarket": "pre_market",
+    "morning-brief": "pre_market",
+    "opening-bell": "pre_market",
+    "today-stocks-to-buy": "pre_market",
+    "stocks-to-watch": "pre_market",
+    "results-": "result_analysis",
+    "quarterly-results": "result_analysis",
+    "/results/": "result_analysis",
+    "rbi-": "macro",
+    "monetary-policy": "macro",
+    "inflation": "macro",
+    "gdp": "macro",
+}
+
+
 def categorize(article: dict) -> tuple[str | None, int]:
     """Return (category, score) — best-matching category and its score.
 
-    Returns (None, 0) if no category scored above 3.
+    Tries three signals in order:
+      1. Source name hint (e.g. 'Dhan Closing Bell' → post_market)
+      2. URL slug hint (e.g. '/closing-bell-21st-may/' → post_market)
+      3. Title/summary keyword scoring
+    Returns (None, 0) if all three fail to produce a confident match.
     """
+    source = (article.get("source") or "").strip()
+    if source in SOURCE_HINTS:
+        return SOURCE_HINTS[source], 10
+
+    link = (article.get("link") or "").lower()
+    for frag, cat in URL_HINTS.items():
+        if frag in link:
+            return cat, 8
+
     text = (article.get("title", "") + " "
             + article.get("summary", "")).lower()
     scores: dict[str, int] = {}
