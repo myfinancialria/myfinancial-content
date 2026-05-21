@@ -189,6 +189,34 @@ def _truncate_clean(body: str, limit: int) -> str:
     return snippet.rstrip() + "…"
 
 
+def chunk_body(body_html: str, max_size: int = 3800) -> list[str]:
+    """Split an HTML body into chunks ≤ max_size chars at clean boundaries.
+
+    Prefers (in order): blank-line/paragraph break, single newline, sentence
+    end, word boundary. Avoids cutting mid-word.
+    """
+    if len(body_html) <= max_size:
+        return [body_html] if body_html.strip() else []
+    chunks: list[str] = []
+    remaining = body_html
+    while len(remaining) > max_size:
+        # Find a clean split point, preferring section/paragraph breaks
+        cut_at = -1
+        for marker in ("\n\n", "\n", ". ", " "):
+            idx = remaining.rfind(marker, 0, max_size)
+            if idx > max_size * 0.5:
+                # Cut AFTER the marker so the marker stays with the prior chunk
+                cut_at = idx + (len(marker) if marker.startswith("\n") else 1)
+                break
+        if cut_at <= 0:
+            cut_at = max_size
+        chunks.append(remaining[:cut_at].rstrip())
+        remaining = remaining[cut_at:].lstrip()
+    if remaining.strip():
+        chunks.append(remaining)
+    return chunks
+
+
 def build_post(slot: str, meta: dict, body: str) -> tuple[str, str]:
     """Return (image_caption, body_text). Both already HTML-escaped + formatted."""
     title = meta["title"]
@@ -280,59 +308,85 @@ def build_post(slot: str, meta: dict, body: str) -> tuple[str, str]:
 def post(slot: str) -> int:
     meta = load_meta()
     body = load_body()
-    caption, body_msg = build_post(slot, meta, body)
+    caption, _ = build_post(slot, meta, body)  # caption only — body_msg ignored
 
     chat_id = os.environ.get("TELEGRAM_CHAT_ID")
     if not chat_id:
         print("TELEGRAM_CHAT_ID not set", file=sys.stderr)
         return 1
 
-    # ─── 1. Send hero image with caption ──────────────────────────────────
-    hero_url = meta.get("hero_url")
-    # Fall back to local hero.jpg if hero_url is missing
-    local_hero = OUTPUT / meta["slug"] / "hero.jpg"
+    title = meta["title"]
+    url = meta.get("canonical") or BASE_URL
 
+    # ─── 1. Send hero image with caption (title + TL;DR + link) ────────────
+    hero_url = meta.get("hero_url")
+    local_hero = OUTPUT / meta["slug"] / "hero.jpg"
     photo_payload: dict | None = None
     photo_files: dict | None = None
 
     if hero_url:
         photo_payload = {
-            "chat_id": chat_id,
-            "photo": hero_url,           # Telegram fetches the URL
-            "caption": caption,
-            "parse_mode": "HTML",
+            "chat_id": chat_id, "photo": hero_url,
+            "caption": caption, "parse_mode": "HTML",
         }
     elif local_hero.exists():
         photo_payload = {
-            "chat_id": chat_id,
-            "caption": caption,
-            "parse_mode": "HTML",
+            "chat_id": chat_id, "caption": caption, "parse_mode": "HTML",
         }
-        photo_files = {"photo": (local_hero.name, local_hero.read_bytes(), "image/jpeg")}
+        photo_files = {"photo": (local_hero.name,
+                                  local_hero.read_bytes(), "image/jpeg")}
     else:
-        print(f"⚠ no hero image (hero_url unset + {local_hero} missing) — sending text-only",
-              file=sys.stderr)
+        print(f"⚠ no hero image — sending text-only", file=sys.stderr)
 
     if photo_payload:
         result = _post("sendPhoto", photo_payload, files=photo_files)
         if result.get("ok"):
-            print(f"✓ [{slot}] photo sent (msg_id {result['result']['message_id']})")
+            print(f"✓ [{slot}] photo sent "
+                  f"(msg_id {result['result']['message_id']})")
         else:
             print(f"✗ photo failed: {result}", file=sys.stderr)
             return 1
 
-    # ─── 2. Send body as a follow-up text message ─────────────────────────
-    result = _post("sendMessage", {
-        "chat_id": chat_id,
-        "text": body_msg,
-        "parse_mode": "HTML",
-        "disable_web_page_preview": True,
-    })
-    if result.get("ok"):
-        print(f"✓ [{slot}] body sent (msg_id {result['result']['message_id']})")
-        return 0
-    print(f"✗ body failed: {result}", file=sys.stderr)
-    return 1
+    # ─── 2. Send the FULL body as multiple sequential messages ─────────────
+    # Strip the TL;DR (already in caption) — keep the rest of the article
+    body_clean = re.sub(r"\*\*TL;DR\*\*\s*\n(?:[-*]\s+.+\n?)+\n*",
+                        "", body)
+    body_html = _md_to_html(body_clean)
+
+    chunks = chunk_body(body_html, max_size=3800)
+    if not chunks:
+        print(f"✗ body chunked to 0 — nothing to send", file=sys.stderr)
+        return 1
+
+    total = len(chunks)
+    title_html = f"<b>{_md_to_html(title)}</b>"
+    top_link = f'<a href="{url}">📖 Read the full article →</a>'
+    footer = ("<i>For Indians who'd rather understand than be sold to.</i>"
+              f'\n<a href="{url}"><b>Continue on myfinancial.in →</b></a>')
+
+    for i, chunk in enumerate(chunks):
+        counter = f"  <i>({i+1}/{total})</i>" if total > 1 else ""
+        if i == 0:
+            header = f"{title_html}\n{top_link}{counter}\n\n"
+        else:
+            header = f"<i>{title_html} ({i+1}/{total} continued…)</i>\n\n"
+        tail = f"\n\n— {footer}" if i == total - 1 else ""
+        msg = header + chunk + tail
+
+        # Final safety check
+        if len(msg) > MESSAGE_LIMIT:
+            msg = _truncate_clean(msg, MESSAGE_LIMIT - 50)
+        result = _post("sendMessage", {
+            "chat_id": chat_id, "text": msg, "parse_mode": "HTML",
+            "disable_web_page_preview": True,
+        })
+        if not result.get("ok"):
+            print(f"✗ body chunk {i+1}/{total} failed: {result}",
+                  file=sys.stderr)
+            return 1
+        print(f"✓ [{slot}] body chunk {i+1}/{total} sent "
+              f"(msg_id {result['result']['message_id']})")
+    return 0
 
 
 if __name__ == "__main__":

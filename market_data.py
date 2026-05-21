@@ -254,10 +254,9 @@ DEFAULT_NEWS_FEEDS = [
     ("ET Markets", "https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms"),
     ("Livemint Markets", "https://www.livemint.com/rss/markets"),
     ("Moneycontrol Markets", "https://www.moneycontrol.com/rss/marketreports.xml"),
-    ("Reuters Asia", "https://www.reutersagency.com/feed/?best-regions=asia&post_type=best"),
     ("ET International", "https://economictimes.indiatimes.com/news/international/business/rssfeeds/1086955.cms"),
-    ("Yahoo Finance", "https://feeds.finance.yahoo.com/rss/2.0/headline?s=^GSPC,^DJI,^IXIC&region=US&lang=en-US"),
     ("CNBC TV18", "https://www.cnbctv18.com/commonfeeds/v1/cne/rss/market.xml"),
+    ("Business Standard Markets", "https://www.business-standard.com/rss/markets-106.rss"),
 ]
 
 

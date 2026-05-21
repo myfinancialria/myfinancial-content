@@ -247,14 +247,15 @@ def call_gemini(prompt: str) -> Optional[str]:
             "topP": 0.95,
         },
     }
-    delays = [10, 30, 60]
+    delays = [15, 45, 90, 180, 300]  # 5 retries, up to 11 min total wait
     for attempt in range(len(delays) + 1):
         try:
             r = requests.post(url, json=payload, timeout=120)
             if r.status_code in (429, 500, 502, 503, 504):
                 if attempt < len(delays):
                     wait = delays[attempt]
-                    print(f"Gemini {r.status_code} — retrying in {wait}s",
+                    print(f"Gemini {r.status_code} — retrying in {wait}s "
+                          f"(attempt {attempt+1}/{len(delays)+1})",
                           file=sys.stderr)
                     time.sleep(wait)
                     continue
