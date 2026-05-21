@@ -1,11 +1,24 @@
 """Pull the latest 24h personal-finance articles from competitor sources.
 
-Sources (all free, no API key needed):
-  - Livemint Money (RSS)
-  - 1Finance blog
-  - The Fynprint
-  - ET Money blog
-  - INDmoney blog
+The actual list of sources (RSS feeds, sitemap specs, Google News queries) is
+loaded from the `CONTENT_FEEDS` env var so it can be set as a private GitHub
+Actions secret without checking it into a public repo.
+
+Set it with:
+  gh secret set CONTENT_FEEDS -R <repo> < your-feeds.json
+
+Expected JSON shape:
+  {
+    "rss":   [ ["Source Name", "https://example.com/feed"], ... ],
+    "gnews": [ ["Source Name", "site:example.com query"], ... ],
+    "sitemap": [
+      { "name": "...", "sitemap": "...", "include_paths": [...],
+        "exclude_paths": [...], "max_items": 8 }, ...
+    ]
+  }
+
+Falls back to a minimal generic feed list if the env var isn't set so the
+script still runs for anyone cloning the repo for development.
 
 Writes data/raw_articles.json with a unified schema.
 """
@@ -14,7 +27,9 @@ from __future__ import annotations
 import datetime as dt
 import html as html_lib
 import json
+import os
 import re
+import sys
 import time
 import urllib.parse
 import xml.etree.ElementTree as ET
@@ -26,40 +41,40 @@ DATA = Path(__file__).parent / "data"
 OUT = DATA / "raw_articles.json"
 UA = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)"}
 
-RSS_FEEDS = [
-    ("Livemint Money", "https://www.livemint.com/rss/money"),
-    ("Livemint Markets", "https://www.livemint.com/rss/markets"),
-    ("1Finance", "https://1finance.co.in/blog/feed/"),
-    ("Moneycontrol Personal Finance",
-     "https://www.moneycontrol.com/rss/personalfinance.xml"),
-]
+# Minimal public fallback — just enough to run the pipeline end-to-end.
+# Real source list lives in the CONTENT_FEEDS secret.
+_FALLBACK_FEEDS = {
+    "rss": [
+        ["Livemint Money", "https://www.livemint.com/rss/money"],
+    ],
+    "gnews": [],
+    "sitemap": [],
+}
 
-# Google News search proxies for sources without clean RSS
-GNEWS_TOPICS = [
-    ("INDmoney", "site:indmoney.com blog"),
-    ("ET Money", "site:etmoney.com/blog OR site:etmoney.com/learn"),
-]
 
-# Direct sitemap-based scraper for sites without RSS
-SITEMAP_SOURCES = [
-    {
-        "name": "The Fynprint",
-        "sitemap": "https://thefynprint.com/sitemap.xml",
-        # only these content buckets matter for our audience
-        "include_paths": (
-            "/investment", "/global-investing", "/personal-finance",
-            "/taxation", "/nps", "/insurance", "/credit-card",
-            "/will-and-estate-planning", "/epfo", "/loan",
-            "/retirement-planning", "/real-estate", "/banking",
-        ),
-        # ignore these noisy buckets
-        "exclude_paths": (
-            "/webinar", "/webinars", "/masterclass", "/course",
-            "/categories", "/magazine", "/subscription",
-        ),
-        "max_items": 8,
-    },
-]
+def _load_feeds() -> dict:
+    raw = os.environ.get("CONTENT_FEEDS")
+    if not raw:
+        print("CONTENT_FEEDS not set — using minimal public fallback feed list",
+              file=sys.stderr)
+        return _FALLBACK_FEEDS
+    try:
+        parsed = json.loads(raw)
+    except json.JSONDecodeError as e:
+        print(f"CONTENT_FEEDS is not valid JSON ({e}) — falling back",
+              file=sys.stderr)
+        return _FALLBACK_FEEDS
+    return {
+        "rss": parsed.get("rss") or [],
+        "gnews": parsed.get("gnews") or [],
+        "sitemap": parsed.get("sitemap") or [],
+    }
+
+
+_FEEDS = _load_feeds()
+RSS_FEEDS = [tuple(x) for x in _FEEDS["rss"]]
+GNEWS_TOPICS = [tuple(x) for x in _FEEDS["gnews"]]
+SITEMAP_SOURCES = _FEEDS["sitemap"]
 
 
 def _clean(html: str) -> str:

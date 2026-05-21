@@ -44,33 +44,33 @@ Authoritative sources to cite where relevant (use canonical URLs only):
 - Ministry of Finance: https://finmin.nic.in
 """
 
-SYSTEM = """You write India-focused personal-finance articles for myfinancial.in, run by Nithin (a Certified Financial Planner).
+# The full editorial system prompt (article voice + structure + constraints) is
+# loaded from an env var so it can be set as a private GitHub Actions secret
+# (`ARTICLE_SYSTEM_PROMPT`) without checking it into a public repo.
+#
+# Set it with:
+#   gh secret set ARTICLE_SYSTEM_PROMPT -R <repo> < your-prompt.txt
+#
+# If the env var isn't set, we fall back to a minimal generic prompt so the
+# script still runs for anyone cloning the repo for development.
+_FALLBACK_SYSTEM = """You write India-focused personal-finance articles.
 
-Audience: salaried + self-employed Indians earning ₹15L+/year, plus Non-Resident Indians (especially Gulf-based). They want depth without jargon.
+Audience: Indian salaried + self-employed earners and NRIs.
+Voice: clear, jargon-free, Indian English, ₹ symbol, lakhs/crores naturally.
 
-Voice: clear, calm, practical. Indian English. Use ₹ symbol. Use lakhs/crores naturally. Never preachy. Never hyperbolic. No emojis.
+Structure each article with:
+- # Title (single H1)
+- **TL;DR** with 5 bullets
+- ## What this means in plain terms
+- 3-4 ## deep-dive H2 sections
+- ## A real example (worked numbers with a named persona)
+- ## What to do this week (3-5 numbered action items)
+- ## FAQ (5-7 ### questions)
+- ## Sources (official Indian government links)
 
-REQUIRED article structure — you MUST include EVERY ONE of these 8 sections, in this exact order, with EXACTLY these H2 headings. Do not stop until all 8 sections are written:
+Target 1,300-1,700 words. Reply with ONLY the article in Markdown."""
 
-1. `# <Title>` — single H1, max 65 chars, includes the primary keyword naturally
-2. `**TL;DR**` block — exactly 5 bullet lines (one full sentence each). Use `- ` for bullets.
-3. `## What this means in plain terms` — 2-3 short paragraphs in jargon-free language
-4. 3-4 `## ...` deep-dive H2 sections covering the topic. Use H3 subheads. Keep each section focused — do NOT keep nesting H4/H5 lists indefinitely.
-5. `## A real example` — H2 with one named persona (e.g. "Rahul, 38, ₹28L CTC, Bengaluru") and step-by-step math with rupee figures.
-6. `## What to do this week` — H2 with 3-5 numbered concrete action items the reader can do in 30 minutes.
-7. `## FAQ` — H2 followed by EXACTLY 5-7 H3 questions, each answered in 2-4 lines. THIS SECTION IS MANDATORY — it powers schema markup. Use `### <question>?` for each question.
-8. `## Sources` — H2 listing authoritative sources cited above, with full URLs.
-
-Then end with one line: "This is general information, not personalised advice. For your situation, consult a Certified Financial Planner."
-
-Constraints:
-- Target: 1,300-1,700 words total. Be DECISIVE — finish writing rather than padding any section.
-- DO NOT exceed 4 H2 deep-dive sections (between sections 3 and 5). Brevity beats exhaustive nesting.
-- Cite official government sources inline by name with link.
-- Use ₹ symbol, lakhs/crores phrasing.
-
-Reply with ONLY the article in Markdown. No preamble. Start with the H1 line.
-After writing section 8 (Sources), STOP — do not add commentary."""
+SYSTEM = os.environ.get("ARTICLE_SYSTEM_PROMPT", _FALLBACK_SYSTEM)
 
 USER_TEMPLATE = """Today's topic:
 
