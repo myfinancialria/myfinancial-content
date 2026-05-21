@@ -1,4 +1,4 @@
-name: Generate today's article
+name: Generate today's articles (5 categories)
 
 on:
   schedule:
@@ -13,6 +13,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -26,40 +27,57 @@ jobs:
           CONTENT_FEEDS: ${{ secrets.CONTENT_FEEDS }}
         run: python scrape_sources.py
 
-      - name: Pick today's topic
-        run: python pick_topic.py
+      - name: Categorize scraped articles
+        run: python categorize.py
 
-      - name: Write article (Gemini)
+      - name: Pick + write article for each category
         env:
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ARTICLE_SYSTEM_PROMPT: ${{ secrets.ARTICLE_SYSTEM_PROMPT }}
-        run: python write_article.py
+        run: |
+          for cat in pre_market post_market result_analysis macro personal_finance; do
+            echo "=== Category: $cat ==="
+            if CATEGORY=$cat python pick_topic.py; then
+              CATEGORY=$cat python write_article.py || echo "write failed for $cat"
+            else
+              echo "no topic for $cat — skipping"
+            fi
+          done
 
-      - name: Generate hero image
+      - name: Generate hero images
         env:
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python generate_image.py || echo "image step failed, continuing"
+        run: |
+          for cat in pre_market post_market result_analysis macro personal_finance; do
+            CATEGORY=$cat python generate_image.py || echo "image failed for $cat"
+          done
 
-      - name: Fact-check (Gemini grounded)
+      - name: Fact-check each article
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python fact_check.py || echo "fact-check step failed, continuing"
+        run: |
+          for cat in pre_market post_market result_analysis macro personal_finance; do
+            CATEGORY=$cat python fact_check.py || echo "fact-check failed for $cat"
+          done
 
-      - name: Slack alert (only if rewrite/review)
+      - name: Slack alerts (per-category rewrite/review)
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CONTENT_CHANNEL: ${{ secrets.SLACK_CONTENT_CHANNEL }}
           SLACK_CONTENT_WEBHOOK_URL: ${{ secrets.SLACK_CONTENT_WEBHOOK_URL }}
-        run: python slack_alert.py || echo "alert failed, continuing"
+        run: |
+          for cat in pre_market post_market result_analysis macro personal_finance; do
+            CATEGORY=$cat python slack_alert.py || true
+          done
 
       - name: Render HTML + sitemap
         run: python publish.py
 
-      - name: Commit data + article + output
+      - name: Commit data + articles + output
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -67,7 +85,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nothing to commit"
           else
-            git commit -m "content: article for $(date -u +%Y-%m-%d)"
+            git commit -m "content: articles for $(date -u +%Y-%m-%d)"
             git push
           fi
 
@@ -79,5 +97,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
 
-      - name: Ping IndexNow (Bing + Yandex + Seznam)
+      - name: Ping IndexNow
         run: python indexnow_ping.py || echo "IndexNow ping failed, continuing"

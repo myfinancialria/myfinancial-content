@@ -26,8 +26,55 @@ import requests
 HERE = Path(__file__).parent
 DATA = HERE / "data"
 ARTS = HERE / "articles"
-TOPIC = DATA / "today_topic.json"
-META = DATA / "article.json"
+TOPICS_DIR = DATA / "topics"
+ARTICLES_DIR = DATA / "articles"
+
+# CATEGORY env var, if set, switches to per-category I/O paths
+CATEGORY = (os.environ.get("CATEGORY") or "").strip().lower() or None
+TOPIC = (TOPICS_DIR / f"{CATEGORY}.json") if CATEGORY \
+    else (DATA / "today_topic.json")
+META = (ARTICLES_DIR / f"{CATEGORY}.json") if CATEGORY \
+    else (DATA / "article.json")
+
+
+# Per-category prompt additions — appended to the base ARTICLE_SYSTEM_PROMPT
+# so each category gets its own structure + length expectation. The base
+# prompt remains the source of myfinancial's voice + guardrails.
+CATEGORY_PROMPT_ADDITIONS: dict[str, str] = {
+    "pre_market": (
+        "\n\nThis article is a PRE-MARKET PREVIEW. Keep it concise (700–900 "
+        "words). Structure: TL;DR (3 bullets) → What overnight moves matter "
+        "→ Key events / data to watch today → Sectors / stocks in focus → "
+        "What investors should do (numbered, 3 items) → FAQ (3–4 Qs). "
+        "Lead with what changed since yesterday's close. Skip lengthy "
+        "personas — keep the tone newsroom-brisk."
+    ),
+    "post_market": (
+        "\n\nThis article is a POST-MARKET WRAP. Aim for 800–1,100 words. "
+        "Structure: TL;DR (4 bullets) → Headline closing levels → What "
+        "drove today's session → Sector winners / losers → FII/DII or "
+        "flow note (if data is in the source) → What it means for tomorrow "
+        "→ FAQ (3–4 Qs). Use today's date prominently."
+    ),
+    "result_analysis": (
+        "\n\nThis article is a CORPORATE RESULT ANALYSIS. Aim for 1,300–"
+        "1,700 words. Structure: TL;DR (5 bullets) → Headline numbers vs "
+        "estimates → Segment / margin breakdown → Management commentary "
+        "and guidance → Peer / industry context → What it means for "
+        "investors (long-term + short-term) → FAQ (5 Qs). Use real numbers "
+        "from the source — never invent figures."
+    ),
+    "macro": (
+        "\n\nThis article EXPLAINS A MACRO EVENT (RBI/SEBI/Fed/inflation/"
+        "GDP/policy). 1,100–1,500 words. Structure: TL;DR (4 bullets) → "
+        "What happened (one-paragraph plain-English explainer) → Key "
+        "numbers and how they compare to last reading / expectations → "
+        "Market reaction → What it means for retail investors (numbered "
+        "implications) → FAQ (4 Qs). Avoid jargon — define every acronym "
+        "on first use."
+    ),
+    "personal_finance": "",  # keep the base prompt as-is — already personal-finance shaped
+}
 
 # Authoritative source links to encourage Claude to cite
 AUTH_SOURCES = """
@@ -70,7 +117,9 @@ Structure each article with:
 
 Target 1,300-1,700 words. Reply with ONLY the article in Markdown."""
 
-SYSTEM = os.environ.get("ARTICLE_SYSTEM_PROMPT", _FALLBACK_SYSTEM)
+_BASE_SYSTEM = os.environ.get("ARTICLE_SYSTEM_PROMPT", _FALLBACK_SYSTEM)
+SYSTEM = _BASE_SYSTEM + (CATEGORY_PROMPT_ADDITIONS.get(CATEGORY, "")
+                          if CATEGORY else "")
 
 USER_TEMPLATE = """Today's topic:
 
@@ -291,16 +340,22 @@ def main() -> int:
     today = dt.date.today().isoformat()
     meta = derive_meta(body, primary["title"])
     title_slug = slugify(meta["title"])
-    dated_slug = f"{today}-{title_slug}"
+    # Prefix slug with category to avoid same-day filename collisions
+    if CATEGORY:
+        dated_slug = f"{today}-{CATEGORY}-{title_slug}"
+    else:
+        dated_slug = f"{today}-{title_slug}"
     filename = f"{dated_slug}.md"
     faq = extract_faq(body)
 
     canonical = f"https://myfinancialria.github.io/myfinancial-content/articles/{dated_slug}/"
+    category_line = f"category: {CATEGORY}\n" if CATEGORY else ""
     frontmatter = (
         "---\n"
         f"title: \"{meta['title'].replace(chr(34), chr(39))}\"\n"
         f"date: {today}\n"
         f"author: myfinancial\n"
+        f"{category_line}"
         f"description: \"{meta['meta_description'].replace(chr(34), chr(39))}\"\n"
         f"keywords: [{', '.join(meta['keywords'])}]\n"
         f"canonical: {canonical}\n"
@@ -311,10 +366,12 @@ def main() -> int:
     (ARTS / filename).write_text(frontmatter + body)
     print(f"Wrote {ARTS / filename}")
 
+    META.parent.mkdir(parents=True, exist_ok=True)
     META.write_text(json.dumps({
         "date": today,
         "slug": dated_slug,
         "filename": filename,
+        "category": CATEGORY,
         "title": meta["title"],
         "description": meta["meta_description"],
         "keywords": meta["keywords"],

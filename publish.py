@@ -241,22 +241,36 @@ def seo_block(meta: dict, faq: list[dict], hero_url: str | None = None) -> str:
     )
 
 
+def _find_meta_for(slug: str, category: str | None) -> dict | None:
+    """Try category-specific meta first, then legacy single meta. Match by slug."""
+    candidates = []
+    if category:
+        candidates.append(HERE / "data" / "articles" / f"{category}.json")
+    candidates.append(META)  # legacy data/article.json
+    for p in candidates:
+        if not p.exists():
+            continue
+        try:
+            m = json.loads(p.read_text())
+            if m.get("slug") == slug:
+                return m
+        except Exception:
+            continue
+    return None
+
+
 def render_article(md_path: Path) -> dict:
     fm, body = parse_frontmatter(md_path.read_text())
     faq, hero_url, hero_local, fact_check = [], None, None, None
-    if META.exists():
-        try:
-            m = json.loads(META.read_text())
-            faq = m.get("faq", [])
-            if m.get("slug") == (fm.get("slug") or md_path.stem):
-                hero_url = m.get("hero_url")
-                hero_local = m.get("hero_local")
-                fact_check = m.get("fact_check")
-        except Exception:
-            pass
+    slug = fm.get("slug") or md_path.stem
+    m = _find_meta_for(slug, fm.get("category"))
+    if m:
+        faq = m.get("faq", [])
+        hero_url = m.get("hero_url")
+        hero_local = m.get("hero_local")
+        fact_check = m.get("fact_check")
     html_body = md_to_html(body)
     seo = seo_block(fm, faq, hero_url=hero_url)
-    slug = fm.get("slug") or md_path.stem
     out_dir = OUT / "articles" / slug
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -288,7 +302,17 @@ def render_article(md_path: Path) -> dict:
     return {"slug": slug, "title": fm.get("title", slug),
             "date": fm.get("date", ""),
             "description": fm.get("description", ""),
+            "category": fm.get("category"),
             "has_hero": bool(hero_html)}
+
+
+CATEGORY_LABELS = {
+    "pre_market": "Pre-Market",
+    "post_market": "Market Wrap",
+    "result_analysis": "Result Analysis",
+    "macro": "Macro & Markets",
+    "personal_finance": "Personal Finance",
+}
 
 
 def render_index(articles: list[dict]) -> None:
@@ -296,11 +320,14 @@ def render_index(articles: list[dict]) -> None:
         thumb = (f'<a class="thumb" href="articles/{a["slug"]}/">'
                  f'<img src="articles/{a["slug"]}/hero.jpg" alt="" loading="lazy">'
                  f'</a>') if a.get("has_hero") else ""
+        cat = a.get("category")
+        cat_html = (f'<span class="cat">{html.escape(CATEGORY_LABELS.get(cat, cat))}</span> · '
+                    if cat else "")
         return (
             f'<div class="list-item">'
             f'{thumb}'
             f'<h3><a href="articles/{a["slug"]}/">{html.escape(a["title"])}</a></h3>'
-            f'<div class="meta">{a.get("date", "")}</div>'
+            f'<div class="meta">{cat_html}{a.get("date", "")}</div>'
             f'<p>{html.escape(a.get("description", ""))}</p>'
             f'</div>'
         )

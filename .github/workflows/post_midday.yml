@@ -15,19 +15,18 @@ jobs:
           python-version: "3.11"
       - run: pip install requests
 
-      - name: Post to Slack
+      # Midday slot covers macro + personal_finance (lunch-read material)
+      - name: Post macro + personal_finance
         env:
           SLOT: midday
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CONTENT_CHANNEL: ${{ secrets.SLACK_CONTENT_CHANNEL }}
           SLACK_CONTENT_WEBHOOK_URL: ${{ secrets.SLACK_CONTENT_WEBHOOK_URL }}
-        run: python slack_post.py
-        continue-on-error: true
-
-      - name: Post to Telegram
-        env:
-          SLOT: midday
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python telegram_post.py
-        continue-on-error: true
+        run: |
+          for cat in macro personal_finance; do
+            CATEGORY=$cat python slack_post.py || true
+            CATEGORY=$cat python telegram_post.py || true
+            sleep 2
+          done

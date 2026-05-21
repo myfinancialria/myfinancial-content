@@ -26,7 +26,13 @@ from pathlib import Path
 import requests
 
 HERE = Path(__file__).parent
-META = HERE / "data" / "article.json"
+
+# If CATEGORY env var is set, read per-category meta (multi-article mode);
+# otherwise fall back to single-article path (legacy).
+import os as _os
+CATEGORY = (_os.environ.get("CATEGORY") or "").strip().lower() or None
+META = (HERE / "data" / "articles" / f"{CATEGORY}.json") if CATEGORY \
+    else (HERE / "data" / "article.json")
 ARTS = HERE / "articles"
 OUTPUT = HERE / "output" / "articles"
 BASE_URL = "https://myfinancialria.github.io/myfinancial-content"

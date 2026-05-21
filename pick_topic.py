@@ -12,14 +12,22 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import os
 import re
 from collections import Counter
 from pathlib import Path
 
 DATA = Path(__file__).parent / "data"
 RAW = DATA / "raw_articles.json"
-TOPIC = DATA / "today_topic.json"
-HISTORY = DATA / "topic_history.json"
+TOPICS_DIR = DATA / "topics"
+
+# If CATEGORY env var is set, write per-category JSON; otherwise stay
+# backward-compatible and write the single today_topic.json
+CATEGORY = (os.environ.get("CATEGORY") or "").strip().lower() or None
+TOPIC = (TOPICS_DIR / f"{CATEGORY}.json") if CATEGORY \
+    else (DATA / "today_topic.json")
+HISTORY = (DATA / f"topic_history_{CATEGORY}.json") if CATEGORY \
+    else (DATA / "topic_history.json")
 
 RECENT_DAYS = 7      # block any topic whose stem overlaps a pick in this window
 HISTORY_MAX = 60     # keep at most this many entries (≈ 2 months)
@@ -116,6 +124,13 @@ def main() -> int:
         return 1
     data = json.loads(RAW.read_text())
     arts = data.get("articles", [])
+    # When a CATEGORY is requested, only consider articles tagged with it
+    if CATEGORY:
+        arts = [a for a in arts if a.get("category") == CATEGORY]
+        print(f"Category={CATEGORY}: {len(arts)} candidates after filter")
+        if not arts:
+            print(f"No articles for category {CATEGORY} — skipping pick")
+            return 1
     ranked = sorted(((score(a), a) for a in arts),
                     key=lambda x: x[0], reverse=True)
 
@@ -175,6 +190,9 @@ def main() -> int:
         "shortlist": [{"score": s, "title": a["title"], "source": a["source"]}
                       for s, a in ranked[:10]],
     }
+    TOPIC.parent.mkdir(parents=True, exist_ok=True)
+    if CATEGORY:
+        payload["category"] = CATEGORY
     TOPIC.write_text(json.dumps(payload, indent=2, default=str))
     print(f"Wrote {TOPIC}")
     return 0
