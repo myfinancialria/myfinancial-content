@@ -1,4 +1,4 @@
-name: Slack — evening (7 PM IST)
+name: Post — evening (7 PM IST)
 
 on:
   schedule:
@@ -14,9 +14,20 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install requests
-      - env:
+
+      - name: Post to Slack
+        env:
           SLOT: evening
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CONTENT_CHANNEL: ${{ secrets.SLACK_CONTENT_CHANNEL }}
           SLACK_CONTENT_WEBHOOK_URL: ${{ secrets.SLACK_CONTENT_WEBHOOK_URL }}
         run: python slack_post.py
+        continue-on-error: true
+
+      - name: Post to Telegram
+        env:
+          SLOT: evening
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python telegram_post.py
+        continue-on-error: true
