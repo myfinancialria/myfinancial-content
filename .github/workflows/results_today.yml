@@ -1,0 +1,38 @@
+name: Results published last 24h → Telegram (5 PM IST)
+
+on:
+  schedule:
+    - cron: "30 11 * * 1-5"   # 17:00 IST Mon–Fri
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  results:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Fyers daily login
+        env:
+          FYERS_CLIENT_ID: ${{ secrets.FYERS_CLIENT_ID }}
+          FYERS_SECRET: ${{ secrets.FYERS_SECRET }}
+          FYERS_REDIRECT: ${{ secrets.FYERS_REDIRECT }}
+          FYERS_FY_ID: ${{ secrets.FYERS_FY_ID }}
+          FYERS_PIN: ${{ secrets.FYERS_PIN }}
+          FYERS_TOTP_KEY: ${{ secrets.FYERS_TOTP_KEY }}
+        run: python auto_login.py
+
+      - name: Fetch + post results digest
+        env:
+          FYERS_CLIENT_ID: ${{ secrets.FYERS_CLIENT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python write_results_today.py
