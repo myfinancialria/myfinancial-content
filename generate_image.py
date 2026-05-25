@@ -22,7 +22,12 @@ from typing import Optional
 import requests
 
 HERE = Path(__file__).parent
-META = HERE / "data" / "article.json"
+
+# Per-category meta when CATEGORY env is set (5-category pipeline);
+# otherwise the legacy single-article path.
+CATEGORY = (os.environ.get("CATEGORY") or "").strip().lower() or None
+META = (HERE / "data" / "articles" / f"{CATEGORY}.json") if CATEGORY \
+    else (HERE / "data" / "article.json")
 OUT_ARTICLES = HERE / "output" / "articles"
 
 PROMPT_SYSTEM = (
@@ -113,7 +118,7 @@ def fetch_image(prompt: str, out_path: Path) -> bool:
 
 def main() -> int:
     if not META.exists():
-        print("article.json missing — run write_article.py first", file=sys.stderr)
+        print(f"{META.name} missing — run write_article.py first", file=sys.stderr)
         return 1
     meta = json.loads(META.read_text())
     slug = meta["slug"]
