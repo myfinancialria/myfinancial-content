@@ -1,14 +1,18 @@
-"""Post today's article to Telegram (image + body) with slot-based framing.
+"""Post today's article to Telegram in image-first brief format.
 
-Mirror of slack_post.py — same SLOT env var, same three framings, same
-article source. Difference: Telegram delivery is image-first (hero.jpg
-sent as a photo with short caption), followed by the body as a text
-message.
+ONE message per run:
+  • Hero image (uploaded from output/articles/<slug>/hero.jpg, falling back
+    to meta['hero_url'] if the local file isn't present).
+  • Caption — title in bold + one simple paragraph synopsis of the entire
+    piece + a "Read the full article" link to the canonical URL.
+
+Falls back to a plain text message if no hero is available.
 
 Usage:
   SLOT=morning python telegram_post.py
   SLOT=midday  python telegram_post.py
   SLOT=evening python telegram_post.py
+  CATEGORY=personal_finance python telegram_post.py    # multi-article mode
 
 Required env:
   TELEGRAM_BOT_TOKEN   bot token from @BotFather
@@ -27,21 +31,18 @@ import requests
 
 HERE = Path(__file__).parent
 
-# If CATEGORY env var is set, read per-category meta (multi-article mode);
-# otherwise fall back to single-article path (legacy).
-import os as _os
-CATEGORY = (_os.environ.get("CATEGORY") or "").strip().lower() or None
+# Per-category meta when CATEGORY env is set (5-category pipeline);
+# otherwise the legacy single-article path.
+CATEGORY = (os.environ.get("CATEGORY") or "").strip().lower() or None
 META = (HERE / "data" / "articles" / f"{CATEGORY}.json") if CATEGORY \
     else (HERE / "data" / "article.json")
 ARTS = HERE / "articles"
 OUTPUT = HERE / "output" / "articles"
 BASE_URL = "https://myfinancialria.github.io/myfinancial-content"
 
-# Telegram limits
 CAPTION_LIMIT = 1024
-MESSAGE_LIMIT = 4096
+SYNOPSIS_TARGET = 700        # leaves headroom for title + link
 
-# Throttle to respect ~1 msg/sec to one chat
 _LAST_SEND_AT: float = 0.0
 _SEND_INTERVAL_SEC = 1.1
 
@@ -54,12 +55,12 @@ def _throttle() -> None:
 
 
 def _post(method: str, payload: dict, files: dict | None = None) -> dict:
-    """POST to Telegram Bot API. Auto-retries on 429."""
+    """POST to Telegram Bot API with throttle + 429 retry."""
     global _LAST_SEND_AT
     token = os.environ["TELEGRAM_BOT_TOKEN"]
     url = f"https://api.telegram.org/bot{token}/{method}"
     _throttle()
-    for attempt in range(3):
+    for _ in range(3):
         if files:
             r = requests.post(url, data=payload, files=files, timeout=60)
         else:
@@ -79,42 +80,34 @@ def _post(method: str, payload: dict, files: dict | None = None) -> dict:
     return r.json()
 
 
-# ─── Markdown → Telegram HTML ─────────────────────────────────────────────
-
-def _md_to_html(text: str) -> str:
-    """Convert article markdown to Telegram-supported HTML.
-
-    Telegram supports: <b>, <i>, <u>, <s>, <code>, <pre>, <a href>.
-    We strip ## headers, convert **bold**/*italic*/`code`, leave bullets
-    as plain text.
-    """
-    # Escape HTML special chars first
-    out = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-
-    # Headers — convert ## to bold + line break (Telegram doesn't render markdown headers)
-    out = re.sub(r"^#{1,3}\s+(.+)$", r"<b>\1</b>", out, flags=re.MULTILINE)
-
-    # **bold** → <b>
-    out = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", out)
-    # *italic* (single asterisk) → <i>  — but careful, can clash with bullets
-    out = re.sub(r"(?<!\*)\*([^*\n]+)\*(?!\*)", r"<i>\1</i>", out)
-    # `code` → <code>
-    out = re.sub(r"`([^`\n]+)`", r"<code>\1</code>", out)
-
-    # [text](url) → <a href="url">text</a>
-    out = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', out)
-
-    # Bullet markers: '- ' → '• ' for nicer Telegram display
-    out = re.sub(r"^[\*\-]\s+", "• ", out, flags=re.MULTILINE)
-
-    return out
+def _escape(s: str) -> str:
+    return (s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-# ─── Article loading + framing (mirrors slack_post.py) ────────────────────
+def _strip_markdown(s: str) -> str:
+    s = re.sub(r"\*\*(.+?)\*\*", r"\1", s)
+    s = re.sub(r"\*(.+?)\*", r"\1", s)
+    s = re.sub(r"`(.+?)`", r"\1", s)
+    s = re.sub(r"\[(.+?)\]\([^)]+\)", r"\1", s)
+    return s
+
+
+def _word_set(s: str) -> set[str]:
+    return set(re.findall(r"[a-z0-9]+", (s or "").lower()))
+
+
+def _too_similar(a: str, b: str, threshold: float = 0.6) -> bool:
+    """Jaccard overlap on word sets — used to skip TL;DR bullets that
+    just restate the description we already used."""
+    wa, wb = _word_set(a), _word_set(b)
+    if not wa or not wb:
+        return False
+    return len(wa & wb) / len(wa | wb) >= threshold
+
 
 def load_meta() -> dict:
     if not META.exists():
-        print("article.json missing — run write_article.py first", file=sys.stderr)
+        print(f"{META.name} missing — run write_article.py first", file=sys.stderr)
         sys.exit(1)
     return json.loads(META.read_text())
 
@@ -123,10 +116,8 @@ def load_body() -> str:
     meta = load_meta()
     fp = ARTS / meta["filename"]
     if not fp.exists():
-        print(f"{fp} missing", file=sys.stderr)
-        sys.exit(1)
+        return ""
     text = fp.read_text()
-    # strip frontmatter
     return re.sub(r"^---\n[\s\S]+?\n---\n+", "", text, count=1)
 
 
@@ -138,260 +129,131 @@ def extract_tldr(body: str) -> list[str]:
             for line in m.group(1).strip().splitlines() if line.strip()]
 
 
-def extract_first_section(body: str, header: str) -> str:
-    pat = rf"##\s+[^\n]*{re.escape(header)}[^\n]*\n([\s\S]+?)(?=\n##\s|\Z)"
-    m = re.search(pat, body, re.IGNORECASE)
-    return m.group(1).strip() if m else ""
+def build_synopsis(meta: dict, body: str) -> str:
+    """One flowing paragraph that captures the whole article.
 
-
-def extract_action_items(body: str) -> list[str]:
-    section = extract_first_section(body, "What to do this week")
-    if not section:
-        section = extract_first_section(body, "Action")
-    return re.findall(r"^(?:\d+\.|[-*])\s+(.+)$", section, re.MULTILINE)[:5]
-
-
-def extract_faq(body: str, meta: dict | None = None) -> list[tuple[str, str]]:
-    """First try the frontmatter `faq` list, then the body's ## FAQ section."""
-    if meta and meta.get("faq"):
-        return [(item["q"], item["a"]) for item in meta["faq"][:3]]
-    section = extract_first_section(body, "FAQ")
-    if not section:
-        return []
-    pairs = []
-    for p in re.split(r"\n###\s+", "\n" + section)[1:]:
-        lines = p.strip().split("\n", 1)
-        if len(lines) < 2:
-            continue
-        q = lines[0].strip().rstrip("?") + "?"
-        a = " ".join(lines[1].strip().split())
-        pairs.append((q, a))
-    return pairs[:3]
-
-
-def _truncate(s: str, limit: int) -> str:
-    if len(s) <= limit:
-        return s
-    cut = s[:limit - 1].rsplit(" ", 1)[0]
-    return cut + "…"
-
-
-def _truncate_clean(body: str, limit: int) -> str:
-    """Truncate at a paragraph or sentence boundary so the cut feels natural."""
-    if len(body) <= limit:
-        return body
-    snippet = body[:limit]
-    # Prefer paragraph break, then sentence end, then space
-    for marker in ("\n\n", ". ", "\n", " "):
-        idx = snippet.rfind(marker)
-        if idx > limit * 0.6:
-            return snippet[:idx].rstrip()
-    return snippet.rstrip() + "…"
-
-
-def chunk_body(body_html: str, max_size: int = 3800) -> list[str]:
-    """Split an HTML body into chunks ≤ max_size chars at clean boundaries.
-
-    Prefers (in order): blank-line/paragraph break, single newline, sentence
-    end, word boundary. Avoids cutting mid-word.
+    Source priority:
+      1. TL;DR bullets (clean, complete sentences written by the article generator).
+      2. Article description (often auto-truncated from TL;DR — used only as
+         a fallback when no TL;DR is present, with mid-word truncations stripped).
+      3. First body paragraph as a last resort.
     """
-    if len(body_html) <= max_size:
-        return [body_html] if body_html.strip() else []
-    chunks: list[str] = []
-    remaining = body_html
-    while len(remaining) > max_size:
-        # Find a clean split point, preferring section/paragraph breaks
-        cut_at = -1
-        for marker in ("\n\n", "\n", ". ", " "):
-            idx = remaining.rfind(marker, 0, max_size)
-            if idx > max_size * 0.5:
-                # Cut AFTER the marker so the marker stays with the prior chunk
-                cut_at = idx + (len(marker) if marker.startswith("\n") else 1)
+    tldr = extract_tldr(body)
+    sentences: list[str] = []
+
+    if tldr:
+        for b in tldr[:5]:
+            b = _strip_markdown(b).strip()
+            if not b:
+                continue
+            if any(_too_similar(b, prev) for prev in sentences):
+                continue
+            sentences.append(b.rstrip(".") + ".")
+    else:
+        desc = (meta.get("description") or "").strip()
+        # Strip mid-word truncations like "Indian S." or "poten." — drop the
+        # last clause if its trailing token is suspiciously short or lowercase.
+        if desc:
+            parts = re.split(r"(?<=[.!?])\s+", desc)
+            if len(parts) >= 2:
+                last_word = (parts[-1].rstrip(".!?").split() or [""])[-1]
+                if (len(last_word) <= 6
+                        and last_word == last_word.lower()
+                        and last_word not in {
+                            "today", "money", "stock", "rupee", "india",
+                            "bonds", "funds", "taxes", "filing", "people",
+                        }):
+                    desc = " ".join(parts[:-1]).strip()
+        if desc:
+            sentences.append(desc.rstrip(".") + ".")
+
+    if not sentences:
+        # Last resort: first non-empty paragraph
+        for para in body.split("\n\n"):
+            p = _strip_markdown(para).strip()
+            if p and not p.startswith("#") and not p.startswith(">"):
+                sentences.append(p[:500])
                 break
-        if cut_at <= 0:
-            cut_at = max_size
-        chunks.append(remaining[:cut_at].rstrip())
-        remaining = remaining[cut_at:].lstrip()
-    if remaining.strip():
-        chunks.append(remaining)
-    return chunks
+
+    paragraph = re.sub(r"\s+", " ", " ".join(sentences)).strip()
+
+    if len(paragraph) > SYNOPSIS_TARGET:
+        cut = paragraph.rfind(". ", 0, SYNOPSIS_TARGET)
+        if cut == -1:
+            cut = SYNOPSIS_TARGET
+        paragraph = paragraph[:cut + 1].rstrip()
+        if not paragraph.endswith("."):
+            paragraph += "…"
+    return paragraph
 
 
-def build_post(slot: str, meta: dict, body: str) -> tuple[str, str]:
-    """Return (image_caption, body_text). Both already HTML-escaped + formatted."""
+def build_caption(meta: dict, body: str) -> str:
     title = meta["title"]
     url = meta.get("canonical") or BASE_URL
-    tldr = extract_tldr(body)
+    synopsis = build_synopsis(meta, body)
 
-    # ─── Caption (under image): ~600-800 chars to stay under 1024 limit ───
-    if slot == "morning":
-        framing_emoji = "🌅"
-        framing_label = "Morning brief"
-        bullets = "\n".join(f"• {b}" for b in tldr[:3]) if tldr else meta.get("description", "")
-        teaser = f"{bullets}"
-    elif slot == "midday":
-        framing_emoji = "📚"
-        framing_label = "Midday deep-dive"
-        example = (extract_first_section(body, "real example")
-                   or extract_first_section(body, "plain terms")
-                   or extract_first_section(body, "Understanding")
-                   or " ".join(body.split()[:80]))
-        teaser = _truncate(" ".join(example.split()), 600)
-    else:  # evening
-        framing_emoji = "🌙"
-        framing_label = "Evening wrap"
-        actions = extract_action_items(body)
-        teaser_lines = []
-        if actions:
-            teaser_lines.append("<b>What to do this week:</b>")
-            teaser_lines.extend(f"• {a}" for a in actions[:4])
-        else:
-            teaser_lines.append("Wrap of today's piece — full breakdown linked below.")
-        teaser = "\n".join(teaser_lines)
+    slot = (os.environ.get("SLOT") or "").strip().lower()
+    tag = {"morning": "🌅 Today's brief",
+           "midday":  "📚 Midday deep-dive",
+           "evening": "🌙 Evening wrap"}.get(slot)
 
-    # ─── Caption (under image): ~1000 chars under 1024 limit ───
-    # Put the read-more link FIRST inside the teaser so it's always visible
-    read_more = f'<a href="{url}"><b>📖 Read the full article →</b></a>'
-    caption_parts = [
-        f"{framing_emoji} <b>{framing_label}</b>",
-        f"<b>{_md_to_html(title)}</b>",
-        "",
-        _truncate_clean(_md_to_html(teaser),
-                          CAPTION_LIMIT - len(read_more) - 200),
-        "",
-        read_more,
-    ]
-    caption = "\n".join(caption_parts)
-    if len(caption) > CAPTION_LIMIT:
-        # Hard fallback — strip teaser to fit
-        caption = "\n".join([
-            f"{framing_emoji} <b>{framing_label}</b>",
-            f"<b>{_md_to_html(title)}</b>",
-            "",
-            read_more,
-        ])
+    lines: list[str] = []
+    if tag:
+        lines.append(tag)
+    lines.append(f"<b>{_escape(title)}</b>")
+    lines.append("")
+    lines.append(_escape(synopsis))
+    lines.append("")
+    lines.append(f'🔗 <a href="{url}">Read the full article on myfinancial.in</a>')
 
-    # ─── Body message — link at top, truncated body, link at bottom ───
-    # Strip TL;DR (already shown in caption for morning slot) — keep rest
-    body_clean = re.sub(r"\*\*TL;DR\*\*\s*\n(?:[-*]\s+.+\n?)+\n*",
-                        "", body)
-    body_clean_html = _md_to_html(body_clean)
+    caption = "\n".join(lines)
+    if len(caption) <= CAPTION_LIMIT:
+        return caption
 
-    # Reserve space for: title + 2 links + footer + line breaks
-    title_html = f"<b>{_md_to_html(title)}</b>"
-    top_link = f'<a href="{url}">📖 Read full article →</a>'
-    bottom_link = (f'<a href="{url}">'
-                   f'<b>Continue reading on myfinancial.in →</b></a>')
-    footer = "<i>For Indians who'd rather understand than be sold to.</i>"
-
-    fixed_chars = (len(title_html) + len(top_link) + len(bottom_link)
-                   + len(footer) + 80)  # 80 for separators
-    body_budget = MESSAGE_LIMIT - fixed_chars - 100  # safety margin
-    body_trimmed = _truncate_clean(body_clean_html, body_budget)
-    truncated = len(body_clean_html) > len(body_trimmed)
-
-    body_msg = "\n".join([
-        title_html,
-        top_link,
-        "",
-        body_trimmed,
-        "",
-        "—" + (" (truncated — link below for full piece)" if truncated else ""),
-        footer,
-        bottom_link,
-    ])
-    return caption, body_msg
+    # Trim synopsis to fit
+    overflow = len(caption) - CAPTION_LIMIT + 1
+    lines[-3] = _escape(synopsis[:-overflow].rstrip().rstrip(".") + "…")
+    return "\n".join(lines)
 
 
-# ─── Telegram delivery ────────────────────────────────────────────────────
-
-def post(slot: str) -> int:
-    meta = load_meta()
-    body = load_body()
-    caption, _ = build_post(slot, meta, body)  # caption only — body_msg ignored
-
+def post() -> int:
     chat_id = os.environ.get("TELEGRAM_CHAT_ID")
     if not chat_id:
         print("TELEGRAM_CHAT_ID not set", file=sys.stderr)
         return 1
-
-    title = meta["title"]
-    url = meta.get("canonical") or BASE_URL
-
-    # ─── 1. Send hero image with caption (title + TL;DR + link) ────────────
-    hero_url = meta.get("hero_url")
-    local_hero = OUTPUT / meta["slug"] / "hero.jpg"
-    photo_payload: dict | None = None
-    photo_files: dict | None = None
-
-    if hero_url:
-        photo_payload = {
-            "chat_id": chat_id, "photo": hero_url,
-            "caption": caption, "parse_mode": "HTML",
-        }
-    elif local_hero.exists():
-        photo_payload = {
-            "chat_id": chat_id, "caption": caption, "parse_mode": "HTML",
-        }
-        photo_files = {"photo": (local_hero.name,
-                                  local_hero.read_bytes(), "image/jpeg")}
-    else:
-        print(f"⚠ no hero image — sending text-only", file=sys.stderr)
-
-    if photo_payload:
-        result = _post("sendPhoto", photo_payload, files=photo_files)
-        if result.get("ok"):
-            print(f"✓ [{slot}] photo sent "
-                  f"(msg_id {result['result']['message_id']})")
-        else:
-            print(f"✗ photo failed: {result}", file=sys.stderr)
-            return 1
-
-    # ─── 2. Send the FULL body as multiple sequential messages ─────────────
-    # Strip the TL;DR (already in caption) — keep the rest of the article
-    body_clean = re.sub(r"\*\*TL;DR\*\*\s*\n(?:[-*]\s+.+\n?)+\n*",
-                        "", body)
-    body_html = _md_to_html(body_clean)
-
-    chunks = chunk_body(body_html, max_size=3800)
-    if not chunks:
-        print(f"✗ body chunked to 0 — nothing to send", file=sys.stderr)
+    if not os.environ.get("TELEGRAM_BOT_TOKEN"):
+        print("TELEGRAM_BOT_TOKEN not set", file=sys.stderr)
         return 1
 
-    total = len(chunks)
-    title_html = f"<b>{_md_to_html(title)}</b>"
-    top_link = f'<a href="{url}">📖 Read the full article →</a>'
-    footer = ("<i>For Indians who'd rather understand than be sold to.</i>"
-              f'\n<a href="{url}"><b>Continue on myfinancial.in →</b></a>')
+    meta = load_meta()
+    body = load_body()
+    caption = build_caption(meta, body)
+    slot_label = (os.environ.get("SLOT") or "post").lower()
 
-    for i, chunk in enumerate(chunks):
-        counter = f"  <i>({i+1}/{total})</i>" if total > 1 else ""
-        if i == 0:
-            header = f"{title_html}\n{top_link}{counter}\n\n"
-        else:
-            header = f"<i>{title_html} ({i+1}/{total} continued…)</i>\n\n"
-        tail = f"\n\n— {footer}" if i == total - 1 else ""
-        msg = header + chunk + tail
+    hero_url = meta.get("hero_url")
+    local_hero = OUTPUT / meta.get("slug", "") / "hero.jpg"
 
-        # Final safety check
-        if len(msg) > MESSAGE_LIMIT:
-            msg = _truncate_clean(msg, MESSAGE_LIMIT - 50)
-        result = _post("sendMessage", {
-            "chat_id": chat_id, "text": msg, "parse_mode": "HTML",
-            "disable_web_page_preview": True,
-        })
-        if not result.get("ok"):
-            print(f"✗ body chunk {i+1}/{total} failed: {result}",
-                  file=sys.stderr)
-            return 1
-        print(f"✓ [{slot}] body chunk {i+1}/{total} sent "
+    if local_hero.exists():
+        files = {"photo": (local_hero.name, local_hero.read_bytes(), "image/jpeg")}
+        payload = {"chat_id": chat_id, "caption": caption, "parse_mode": "HTML"}
+        result = _post("sendPhoto", payload, files=files)
+    elif hero_url:
+        payload = {"chat_id": chat_id, "photo": hero_url,
+                   "caption": caption, "parse_mode": "HTML"}
+        result = _post("sendPhoto", payload)
+    else:
+        print("⚠ no hero image — sending text-only", file=sys.stderr)
+        payload = {"chat_id": chat_id, "text": caption, "parse_mode": "HTML",
+                   "disable_web_page_preview": False}
+        result = _post("sendMessage", payload)
+
+    if result.get("ok"):
+        print(f"✓ [{slot_label}] sent "
               f"(msg_id {result['result']['message_id']})")
-    return 0
+        return 0
+    print(f"✗ send failed: {result}", file=sys.stderr)
+    return 1
 
 
 if __name__ == "__main__":
-    slot = os.environ.get("SLOT", "morning").lower()
-    if slot not in ("morning", "midday", "evening"):
-        print(f"SLOT must be morning|midday|evening (got {slot!r})", file=sys.stderr)
-        raise SystemExit(2)
-    raise SystemExit(post(slot))
+    raise SystemExit(post())
