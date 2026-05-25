@@ -123,9 +123,15 @@ def main() -> int:
     meta = json.loads(META.read_text())
     slug = meta["slug"]
     title = meta["title"]
-    based_on = meta.get("based_on", {})
-    topic_summary = based_on.get("summary", "") or meta.get("description", "")
-    source_headline = based_on.get("title", "")
+    # based_on is a dict for RSS-sourced articles but a free-text string for
+    # live-data articles (pre_market, post_market). Normalise both.
+    based_on = meta.get("based_on") or {}
+    if isinstance(based_on, dict):
+        topic_summary = based_on.get("summary", "") or meta.get("description", "")
+        source_headline = based_on.get("title", "")
+    else:
+        topic_summary = str(based_on) or meta.get("description", "")
+        source_headline = ""
 
     print(f"Composing image prompt for: {title[:80]}")
     prompt = write_prompt(title, topic_summary, source_headline)
