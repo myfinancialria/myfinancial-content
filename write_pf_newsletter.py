@@ -134,40 +134,18 @@ CATEGORY EMOJIS (use the one matching item type):
 Reply with ONLY the newsletter content. No preamble, no closing remarks."""
 
 
+from llm import call_llm as _shared_call_llm
+
+
 def call_gemini(prompt: str, system: str) -> Optional[str]:
-    key = os.environ.get("GEMINI_API_KEY")
-    if not key:
-        print("GEMINI_API_KEY not set", file=sys.stderr)
-        return None
-    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
-    url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
-           f"{model}:generateContent?key={key}")
-    payload = {
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"role": "user", "parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "temperature": 0.4,
-            "maxOutputTokens": 8000,
-            "topP": 0.95,
-        },
-    }
-    delays = [15, 45, 90, 180]
-    for attempt in range(len(delays) + 1):
-        try:
-            r = requests.post(url, json=payload, timeout=90)
-            if r.status_code in (429, 500, 502, 503, 504):
-                if attempt < len(delays):
-                    time.sleep(delays[attempt])
-                    continue
-            r.raise_for_status()
-            return r.json()["candidates"][0]["content"]["parts"][0]["text"]
-        except Exception as e:
-            print(f"Gemini call failed: {e}", file=sys.stderr)
-            if attempt < len(delays):
-                time.sleep(delays[attempt])
-                continue
-            return None
-    return None
+    # PF newsletter: low temp (factual), medium output, grounding ON for
+    # fresh PF news.
+    return _shared_call_llm(
+        prompt, system,
+        temperature=0.4,
+        max_tokens=8000,
+        top_p=0.95,
+    )
 
 
 def build_prompt(items: list[dict]) -> str:

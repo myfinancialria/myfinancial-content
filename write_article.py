@@ -3,10 +3,15 @@
 Providers (pick via LLM_PROVIDER env var, default = gemini):
   - gemini    → Google Gemini 2.5 Flash (free tier: 1,500 req/day, no card)
                 Set GEMINI_API_KEY. Get one at https://aistudio.google.com/app/apikey
+                Google Search grounding is ON by default for fresh data;
+                set GEMINI_GROUNDING=0 to disable.
   - groq      → Groq Llama 3.3 70B (free tier: 30 RPM, no card)
                 Set GROQ_API_KEY. Get one at https://console.groq.com/keys
   - anthropic → Claude Sonnet 4.6 (paid, ~₹30-50/mo)
                 Set ANTHROPIC_API_KEY.
+  - openai    → OpenAI ChatGPT (paid). Default model gpt-4.1-mini (~₹300-400/mo
+                for current pipeline). Set OPENAI_API_KEY, optional OPENAI_MODEL
+                (e.g. gpt-4.1-mini, gpt-4.1, gpt-4o, gpt-5).
 
 Input:   data/today_topic.json
 Output:  articles/YYYY-MM-DD-<slug>.md + data/article.json
@@ -142,117 +147,17 @@ def slugify(text: str) -> str:
     return text[:80]
 
 
-def _call_gemini(prompt: str, system: str) -> Optional[str]:
-    key = os.environ.get("GEMINI_API_KEY")
-    if not key:
-        print("GEMINI_API_KEY not set", file=sys.stderr)
-        return None
-    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
-    url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
-           f"{model}:generateContent?key={key}")
-    payload = {
-        "system_instruction": {"parts": [{"text": system}]},
-        "contents": [{"role": "user", "parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "temperature": 0.6,
-            "maxOutputTokens": 16000,
-            "topP": 0.95,
-        },
-    }
-    import time as _time
-    delays = [10, 30, 60, 120]  # exponential-ish backoff for transient errors
-    last_err = None
-    for attempt in range(len(delays) + 1):
-        try:
-            r = requests.post(url, json=payload, timeout=120)
-            if r.status_code in (429, 500, 502, 503, 504):
-                if attempt < len(delays):
-                    wait = delays[attempt]
-                    print(f"Gemini {r.status_code} (transient) — retrying in {wait}s "
-                          f"[{attempt+1}/{len(delays)}]", file=sys.stderr)
-                    _time.sleep(wait)
-                    continue
-                print(f"Gemini failed after retries: HTTP {r.status_code}",
-                      file=sys.stderr)
-                print(r.text[:400], file=sys.stderr)
-                return None
-            r.raise_for_status()
-            j = r.json()
-            return j["candidates"][0]["content"]["parts"][0]["text"]
-        except requests.exceptions.RequestException as e:
-            last_err = e
-            if attempt < len(delays):
-                wait = delays[attempt]
-                print(f"Gemini network error — retrying in {wait}s "
-                      f"[{attempt+1}/{len(delays)}]: {e}", file=sys.stderr)
-                _time.sleep(wait)
-                continue
-            break
-        except Exception as e:
-            print(f"Gemini call failed (non-retryable): {e}", file=sys.stderr)
-            return None
-    print(f"Gemini failed after retries: {last_err}", file=sys.stderr)
-    return None
-
-
-def _call_groq(prompt: str, system: str) -> Optional[str]:
-    key = os.environ.get("GROQ_API_KEY")
-    if not key:
-        print("GROQ_API_KEY not set", file=sys.stderr)
-        return None
-    model = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
-    try:
-        r = requests.post(
-            "https://api.groq.com/openai/v1/chat/completions",
-            headers={"Authorization": f"Bearer {key}",
-                     "Content-Type": "application/json"},
-            json={
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": system},
-                    {"role": "user", "content": prompt},
-                ],
-                "temperature": 0.7,
-                "max_tokens": 6000,
-            },
-            timeout=90,
-        )
-        r.raise_for_status()
-        return r.json()["choices"][0]["message"]["content"]
-    except Exception as e:
-        print(f"Groq call failed: {e}", file=sys.stderr)
-        return None
-
-
-def _call_anthropic(prompt: str, system: str) -> Optional[str]:
-    if not os.environ.get("ANTHROPIC_API_KEY"):
-        print("ANTHROPIC_API_KEY not set", file=sys.stderr)
-        return None
-    try:
-        from anthropic import Anthropic
-    except ImportError:
-        print("anthropic SDK not installed (pip install anthropic)", file=sys.stderr)
-        return None
-    client = Anthropic()
-    msg = client.messages.create(
-        model=os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6"),
-        max_tokens=4500, system=system,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return msg.content[0].text
+from llm import call_llm as _shared_call_llm
 
 
 def call_llm(prompt: str, system: str) -> Optional[str]:
-    provider = os.environ.get("LLM_PROVIDER", "gemini").lower()
-    print(f"Using LLM provider: {provider}")
-    if provider == "gemini":
-        return _call_gemini(prompt, system)
-    if provider == "groq":
-        return _call_groq(prompt, system)
-    if provider == "anthropic":
-        return _call_anthropic(prompt, system)
-    print(f"Unknown LLM_PROVIDER: {provider}", file=sys.stderr)
-    return None
+    # Articles want long output, default temperature, grounding ON.
+    return _shared_call_llm(
+        prompt, system,
+        temperature=0.6,
+        max_tokens=16000,
+        top_p=0.95,
+    )
 
 
 def derive_meta(article_md: str, fallback_title: str) -> dict:

@@ -57,6 +57,9 @@ POLLINATIONS = "https://image.pollinations.ai/prompt/{prompt}"
 WIDTH, HEIGHT = 1200, 675   # 16:9, good for Open Graph + Slack
 
 
+from llm import call_llm as _shared_call_llm
+
+
 def write_prompt(title: str, topic_summary: str, source_headline: str) -> Optional[str]:
     """Use the configured LLM to compose the image prompt."""
     user = PROMPT_TEMPLATE.format(
@@ -64,36 +67,19 @@ def write_prompt(title: str, topic_summary: str, source_headline: str) -> Option
         topic_summary=topic_summary[:400] or "(none)",
         source_headline=source_headline or "(none)",
     )
-    provider = os.environ.get("LLM_PROVIDER", "gemini").lower()
-    if provider == "gemini":
-        key = os.environ.get("GEMINI_API_KEY")
-        if not key:
-            print("GEMINI_API_KEY missing — cannot compose prompt", file=sys.stderr)
-            return None
-        model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
-        url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
-               f"{model}:generateContent?key={key}")
-        payload = {
-            "system_instruction": {"parts": [{"text": PROMPT_SYSTEM}]},
-            "contents": [{"role": "user", "parts": [{"text": user}]}],
-            "generationConfig": {
-                "temperature": 0.9,
-                "maxOutputTokens": 2048,
-                # Gemini 2.5 reasons before emitting; setting budget=0
-                # forces it to skip thinking and write the prompt directly.
-                "thinkingConfig": {"thinkingBudget": 0},
-            },
-        }
-        try:
-            r = requests.post(url, json=payload, timeout=60)
-            r.raise_for_status()
-            txt = r.json()["candidates"][0]["content"]["parts"][0]["text"]
-            return txt.strip().strip('"').strip("'")
-        except Exception as e:
-            print(f"Prompt compose failed: {e}", file=sys.stderr)
-            return None
-    # Other providers can be added if you switch
-    return None
+    # Image prompt: high temp (creative), tiny output, NO grounding
+    # (we don't want web facts in an aesthetic prompt), thinking off.
+    txt = _shared_call_llm(
+        user, PROMPT_SYSTEM,
+        temperature=0.9,
+        max_tokens=2048,
+        top_p=0.95,
+        grounding=False,
+        thinking_budget=0,
+    )
+    if not txt:
+        return None
+    return txt.strip().strip('"').strip("'")
 
 
 def fetch_image(prompt: str, out_path: Path) -> bool:

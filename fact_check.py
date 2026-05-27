@@ -14,13 +14,9 @@ auto-rewrite flagged paragraphs.
 from __future__ import annotations
 
 import json
-import os
 import re
 import sys
 from pathlib import Path
-from typing import Any
-
-import requests
 
 HERE = Path(__file__).parent
 DATA = HERE / "data"
@@ -77,39 +73,23 @@ Rules for verdict:
 Output ONLY the JSON object. No code fences. No commentary."""
 
 
+from llm import call_llm as _shared_call_llm
+
+
 def call_gemini_grounded(article_md: str) -> dict | None:
-    key = os.environ.get("GEMINI_API_KEY")
-    if not key:
-        print("GEMINI_API_KEY not set — skipping fact-check", file=sys.stderr)
+    # Fact-check: very low temp (deterministic), large output for the JSON
+    # report, grounding ON (force-on), thinking off (we want raw recall).
+    text = _shared_call_llm(
+        USER_PROMPT.format(article=article_md), SYSTEM,
+        temperature=0.1,
+        max_tokens=24000,
+        top_p=0.95,
+        grounding=True,
+        thinking_budget=0,
+    )
+    if not text:
         return None
-    model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
-    url = (f"https://generativelanguage.googleapis.com/v1beta/models/"
-           f"{model}:generateContent?key={key}")
-    payload: dict[str, Any] = {
-        "system_instruction": {"parts": [{"text": SYSTEM}]},
-        "contents": [{"role": "user",
-                      "parts": [{"text": USER_PROMPT.format(article=article_md)}]}],
-        "tools": [{"google_search": {}}],
-        "generationConfig": {
-            "temperature": 0.1,
-            "maxOutputTokens": 24000,
-            # Structured fact-check doesn't need reasoning tokens
-            "thinkingConfig": {"thinkingBudget": 0},
-        },
-    }
-    try:
-        r = requests.post(url, json=payload, timeout=180)
-        r.raise_for_status()
-        j = r.json()
-    except Exception as e:
-        print(f"Fact-check HTTP failed: {e}", file=sys.stderr)
-        return None
-    try:
-        text = j["candidates"][0]["content"]["parts"][0]["text"].strip()
-    except Exception as e:
-        print(f"Unexpected response shape: {e}", file=sys.stderr)
-        print(json.dumps(j)[:800], file=sys.stderr)
-        return None
+    text = text.strip()
 
     # Always save raw response for debug
     (DATA / "fact_check_raw.txt").write_text(text)
@@ -127,7 +107,8 @@ def call_gemini_grounded(article_md: str) -> dict | None:
                 return json.loads(m.group(0))
             except json.JSONDecodeError as e:
                 print(f"JSON salvage failed: {e}", file=sys.stderr)
-        print(f"Raw response saved to {DATA / 'fact_check_raw.txt'}", file=sys.stderr)
+        print(f"Raw response saved to {DATA / 'fact_check_raw.txt'}",
+              file=sys.stderr)
         print(cleaned[:600], file=sys.stderr)
         return None
 
