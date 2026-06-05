@@ -1,0 +1,87 @@
+name: Daily explainer (ready by 6 AM IST)
+
+# Round-robin "Explained Simply" column across 5 everyday themes
+# (economics → politics → business → people → market). Published to the
+# website + Slack only (no public Telegram), educational concept-explainers.
+
+on:
+  schedule:
+    - cron: "20 0 * * *"   # 05:50 IST daily — buffer so it's ready before 6 AM
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Don't fight the 5-category generate.yml (05:30 IST) for the Pages
+# deployment / the push lock — let whichever is mid-flight finish.
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CATEGORY: explainer
+      LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+      GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-2.5-flash' }}
+      GEMINI_FALLBACK_MODEL: ${{ vars.GEMINI_FALLBACK_MODEL || 'gemini-2.5-flash' }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Write today's explainer (round-robin theme)
+        run: python write_explainer.py
+
+      - name: Generate hero image
+        run: python generate_image.py || echo "image step failed, continuing"
+
+      - name: Fact-check (grounded)
+        run: python fact_check.py || echo "fact-check failed, continuing"
+
+      - name: Render HTML + sitemap
+        run: python publish.py
+
+      - name: Commit data + articles + output
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ articles/ output/
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+          else
+            git commit -m "explainer: $(date -u +%Y-%m-%d)"
+            for i in 1 2 3 4 5; do git pull --rebase --no-edit && git push && break; sleep $((10 * i)); done
+          fi
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+
+      - name: Post to Slack (morning brief)
+        env:
+          SLOT: morning
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CONTENT_CHANNEL: ${{ secrets.SLACK_CONTENT_CHANNEL }}
+          SLACK_CONTENT_WEBHOOK_URL: ${{ secrets.SLACK_CONTENT_WEBHOOK_URL }}
+        run: python slack_post.py || true
+
+      - name: Ping IndexNow
+        run: python indexnow_ping.py || echo "IndexNow ping failed, continuing"

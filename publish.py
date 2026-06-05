@@ -312,6 +312,7 @@ CATEGORY_LABELS = {
     "result_analysis": "Result Analysis",
     "macro": "Macro & Markets",
     "personal_finance": "Personal Finance",
+    "explainer": "Explained Simply",
 }
 
 

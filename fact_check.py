@@ -14,6 +14,7 @@ auto-rewrite flagged paragraphs.
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -21,8 +22,14 @@ from pathlib import Path
 HERE = Path(__file__).parent
 DATA = HERE / "data"
 ARTS = HERE / "articles"
-META = DATA / "article.json"
-REPORT = DATA / "fact_check.json"
+
+# CATEGORY env, if set, switches to the per-category meta written by the
+# 5-category / explainer pipeline; otherwise the legacy single-article path.
+CATEGORY = (os.environ.get("CATEGORY") or "").strip().lower() or None
+META = (DATA / "articles" / f"{CATEGORY}.json") if CATEGORY \
+    else (DATA / "article.json")
+REPORT = (DATA / f"fact_check_{CATEGORY}.json") if CATEGORY \
+    else (DATA / "fact_check.json")
 
 SYSTEM = (
     "You are a meticulous fact-checker for an Indian personal-finance "
