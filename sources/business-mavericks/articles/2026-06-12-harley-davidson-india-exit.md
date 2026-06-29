@@ -1,0 +1,59 @@
+---
+title: "Why Harley-Davidson Exited India in 2020 After 11 Years and 27,000 Bikes Sold"
+slug: 2026-06-12-harley-davidson-india-exit
+date: 2026-06-12
+angle: fall
+---
+
+## The Roar That Faded: Why Harley-Davidson's Indian Dream Became a Nightmare
+
+The year was 2009. From the sun-drenched streets of Milwaukee, a thunderous roar was about to echo across the bustling, dusty roads of India. Harley-Davidson, the quintessential American icon of freedom and open highways, was making its grand entrance into the world's largest two-wheeler market. Executives spoke of a burgeoning middle class, rising incomes, and a yearning for premium lifestyle products. They envisioned a new generation of Indian riders, astride gleaming chrome machines, embracing the "Harley experience." It was a bold, ambitious play, a bet on aspiration meeting affordability, promising to turn India into a new frontier for the legendary brand. Yet, just eleven years later, with a mere 27,000 bikes sold, that roar dwindled to a whimper. In September 2020, Harley-Davidson officially packed its bags, selling its Indian operations to local giant Hero MotoCorp, a retreat that underscored a harsh reality: some dreams, no matter how iconic, simply don't translate across cultures and economies.
+
+### The Land of A Hundred Million Commuters
+
+To understand Harley-Davidson's misstep, one must first grasp the colossal, yet unique, landscape of the Indian two-wheeler market in 2009. India wasn't just big; it was overwhelmingly dominated by practicality. Over 10 million two-wheelers were sold in the fiscal year 2009-10 alone, a figure that cemented its status as a global powerhouse, rivalling even China. But this market was built on the back of humble, fuel-efficient commuter motorcycles and scooters, typically under 150cc. These were the workhorses of the Indian family, ferrying entire households, navigating congested streets, and priced for mass affordability. Brands like Hero Honda (now Hero MotoCorp) and Bajaj Auto ruled this segment, with bikes costing a fraction of what a Harley would.
+
+The idea of a premium motorcycle segment, let alone one defined by heavyweight cruisers, was nascent, almost non-existent. For many, a motorcycle was a necessity, not a luxury or a lifestyle statement. The few "big bikes" on the roads were mostly imported, prohibitively expensive due to India's notoriously high import duties, which could push prices up to 100% on Completely Built Units (CBUs). Against this backdrop, Harley-Davidson's entry, with bikes starting upwards of ₹5 lakh (then roughly $10,000-$12,000), was seen as an audacious gamble, a direct challenge to the very fabric of Indian two-wheeler culture.
+
+### The Cracks in the Chrome
+
+Harley-Davidson officially set up its Indian operations in 2009, opening its first dealership in Hyderabad in July 2010. Their initial strategy involved importing bikes as CBUs. However, to mitigate the steep import duties and make their products more accessible, they soon pivoted to a "Complete Knock Down" (CKD) assembly plant in Bawal, Haryana, by 2011. This allowed them to assemble bikes like the Street 750 and Street Rod locally, bringing prices down by a couple of lakh rupees.
+
+Despite these efforts, the challenges were formidable. The core issue was a fundamental mismatch between Harley's product portfolio and the Indian market's reality. Harley-Davidson specialized in large-capacity, long-distance cruisers and tourers, bikes that were expensive to buy and run. While the Street 750 was designed as a more accessible entry-level model, it still faced stiff competition from Japanese and European manufacturers offering more refined and performance-oriented bikes at similar price points, around ₹4.7-6.0 lakh. For bigger Harleys, prices could soar from ₹11 lakh all the way up to ₹55 lakh.
+
+Even with CKD assembly, the cost structure remained problematic. Harley was never able to establish a deep local vendor base, meaning many components were still imported, attracting duties and keeping prices high. This tax burden, estimated at around 56% on imported parts for CKD assembly, often made the bikes twice as expensive as their US counterparts.
+
+Beyond price, the riding environment itself posed a hurdle. Indian roads, often congested and poorly maintained, were hardly the ideal canvas for powerful, heavy cruisers. Furthermore, while Harley aimed to build a brand image and a community of "weekend riders" through events and customization options, this niche remained tiny. The aspirational value was high, but the practical barriers were higher.
+
+Sales figures painted a stark picture of struggle. Over its entire decade of operation, Harley-Davidson sold less than 30,000 bikes in India. To put this in perspective, Royal Enfield, often considered Harley's closest domestic competitor in the premium segment (though at a much lower price point), sold twice that amount *every month* during Harley's tenure. In the fiscal year 2019, Harley-Davidson sold only 2,676 motorcycles in India, a 22% drop from the 3,413 units sold in FY18. The COVID-19 pandemic delivered a final, crushing blow, with sales plummeting to a mere 100 units between April and June 2020.
+
+The dealership network, comprising 35 outlets, also bled cash. Each dealership required an estimated investment of ₹3-4 crore, and with sales averaging fewer than 70 bikes per year per dealership, profitability was elusive.
+
+### The Rewire and the Handover
+
+By 2020, Harley-Davidson globally was facing its own set of challenges, including declining sales in its home market. New CEO Jochen Zeitz initiated a global restructuring plan dubbed "The Rewire," aimed at boosting profits by reducing the product portfolio by 30% and exiting lower-volume, loss-making international markets to refocus on 50 markets with growth potential. India, being one of its worst-performing markets, was squarely in the crosshairs.
+
+On September 24, 2020, Harley-Davidson announced its decision to discontinue sales and manufacturing operations in India. This involved closing its Bawal plant in Haryana, making approximately 70 employees redundant, and incurring restructuring costs of about $75 million in 2020.
+
+The exit, however, wasn't a complete disappearance. In October 2020, Harley-Davidson announced a strategic partnership with Hero MotoCorp, the world's largest manufacturer of motorcycles and scooters by volume. Under this agreement, Hero MotoCorp took on the exclusive distribution rights for Harley-Davidson motorcycles in India, including selling and servicing bikes, parts, accessories, and merchandise through a network of brand-exclusive dealerships and Hero's existing vast network. Crucially, the partnership also included a licensing agreement for Hero MotoCorp to develop and sell a range of premium motorcycles under the Harley-Davidson brand name. This collaboration has since led to the launch of models like the Harley-Davidson X440, locally manufactured by Hero MotoCorp, targeting a more accessible premium segment.
+
+While the original dream of widespread Harley dominance faded, the Hero MotoCorp partnership represents a strategic pivot, aiming to maintain a brand presence and cater to a broader Indian premium market through local expertise and manufacturing. Initially, after-sales service for existing Harley owners faced challenges and long wait times for parts. However, Hero has been working to streamline these operations, and as of 2022, Harley-Davidson, under the Hero partnership, showed signs of regaining momentum, leading sales in the 1000cc+ segment in FY22 with 601 units, capturing a 37% market share. The recent interim trade pact with the US, which could potentially reduce import duties to zero on CBU Harley-Davidson bikes between 800cc and 1600cc, might further benefit the brand's premium imported models, though it won't impact the locally manufactured X440.
+
+### Lessons to Take Away
+
+1.  **Product-Market Fit is Paramount, Even for Iconic Brands:** Harley-Davidson's failure in India stemmed largely from a fundamental mismatch between its core product – large, expensive cruisers – and the Indian market's practical needs and road conditions. An iconic brand alone cannot overcome a lack of utility or an unsuitable product in a price-sensitive market.
+2.  **Localisation is More Than Just Assembly:** While Harley moved to CKD assembly, their inability to build a robust local vendor base meant that high import duties on components continued to inflate prices. True localisation requires deep integration into the local supply chain to achieve genuine cost advantages.
+3.  **The "Premium" Segment is Nuanced:** Expecting a direct translation of Western premium market dynamics to India was a miscalculation. India's premium segment, while growing, remains a tiny fraction of the overall market and is highly sensitive to pricing, maintenance costs, and practical usability. Understanding the *local definition* of premium is crucial.
+4.  **High Costs and Low Volumes are a Recipe for Disaster:** Operating 35 dealerships with significant investment, coupled with consistently low sales volumes (averaging fewer than 70 bikes per dealership annually), made the business model unsustainable. High operational costs, driven partly by import duties and a thin market, bled the dealerships dry.
+5.  **Partnerships Can Offer a Second Chance, But the Original Vision May Need to Die:** Harley's re-entry via Hero MotoCorp, with a focus on smaller, locally developed bikes, acknowledges the limitations of its initial strategy. It's a pragmatic move to adapt to the market rather than trying to force the market to adapt to its products, showcasing that sometimes, a strategic retreat and a new approach through local expertise are necessary for long-term survival.
+
+### References
+
+*   [Harley-Davidson and Hero MotoCorp Extend Partnership | Visordown](https://www.visordown.com/news/industry/harley-davidson-and-hero-motocorp-extend-partnership) — Details on the Hero MotoCorp partnership and the X440.
+*   [Why Harley Davidson Quit India - Man's World India](https://www.mansworldindia.com/motoring/why-harley-davidson-quit-india/) — Discusses reasons for exit, sales figures, dealership investments, and job losses.
+*   [Harley-Davidson & Hero Motocorp Announce Agreements For India Market](https://www.harley-davidson.com/us/en/about-us/hd-news/2020/hero-motocorp-india-market.html) — Official press release on the Hero MotoCorp partnership.
+*   [Poor Sales Force Harley-Davidson To Leave India - LawStreet Journal](https://www.lawstreetjournal.com/judiciary/poor-sales-force-harley-davidson-to-leave-india/) — Covers "The Rewire" strategy, restructuring costs, and sales decline.
+*   [Harley-Davidson to shut down India operations, lay off 70 employees - The News Minute](https://www.thenewsminute.com/article/harley-davidson-shut-down-india-operations-lay-70-employees-133852) — Confirms exit, job cuts, and sales figures.
+*   [Harley-Davidson India's Journey Of Success And Exit - ZigWheels.com](https://www.zigwheels.com/news/bike-news/harley-davidson-indias-journey-of-success-and-exit/39832/) — Provides context on entry, CKD assembly, and declining sales.
+*   [Harley-Davidson exits India motorcycle market - paultan.org](https://paultan.org/2020/09/25/harley-davidson-exits-india-motorcycle-market/) — Summarizes the exit, "Rewire" strategy, and poor sales performance.
+*   [Why Did Harley-Davidson Fail In India? - SlashGear](https://www.slashgear.com/1548171/why-harley-davidson-fail-india/) — Discusses product mismatch, high taxes, and competition from Royal Enfield.

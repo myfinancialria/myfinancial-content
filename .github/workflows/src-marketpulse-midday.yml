@@ -1,0 +1,49 @@
+name: "[Market Pulse] Mid-market snapshot (12:30 IST, Telegram only)"
+
+# Intraday snapshot — Telegram only (no web archive / no deploy).
+
+on:
+  schedule:
+    - cron: "0 7 * * 1-5"   # 12:30 IST Mon–Fri
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Run even outside market hours"
+        required: false
+        default: "false"
+
+permissions:
+  contents: read
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: sources/market-pulse
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Fyers daily login
+        env:
+          FYERS_CLIENT_ID: ${{ secrets.FYERS_CLIENT_ID }}
+          FYERS_SECRET: ${{ secrets.FYERS_SECRET }}
+          FYERS_REDIRECT: ${{ secrets.FYERS_REDIRECT }}
+          FYERS_FY_ID: ${{ secrets.FYERS_FY_ID }}
+          FYERS_PIN: ${{ secrets.FYERS_PIN }}
+          FYERS_TOTP_KEY: ${{ secrets.FYERS_TOTP_KEY }}
+        run: python auto_login.py
+
+      - name: Run pulse
+        env:
+          FYERS_CLIENT_ID: ${{ secrets.FYERS_CLIENT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_PULSE_CHAT_ID: ${{ secrets.TELEGRAM_PULSE_CHAT_ID }}
+          PULSE_FORCE: ${{ github.event.inputs.force == 'true' && '1' || '' }}
+        run: python pulse.py

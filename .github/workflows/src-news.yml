@@ -1,0 +1,80 @@
+name: "[News] Digest (Slack/Telegram) + archive page + deploy"
+
+# Morning / evening market-news digest. Posts to Slack + Telegram and archives
+# the digest as a News-tab article, then redeploys the site. Manual by default
+# (the content repo's pre-market / FII-DII / results workflows cover the
+# scheduled cadence); flip the cron on if you want it scheduled here.
+
+on:
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "Digest slot"
+        type: choice
+        required: true
+        default: morning
+        options: [morning, evening]
+  # schedule:
+  #   - cron: "15 2 * * 1-5"   # 07:45 IST morning
+  #   - cron: "45 11 * * 1-5"  # 17:15 IST evening
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: sources/news
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Run digest (post + archive page)
+        env:
+          SLOT: ${{ github.event.inputs.slot || 'morning' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          NEWS_FEEDS: ${{ secrets.NEWS_FEEDS }}
+          NEWS_TOP_N: "8"
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_NEWS_CHANNEL: ${{ secrets.SLACK_NEWS_CHANNEL }}
+          SLACK_NEWS_WEBHOOK_URL: ${{ secrets.SLACK_NEWS_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_NEWS_CHAT_ID }}
+        run: python run.py
+
+      - name: Commit archived page
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          [ -d articles ] && git add articles
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+          else
+            git commit -m "news digest: $(date -u +%Y-%m-%d)"
+            for i in 1 2 3 4 5; do git pull --rebase --no-edit && git push && break; sleep $((10 * i)); done
+          fi
+
+      - name: Build unified tabbed site (all sources)
+        working-directory: ${{ github.workspace }}
+        run: python site_build.py
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4

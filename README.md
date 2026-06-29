@@ -1,4 +1,65 @@
-# myfinancial · Content Engine
+# myfinancial · Content Engine (monorepo)
+
+This repo is the **single home for every myfinancial.in content stream**. It
+hosts the personal-finance content engine (at the repo root) plus four merged
+pipelines under [`sources/`](sources/), and builds **one GitHub Pages site with
+a tab per stream**.
+
+## Unified tabbed site
+
+[`site_build.py`](site_build.py) aggregates every source's `articles/*.md` into
+one site at `https://myfinancialria.github.io/myfinancial-content/`, with a
+sticky top-nav:
+
+| Tab | Source | Origin repo (merged) |
+|---|---|---|
+| Personal Finance / Macro & Markets / Result Analysis / Pre-Market / Market Wrap / Explained | root `articles/` split by frontmatter `category` | *(this repo)* |
+| F&O Pulse | `sources/daily-fno-pulse/` | `daily-fno-pulse` |
+| Business Mavericks | `sources/business-mavericks/` | `business-mavericks` |
+| Market Pulse | `sources/market-pulse/` | `myfinancial-market-pulse` |
+| News | `sources/news/` | `myfinancial-news` |
+
+Each pipeline only has to drop markdown into its own `articles/` folder; the
+generation workflows then run `site_build.py` and deploy. The two
+Slack/Telegram-only streams (market-pulse infographics, news digests) gained a
+`page_export.py` that also archives each run as a web article so their tabs have
+real content.
+
+- Add a source: drop its repo under `sources/<name>/`, give it an `articles/`
+  folder of frontmatter+markdown, and add an entry to `SOURCES` + `TABS` in
+  `site_build.py`.
+- Build locally: `python site_build.py` then `open output/index.html`.
+
+## Workflows
+
+- Root content workflows (`generate.yml`, `generate_premarket.yml`,
+  `generate_postmarket.yml`, `explainer.yml`) now build the **unified** site via
+  `site_build.py` and deploy.
+- One workflow per merged source: `src-fno-daily.yml`, `src-mavericks-daily.yml`,
+  `src-marketpulse-*.yml`, `src-news.yml`. Each generates into `sources/<name>/`,
+  commits, rebuilds the unified site, and deploys (Pages deploys are serialized
+  by the `github-pages` environment + a shared `pages-deploy` concurrency group).
+
+## Secrets to migrate
+
+The merged workflows reference secrets that previously lived in the source
+repos. Add these to **this** repo (Settings → Secrets and variables → Actions)
+before enabling the schedules:
+
+| Secret | Used by |
+|---|---|
+| `GEMINI_API_KEY`, `GEMINI_API_KEYS` | all (LLM) |
+| `FYERS_CLIENT_ID`, `FYERS_SECRET`, `FYERS_REDIRECT`, `FYERS_FY_ID`, `FYERS_PIN`, `FYERS_TOTP_KEY` | F&O Pulse, Market Pulse (Fyers login) |
+| `TELEGRAM_BOT_TOKEN`, `TELEGRAM_PULSE_CHAT_ID`, `TELEGRAM_NEWS_CHAT_ID` | Market Pulse, News |
+| `SLACK_BOT_TOKEN`, `SLACK_WEBHOOK_URL`, `SLACK_CHANNEL`, `SLACK_NEWS_CHANNEL`, `SLACK_NEWS_WEBHOOK_URL` | Mavericks, News |
+| `NEWS_FEEDS`, `CONTENT_FEEDS` | News, content scraper |
+
+The four source repos are superseded by this monorepo and can be archived once
+the schedules here run green.
+
+---
+
+## Content engine (root pipeline)
 
 A daily content pipeline for myfinancial.in. Every morning it:
 

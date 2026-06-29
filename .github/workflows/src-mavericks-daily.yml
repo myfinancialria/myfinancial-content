@@ -1,0 +1,104 @@
+name: "[Business Mavericks] Daily story + deploy"
+
+on:
+  schedule:
+    - cron: "30 4 * * *"   # 10:00 IST daily
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: sources/business-mavericks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Pick today's story
+        run: python pick_story.py
+
+      - name: Write the article (Gemini grounded search)
+        id: write
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          set +e
+          python write_article.py
+          rc=$?
+          if [ $rc -eq 2 ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::Gemini returned INSUFFICIENT_SOURCES — skipping publish"
+            exit 0
+          fi
+          exit $rc
+
+      - name: Verify references (hard gate)
+        if: steps.write.outputs.skip != 'true'
+        id: verify
+        run: |
+          set +e
+          python verify.py
+          rc=$?
+          if [ $rc -eq 3 ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::Reference verification failed — refusing to publish"
+            exit 0
+          fi
+          exit $rc
+
+      - name: Generate hero image
+        if: steps.write.outputs.skip != 'true' && steps.verify.outputs.skip != 'true'
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python generate_image.py || echo "image step failed, continuing"
+
+      - name: Publish to Slack
+        if: steps.write.outputs.skip != 'true' && steps.verify.outputs.skip != 'true'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+        run: python publish_slack.py
+
+      - name: Commit article + hero + state
+        if: always()
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add articles/ data/state.json data/today.json data/article.json output/ 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "story: $(date -u +%Y-%m-%d)"
+            for i in 1 2 3 4 5; do git pull --rebase --no-edit && git push && break; sleep $((10 * i)); done
+          fi
+
+      - name: Build unified tabbed site (all sources)
+        if: always()
+        working-directory: ${{ github.workspace }}
+        run: python site_build.py
+
+      - name: Upload Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+
+      - name: Deploy to GitHub Pages
+        if: always()
+        uses: actions/deploy-pages@v4
