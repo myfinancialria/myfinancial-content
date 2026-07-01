@@ -483,6 +483,13 @@ def main() -> int:
     for t in TABS:
         if t["key"]:
             print(f"  {t['label']:<22} {by_tab.get(t['key'], 0)}")
+
+    # also emit the machine-readable feed (articles.json) for the website / apps
+    try:
+        import build_articles_json
+        build_articles_json.main()
+    except Exception as e:
+        print(f"articles.json step skipped: {e}")
     return 0
 
 
