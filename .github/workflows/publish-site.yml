@@ -1,0 +1,51 @@
+name: Rebuild + publish site (feeds)
+
+# Rebuilds the tabbed site AND the articles.json feed from the markdown already
+# in the repo, then deploys to GitHub Pages. No article generation, no secrets —
+# safe to run any time to publish content/feed changes immediately.
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - "build_articles_json.py"
+      - "site_build.py"
+      - "articles/**"
+      - "sources/**/articles/**"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Build site + articles.json feed
+        run: python site_build.py
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
