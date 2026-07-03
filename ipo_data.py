@@ -23,6 +23,7 @@ import datetime as dt
 import json
 import re
 import sys
+import time
 from pathlib import Path
 
 import market_data as md  # reuse NSE session + Fyers helpers
@@ -211,6 +212,7 @@ def fetch_recent_listings(session) -> list[dict]:
         print("  Fyers token missing — skipping price enrichment",
               file=sys.stderr)
 
+    # Step 1 — batched current-price quotes (one API call for everything).
     quotes = {}
     if fyers:
         syms = [f"NSE:{l['symbol']}-EQ" for l in listings if l["symbol"]]
@@ -224,24 +226,17 @@ def fetch_recent_listings(session) -> list[dict]:
         l["return_vs_issue_pct"] = (
             round((cur - issue) / issue * 100, 1)
             if cur and issue else None)
-
-        listing_px = _fyers_daily_on(
-            fyers, l["symbol"], dt.date.fromisoformat(l["listing_date"]))
-        l_open = listing_px.get("open")
-        l["listing_open"] = l_open
-        l["listing_gain_pct"] = (
-            round((l_open - issue) / issue * 100, 1)
-            if l_open and issue else None)
-        l["return_since_listing_pct"] = (
-            round((cur - l_open) / l_open * 100, 1)
-            if cur and l_open else None)
+        # Filled in step 3 for the mainboard set; keep keys present regardless.
+        l["listing_open"] = None
+        l["listing_gain_pct"] = None
+        l["return_since_listing_pct"] = None
         l["in_window"] = WINDOW_LO < l["days_since_listing"] < WINDOW_HI
 
-    # Mainboard-only: keep only issues whose live price resolved on Fyers' NSE
-    # cash segment. This is a robust proxy — NSE-mainboard IPOs quote here, while
-    # SME (BSE-SME / NSE-Emerge), NCDs and REITs do not — so it drops the names
-    # we can't report real performance for, rather than showing blank rows.
-    # Skip the filter only if Fyers was unavailable, so the page still shows
+    # Step 2 — mainboard-only: keep only issues whose live price resolved on
+    # Fyers' NSE cash segment. A robust proxy — NSE-mainboard IPOs quote here,
+    # while SME (BSE-SME / NSE-Emerge), NCDs and REITs do not — so it drops the
+    # names we can't report real performance for, rather than showing blank
+    # rows. Skipped only if Fyers was unavailable, so the page still shows
     # something in that degraded case.
     if fyers:
         before = len(listings)
@@ -250,6 +245,24 @@ def fetch_recent_listings(session) -> list[dict]:
         if dropped:
             print(f"  dropped {dropped} non-mainboard/unpriced listings "
                   f"(SME/NCD/REIT)", file=sys.stderr)
+
+    # Step 3 — listing-day open, ONLY for the (small) mainboard set. Doing this
+    # after the filter keeps the history calls to a handful, so Fyers doesn't
+    # rate-limit them (fetching for all ~30 raw rows returned nothing before).
+    if fyers:
+        for l in listings:
+            listing_px = _fyers_daily_on(
+                fyers, l["symbol"], dt.date.fromisoformat(l["listing_date"]))
+            l_open = listing_px.get("open")
+            issue, cur = l["issue_price"], l["current_price"]
+            l["listing_open"] = l_open
+            l["listing_gain_pct"] = (
+                round((l_open - issue) / issue * 100, 1)
+                if l_open and issue else None)
+            l["return_since_listing_pct"] = (
+                round((cur - l_open) / l_open * 100, 1)
+                if cur and l_open else None)
+            time.sleep(0.3)  # stay under Fyers' history rate limit
 
     # In-window cohort (30-60 days) first, then the rest by recency.
     listings.sort(key=lambda x: (not x["in_window"], x["days_since_listing"]))
