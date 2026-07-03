@@ -446,7 +446,7 @@ def _upcoming_table(rows: list[dict]) -> str:
 
 def _listing_table(rows: list[dict]) -> str:
     if not rows:
-        return '<p class="empty">No IPOs have listed in the last few weeks.</p>'
+        return '<p class="empty">No NSE mainboard IPOs have listed in the last few weeks.</p>'
     head = ("<tr><th>Company</th><th>IPO price</th><th>Listing open</th>"
             "<th>Listing gain</th><th>Price now</th><th>Vs IPO price</th>"
             "<th>Days listed</th></tr>")
@@ -525,11 +525,15 @@ def render_ipo_page(articles: list[dict]) -> None:
         + _upcoming_table(upcoming)
         + report_link("ipo_upcoming", "Upcoming IPOs, Explained Simply")
         + '<h2>2 · Report card — 30 to 60 days after listing</h2>'
-        '<p class="section-lead">How IPOs that listed more than 30 and less than '
-        '60 days ago are trading now, versus the price at which shares were '
-        'issued. By this stage the listing-day frenzy has faded, so the price is '
-        'a calmer read. The “30–60d” tag marks that cohort.</p>'
+        '<p class="section-lead">How <strong>NSE mainboard</strong> IPOs that '
+        'listed more than 30 and less than 60 days ago are trading now, versus '
+        'the price at which shares were issued. By this stage the listing-day '
+        'frenzy has faded, so the price is a calmer read. The “30–60d” tag marks '
+        'that cohort; other rows are recent mainboard listings shown for context.</p>'
         + _listing_table(listings)
+        + '<p class="section-lead"><em>SME (Small &amp; Medium Enterprise) IPOs '
+        'are not shown here — reliable live prices for them are not freely '
+        'available, so we exclude them rather than show blank performance.</em></p>'
         + report_link("ipo_listing", "IPO Report Card: 30 to 60 Days After Listing")
         + '<h2>How to read these numbers</h2>'
         '<ul>'

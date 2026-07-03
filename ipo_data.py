@@ -174,7 +174,7 @@ def _fyers_daily_on(fyers, symbol: str, day: dt.date):
 def fetch_recent_listings(session) -> list[dict]:
     rows = _get(session, PAST_URL)
     today = dt.date.today()
-    listings = []
+    listings, seen = [], set()
     for row in rows:
         listing_d = _parse_date(_pick(row, "dateOfListing", "listingDate",
                                       "date_of_listing"))
@@ -184,10 +184,15 @@ def fetch_recent_listings(session) -> list[dict]:
         if not (0 <= age <= LOOKBACK_DAYS):
             continue
         symbol = _pick(row, "symbol").upper()
+        company = _pick(row, "companyName", "company", "name") or symbol
+        key = symbol or company.upper()
+        if key in seen:            # NSE occasionally lists an issue twice
+            continue
+        seen.add(key)
         issue_price = _num(_pick(row, "issuePrice", "issue_price", "finalPrice",
                                  "price"))
         listings.append({
-            "company": _pick(row, "companyName", "company", "name") or symbol,
+            "company": company,
             "symbol": symbol,
             "series": _pick(row, "series").upper(),
             "issue_price": issue_price,
@@ -231,6 +236,20 @@ def fetch_recent_listings(session) -> list[dict]:
             round((cur - l_open) / l_open * 100, 1)
             if cur and l_open else None)
         l["in_window"] = WINDOW_LO < l["days_since_listing"] < WINDOW_HI
+
+    # Mainboard-only: keep only issues whose live price resolved on Fyers' NSE
+    # cash segment. This is a robust proxy — NSE-mainboard IPOs quote here, while
+    # SME (BSE-SME / NSE-Emerge), NCDs and REITs do not — so it drops the names
+    # we can't report real performance for, rather than showing blank rows.
+    # Skip the filter only if Fyers was unavailable, so the page still shows
+    # something in that degraded case.
+    if fyers:
+        before = len(listings)
+        listings = [l for l in listings if l.get("current_price") is not None]
+        dropped = before - len(listings)
+        if dropped:
+            print(f"  dropped {dropped} non-mainboard/unpriced listings "
+                  f"(SME/NCD/REIT)", file=sys.stderr)
 
     # In-window cohort (30-60 days) first, then the rest by recency.
     listings.sort(key=lambda x: (not x["in_window"], x["days_since_listing"]))

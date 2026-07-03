@@ -104,7 +104,7 @@ Length: 1,000-1,400 words. Write the article now."""
 
 LISTING_TEMPLATE = """Today is {today}. Write the report **"IPO Report Card — 30 to 60 Days After Listing"**.
 
-Every IPO below listed MORE THAN 30 and LESS THAN 60 days ago — old enough that the listing-day frenzy has faded, so the current price is a calmer read. Here is the real data (use ONLY this). "return_vs_issue_pct" = change from the IPO price to the current price; "listing_gain_pct" = IPO price to listing-day open; "return_since_listing_pct" = listing-day to now:
+Every IPO below is an NSE **mainboard** IPO that listed MORE THAN 30 and LESS THAN 60 days ago — old enough that the listing-day frenzy has faded, so the current price is a calmer read. (Small & Medium Enterprise "SME" IPOs are deliberately excluded here because reliable live prices for them are not available; mention this once, plainly.) Here is the real data (use ONLY this). "return_vs_issue_pct" = change from the IPO price to the current price; "listing_gain_pct" = IPO price to listing-day open; "return_since_listing_pct" = listing-day to now:
 
 {data}
 
