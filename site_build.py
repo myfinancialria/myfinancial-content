@@ -511,22 +511,22 @@ def _upcoming_table(rows: list[dict]) -> str:
 def _listing_table(rows: list[dict]) -> str:
     if not rows:
         return '<p class="empty">No IPOs have listed in the last few weeks.</p>'
-    head = ("<tr><th>Company</th><th>IPO price</th><th>Price now</th>"
-            "<th>Change vs IPO price</th><th>IPO m-cap (₹cr)</th>"
-            "<th>Listed on</th><th>Days listed</th></tr>")
+    head = ("<tr><th>Company</th><th>Type</th><th>IPO price</th>"
+            "<th>Listing close</th><th>Listing gain</th><th>Price now</th>"
+            "<th>Change vs IPO price</th><th>Days listed</th></tr>")
     body = []
     for r in rows:
         tag = ' <span class="pill tag">30–60d</span>' if r.get("in_window") else ""
-        mcap = r.get("ipo_mcap_cr")
-        mcap_txt = f"{mcap:,.0f}" if isinstance(mcap, (int, float)) else "—"
+        seg = r.get("segment") or "—"
         body.append(
             "<tr>"
             f'<td class="company">{html.escape(r.get("company", "—"))}{tag}</td>'
+            f'<td>{html.escape(seg)}</td>'
             f'<td class="num">{_fmt_price(r.get("issue_price"))}</td>'
+            f'<td class="num">{_fmt_price(r.get("listing_close"))}</td>'
+            f'<td class="num">{_pct_pill(r.get("listing_gain_pct"))}</td>'
             f'<td class="num">{_fmt_price(r.get("current_price"))}</td>'
             f'<td class="num">{_pct_pill(r.get("return_vs_issue_pct"))}</td>'
-            f'<td class="num">{mcap_txt}</td>'
-            f'<td>{html.escape(r.get("listing_date", "—"))}</td>'
             f'<td class="num">{r.get("days_since_listing", "—")}</td>'
             "</tr>"
         )
@@ -584,11 +584,11 @@ def render_ipo_page(ipo_articles: list[dict]) -> None:
         + report_link("ipo_upcoming")
         + '<h2 class="ipo-sec">2 · Report card — 30 to 60 days after listing</h2>'
         '<p class="section-lead">Every IPO — NSE mainboard <em>and</em> smaller '
-        'SME issues — that listed more than 30 and less than 60 days ago, and how '
-        'it is trading now versus its IPO (issue) price. By this stage the '
-        'listing-day frenzy has faded, so the price is a calmer read. The '
-        '“30–60d” tag marks that cohort; other rows are more-recent listings '
-        'shown for context. Prices via screener.in.</p>'
+        'SME issues — that listed more than 30 and less than 60 days ago: how it '
+        'moved on listing day, and where it trades now versus its IPO (issue) '
+        'price. Comparing the two shows whether the listing-day pop or drop has '
+        'held up once the frenzy faded. The “30–60d” tag marks that cohort; other '
+        'rows are more-recent listings shown for context. Data via chittorgarh.</p>'
         + _listing_table(listings)
         + report_link("ipo_listing")
         + '<h2 class="ipo-sec">How to read these numbers</h2>'
@@ -601,14 +601,18 @@ def render_ipo_page(ipo_articles: list[dict]) -> None:
         'is raising through the IPO.</li>'
         '<li><strong>IPO price</strong> — the per-share price at which shares were '
         'allotted in the IPO (the issue price).</li>'
+        '<li><strong>Listing close</strong> — the price the stock closed at on its '
+        'very first trading day.</li>'
+        '<li><strong>Listing gain</strong> — the change from the IPO price to that '
+        'first-day close. A positive listing gain means the stock rose on debut.</li>'
         '<li><strong>Change vs IPO price</strong> — where the stock trades today '
-        'compared with that IPO price. This is the number the report card tracks.</li>'
-        '<li><strong>IPO m-cap</strong> — the company&rsquo;s market value at the '
-        'IPO price, in ₹ crore; a rough gauge of size (SME issues are the small ones).</li>'
+        'compared with the IPO price. Read next to listing gain, it shows whether '
+        'the debut move has held, grown, or reversed.</li>'
+        '<li><strong>Type</strong> — Mainboard (large, NSE/BSE main platform) or '
+        'SME (smaller companies on the SME platform).</li>'
         '</ul>'
-        '<p class="section-lead">Green means the current price is above the IPO '
-        'price and red means below — these are simple factual comparisons, not a '
-        'view on the company.</p>'
+        '<p class="section-lead">Green means above the IPO price, red means below '
+        '— these are simple factual comparisons, not a view on the company.</p>'
         + "</div>"
     )
     seo = seo_block(
