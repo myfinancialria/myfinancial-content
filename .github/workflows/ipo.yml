@@ -27,20 +27,7 @@ jobs:
           cache: pip
       - run: pip install -r requirements.txt
 
-      - name: Fyers daily login (for post-listing prices)
-        continue-on-error: true
-        env:
-          FYERS_CLIENT_ID: ${{ secrets.FYERS_CLIENT_ID }}
-          FYERS_SECRET: ${{ secrets.FYERS_SECRET }}
-          FYERS_REDIRECT: ${{ secrets.FYERS_REDIRECT }}
-          FYERS_FY_ID: ${{ secrets.FYERS_FY_ID }}
-          FYERS_PIN: ${{ secrets.FYERS_PIN }}
-          FYERS_TOTP_KEY: ${{ secrets.FYERS_TOTP_KEY }}
-        run: python auto_login.py
-
-      - name: Fetch IPO data (NSE + Fyers prices)
-        env:
-          FYERS_CLIENT_ID: ${{ secrets.FYERS_CLIENT_ID }}
+      - name: Fetch IPO data (NSE upcoming + screener.in listings)
         run: python ipo_data.py || echo "ipo_data had partial failures, continuing"
 
       - name: Write both IPO reports (educational)
@@ -82,8 +69,8 @@ jobs:
             CATEGORY=$cat python fact_check.py || echo "fact-check failed for $cat"
           done
 
-      - name: Render HTML + sitemap
-        run: python publish.py
+      - name: Build unified site (includes IPO Watch tab)
+        run: python site_build.py
 
       - name: Commit data + articles + output
         run: |
