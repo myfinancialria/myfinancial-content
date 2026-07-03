@@ -79,10 +79,22 @@ A daily content pipeline for myfinancial.in. Every morning it:
 | `scrape_sources.py` | Pull latest articles from RSS feeds + Google News |
 | `pick_topic.py` | Score + cluster articles, pick today's topic |
 | `write_article.py` | Claude generates the article with SEO+AEO frontmatter |
-| `publish.py` | Render Markdown → HTML, build sitemap, robots.txt |
+| `publish.py` | Render Markdown → HTML, build sitemap, robots.txt, **IPO Watch tab** |
 | `slack_post.py` | Post to Slack — set `SLOT=morning\|midday\|evening` |
+| `ipo_data.py` | Fetch upcoming IPOs + a one-month post-listing report card (NSE + Fyers) → `data/ipo.json` |
+| `write_ipo.py` | Two **educational** IPO reports (upcoming; one-month-after-listing) — no recommendations |
 | `.github/workflows/generate.yml` | Daily generation (05:30 IST) |
+| `.github/workflows/ipo.yml` | Weekly IPO Watch refresh (Mon 09:00 IST) |
 | `.github/workflows/post_*.yml` | Three Slack-posting workflows |
+
+### IPO Watch tab
+
+A dedicated **IPO Watch** tab (`/ipo/`) tracks two things in plain English:
+
+1. **Upcoming & open IPOs** — a quick-reference table (price band, lot size, issue size, dates) plus a full "Upcoming IPOs, Explained Simply" report.
+2. **Post-listing report card (30–60 days)** — how IPOs that listed more than 30 and less than 60 days ago are trading now vs their issue price, plus an "IPO Report Card: 30 to 60 Days After Listing" report.
+
+Both reports are **strictly educational** — the prompt forbids any buy/sell/subscribe/avoid call, rating, price target, or GMP signal (myfinancial is not a SEBI-registered adviser). Data comes from public NSE APIs; current prices from Fyers.
 
 ## One-time setup
 
