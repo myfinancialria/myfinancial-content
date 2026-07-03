@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:48px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:18px 22px; border-bottom:1px solid var(--grid); background:#fff; position:sticky; top:0; z-index:5; }
+header.site a { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { display:flex; gap:4px; padding:0 22px; background:#fff; border-bottom:1px solid var(--grid); position:sticky; top:57px; z-index:4; overflow-x:auto; }
+nav.tabs a { padding:12px 16px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; white-space:nowrap; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--navy); border-bottom-color:var(--green); }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:#1D4ED8; text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.fc { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; margin-left:8px; }
+.fc.ship { background:#DCFCE7; color:#166534; }
+.fc.review { background:#FEF3C7; color:#92400E; }
+.fc.rewrite { background:#FEE2E2; color:#991B1B; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 26px; }
+.disclaimer strong { color:#1E3A8A; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 26px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 16px; }
+.tbl-scroll { overflow-x:auto; margin:14px 0 8px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:520px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 30px; font-size:14px; font-weight:600; color:#1D4ED8; text-decoration:none; }
+.empty { color:var(--grey); font-style:italic; padding:14px 0; }
+@media (max-width: 640px) { .wrap { padding:28px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } nav.tabs { top:53px; } }
+</style>
+<title>Upcoming IPOs, Explained Simply — July 2026</title>
+<meta name="description" content="Knack Packaging Limited&#x27;s Mainboard IPO is closing today, July 3rd. IC Electricals Company Limited&#x27;s SME IPO opens today, July 3rd.">
+<meta name="keywords" content="shares, company, investors, public, minimum, packaging, announced, companies">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-upcoming-ipos-explained-simply-july-2026/">
+<meta property="og:title" content="Upcoming IPOs, Explained Simply — July 2026">
+<meta property="og:description" content="Knack Packaging Limited&#x27;s Mainboard IPO is closing today, July 3rd. IC Electricals Company Limited&#x27;s SME IPO opens today, July 3rd.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-upcoming-ipos-explained-simply-july-2026/">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-upcoming-ipos-explained-simply-july-2026/hero.jpg">
+<meta name="twitter:image" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-upcoming-ipos-explained-simply-july-2026/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Upcoming IPOs, Explained Simply \u2014 July 2026", "description": "Knack Packaging Limited's Mainboard IPO is closing today, July 3rd. IC Electricals Company Limited's SME IPO opens today, July 3rd.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-03", "dateModified": "2026-07-03", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-upcoming-ipos-explained-simply-july-2026/", "image": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-upcoming-ipos-explained-simply-july-2026/hero.jpg"}
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I even apply for an IPO?", "acceptedAnswer": {"@type": "Answer", "text": "You can apply for an IPO through your bank's net banking portal using the ASBA (Application Supported by Blocked Amount) facility, or directly through your stockbroker's trading platform. You will need a Demat account and a trading account."}}, {"@type": "Question", "name": "What is a lot size?", "acceptedAnswer": {"@type": "Answer", "text": "The lot size is the minimum number of shares you must apply for in an IPO. You cannot apply for a single share; you must apply in multiples of this lot size."}}, {"@type": "Question", "name": "What is the difference between a Mainboard IPO and an SME IPO?", "acceptedAnswer": {"@type": "Answer", "text": "Mainboard IPOs are typically for larger, more established companies, and their shares trade on the main exchanges (NSE, BSE). SME IPOs are for smaller companies, and their shares trade on dedicated SME platforms (like NSE Emerge or BSE SME), which have different listing and trading rules."}}, {"@type": "Question", "name": "Can I apply for less than the minimum lot size?", "acceptedAnswer": {"@type": "Answer", "text": "No, you cannot. You must apply for at least one lot, and then in multiples of that lot size. Your application will be rejected if you bid for fewer shares than the lot size."}}, {"@type": "Question", "name": "What happens if I don't get any shares in the allotment?", "acceptedAnswer": {"@type": "Answer", "text": "If you are not allotted any shares, the money you applied with (which was blocked in your bank account) will be unblocked and returned to you, usually within a few days after the allotment process is complete."}}]}</script>
+</head>
+<body>
+<header class="site"><a href="/">myfinancial.in</a><span class="meta">Personal finance · For 15L+ earners and NRIs</span></header>
+<nav class="tabs"><a href="https://myfinancialria.github.io/myfinancial-content/">Home</a><a href="https://myfinancialria.github.io/myfinancial-content/ipo/" class="active">IPO Watch</a></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">MyFinancial · 2026-07-03</div><h1>Upcoming IPOs, Explained Simply — July 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Knack Packaging Limited&#x27;s Mainboard IPO is closing today, July 3rd.</li>
+<li>IC Electricals Company Limited&#x27;s SME IPO opens today, July 3rd.</li>
+<li>This article explains what an IPO is, how the process works, and how to understand the key numbers like price band and issue size.</li>
+<li>Learn how to read an IPO prospectus and what different investor categories mean.</li>
+</ul>
+</div>
+<h2>First, what is an IPO — in one minute?</h2>
+<p>
+Imagine a popular local bakery that has been doing very well. The owner now wants to open more branches, buy new ovens, and expand their business. To get the large amount of money needed, the owner decides to sell a small part of the bakery&#x27;s ownership to the public.
+</p>
+<p>
+This is exactly what an <strong>IPO (Initial Public Offering)</strong> is. It&#x27;s when a private company sells its shares for the very first time to the general public. This process happens in the <strong>primary market</strong> (think of it as the first sale, directly from the company). Once these shares are sold, they get <strong>listed</strong> on a stock exchange (like NSE or BSE). This means people can then buy and sell these shares among themselves in the secondary market, just like they trade shares of other companies.
+</p>
+<h2>The IPOs on the calendar right now</h2>
+<p>
+Let&#x27;s look at the companies that are currently offering their shares to the public or are about to.
+</p>
+<h3>Knack Packaging Limited</h3>
+<p>
+Knack Packaging Limited is a company in the packaging sector. They are offering their shares on the Mainboard segment of the stock exchange.
+</p>
+<ul>
+<li><strong>Price Band:</strong> This is the fixed range within which you can bid for the shares. For Knack Packaging, it is <strong>₹161 to ₹170</strong> per share. You must bid within this range.</li>
+<li><strong>Lot Size:</strong> This is the minimum number of shares you must apply for. It is not yet announced for this IPO. You cannot apply for fewer shares than the lot size.</li>
+<li><strong>Issue Size:</strong> This refers to the total number of shares the company is offering to the public. Knack Packaging is offering <strong>18,964,018</strong> shares.</li>
+<li><strong>Open Date:</strong> The first day you can apply for the IPO. For Knack Packaging, it was <strong>July 1, 2026</strong>.</li>
+<li><strong>Close Date:</strong> The last day you can apply. For Knack Packaging, it is <strong>July 3, 2026</strong> (today!).</li>
+</ul>
+<p>
+| Detail         | Value                  |
+| :------------- | :--------------------- |
+| Price Band     | ₹161 to ₹170           |
+| Lot Size       | Not yet announced      |
+| Issue Size     | 18,964,018 shares      |
+| Open Date      | 2026-07-01             |
+| Close Date     | 2026-07-03             |
+| Segment        | Mainboard              |
+</p>
+<h3>IC Electricals Company Limited</h3>
+<p>
+IC Electricals Company Limited is a company in the electricals sector. This IPO is on the SME (Small and Medium Enterprises) segment, which is for smaller companies compared to those on the Mainboard.
+</p>
+<ul>
+<li><strong>Price Band:</strong> This is the fixed range within which you can bid for the shares. It is not yet announced for this IPO.</li>
+<li><strong>Lot Size:</strong> This is the minimum number of shares you must apply for. It is not yet announced for this IPO.</li>
+<li><strong>Issue Size:</strong> This refers to the total number of shares the company is offering to the public. It is not yet announced for this IPO.</li>
+<li><strong>Open Date:</strong> The first day you can apply for the IPO. For IC Electricals, it is <strong>July 3, 2026</strong> (today!).</li>
+<li><strong>Close Date:</strong> The last day you can apply. For IC Electricals, it is <strong>July 7, 2026</strong>.</li>
+</ul>
+<p>
+| Detail         | Value             |
+| :------------- | :---------------- |
+| Price Band     | Not yet announced |
+| Lot Size       | Not yet announced |
+| Issue Size     | Not yet announced |
+| Open Date      | 2026-07-03        |
+| Close Date     | 2026-07-07        |
+| Segment        | SME               |
+</p>
+<h2>How to actually read an IPO (the 6 things on every IPO)</h2>
+<p>
+When you see an IPO announcement, there are a few key pieces of information you should always look for to understand what&#x27;s being offered:
+</p>
+<ol>
+<li><strong>Price Band:</strong> This is the range of prices (e.g., ₹161 to ₹170) at which the company is willing to sell its shares. You have to bid within this range. The company usually sets a &quot;cut-off price&quot; within this band after all bids are received, which is often the highest price in the band.</li>
+<li><strong>Lot Size:</strong> This is the minimum number of shares you must apply for. You cannot apply for just one share; you have to apply in multiples of the lot size. For example, if the lot size is 100 shares, you can apply for 100, 200, 300 shares, and so on.</li>
+<li><strong>Minimum Investment:</strong> This is calculated by multiplying the lot size by the upper end of the price band. For example, if the lot size is 100 shares and the upper price band is ₹170, your minimum investment would be ₹17,000 (100 shares * ₹170). This is the smallest amount of money you need to apply for an IPO.</li>
+<li><strong>Issue Size:</strong> This tells you the total number of shares being offered to the public, or sometimes the total value of shares in rupees (e.g., ₹500 crores). A larger issue size means more shares are available.</li>
+<li><strong>Fresh Issue vs. Offer-for-Sale (OFS):</strong></li>
+<p>
+    *   <strong>Fresh Issue:</strong> When a company issues new shares, and the money raised from these shares goes directly to the company. The company uses this money for its business needs, like expanding operations or paying off debt.
+    *   <strong>Offer-for-Sale (OFS):</strong> When existing shareholders (like promoters, early investors, or private equity firms) sell some of their shares to the public. In this case, the money from the sale goes to these existing shareholders, not to the company itself.
+</p>
+<li><strong>RHP/DRHP (Red Herring Prospectus / Draft Red Herring Prospectus):</strong> This is the official and detailed document that every company must file with SEBI (Securities and Exchange Board of India) before an IPO. It contains all the crucial information about the company, its business, financial performance, risks, management, and how the IPO money will be used. Think of it as the company&#x27;s detailed report card and business plan for potential investors. The DRHP is the draft version, and the RHP is the final version before the IPO opens.</li>
+</ol>
+<h2>The IPO process, step by step</h2>
+<p>
+Applying for an IPO involves several stages, from the company&#x27;s initial announcement to the shares being traded on the stock market.
+</p>
+<ol>
+<li><strong>DRHP Filing:</strong> The company first files its Draft Red Herring Prospectus (DRHP) with SEBI. This document contains all the details about the company and its plans for the IPO. SEBI reviews this document to ensure everything is in order.</li>
+<li><strong>Price Band Announcement:</strong> Once SEBI approves the DRHP, the company announces the IPO dates and the &quot;price band&quot; (the range within which investors can bid for shares) and the &quot;lot size&quot; (minimum shares to apply for).</li>
+<li><strong>Bidding Opens:</strong> The IPO bidding window opens. During this period, investors can submit their applications through their stockbrokers or banking apps. There are different categories of investors:</li>
+<p>
+    *   <strong>Retail Individual Investors (RIIs):</strong> Ordinary individual investors who apply for shares worth up to ₹2 lakhs.
+    *   <strong>Non-Institutional Investors (NIIs) / High Net-worth Individuals (HNIs):</strong> Individuals, HUFs, companies, or trusts that apply for shares worth more than ₹2 lakhs.
+    *   <strong>Qualified Institutional Buyers (QIBs):</strong> Large financial institutions like mutual funds, foreign institutional investors, and insurance companies.
+</p>
+<li><strong>Allotment:</strong> After the bidding closes, the company and its registrars process all the applications. If the IPO is &quot;oversubscribed&quot; (meaning more applications than shares available), shares are typically allotted through a lottery system for retail investors. If you are allotted shares, they will be credited to your Demat account. If not, your application money is refunded.</li>
+<li><strong>Listing:</strong> On the &quot;listing date,&quot; the company&#x27;s shares start trading on the stock exchanges (NSE and/or BSE). This is when you can buy or sell the shares you were allotted in the IPO, or buy shares of the company from other investors.</li>
+</ol>
+<h2>A simple way to think about it</h2>
+<p>
+Imagine your child&#x27;s school is holding a big annual fete. They want to raise money to build a new science lab. Instead of just asking for donations, the school decides to sell &quot;ownership tickets&quot; in the new lab project. Each ticket costs a certain amount, and buying one means you&#x27;re now a small part-owner of the lab. The money from these tickets goes directly to building the lab. Once the lab is built, these &quot;ownership tickets&quot; can even be traded among parents if someone wants to buy or sell their stake.
+</p>
+<p>
+An IPO is similar. A company sells &quot;ownership tickets&quot; (shares) to the public to raise money for its growth and projects.
+</p>
+<h2>Things people get confused about</h2>
+<p>
+It&#x27;s easy to get caught up in the excitement around IPOs, but it&#x27;s important to separate fact from fiction.
+</p>
+<ul>
+<li><strong>Myth:</strong> Applying for an IPO guarantees you shares.</li>
+<p>
+    *   <strong>Fact:</strong> If an IPO is very popular (oversubscribed), there are more applications than shares available. In such cases, shares are often allotted through a lottery system, especially for retail investors. There&#x27;s no guarantee you&#x27;ll receive shares.
+</p>
+<li><strong>Myth:</strong> IPOs always give &quot;listing gains&quot; (meaning the share price will definitely go up on the first day of trading).</li>
+<p>
+    *   <strong>Fact:</strong> While many IPOs do see gains on listing day, it&#x27;s not a certainty. The share price depends on market demand, the company&#x27;s fundamentals, and overall market sentiment on that particular day. Shares can also list at a discount or fall after listing.
+</p>
+<li><strong>Myth:</strong> You need a lot of money to apply for an IPO.</li>
+<p>
+    *   <strong>Fact:</strong> Retail investors can apply for shares worth up to ₹2 lakhs. With typical lot sizes, this often means a minimum investment of ₹10,000 to ₹15,000, making IPOs accessible to many ordinary investors.
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>How do I even apply for an IPO?</h3>
+<p>
+You can apply for an IPO through your bank&#x27;s net banking portal using the ASBA (Application Supported by Blocked Amount) facility, or directly through your stockbroker&#x27;s trading platform. You will need a Demat account and a trading account.
+</p>
+<h3>What is a lot size?</h3>
+<p>
+The lot size is the minimum number of shares you must apply for in an IPO. You cannot apply for a single share; you must apply in multiples of this lot size.
+</p>
+<h3>What is the difference between a Mainboard IPO and an SME IPO?</h3>
+<p>
+Mainboard IPOs are typically for larger, more established companies, and their shares trade on the main exchanges (NSE, BSE). SME IPOs are for smaller companies, and their shares trade on dedicated SME platforms (like NSE Emerge or BSE SME), which have different listing and trading rules.
+</p>
+<h3>Can I apply for less than the minimum lot size?</h3>
+<p>
+No, you cannot. You must apply for at least one lot, and then in multiples of that lot size. Your application will be rejected if you bid for fewer shares than the lot size.
+</p>
+<h3>What happens if I don&#x27;t get any shares in the allotment?</h3>
+<p>
+If you are not allotted any shares, the money you applied with (which was blocked in your bank account) will be unblocked and returned to you, usually within a few days after the allotment process is complete.
+</p>
+<h2>Sources</h2>
+<p>
+NSE upcoming/current issues data.
+</p>
+<p>
+<em>This is an educational explainer, not investment advice. myfinancial is not a SEBI-registered adviser.</em>
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>

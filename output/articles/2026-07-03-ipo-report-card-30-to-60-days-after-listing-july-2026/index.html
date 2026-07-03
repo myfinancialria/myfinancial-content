@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:48px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:18px 22px; border-bottom:1px solid var(--grid); background:#fff; position:sticky; top:0; z-index:5; }
+header.site a { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { display:flex; gap:4px; padding:0 22px; background:#fff; border-bottom:1px solid var(--grid); position:sticky; top:57px; z-index:4; overflow-x:auto; }
+nav.tabs a { padding:12px 16px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; white-space:nowrap; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--navy); border-bottom-color:var(--green); }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:#1D4ED8; text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.fc { display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:600; margin-left:8px; }
+.fc.ship { background:#DCFCE7; color:#166534; }
+.fc.review { background:#FEF3C7; color:#92400E; }
+.fc.rewrite { background:#FEE2E2; color:#991B1B; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 26px; }
+.disclaimer strong { color:#1E3A8A; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 26px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 16px; }
+.tbl-scroll { overflow-x:auto; margin:14px 0 8px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:520px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 30px; font-size:14px; font-weight:600; color:#1D4ED8; text-decoration:none; }
+.empty { color:var(--grey); font-style:italic; padding:14px 0; }
+@media (max-width: 640px) { .wrap { padding:28px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } nav.tabs { top:53px; } }
+</style>
+<title>IPO Report Card: 30 to 60 Days After Listing — July 2026</title>
+<meta name="description" content="This report reviews 10 companies that listed on the stock exchanges between 35 and 59 days ago. One company, Onemi Technology Solutions Limited, shows a curre.">
+<meta name="keywords" content="listing, limited, shares, company, current, market, available, listed">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-ipo-report-card-30-to-60-days-after-listing-july-2026/">
+<meta property="og:title" content="IPO Report Card: 30 to 60 Days After Listing — July 2026">
+<meta property="og:description" content="This report reviews 10 companies that listed on the stock exchanges between 35 and 59 days ago. One company, Onemi Technology Solutions Limited, shows a curre.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-ipo-report-card-30-to-60-days-after-listing-july-2026/">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-ipo-report-card-30-to-60-days-after-listing-july-2026/hero.jpg">
+<meta name="twitter:image" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-ipo-report-card-30-to-60-days-after-listing-july-2026/hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "IPO Report Card: 30 to 60 Days After Listing \u2014 July 2026", "description": "This report reviews 10 companies that listed on the stock exchanges between 35 and 59 days ago. One company, Onemi Technology Solutions Limited, shows a curre.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-03", "dateModified": "2026-07-03", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-ipo-report-card-30-to-60-days-after-listing-july-2026/", "image": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-03-ipo-report-card-30-to-60-days-after-listing-july-2026/hero.jpg"}
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is an IPO?", "acceptedAnswer": {"@type": "Answer", "text": "An IPO, or Initial Public Offering, is when a private company first offers its shares to the public to raise capital, allowing ordinary investors to buy a piece of the company."}}, {"@type": "Question", "name": "What is an issue price?", "acceptedAnswer": {"@type": "Answer", "text": "The \"issue price\" is the fixed price at which a company offers its shares to investors during its IPO."}}, {"@type": "Question", "name": "What is a listing gain?", "acceptedAnswer": {"@type": "Answer", "text": "A \"listing gain\" is the percentage increase from the IPO issue price to the price at which the shares open for trading on the stock exchange on their first day."}}, {"@type": "Question", "name": "What does \"return vs. IPO price\" mean?", "acceptedAnswer": {"@type": "Answer", "text": "This metric shows how much the current share price has changed, in percentage terms, compared to the original IPO issue price. It tells you the overall gain or loss from the IPO price to now."}}, {"@type": "Question", "name": "What is an anchor investor lock-in?", "acceptedAnswer": {"@type": "Answer", "text": "An \"anchor investor lock-in\" is a period (often 30 or 90 days) during which large institutional investors, who bought shares before the main IPO, are restricted from selling their shares in the open market."}}]}</script>
+</head>
+<body>
+<header class="site"><a href="/">myfinancial.in</a><span class="meta">Personal finance · For 15L+ earners and NRIs</span></header>
+<nav class="tabs"><a href="https://myfinancialria.github.io/myfinancial-content/">Home</a><a href="https://myfinancialria.github.io/myfinancial-content/ipo/" class="active">IPO Watch</a></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">MyFinancial · 2026-07-03<span class="fc review" title="The article provides a detailed overview of recent IPOs and their performance, with specific dates and prices. While most IPO details appear consistent with available information, the current price and return for Onemi Technology Solutions Limited are not verifiable from the provided search results.">✓ Review</span></div><h1>IPO Report Card: 30 to 60 Days After Listing — July 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>This report reviews 10 companies that listed on the stock exchanges between 35 and 59 days ago.</li>
+<li>One company, Onemi Technology Solutions Limited, shows a current price of ₹311.6, which is 82.2% above its IPO issue price of ₹171.0.</li>
+<li>For the other nine companies, current prices and returns are not available in the provided data.</li>
+<li>The IPOs in this batch listed between May 5, 2026, and May 29, 2026.</li>
+</ul>
+</div>
+<h2>Why look 30 to 60 days after listing?</h2>
+<p>
+When a company first offers its shares to the public through an Initial Public Offering (IPO), there&#x27;s often a lot of excitement. On the &quot;listing day&quot; (the first day its shares trade on the stock exchange), prices can sometimes &quot;pop&quot; significantly, leading to a &quot;listing gain&quot; (the percentage difference between the IPO issue price and the price at which the shares open for trading).
+</p>
+<p>
+However, this initial frenzy can be short-lived. Many factors, like speculative trading and the &quot;lock-in&quot; period for anchor investors (large institutional investors who buy shares before the main IPO and cannot sell them for a certain period, usually 30 or 90 days), can influence the listing day price.
+</p>
+<p>
+Looking at an IPO 30 to 60 days after it lists gives us a calmer, more settled view. By this time, the initial excitement has usually faded, and for many IPOs, the 30-day anchor investor lock-in period might have ended. This means the current price often reflects a more natural supply and demand balance, giving a better sense of how the market is valuing the company after the initial buzz.
+</p>
+<h2>The scorecard</h2>
+<p>
+Here&#x27;s how the recent IPOs are performing, 30 to 60 days after their shares started trading:
+</p>
+<p>
+| Company                        | IPO price (₹) | Listing-day open (₹) | Listing gain (%) | Price now (₹) | Change vs IPO price (%) | Days since listing |
+| :----------------------------- | :------------ | :------------------- | :--------------- | :------------ | :---------------------- | :----------------- |
+| Q-Line Biotech Limited         | 343.0         | N/A                  | N/A              | N/A           | N/A                     | 35                 |
+| Bio Medica Laboratories Limited | 139.0         | N/A                  | N/A              | N/A           | N/A                     | 35                 |
+| Teamtech Formwork Solutions Limited | 63.0          | N/A                  | N/A              | N/A           | N/A                     | 38                 |
+| NFP Sampoorna Foods Limited    | 55.0          | N/A                  | N/A              | N/A           | N/A                     | 39                 |
+| RFBL Flexi Pack Limited        | 50.0          | N/A                  | N/A              | N/A           | N/A                     | 45                 |
+| Simca Advertising Limited      | 183.0         | N/A                  | N/A              | N/A           | N/A                     | 49                 |
+| Bagmane Prime Office REIT      | 100.0         | N/A                  | N/A              | N/A           | N/A                     | 50                 |
+| Value 360 Communications Limited | 98.0          | N/A                  | N/A              | N/A           | N/A                     | 53                 |
+| Onemi Technology Solutions Limited | 171.0         | N/A                  | N/A              | 311.6         | 82.2                    | 56                 |
+| Amba Auto Sales and Services Limited | 135.0         | N/A                  | N/A              | N/A           | N/A                     | 59                 |
+</p>
+<p>
+<em>Note: &quot;N/A&quot; indicates that the specific data point was not available in the provided information.</em>
+</p>
+<p>
+Out of the ten companies reviewed, current price and return data is available for only one. Onemi Technology Solutions Limited is trading significantly above its IPO issue price. For the remaining nine companies, their current market performance relative to their IPO price is not available in the provided data.
+</p>
+<h2>Reading each listing (what the numbers say)</h2>
+<p>
+Here&#x27;s a look at what the numbers mean for each company in this batch:
+</p>
+<h3>Q-Line Biotech Limited</h3>
+<p>
+This company issued shares at an &quot;issue price&quot; of ₹343.0 and listed on May 29, 2026. It has been 35 days since its listing. The current price and how it has performed relative to its IPO price are not available in the provided data. If a share price were &quot;up X% from its IPO price,&quot; it would mean that an investor who was allotted shares in the IPO would see the value of their investment increase by that percentage. Conversely, if it were &quot;below its issue price,&quot; the value would have decreased.
+</p>
+<h3>Bio Medica Laboratories Limited</h3>
+<p>
+Bio Medica Laboratories Limited had an IPO issue price of ₹139.0 and listed on May 29, 2026. It has been 35 days since its shares started trading. The current price and its percentage change compared to the IPO price are not available in the provided data.
+</p>
+<h3>Teamtech Formwork Solutions Limited</h3>
+<p>
+Teamtech Formwork Solutions Limited offered its shares at ₹63.0 in its IPO and listed on May 26, 2026. It has been 38 days since its listing. The current price and its performance against the IPO price are not available in the provided data.
+</p>
+<h3>NFP Sampoorna Foods Limited</h3>
+<p>
+This company&#x27;s IPO issue price was ₹55.0, and it listed on May 25, 2026. It has been 39 days since its listing. The current price and the percentage change from its IPO price are not available in the provided data.
+</p>
+<h3>RFBL Flexi Pack Limited</h3>
+<p>
+RFBL Flexi Pack Limited had an IPO issue price of ₹50.0 and listed on May 19, 2026. It has been 45 days since its shares began trading. The current price and its return versus the IPO price are not available in the provided data.
+</p>
+<h3>Simca Advertising Limited</h3>
+<p>
+Simca Advertising Limited&#x27;s shares were issued at ₹183.0 in its IPO and listed on May 15, 2026. It has been 49 days since its listing. The current price and its performance against the IPO price are not available in the provided data.
+</p>
+<h3>Bagmane Prime Office REIT</h3>
+<p>
+This REIT (Real Estate Investment Trust) had an IPO issue price of ₹100.0 and listed on May 14, 2026. It has been 50 days since its listing. The current price and its percentage change compared to the IPO price are not available in the provided data.
+</p>
+<h3>Value 360 Communications Limited</h3>
+<p>
+Value 360 Communications Limited offered its shares at ₹98.0 in its IPO and listed on May 11, 2026. It has been 53 days since its listing. The current price and its return versus the IPO price are not available in the provided data.
+</p>
+<h3>Onemi Technology Solutions Limited</h3>
+<p>
+Onemi Technology Solutions Limited issued shares at an &quot;issue price&quot; of ₹171.0 and listed on May 8, 2026. It has been 56 days since its listing. The current price is ₹311.6, which means it is trading 82.2% above its original IPO issue price. For an investor who was allotted shares in the IPO, the value of their investment would have increased by 82.2% from the IPO price to the current price.
+</p>
+<h3>Amba Auto Sales and Services Limited</h3>
+<p>
+Amba Auto Sales and Services Limited had an IPO issue price of ₹135.0 and listed on May 5, 2026. It has been 59 days since its listing. The current price and its percentage change compared to the IPO price are not available in the provided data.
+</p>
+<h2>Why do IPOs pop or drop on listing?</h2>
+<p>
+An IPO&#x27;s performance on its listing day, whether it &quot;pops&quot; (opens higher than its issue price) or &quot;drops&quot; (opens lower), is influenced by several factors:
+</p>
+<ul>
+<li><strong>Demand vs. Supply:</strong> If there&#x27;s very high &quot;demand&quot; (many investors want to buy shares) compared to the &quot;supply&quot; (the number of shares the company is offering), the price tends to go up. If demand is low, prices might drop.</li>
+<li><strong>Subscription Levels:</strong> This refers to how many times the IPO shares were applied for. A highly &quot;oversubscribed&quot; IPO (e.g., applied for 10 times over) usually indicates strong investor interest, which can lead to a listing gain.</li>
+<li><strong>Market Mood:</strong> The overall sentiment of the broader stock market plays a big role. If the general market is doing well, new listings often get a boost. A weak market can dampen enthusiasm for IPOs.</li>
+<li><strong>Pricing:</strong> If the company prices its IPO shares at a level that investors feel is fair or even a bit undervalued, it can attract more buyers and lead to a pop. If the price is seen as too high, it might deter investors.</li>
+<li><strong>Lock-in for Anchor Investors:</strong> &quot;Anchor investors&quot; are large institutional investors who commit to buying a significant portion of shares before the main IPO opens. They typically have a &quot;lock-in period&quot; (often 30 days) during which they cannot sell their shares. This reduces the immediate supply of shares in the market, which can help support the price on listing day.</li>
+</ul>
+<h2>Why the first-day price is not the whole story</h2>
+<p>
+While a big listing gain can be exciting, the first-day price is rarely the full picture of a company&#x27;s long-term value.
+</p>
+<ul>
+<li><strong>Volatility:</strong> The first day of trading can be very &quot;volatile&quot; (prices can swing up and down sharply) due to speculative trading and short-term interest. These movements might not reflect the company&#x27;s fundamental strength.</li>
+<li><strong>Broader Market Influence:</strong> A company might list on a day when the entire market is performing exceptionally well or poorly. This &quot;broader market&quot; movement can overshadow the individual company&#x27;s performance.</li>
+<li><strong>Long-term Value:</strong> A company&#x27;s true value and growth potential often take time to become evident. A stock might list flat or even drop initially, only to perform well over months or years as the company executes its business plans. Conversely, a stock with a huge listing pop might not sustain that growth.</li>
+</ul>
+<h2>A simple way to think about it</h2>
+<p>
+Imagine a new sweet shop opening in your neighbourhood. On the first day, everyone rushes to try it out – there&#x27;s a huge crowd, and the sweets might even sell out quickly at a slightly higher price due to the novelty and excitement. This is like the IPO listing day frenzy.
+</p>
+<p>
+But after a month or two, the initial buzz fades. People now buy sweets from that shop based on how good they actually taste, the quality of ingredients, the service, and whether the prices are reasonable for the long term. The shop&#x27;s daily sales and reputation settle into a more stable pattern. Similarly, an IPO&#x27;s price after 30-60 days often reflects the market&#x27;s more considered opinion of the company&#x27;s value, rather than just the opening day excitement.
+</p>
+<h2>Things people get confused about</h2>
+<ul>
+<li><strong>Myth → Fact: A big listing gain means it&#x27;s a great company.</strong></li>
+<p>
+    *   <strong>Fact:</strong> A big listing gain is a short-term market reaction, often driven by demand and sentiment. It does not guarantee the company&#x27;s long-term success or future stock performance.
+</p>
+<li><strong>Myth → Fact: If an IPO lists below its issue price, it&#x27;s a bad investment.</strong></li>
+<p>
+    *   <strong>Fact:</strong> An initial drop can happen due to various market conditions or pricing. It doesn&#x27;t automatically mean the company is bad; its long-term prospects might still be strong, or it could recover later.
+</p>
+<li><strong>Myth → Fact: You must apply for every IPO to make money.</strong></li>
+<p>
+    *   <strong>Fact:</strong> Not all IPOs perform well after listing. It&#x27;s important to research each company individually and understand its business before deciding to apply, rather than blindly participating in every offering.
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>What is an IPO?</h3>
+<p>
+An IPO, or Initial Public Offering, is when a private company first offers its shares to the public to raise capital, allowing ordinary investors to buy a piece of the company.
+</p>
+<h3>What is an issue price?</h3>
+<p>
+The &quot;issue price&quot; is the fixed price at which a company offers its shares to investors during its IPO.
+</p>
+<h3>What is a listing gain?</h3>
+<p>
+A &quot;listing gain&quot; is the percentage increase from the IPO issue price to the price at which the shares open for trading on the stock exchange on their first day.
+</p>
+<h3>What does &quot;return vs. IPO price&quot; mean?</h3>
+<p>
+This metric shows how much the current share price has changed, in percentage terms, compared to the original IPO issue price. It tells you the overall gain or loss from the IPO price to now.
+</p>
+<h3>What is an anchor investor lock-in?</h3>
+<p>
+An &quot;anchor investor lock-in&quot; is a period (often 30 or 90 days) during which large institutional investors, who bought shares before the main IPO, are restricted from selling their shares in the open market.
+</p>
+<h2>Sources</h2>
+<p>
+NSE public past issues data and current market prices (Fyers).
+</p>
+<p>
+<em>This is an educational explainer, not investment advice. Past performance is not indicative of future results. myfinancial is not a SEBI-registered adviser.</em>
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
