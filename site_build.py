@@ -46,6 +46,8 @@ CONTENT_CAT_TAB = {
     "pre_market": "pre-market",
     "post_market": "market-wrap",
     "explainer": "explained",
+    "ipo_upcoming": "ipo",
+    "ipo_listing": "ipo",
 }
 CONTENT_FALLBACK_TAB = "personal-finance"
 
@@ -54,6 +56,7 @@ TABS = [
     {"key": "personal-finance", "label": "Personal Finance"},
     {"key": "macro", "label": "Macro & Markets"},
     {"key": "results", "label": "Result Analysis"},
+    {"key": "ipo", "label": "IPO Watch"},
     {"key": "pre-market", "label": "Pre-Market"},
     {"key": "market-wrap", "label": "Market Wrap"},
     {"key": "explained", "label": "Explained"},
@@ -68,6 +71,7 @@ TAB_BLURB = {
     "personal-finance": "Tax, investing and money guides for 15L+ earners and NRIs.",
     "macro": "What global and Indian macro means for your portfolio.",
     "results": "Plain-English reads of company earnings and sector moves.",
+    "ipo": "Upcoming IPOs and how recent listings have performed — explained simply. Educational only, no recommendations.",
     "pre-market": "What to know before the Indian market opens.",
     "market-wrap": "How the session played out, in two minutes.",
     "explained": "Markets and money concepts, explained simply.",
@@ -137,6 +141,24 @@ article figure.hero img { width:100%; height:100%; object-fit:cover; display:blo
 .list-item .meta { color:var(--grey); font-size:13px; }
 .list-item .meta .cat { color:var(--accent); font-weight:600; }
 .empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
 footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
 @media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
 """
@@ -428,6 +450,181 @@ def render_listing(tab_key: str, articles: list[dict]) -> None:
     out_path.write_text(page)
 
 
+# ---------------------------------------------------------------------------
+# IPO Watch — custom landing page (data tables + links to the two reports)
+# ---------------------------------------------------------------------------
+def _fmt_price(v) -> str:
+    try:
+        return f"₹{float(v):,.0f}" if v not in (None, "") else "—"
+    except (TypeError, ValueError):
+        return "—"
+
+
+def _pct_pill(v) -> str:
+    if v in (None, ""):
+        return '<span class="pill flat">—</span>'
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return '<span class="pill flat">—</span>'
+    cls = "up" if f > 0 else "down" if f < 0 else "flat"
+    sign = "+" if f > 0 else ""
+    return f'<span class="pill {cls}">{sign}{f:g}%</span>'
+
+
+def _load_ipo_data() -> dict:
+    p = HERE / "data" / "ipo.json"
+    if not p.exists():
+        return {}
+    try:
+        return json.loads(p.read_text())
+    except Exception:
+        return {}
+
+
+def _upcoming_table(rows: list[dict]) -> str:
+    if not rows:
+        return '<p class="empty">No open or upcoming IPOs on the calendar right now.</p>'
+    head = ("<tr><th>Company</th><th>Segment</th><th>Price band</th>"
+            "<th>Lot size</th><th>Issue size</th><th>Opens</th>"
+            "<th>Closes</th><th>Status</th></tr>")
+    body = []
+    for r in rows:
+        status = html.escape(r.get("status", "") or "—")
+        status_cls = "up" if status.lower().startswith("open") else "tag"
+        body.append(
+            "<tr>"
+            f'<td class="company">{html.escape(r.get("company", "—"))}</td>'
+            f'<td>{html.escape(r.get("segment", "—"))}</td>'
+            f'<td>{html.escape(r.get("price_band") or "—")}</td>'
+            f'<td>{html.escape(r.get("lot_size") or "—")}</td>'
+            f'<td>{html.escape(r.get("issue_size") or "—")}</td>'
+            f'<td>{html.escape(r.get("open_date") or "—")}</td>'
+            f'<td>{html.escape(r.get("close_date") or "—")}</td>'
+            f'<td><span class="pill {status_cls}">{status}</span></td>'
+            "</tr>"
+        )
+    return (f'<div class="tbl-scroll"><table class="ipo">{head}'
+            f'{"".join(body)}</table></div>')
+
+
+def _listing_table(rows: list[dict]) -> str:
+    if not rows:
+        return '<p class="empty">No IPOs have listed in the last few weeks.</p>'
+    head = ("<tr><th>Company</th><th>IPO price</th><th>Price now</th>"
+            "<th>Change vs IPO price</th><th>IPO m-cap (₹cr)</th>"
+            "<th>Listed on</th><th>Days listed</th></tr>")
+    body = []
+    for r in rows:
+        tag = ' <span class="pill tag">30–60d</span>' if r.get("in_window") else ""
+        mcap = r.get("ipo_mcap_cr")
+        mcap_txt = f"{mcap:,.0f}" if isinstance(mcap, (int, float)) else "—"
+        body.append(
+            "<tr>"
+            f'<td class="company">{html.escape(r.get("company", "—"))}{tag}</td>'
+            f'<td class="num">{_fmt_price(r.get("issue_price"))}</td>'
+            f'<td class="num">{_fmt_price(r.get("current_price"))}</td>'
+            f'<td class="num">{_pct_pill(r.get("return_vs_issue_pct"))}</td>'
+            f'<td class="num">{mcap_txt}</td>'
+            f'<td>{html.escape(r.get("listing_date", "—"))}</td>'
+            f'<td class="num">{r.get("days_since_listing", "—")}</td>'
+            "</tr>"
+        )
+    return (f'<div class="tbl-scroll"><table class="ipo">{head}'
+            f'{"".join(body)}</table></div>')
+
+
+def render_ipo_page(ipo_articles: list[dict]) -> None:
+    """The 'IPO Watch' tab: quick-reference data tables + links to the two
+    educational reports. Strictly educational — no recommendations."""
+    data = _load_ipo_data()
+    upcoming = data.get("upcoming") or []
+    listings = data.get("recent_listings") or []
+    fetched = (data.get("fetched_at") or "").split("T")[0]
+    prefix = "../"
+
+    latest: dict[str, dict] = {}
+    for a in ipo_articles:
+        cat = a.get("category") or ""
+        if cat not in latest or a.get("date", "") > latest[cat].get("date", ""):
+            latest[cat] = a
+
+    def report_link(cat: str) -> str:
+        a = latest.get(cat)
+        if not a:
+            return ""
+        return (f'<a class="read-more" href="{prefix}articles/{a["slug"]}/">'
+                f'📖 Read the full report: {html.escape(a["title"])} →</a>')
+
+    disclaimer = (
+        '<p class="disclaimer"><strong>Educational only.</strong> '
+        'This page explains how IPOs work and shows publicly-available numbers. '
+        'It contains <strong>no recommendations</strong> — nothing here is a '
+        'suggestion to apply for, buy, sell, or avoid any IPO or stock. '
+        'myfinancial is not a SEBI-registered investment adviser.</p>'
+    )
+    intro = (
+        '<p class="ipo-intro">An <strong>IPO</strong> (Initial Public Offering) '
+        'is when a private company sells its shares to the public for the first '
+        'time and gets listed on the stock exchange. This page tracks two things '
+        'in plain English: the IPOs currently open or lined up, and a report card '
+        'on how recent IPOs have performed 30 to 60 days after listing.</p>'
+    )
+    updated = (f'<p class="section-lead">Data last updated: {fetched}.</p>'
+               if fetched else "")
+
+    body = (
+        '<div class="wrap">'
+        '<h1 class="page">IPO Watch</h1>'
+        + disclaimer + intro + updated
+        + '<h2 class="ipo-sec">1 · Upcoming &amp; open IPOs</h2>'
+        '<p class="section-lead">The IPOs on the calendar right now, with the '
+        'key numbers every applicant sees.</p>'
+        + _upcoming_table(upcoming)
+        + report_link("ipo_upcoming")
+        + '<h2 class="ipo-sec">2 · Report card — 30 to 60 days after listing</h2>'
+        '<p class="section-lead">Every IPO — NSE mainboard <em>and</em> smaller '
+        'SME issues — that listed more than 30 and less than 60 days ago, and how '
+        'it is trading now versus its IPO (issue) price. By this stage the '
+        'listing-day frenzy has faded, so the price is a calmer read. The '
+        '“30–60d” tag marks that cohort; other rows are more-recent listings '
+        'shown for context. Prices via screener.in.</p>'
+        + _listing_table(listings)
+        + report_link("ipo_listing")
+        + '<h2 class="ipo-sec">How to read these numbers</h2>'
+        '<ul>'
+        '<li><strong>Price band</strong> — the fixed price range within which you '
+        'place your bid in an IPO.</li>'
+        '<li><strong>Lot size</strong> — the minimum number of shares you can '
+        'apply for in one go; you bid in multiples of a lot.</li>'
+        '<li><strong>Issue size</strong> — the total amount of money the company '
+        'is raising through the IPO.</li>'
+        '<li><strong>IPO price</strong> — the per-share price at which shares were '
+        'allotted in the IPO (the issue price).</li>'
+        '<li><strong>Change vs IPO price</strong> — where the stock trades today '
+        'compared with that IPO price. This is the number the report card tracks.</li>'
+        '<li><strong>IPO m-cap</strong> — the company&rsquo;s market value at the '
+        'IPO price, in ₹ crore; a rough gauge of size (SME issues are the small ones).</li>'
+        '</ul>'
+        '<p class="section-lead">Green means the current price is above the IPO '
+        'price and red means below — these are simple factual comparisons, not a '
+        'view on the company.</p>'
+        + "</div>"
+    )
+    seo = seo_block(
+        {"title": "IPO Watch — Upcoming IPOs & Post-Listing Report Card | myfinancial",
+         "description": ("Plain-English tracker of upcoming Indian IPOs and how "
+                         "recent IPOs (mainboard and SME) have performed 30-60 "
+                         "days after listing. Educational only, no recommendations."),
+         "date": dt.date.today().isoformat()},
+        f"{BASE_URL}/ipo/")
+    page = (HEAD.format(css=CSS, seo=seo, home=prefix, nav=build_nav(prefix, "ipo"))
+            + body + FOOTER)
+    out_path = OUT / "ipo" / "index.html"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(page)
+
+
 def render_sitemap(articles: list[dict]) -> None:
     urls = [f"{BASE_URL}/"]
     urls += [f"{BASE_URL}/{t['key']}/" for t in TABS if t["key"]]
@@ -467,12 +664,17 @@ def main() -> int:
             except Exception as e:  # one bad article shouldn't kill the build
                 print(f"  ! failed {md}: {e}")
 
-    # Home + one listing per tab
+    # Home + one listing per tab. The IPO tab gets a custom landing page (data
+    # tables + report links) instead of the generic article listing.
     render_listing("", all_articles)
     for t in TABS:
         if not t["key"]:
             continue
-        render_listing(t["key"], [a for a in all_articles if a["tab"] == t["key"]])
+        tab_articles = [a for a in all_articles if a["tab"] == t["key"]]
+        if t["key"] == "ipo":
+            render_ipo_page(tab_articles)
+        else:
+            render_listing(t["key"], tab_articles)
 
     render_sitemap(all_articles)
 

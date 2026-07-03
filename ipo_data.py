@@ -1,15 +1,14 @@
 """Fetch IPO data for the 'IPO Watch' section — upcoming issues + a
-one-month-on report card for recently-listed IPOs.
+30-to-60-day post-listing report card.
 
-Sources (all public NSE JSON APIs, reached via the same warmed-up session that
-market_data.py uses):
-  - upcoming / live IPOs → /api/all-upcoming-issues + /api/ipo-current-issue
-  - recently-listed IPOs → /api/public-past-issues
-
-Recently-listed issues are enriched (best-effort) with the current market price
-via Fyers so we can show how they have done since their IPO price and since
-listing. Listing-day open/close is pulled from Fyers daily history when a token
-is available.
+Sources:
+  - upcoming / live IPOs → NSE public JSON APIs (/api/all-upcoming-issues +
+    /api/ipo-current-issue), reached via the warmed-up session market_data.py
+    uses. These carry the applicant-facing fields (price band, lot, dates).
+  - recently-listed IPOs → screener.in/ipo/recent/ (public, paginated HTML).
+    screener has an IPO price + live current price for EVERY listed company —
+    NSE mainboard AND SME alike — which is what lets us show real performance
+    for the small-cap SME names that don't resolve on Fyers or Yahoo.
 
 Everything fails soft: any source that is down just yields fewer rows, and the
 writer / publisher still produce *something*. Output → data/ipo.json.
@@ -20,12 +19,15 @@ on top of it are strictly educational (no buy/sell/subscribe/avoid calls).
 from __future__ import annotations
 
 import datetime as dt
+import html
 import json
 import re
 import sys
 from pathlib import Path
 
-import market_data as md  # reuse NSE session + Fyers helpers
+import requests
+
+import market_data as md  # reuse the warmed NSE session + shared UA
 
 HERE = Path(__file__).parent
 OUT = HERE / "data" / "ipo.json"
@@ -33,7 +35,13 @@ OUT = HERE / "data" / "ipo.json"
 NSE = "https://www.nseindia.com"
 UPCOMING_URL = f"{NSE}/api/all-upcoming-issues?category=ipo"
 CURRENT_URL = f"{NSE}/api/ipo-current-issue"
-PAST_URL = f"{NSE}/api/public-past-issues"
+
+SCREENER_RECENT = "https://www.screener.in/ipo/recent/?page={p}"
+SCREENER_HEADERS = {
+    "User-Agent": md.HEADERS["User-Agent"],
+    "Accept-Language": "en-US,en;q=0.9",
+}
+MAX_PAGES = 8   # ~25 rows/page; 8 pages comfortably covers 60 days of listings
 
 # How far back a "recently listed" IPO can be and still make the report card.
 LOOKBACK_DAYS = 60
@@ -75,8 +83,14 @@ def _parse_date(raw: str):
     raw = (raw or "").strip()
     if not raw:
         return None
-    # NSE returns "%d-%b-%Y" ("07-Jul-2026") and occasionally ISO.
-    for fmt in ("%d-%b-%Y", "%d-%B-%Y", "%Y-%m-%d", "%d-%m-%Y", "%d %b %Y"):
+    low = raw.lower()
+    if low == "today":
+        return dt.date.today()
+    if low == "yesterday":
+        return dt.date.today() - dt.timedelta(days=1)
+    # NSE returns "%d-%b-%Y" ("07-Jul-2026"); screener uses "10 Jul 2026".
+    for fmt in ("%d-%b-%Y", "%d-%B-%Y", "%Y-%m-%d", "%d-%m-%Y",
+                "%d %b %Y", "%d %B %Y"):
         try:
             return dt.datetime.strptime(raw.split("T")[0], fmt).date()
         except ValueError:
@@ -145,92 +159,89 @@ def fetch_upcoming(session) -> list[dict]:
 
 
 # ------------------------------------------------------------------
-# recently-listed IPOs → one-month report card
+# recently-listed IPOs → 30-to-60-day report card (screener.in)
 # ------------------------------------------------------------------
 
-def _fyers_daily_on(fyers, symbol: str, day: dt.date):
-    """Best-effort: return the listing-day {open, close} for a symbol."""
-    if not fyers or not symbol:
-        return {}
+def _screener_get(url: str) -> str:
     try:
-        resp = fyers.history(data={
-            "symbol": f"NSE:{symbol}-EQ",
-            "resolution": "D",
-            "date_format": "1",
-            "range_from": day.isoformat(),
-            "range_to": (day + dt.timedelta(days=3)).isoformat(),
-            "cont_flag": "1",
+        r = requests.get(url, headers=SCREENER_HEADERS, timeout=25)
+        r.raise_for_status()
+        return r.text
+    except Exception as e:  # noqa: BLE001 — fail soft
+        print(f"  screener fetch failed ({url}): {e}", file=sys.stderr)
+        return ""
+
+
+def _text(cell: str) -> str:
+    return html.unescape(re.sub(r"<[^>]+>", " ", cell)).strip()
+
+
+def _parse_screener_recent(page_html: str) -> list[dict]:
+    """Parse one /ipo/recent/ page. Columns:
+    Name | Listing Date | IPO MCap Rs.Cr | IPO Price | Current Price | % Change.
+    """
+    rows = []
+    for tr in re.findall(r"<tr[^>]*>(.*?)</tr>", page_html, re.S)[1:]:
+        tds = re.findall(r"<td[^>]*>(.*?)</td>", tr, re.S)
+        if len(tds) < 6:
+            continue
+        name = re.sub(r"\s+", " ", _text(tds[0]))
+        cid = re.search(r"/company/([^/\"']+)/", tds[0])
+        rows.append({
+            "name": name,
+            "screener_id": cid.group(1) if cid else "",
+            "listing_raw": _text(tds[1]),
+            "mcap_cr": _num(_text(tds[2])),
+            "issue_price": _num(_text(tds[3])),
+            "current_price": _num(_text(tds[4])),
         })
-    except Exception as e:  # noqa: BLE001
-        print(f"  history {symbol} failed: {e}", file=sys.stderr)
-        return {}
-    candles = resp.get("candles") if isinstance(resp, dict) else None
-    if not candles:
-        return {}
-    o, c = candles[0][1], candles[0][4]  # [ts, o, h, l, c, v]
-    return {"open": float(o), "close": float(c)}
+    return rows
 
 
-def fetch_recent_listings(session) -> list[dict]:
-    rows = _get(session, PAST_URL)
+def fetch_recent_listings() -> list[dict]:
+    """Recently-listed IPOs (mainboard + SME) with real performance, from
+    screener.in. Pages are newest-first; we stop once a page is entirely older
+    than the lookback window."""
     today = dt.date.today()
-    listings = []
-    for row in rows:
-        listing_d = _parse_date(_pick(row, "dateOfListing", "listingDate",
-                                      "date_of_listing"))
-        if not listing_d:
-            continue
-        age = (today - listing_d).days
-        if not (0 <= age <= LOOKBACK_DAYS):
-            continue
-        symbol = _pick(row, "symbol").upper()
-        issue_price = _num(_pick(row, "issuePrice", "issue_price", "finalPrice",
-                                 "price"))
-        listings.append({
-            "company": _pick(row, "companyName", "company", "name") or symbol,
-            "symbol": symbol,
-            "series": _pick(row, "series").upper(),
-            "issue_price": issue_price,
-            "listing_date": listing_d.isoformat(),
-            "days_since_listing": age,
-        })
-
-    if not listings:
-        return []
-
-    # Enrich with current price (Fyers) + listing-day open (Fyers history).
-    fyers = None
-    try:
-        fyers = md.fyers_client()
-    except SystemExit:
-        print("  Fyers token missing — skipping price enrichment",
-              file=sys.stderr)
-
-    quotes = {}
-    if fyers:
-        syms = [f"NSE:{l['symbol']}-EQ" for l in listings if l["symbol"]]
-        quotes = md.fyers_quotes(fyers, syms)
-
-    for l in listings:
-        q = quotes.get(f"NSE:{l['symbol']}-EQ", {})
-        cur = q.get("lp") or None
-        l["current_price"] = cur
-        issue = l["issue_price"]
-        l["return_vs_issue_pct"] = (
-            round((cur - issue) / issue * 100, 1)
-            if cur and issue else None)
-
-        listing_px = _fyers_daily_on(
-            fyers, l["symbol"], dt.date.fromisoformat(l["listing_date"]))
-        l_open = listing_px.get("open")
-        l["listing_open"] = l_open
-        l["listing_gain_pct"] = (
-            round((l_open - issue) / issue * 100, 1)
-            if l_open and issue else None)
-        l["return_since_listing_pct"] = (
-            round((cur - l_open) / l_open * 100, 1)
-            if cur and l_open else None)
-        l["in_window"] = WINDOW_LO < l["days_since_listing"] < WINDOW_HI
+    listings, seen = [], set()
+    for p in range(1, MAX_PAGES + 1):
+        page_html = _screener_get(SCREENER_RECENT.format(p=p))
+        if not page_html:
+            break
+        rows = _parse_screener_recent(page_html)
+        if not rows:
+            break
+        oldest_age = -1
+        for r in rows:
+            listing_d = _parse_date(r["listing_raw"])
+            if not listing_d:
+                continue
+            age = (today - listing_d).days
+            oldest_age = max(oldest_age, age)
+            if age < 0 or age > LOOKBACK_DAYS:
+                continue  # not yet listed, or older than the window
+            issue, cur = r["issue_price"], r["current_price"]
+            if not (issue and cur):
+                continue  # price not populated yet
+            key = r["screener_id"] or r["name"].upper()
+            if key in seen:
+                continue
+            seen.add(key)
+            listings.append({
+                "company": r["name"],
+                "screener_id": r["screener_id"],
+                "issue_price": issue,
+                "current_price": cur,
+                "return_vs_issue_pct": round((cur - issue) / issue * 100, 1),
+                "ipo_mcap_cr": r["mcap_cr"],
+                "listing_date": listing_d.isoformat(),
+                "days_since_listing": age,
+                "in_window": WINDOW_LO < age < WINDOW_HI,
+            })
+        # Rows are newest-first; once the whole page predates the lookback
+        # window there's nothing more to collect.
+        if oldest_age > LOOKBACK_DAYS:
+            break
 
     # In-window cohort (30-60 days) first, then the rest by recency.
     listings.sort(key=lambda x: (not x["in_window"], x["days_since_listing"]))
@@ -242,8 +253,8 @@ def main() -> int:
     print("Fetching upcoming IPOs...")
     upcoming = fetch_upcoming(session)
     print(f"  -> {len(upcoming)} upcoming/live")
-    print("Fetching recently-listed IPOs...")
-    recent = fetch_recent_listings(session)
+    print("Fetching recently-listed IPOs (screener.in)...")
+    recent = fetch_recent_listings()
     print(f"  -> {len(recent)} listed in last {LOOKBACK_DAYS}d "
           f"({sum(r['in_window'] for r in recent)} in the 30-60 day window)")
 

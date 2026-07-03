@@ -104,7 +104,7 @@ Length: 1,000-1,400 words. Write the article now."""
 
 LISTING_TEMPLATE = """Today is {today}. Write the report **"IPO Report Card — 30 to 60 Days After Listing"**.
 
-Every IPO below listed MORE THAN 30 and LESS THAN 60 days ago — old enough that the listing-day frenzy has faded, so the current price is a calmer read. Here is the real data (use ONLY this). "return_vs_issue_pct" = change from the IPO price to the current price; "listing_gain_pct" = IPO price to listing-day open; "return_since_listing_pct" = listing-day to now:
+Every IPO below listed MORE THAN 30 and LESS THAN 60 days ago — both NSE mainboard and smaller SME issues — old enough that the listing-day frenzy has faded, so the current price is a calmer read. Here is the real data (use ONLY this): "issue_price" = the IPO price per share; "current_price" = the latest market price; "return_vs_issue_pct" = the change from the IPO price to the current price; "ipo_mcap_cr" = market value at the IPO price in ₹ crore (small = an SME issue):
 
 {data}
 
@@ -119,7 +119,7 @@ Write the article in this EXACT structure:
 Explain, simply, why the first day's pop tells you little and why checking a month or two later — after the initial excitement and anchor-investor lock-in fade — is a calmer, more instructive read. Define "listing gain" and "listing day".
 
 ## The scorecard
-A clear Markdown table of every company in the data: Company, IPO price (₹), Listing-day open (₹), Listing gain (%), Price now (₹), Change vs IPO price (%), Days since listing. Then 1-2 factual sentences under the table describing the spread (how many are above vs below their IPO price) — describe, do NOT judge.
+A clear Markdown table of every company in the data: Company, IPO price (₹), Price now (₹), Change vs IPO price (%), IPO m-cap (₹cr), Days since listing. Then 1-2 factual sentences under the table describing the spread (how many are above vs below their IPO price, and the range from best to worst) — describe, do NOT judge.
 
 ## Reading each listing (what the numbers say)
 For EACH company a short `###` sub-section stating its numbers in words and explaining what "up X% from its IPO price" or "below issue price" factually means for someone who was allotted shares. No opinions, no predictions.
@@ -140,7 +140,7 @@ One everyday analogy for "the price the market settles on after the excitement f
 4 to 5 short ### question headings with 1-2 sentence answers.
 
 ## Sources
-NSE public past issues data and current market prices (Fyers). Never invent a URL.
+IPO prices and current market prices from screener.in (screener.in/ipo/recent/). Never invent a URL.
 
 End with one line, italicised: *This is an educational explainer, not investment advice. Past performance is not indicative of future results. myfinancial is not a SEBI-registered adviser.*
 
