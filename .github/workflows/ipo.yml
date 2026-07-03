@@ -1,0 +1,109 @@
+name: IPO Watch — upcoming IPOs + one-month report card (weekly)
+
+on:
+  schedule:
+    - cron: "30 3 * * 1"   # 09:00 IST every Monday
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Don't clash with the daily article deploy for the Pages environment.
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  ipo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Fyers daily login (for post-listing prices)
+        continue-on-error: true
+        env:
+          FYERS_CLIENT_ID: ${{ secrets.FYERS_CLIENT_ID }}
+          FYERS_SECRET: ${{ secrets.FYERS_SECRET }}
+          FYERS_REDIRECT: ${{ secrets.FYERS_REDIRECT }}
+          FYERS_FY_ID: ${{ secrets.FYERS_FY_ID }}
+          FYERS_PIN: ${{ secrets.FYERS_PIN }}
+          FYERS_TOTP_KEY: ${{ secrets.FYERS_TOTP_KEY }}
+        run: python auto_login.py
+
+      - name: Fetch IPO data (NSE + Fyers prices)
+        env:
+          FYERS_CLIENT_ID: ${{ secrets.FYERS_CLIENT_ID }}
+        run: python ipo_data.py || echo "ipo_data had partial failures, continuing"
+
+      - name: Write both IPO reports (educational)
+        env:
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-2.5-flash' }}
+          GEMINI_FALLBACK_MODEL: ${{ vars.GEMINI_FALLBACK_MODEL || 'gemini-2.5-flash' }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
+        run: python write_ipo.py || echo "write_ipo failed, continuing to publish"
+
+      - name: Generate hero images
+        continue-on-error: true
+        env:
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-2.5-flash' }}
+          GEMINI_FALLBACK_MODEL: ${{ vars.GEMINI_FALLBACK_MODEL || 'gemini-2.5-flash' }}
+        run: |
+          for cat in ipo_upcoming ipo_listing; do
+            CATEGORY=$cat python generate_image.py || echo "image failed for $cat"
+          done
+
+      - name: Fact-check each report
+        continue-on-error: true
+        env:
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-2.5-flash' }}
+          GEMINI_FALLBACK_MODEL: ${{ vars.GEMINI_FALLBACK_MODEL || 'gemini-2.5-flash' }}
+        run: |
+          for cat in ipo_upcoming ipo_listing; do
+            CATEGORY=$cat python fact_check.py || echo "fact-check failed for $cat"
+          done
+
+      - name: Render HTML + sitemap
+        run: python publish.py
+
+      - name: Commit data + articles + output
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/ articles/ output/
+          if git diff --cached --quiet; then
+            echo "Nothing to commit"
+          else
+            git commit -m "ipo: watch update for $(date -u +%Y-%m-%d)"
+            for i in 1 2 3 4 5; do git pull --rebase --no-edit && git push && break; sleep $((10 * i)); done
+          fi
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: output
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+
+      - name: Ping IndexNow
+        run: python indexnow_ping.py || echo "IndexNow ping failed, continuing"

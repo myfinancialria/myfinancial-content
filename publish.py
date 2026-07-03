@@ -30,6 +30,10 @@ body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--
 header.site { display:flex; justify-content:space-between; align-items:center; padding:18px 22px; border-bottom:1px solid var(--grid); background:#fff; position:sticky; top:0; z-index:5; }
 header.site a { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
 header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { display:flex; gap:4px; padding:0 22px; background:#fff; border-bottom:1px solid var(--grid); position:sticky; top:57px; z-index:4; overflow-x:auto; }
+nav.tabs a { padding:12px 16px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; white-space:nowrap; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--navy); border-bottom-color:var(--green); }
 article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
 article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
 article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
@@ -58,7 +62,26 @@ article figure.hero img { width:100%; height:100%; object-fit:cover; display:blo
 .list-item h3 a { color:var(--navy); border:none; }
 .list-item .meta { color:var(--grey); font-size:13px; }
 footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
-@media (max-width: 640px) { .wrap { padding:28px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 26px; }
+.disclaimer strong { color:#1E3A8A; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 26px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 16px; }
+.tbl-scroll { overflow-x:auto; margin:14px 0 8px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:520px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 30px; font-size:14px; font-weight:600; color:#1D4ED8; text-decoration:none; }
+.empty { color:var(--grey); font-style:italic; padding:14px 0; }
+@media (max-width: 640px) { .wrap { padding:28px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } nav.tabs { top:53px; } }
 """
 
 HEAD = """<!doctype html>
@@ -73,7 +96,23 @@ HEAD = """<!doctype html>
 </head>
 <body>
 <header class="site"><a href="/">myfinancial.in</a><span class="meta">Personal finance · For 15L+ earners and NRIs</span></header>
+{nav}
 """
+
+NAV_TABS = [
+    ("Home", "/"),
+    ("IPO Watch", "/ipo/"),
+]
+
+
+def nav_html(active: str = "") -> str:
+    """Top tab bar. Links are absolute (BASE_URL) so they resolve from any
+    page depth (/, /articles/<slug>/, /ipo/)."""
+    parts = []
+    for label, href in NAV_TABS:
+        cls = ' class="active"' if label == active else ""
+        parts.append(f'<a href="{BASE_URL}{href}"{cls}>{label}</a>')
+    return f'<nav class="tabs">{"".join(parts)}</nav>'
 
 FOOTER = """<footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
 </body></html>
@@ -291,7 +330,8 @@ def render_article(md_path: Path) -> dict:
                  "rewrite": "Needs revision"}[verdict]
         fc_badge = f'<span class="fc {verdict}" title="{html.escape(fact_check.get("summary", ""))}">✓ {label}</span>'
 
-    page = (HEAD.format(css=CSS, seo=seo)
+    active = "IPO Watch" if (fm.get("category") or "").startswith("ipo") else ""
+    page = (HEAD.format(css=CSS, seo=seo, nav=nav_html(active))
             + '<article class="wrap">'
             + hero_html
             + (f'<div class="byline">MyFinancial · {fm.get("date", "")}{fc_badge}</div>'
@@ -313,6 +353,8 @@ CATEGORY_LABELS = {
     "macro": "Macro & Markets",
     "personal_finance": "Personal Finance",
     "explainer": "Explained Simply",
+    "ipo_upcoming": "Upcoming IPOs",
+    "ipo_listing": "Post-Listing Review",
 }
 
 
@@ -340,14 +382,181 @@ def render_index(articles: list[dict]) -> None:
                      "description": "Personal-finance explainers, tax guides, and NRI planning by a Certified Financial Planner.",
                      "canonical": BASE_URL, "date": dt.date.today().isoformat()},
                     [])
-    page = (HEAD.format(css=CSS, seo=seo)
+    page = (HEAD.format(css=CSS, seo=seo, nav=nav_html("Home"))
             + '<div class="wrap"><h1>Latest insights</h1>' + items
             + "</div>" + FOOTER)
     (OUT / "index.html").write_text(page)
 
 
+def _fmt_price(v) -> str:
+    try:
+        return f"₹{float(v):,.0f}" if v not in (None, "") else "—"
+    except (TypeError, ValueError):
+        return "—"
+
+
+def _pct_pill(v) -> str:
+    """Coloured percentage pill; up (green) / down (red) / flat / — for None."""
+    if v in (None, ""):
+        return '<span class="pill flat">—</span>'
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return '<span class="pill flat">—</span>'
+    cls = "up" if f > 0 else "down" if f < 0 else "flat"
+    sign = "+" if f > 0 else ""
+    return f'<span class="pill {cls}">{sign}{f:g}%</span>'
+
+
+def _load_ipo_data() -> dict:
+    p = HERE / "data" / "ipo.json"
+    if not p.exists():
+        return {}
+    try:
+        return json.loads(p.read_text())
+    except Exception:
+        return {}
+
+
+def _upcoming_table(rows: list[dict]) -> str:
+    if not rows:
+        return '<p class="empty">No open or upcoming IPOs on the calendar right now.</p>'
+    head = ("<tr><th>Company</th><th>Segment</th><th>Price band</th>"
+            "<th>Lot size</th><th>Issue size</th><th>Opens</th>"
+            "<th>Closes</th><th>Status</th></tr>")
+    body = []
+    for r in rows:
+        status = html.escape(r.get("status", "") or "—")
+        status_cls = "up" if status.lower().startswith("open") else "tag"
+        body.append(
+            "<tr>"
+            f'<td class="company">{html.escape(r.get("company", "—"))}</td>'
+            f'<td>{html.escape(r.get("segment", "—"))}</td>'
+            f'<td>{html.escape(r.get("price_band") or "—")}</td>'
+            f'<td>{html.escape(r.get("lot_size") or "—")}</td>'
+            f'<td>{html.escape(r.get("issue_size") or "—")}</td>'
+            f'<td>{html.escape(r.get("open_date") or "—")}</td>'
+            f'<td>{html.escape(r.get("close_date") or "—")}</td>'
+            f'<td><span class="pill {status_cls}">{status}</span></td>'
+            "</tr>"
+        )
+    return (f'<div class="tbl-scroll"><table class="ipo">{head}'
+            f'{"".join(body)}</table></div>')
+
+
+def _listing_table(rows: list[dict]) -> str:
+    if not rows:
+        return '<p class="empty">No IPOs have listed in the last few weeks.</p>'
+    head = ("<tr><th>Company</th><th>IPO price</th><th>Listing open</th>"
+            "<th>Listing gain</th><th>Price now</th><th>Vs IPO price</th>"
+            "<th>Days listed</th></tr>")
+    body = []
+    for r in rows:
+        tag = ' <span class="pill tag">~1 month</span>' if r.get("is_one_month") else ""
+        body.append(
+            "<tr>"
+            f'<td class="company">{html.escape(r.get("company", "—"))}{tag}</td>'
+            f'<td class="num">{_fmt_price(r.get("issue_price"))}</td>'
+            f'<td class="num">{_fmt_price(r.get("listing_open"))}</td>'
+            f'<td class="num">{_pct_pill(r.get("listing_gain_pct"))}</td>'
+            f'<td class="num">{_fmt_price(r.get("current_price"))}</td>'
+            f'<td class="num">{_pct_pill(r.get("return_vs_issue_pct"))}</td>'
+            f'<td class="num">{r.get("days_since_listing", "—")}</td>'
+            "</tr>"
+        )
+    return (f'<div class="tbl-scroll"><table class="ipo">{head}'
+            f'{"".join(body)}</table></div>')
+
+
+def render_ipo_page(articles: list[dict]) -> None:
+    """The 'IPO Watch' tab: quick-reference data tables + links to the two
+    educational reports. Strictly educational — no recommendations."""
+    data = _load_ipo_data()
+    upcoming = data.get("upcoming") or []
+    listings = data.get("recent_listings") or []
+    fetched = (data.get("fetched_at") or "").split("T")[0]
+
+    latest = {}
+    for a in articles:
+        cat = a.get("category") or ""
+        if cat.startswith("ipo"):
+            if cat not in latest or a.get("date", "") > latest[cat].get("date", ""):
+                latest[cat] = a
+
+    def report_link(cat: str, fallback: str) -> str:
+        a = latest.get(cat)
+        if not a:
+            return ""
+        return (f'<a class="read-more" href="{BASE_URL}/articles/{a["slug"]}/">'
+                f'📖 Read the full report: {html.escape(a["title"])} →</a>')
+
+    disclaimer = (
+        '<p class="disclaimer"><strong>Educational only.</strong> '
+        'This page explains how IPOs work and shows publicly-available numbers. '
+        'It contains <strong>no recommendations</strong> — nothing here is a '
+        'suggestion to apply for, buy, sell, or avoid any IPO or stock. '
+        'myfinancial is not a SEBI-registered investment adviser.</p>'
+    )
+    intro = (
+        '<p class="ipo-intro">An <strong>IPO</strong> (Initial Public Offering) '
+        'is when a private company sells its shares to the public for the first '
+        'time and gets listed on the stock exchange. This page tracks two things '
+        'in plain English: the IPOs currently open or lined up, and a report card '
+        'on how recent IPOs have done about a month after listing.</p>'
+    )
+    updated = (f'<p class="section-lead">Data last updated: {fetched}.</p>'
+               if fetched else "")
+
+    seo = seo_block(
+        {"title": "IPO Watch — Upcoming IPOs & Post-Listing Report Card | myfinancial",
+         "description": ("Plain-English tracker of upcoming Indian IPOs and how "
+                         "recent IPOs have performed a month after listing. "
+                         "Educational only, no recommendations."),
+         "canonical": f"{BASE_URL}/ipo/", "date": dt.date.today().isoformat()},
+        [])
+
+    body = (
+        '<div class="wrap">'
+        '<h1>IPO Watch</h1>'
+        + disclaimer + intro + updated
+        + '<h2>1 · Upcoming &amp; open IPOs</h2>'
+        '<p class="section-lead">The IPOs on the calendar right now, with the '
+        'key numbers every applicant sees.</p>'
+        + _upcoming_table(upcoming)
+        + report_link("ipo_upcoming", "Upcoming IPOs, Explained Simply")
+        + '<h2>2 · Report card — one month after listing</h2>'
+        '<p class="section-lead">How IPOs that listed recently are trading now, '
+        'versus the price at which shares were issued. The “~1 month” tag marks '
+        'the roughly-one-month cohort.</p>'
+        + _listing_table(listings)
+        + report_link("ipo_listing", "IPO Report Card: One Month After Listing")
+        + '<h2>How to read these numbers</h2>'
+        '<ul>'
+        '<li><strong>Price band</strong> — the fixed price range within which you '
+        'place your bid in an IPO.</li>'
+        '<li><strong>Lot size</strong> — the minimum number of shares you can '
+        'apply for in one go; you bid in multiples of a lot.</li>'
+        '<li><strong>Issue size</strong> — the total amount of money the company '
+        'is raising through the IPO.</li>'
+        '<li><strong>Listing gain</strong> — the change from the IPO (issue) '
+        'price to the price at which the stock opened on its first trading day.</li>'
+        '<li><strong>Vs IPO price</strong> — where the stock trades today compared '
+        'with the price at which shares were originally issued.</li>'
+        '</ul>'
+        '<p class="section-lead">Green means the current price is above the '
+        'reference price and red means below — these are simple factual '
+        'comparisons, not a view on the company.</p>'
+        + "</div>"
+    )
+    page = HEAD.format(css=CSS, seo=seo, nav=nav_html("IPO Watch")) + body + FOOTER
+    ipo_dir = OUT / "ipo"
+    ipo_dir.mkdir(parents=True, exist_ok=True)
+    (ipo_dir / "index.html").write_text(page)
+
+
 def render_sitemap(articles: list[dict]) -> None:
-    urls = [f"{BASE_URL}/"] + [f"{BASE_URL}/articles/{a['slug']}/" for a in articles]
+    urls = ([f"{BASE_URL}/", f"{BASE_URL}/ipo/"]
+            + [f"{BASE_URL}/articles/{a['slug']}/" for a in articles])
     today = dt.date.today().isoformat()
     body = "\n".join(
         f"<url><loc>{u}</loc><lastmod>{today}</lastmod></url>" for u in urls
@@ -382,6 +591,7 @@ def main() -> int:
         return 1
     rendered = [render_article(p) for p in md_files]
     render_index(rendered)
+    render_ipo_page(rendered)
     render_sitemap(rendered)
     print(f"Rendered {len(rendered)} article(s) → {OUT}")
     return 0
