@@ -36,9 +36,10 @@ CURRENT_URL = f"{NSE}/api/ipo-current-issue"
 PAST_URL = f"{NSE}/api/public-past-issues"
 
 # How far back a "recently listed" IPO can be and still make the report card.
-LOOKBACK_DAYS = 75
-# The window we treat as "roughly one month after listing".
-MONTH_LO, MONTH_HI = 20, 45
+LOOKBACK_DAYS = 60
+# The performance window for the report: listed MORE THAN 30 and LESS THAN 60
+# days ago (long enough for the listing-day frenzy to settle, still recent).
+WINDOW_LO, WINDOW_HI = 30, 60
 
 
 # ------------------------------------------------------------------
@@ -229,10 +230,10 @@ def fetch_recent_listings(session) -> list[dict]:
         l["return_since_listing_pct"] = (
             round((cur - l_open) / l_open * 100, 1)
             if cur and l_open else None)
-        l["is_one_month"] = MONTH_LO <= l["days_since_listing"] <= MONTH_HI
+        l["in_window"] = WINDOW_LO < l["days_since_listing"] < WINDOW_HI
 
-    # One-month cohort first, then most-recent listings.
-    listings.sort(key=lambda x: (not x["is_one_month"], x["days_since_listing"]))
+    # In-window cohort (30-60 days) first, then the rest by recency.
+    listings.sort(key=lambda x: (not x["in_window"], x["days_since_listing"]))
     return listings
 
 
@@ -244,7 +245,7 @@ def main() -> int:
     print("Fetching recently-listed IPOs...")
     recent = fetch_recent_listings(session)
     print(f"  -> {len(recent)} listed in last {LOOKBACK_DAYS}d "
-          f"({sum(r['is_one_month'] for r in recent)} near one-month mark)")
+          f"({sum(r['in_window'] for r in recent)} in the 30-60 day window)")
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps({

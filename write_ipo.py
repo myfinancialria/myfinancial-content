@@ -5,10 +5,10 @@ Report 1 (category = ipo_upcoming): "Upcoming IPOs, Explained Simply"
     what the price band / lot size / issue size actually mean, the key dates,
     and how the IPO process works end-to-end.
 
-Report 2 (category = ipo_listing): "IPO Report Card — One Month After Listing"
-    Looks at IPOs that listed roughly a month ago: their IPO price, listing-day
-    move, where they trade now, and — most importantly — WHY listing pops and
-    drops happen. A plain-English lesson in reading a listing.
+Report 2 (category = ipo_listing): "IPO Report Card — 30 to 60 Days After Listing"
+    Looks at IPOs that listed more than 30 and less than 60 days ago: their IPO
+    price, listing-day move, where they trade now, and — most importantly — WHY
+    listing pops and drops happen. A plain-English lesson in reading a listing.
 
 HARD RULE baked into the prompt: NO recommendations of any kind. No
 buy/sell/subscribe/avoid/hold calls, no "good IPO / bad IPO" verdicts, no price
@@ -102,21 +102,21 @@ End with one line, italicised: *This is an educational explainer, not investment
 
 Length: 1,000-1,400 words. Write the article now."""
 
-LISTING_TEMPLATE = """Today is {today}. Write the report **"IPO Report Card — One Month After Listing"**.
+LISTING_TEMPLATE = """Today is {today}. Write the report **"IPO Report Card — 30 to 60 Days After Listing"**.
 
-Here is the real data on IPOs that listed recently (use ONLY this). "return_vs_issue_pct" = change from the IPO price to the current price; "listing_gain_pct" = IPO price to listing-day open; "return_since_listing_pct" = listing-day to now:
+Every IPO below listed MORE THAN 30 and LESS THAN 60 days ago — old enough that the listing-day frenzy has faded, so the current price is a calmer read. Here is the real data (use ONLY this). "return_vs_issue_pct" = change from the IPO price to the current price; "listing_gain_pct" = IPO price to listing-day open; "return_since_listing_pct" = listing-day to now:
 
 {data}
 
 Write the article in this EXACT structure:
 
-# IPO Report Card: One Month After Listing — {month_year}
+# IPO Report Card: 30 to 60 Days After Listing — {month_year}
 
 **TL;DR**
 - 4 to 5 one-line factual bullets summarising how this batch has done (numbers only, no verdicts).
 
-## Why look back a month after listing?
-Explain, simply, why the first day's pop tells you little and why watching a few weeks later is more instructive. Define "listing gain" and "listing day".
+## Why look 30 to 60 days after listing?
+Explain, simply, why the first day's pop tells you little and why checking a month or two later — after the initial excitement and anchor-investor lock-in fade — is a calmer, more instructive read. Define "listing gain" and "listing day".
 
 ## The scorecard
 A clear Markdown table of every company in the data: Company, IPO price (₹), Listing-day open (₹), Listing gain (%), Price now (₹), Change vs IPO price (%), Days since listing. Then 1-2 factual sentences under the table describing the spread (how many are above vs below their IPO price) — describe, do NOT judge.
@@ -157,7 +157,7 @@ REPORTS = {
     "listing": {
         "category": "ipo_listing",
         "template": LISTING_TEMPLATE,
-        "fallback_title": "IPO Report Card: One Month After Listing",
+        "fallback_title": "IPO Report Card: 30 to 60 Days After Listing",
         "data_key": "recent_listings",
     },
 }
@@ -238,10 +238,10 @@ def write_report(kind: str, ipo_data: dict, today: str) -> bool:
               file=sys.stderr)
         return False
 
-    # For the listing report, prefer the one-month cohort but fall back to all
-    # recent listings so the report is never empty.
+    # For the listing report, keep only the 30-60 day cohort; fall back to all
+    # recent listings if none fall in the window so the report is never empty.
     if kind == "listing":
-        cohort = [r for r in rows if r.get("is_one_month")] or rows
+        cohort = [r for r in rows if r.get("in_window")] or rows
         rows = cohort
 
     month_year = dt.date.fromisoformat(today).strftime("%B %Y")

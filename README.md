@@ -31,7 +31,7 @@ A daily content pipeline for myfinancial.in. Every morning it:
 A dedicated **IPO Watch** tab (`/ipo/`) tracks two things in plain English:
 
 1. **Upcoming & open IPOs** — a quick-reference table (price band, lot size, issue size, dates) plus a full "Upcoming IPOs, Explained Simply" report.
-2. **One-month report card** — how recently-listed IPOs are trading now vs their issue price, plus an "IPO Report Card: One Month After Listing" report.
+2. **Post-listing report card (30–60 days)** — how IPOs that listed more than 30 and less than 60 days ago are trading now vs their issue price, plus an "IPO Report Card: 30 to 60 Days After Listing" report.
 
 Both reports are **strictly educational** — the prompt forbids any buy/sell/subscribe/avoid call, rating, price target, or GMP signal (myfinancial is not a SEBI-registered adviser). Data comes from public NSE APIs; current prices from Fyers.
 

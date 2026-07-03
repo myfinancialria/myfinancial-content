@@ -452,7 +452,7 @@ def _listing_table(rows: list[dict]) -> str:
             "<th>Days listed</th></tr>")
     body = []
     for r in rows:
-        tag = ' <span class="pill tag">~1 month</span>' if r.get("is_one_month") else ""
+        tag = ' <span class="pill tag">30–60d</span>' if r.get("in_window") else ""
         body.append(
             "<tr>"
             f'<td class="company">{html.escape(r.get("company", "—"))}{tag}</td>'
@@ -524,12 +524,13 @@ def render_ipo_page(articles: list[dict]) -> None:
         'key numbers every applicant sees.</p>'
         + _upcoming_table(upcoming)
         + report_link("ipo_upcoming", "Upcoming IPOs, Explained Simply")
-        + '<h2>2 · Report card — one month after listing</h2>'
-        '<p class="section-lead">How IPOs that listed recently are trading now, '
-        'versus the price at which shares were issued. The “~1 month” tag marks '
-        'the roughly-one-month cohort.</p>'
+        + '<h2>2 · Report card — 30 to 60 days after listing</h2>'
+        '<p class="section-lead">How IPOs that listed more than 30 and less than '
+        '60 days ago are trading now, versus the price at which shares were '
+        'issued. By this stage the listing-day frenzy has faded, so the price is '
+        'a calmer read. The “30–60d” tag marks that cohort.</p>'
         + _listing_table(listings)
-        + report_link("ipo_listing", "IPO Report Card: One Month After Listing")
+        + report_link("ipo_listing", "IPO Report Card: 30 to 60 Days After Listing")
         + '<h2>How to read these numbers</h2>'
         '<ul>'
         '<li><strong>Price band</strong> — the fixed price range within which you '
