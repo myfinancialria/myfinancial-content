@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Understanding IPO Taxation in India: STCG, LTCG &amp; ITR Guide</title>
+<meta name="description" content="Gains from selling IPO shares are taxed as capital gains once the shares are listed on the stock exchange. Short-Term Capital Gains (STCG) apply if listed sha.">
+<meta name="keywords" content="shares, capital, listed, allotment, acquisition, selling, months, equity">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-05-personal_finance-understanding-ipo-taxation-in-india-stcg-ltcg-itr-guide/">
+<meta property="og:title" content="Understanding IPO Taxation in India: STCG, LTCG &amp; ITR Guide">
+<meta property="og:description" content="Gains from selling IPO shares are taxed as capital gains once the shares are listed on the stock exchange. Short-Term Capital Gains (STCG) apply if listed sha.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-05-personal_finance-understanding-ipo-taxation-in-india-stcg-ltcg-itr-guide/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Understanding IPO Taxation in India: STCG, LTCG & ITR Guide", "description": "Gains from selling IPO shares are taxed as capital gains once the shares are listed on the stock exchange. Short-Term Capital Gains (STCG) apply if listed sha.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-05", "dateModified": "2026-07-05", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-05-personal_finance-understanding-ipo-taxation-in-india-stcg-ltcg-itr-guide/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-07-05</div><h1>Understanding IPO Taxation in India: STCG, LTCG &amp; ITR Guide</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Gains from selling IPO shares are taxed as capital gains once the shares are listed on the stock exchange.</li>
+<li>Short-Term Capital Gains (STCG) apply if listed shares are sold within 12 months from the date of allotment.</li>
+<li>Long-Term Capital Gains (LTCG) apply if listed shares are held for more than 12 months from the date of allotment.</li>
+<li>STCG on listed equity is currently taxed at 20% under Section 111A, provided Securities Transaction Tax (STT) is paid.</li>
+<li>LTCG on listed equity is taxed at 12.5% on gains exceeding ₹1.25 lakh under Section 112A, with STT paid.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you invest in an Initial Public Offering (IPO) and sell those shares for a profit after they get listed, the profit you make is considered a &#x27;capital gain&#x27; for tax purposes. This isn&#x27;t treated as your regular salary or business income. The amount of tax you pay on these gains, and how it&#x27;s calculated, largely depends on how long you held the shares before selling them.
+</p>
+<p>
+If you sell your IPO shares quickly, typically within 12 months of getting them allotted, any profit is termed a Short-Term Capital Gain (STCG). If you hold onto them for more than 12 months before selling, the profit becomes a Long-Term Capital Gain (LTCG). India&#x27;s tax laws have specific rates for both STCG and LTCG on listed equity shares, and these rates have seen recent revisions through the Union Budget 2024-25. It is crucial to understand these distinctions to correctly calculate your tax liability and report it accurately in your Income Tax Return (ITR).
+</p>
+<h2>Understanding Short-Term Capital Gains (STCG) on IPO Shares</h2>
+<p>
+Short-Term Capital Gains (STCG) arise when you sell listed equity shares within 12 months from their date of acquisition. For IPO shares, this means if you sell them anytime between listing day and up to 12 months from the date of allotment, any profit will be categorised as STCG. These gains are particularly common with IPOs, as many investors look to book profits immediately after listing, especially if the shares list at a premium.
+</p>
+<p>
+As per Section 111A of the Income Tax Act, STCG on listed equity shares (including those acquired through an IPO) is taxed at a special rate. Effective from July 23, 2024, the tax rate for such gains has been increased to <strong>20%</strong>, provided Securities Transaction Tax (STT) has been paid on both the acquisition and sale of these shares. It is important to note that unlike some other income types, there is no basic exemption limit for STCG on listed equity shares; every rupee of such gain is taxable at the specified rate. This means that even if your total taxable income is below the basic exemption limit, STCG will still be taxed at 20%.
+</p>
+<p>
+For example, if you are allotted IPO shares at ₹100 and sell them at ₹120 within six months, your gain of ₹20 per share will be subject to this 20% STCG tax. This tax is applied irrespective of your income tax slab.
+</p>
+<h2>Decoding Long-Term Capital Gains (LTCG) on IPO Shares</h2>
+<p>
+Long-Term Capital Gains (LTCG) are generated when you sell listed equity shares after holding them for more than 12 months from their date of acquisition. If you subscribe to an IPO and decide to hold the allotted shares for over a year post-allotment before selling them, any profit made will be classified as LTCG.
+</p>
+<p>
+Under Section 112A of the Income Tax Act, LTCG on listed equity shares (including IPO shares) is taxed at a concessional rate. As per the Union Budget 2024-25, effective from July 23, 2024, the tax rate for LTCG exceeding an exemption threshold has been revised to <strong>12.5%</strong>, provided STT has been paid on the transaction. A significant benefit here is the exemption limit: the first <strong>₹1.25 lakh</strong> of LTCG on listed equity shares in a financial year is entirely exempt from tax. Only the gains exceeding this ₹1.25 lakh threshold are taxed at 12.5%.
+</p>
+<p>
+For shares acquired before January 31, 2018, a &#x27;grandfathering clause&#x27; is applicable, which protects gains accrued until that date from taxation. The cost of acquisition for such shares is considered as the higher of the actual purchase price or the Fair Market Value (FMV) as of January 31, 2018 (subject to the sale price not exceeding the FMV). While this typically applies to older investments, it&#x27;s a key aspect of LTCG taxation on listed equities.
+</p>
+<h2>Calculating Capital Gains from IPO Investments</h2>
+<p>
+Calculating your capital gains from IPO investments involves a straightforward process. The core principle is to subtract your cost of acquisition and any related expenses from your sale price.
+</p>
+<p>
+The formula for calculating capital gains is:
+<strong>Capital Gain = Selling Price – (Cost of Acquisition + Expenses related to Transfer)</strong>
+</p>
+<p>
+Let&#x27;s break down each component for IPO shares:
+</p>
+<ul>
+<li><strong>Selling Price:</strong> This is the total amount you receive when you sell your allotted IPO shares on the stock exchange.</li>
+<li><strong>Cost of Acquisition:</strong> For IPO shares, this is typically the allotment price per share multiplied by the number of shares allotted to you.</li>
+<li><strong>Expenses related to Transfer:</strong> These include:</li>
+<p>
+    *   <strong>Brokerage:</strong> The commission paid to your stockbroker for executing the sale.
+    *   <strong>Securities Transaction Tax (STT):</strong> This is a direct tax levied on every transaction of purchase and sale of equity shares listed on recognised stock exchanges in India. For IPO shares, STT is typically paid when you sell them.
+    *   <strong>SEBI Turnover Fees, Stamp Duty, Exchange Transaction Charges:</strong> These are minor statutory charges that may apply to your transactions.
+</p>
+</ul>
+<p>
+<strong>Example Calculation:</strong>
+Suppose you were allotted 50 shares in an IPO at ₹200 per share.
+Cost of Acquisition = 50 shares * ₹200/share = ₹10,000.
+You sell these 50 shares at ₹250 per share.
+Selling Price = 50 shares * ₹250/share = ₹12,500.
+</p>
+<p>
+Assume total expenses (brokerage, STT, other charges) amount to ₹50.
+</p>
+<p>
+Your Capital Gain = ₹12,500 – (₹10,000 + ₹50) = ₹2,450.
+</p>
+<p>
+This ₹2,450 will then be classified as either STCG or LTCG based on your holding period, and taxed accordingly. Accurate record-keeping of your allotment details, sale dates, and all transaction charges is essential for correct calculation and tax compliance.
+</p>
+<h2>ITR Filing for IPO Gains: What You Need to Know</h2>
+<p>
+Reporting your IPO gains accurately in your Income Tax Return (ITR) is a mandatory step for compliance. The specific ITR form you need to file depends on your overall income sources.
+</p>
+<ul>
+<li><strong>ITR-2:</strong> This form is generally applicable if you have income from capital gains (including IPO gains), salary, house property, and other sources, but do not have income from business or profession.</li>
+<li><strong>ITR-3:</strong> If you have income from capital gains along with income from business or profession, you will typically need to file ITR-3.</li>
+</ul>
+<p>
+Regardless of the form, you must meticulously report your capital gains under <strong>Schedule CG (Capital Gains)</strong>. This schedule requires you to segregate and report your Short-Term Capital Gains (STCG) and Long-Term Capital Gains (LTCG) separately. You will need to provide details such as the full value of consideration, cost of acquisition, expenses related to transfer, and the resulting capital gain for each transaction.
+</p>
+<p>
+It is highly recommended to reconcile your reported gains with information available in your <strong>Annual Information Statement (AIS)</strong> and <strong>Taxpayer Information Summary (TIS)</strong>, which can be accessed from the Income Tax India e-filing portal (incometax.gov.in). These statements provide a comprehensive view of your financial transactions, including share sales, as reported by various entities like brokers. Your broker will also provide a capital gains statement at the end of the financial year, which is crucial for accurate reporting.
+</p>
+<p>
+If your capital gains from IPOs or other sources are substantial, you might also have an <strong>advance tax</strong> liability. Advance tax is payable in instalments if your estimated tax liability for the year exceeds ₹10,000. Failure to pay advance tax or paying less than the required amount can lead to interest under Sections 234B and 234C of the Income Tax Act.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, a software engineer in Bengaluru, with an annual CTC of ₹28 lakhs.</strong> He invested in two IPOs in the financial year 2025-26.
+</p>
+<p>
+<strong>Scenario 1: Short-Term Capital Gain (STCG)</strong>
+Rahul applied for the &quot;TechInnovate Ltd.&quot; IPO.
+</p>
+<ul>
+<li>Allotment Date: August 10, 2025</li>
+<li>Allotment Price: ₹500 per share</li>
+<li>Shares Allotted: 100 shares</li>
+<li>Total Cost of Acquisition: 100 * ₹500 = ₹50,000</li>
+<li>Rahul sold all 100 shares on September 15, 2025 (within 12 months) at ₹650 per share.</li>
+<li>Selling Price: 100 * ₹650 = ₹65,000</li>
+<li>Brokerage and other charges (including STT on sale): ₹150</li>
+</ul>
+<p>
+<strong>STCG Calculation:</strong>
+</p>
+<ul>
+<li>Gross Gain = ₹65,000 (Selling Price) - ₹50,000 (Cost of Acquisition) = ₹15,000</li>
+<li>Net STCG = ₹15,000 - ₹150 (Expenses) = ₹14,850</li>
+<li>STCG Tax Rate (post July 23, 2024): 20%</li>
+<li><strong>STCG Tax Liability:</strong> 20% of ₹14,850 = ₹2,970</li>
+</ul>
+<p>
+<strong>Scenario 2: Long-Term Capital Gain (LTCG)</strong>
+Rahul also applied for the &quot;GreenEnergy Solutions Ltd.&quot; IPO.
+</p>
+<ul>
+<li>Allotment Date: April 5, 2025</li>
+<li>Allotment Price: ₹300 per share</li>
+<li>Shares Allotted: 50 shares</li>
+<li>Total Cost of Acquisition: 50 * ₹300 = ₹15,000</li>
+<li>Rahul sold all 50 shares on June 10, 2026 (after 12 months) at ₹550 per share.</li>
+<li>Selling Price: 50 * ₹550 = ₹27,500</li>
+<li>Brokerage and other charges (including STT on sale): ₹100</li>
+</ul>
+<p>
+<strong>LTCG Calculation:</strong>
+</p>
+<ul>
+<li>Gross Gain = ₹27,500 (Selling Price) - ₹15,000 (Cost of Acquisition) = ₹12,500</li>
+<li>Net LTCG = ₹12,500 - ₹100 (Expenses) = ₹12,400</li>
+<li>LTCG Exemption Limit (post July 23, 2024): ₹1.25 lakh</li>
+<li>Since Rahul&#x27;s total LTCG of ₹12,400 is less than the ₹1.25 lakh exemption limit for the financial year, his <strong>LTCG Tax Liability is ₹0</strong>.</li>
+</ul>
+<p>
+<strong>Total Tax Impact for Rahul:</strong>
+Rahul&#x27;s total tax on IPO gains for the financial year 2025-26 would be ₹2,970 (STCG tax) + ₹0 (LTCG tax) = <strong>₹2,970</strong>. This amount would be added to his overall tax liability from salary and other sources.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Consolidate IPO Transaction Records:</strong> Gather all your IPO allotment emails, contract notes from your broker for both purchase (allotment confirmation) and sale transactions. These documents are crucial for accurately calculating your capital gains.</li>
+<li><strong>Identify Holding Periods:</strong> For any IPO shares you&#x27;ve sold, determine the exact holding period (from allotment date to sale date) to correctly classify the gains as Short-Term Capital Gain (STCG) or Long-Term Capital Gain (LTCG).</li>
+<li><strong>Calculate Provisional Capital Gains:</strong> Based on the identified holding periods, make a provisional calculation of your STCG and LTCG for the current financial year. This will give you an early estimate of your potential tax liability.</li>
+<li><strong>Review Brokerage Statements &amp; AIS/TIS:</strong> Cross-verify your transaction details and calculated gains with the capital gains statement provided by your broker and the Annual Information Statement (AIS) and Taxpayer Information Summary (TIS) available on the Income Tax India e-filing portal (incometax.gov.in).</li>
+<li><strong>Consult a Tax Professional:</strong> If you have multiple transactions, significant gains, or are unsure about the classification or calculation, consider consulting a Certified Financial Planner or tax advisor to ensure accurate compliance.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Are IPO gains always taxable?</h3>
+<p>
+Yes, any profit made from selling IPO shares after they are listed is considered a capital gain and is subject to income tax in India.
+</p>
+<h3>What is the holding period for IPO shares to determine STCG vs. LTCG?</h3>
+<p>
+For listed equity shares, including IPO shares, if held for 12 months or less, gains are STCG. If held for more than 12 months, gains are LTCG.
+</p>
+<h3>Can I offset losses from IPO investments against gains?</h3>
+<p>
+Yes, capital losses can be set off against capital gains. Short-term capital losses (STCL) can be set off against both STCG and LTCG. Long-term capital losses (LTCL) can only be set off against LTCG. Unadjusted losses can be carried forward for up to eight assessment years.
+</p>
+<h3>Do Non-Resident Indians (NRIs) have different IPO tax rules?</h3>
+<p>
+Yes, NRIs have specific tax provisions for capital gains from Indian equities. While the STCG and LTCG rates for listed shares are generally the same, other rules like tax deducted at source (TDS) and reporting requirements might differ.
+</p>
+<h3>Is Securities Transaction Tax (STT) applicable to IPO shares?</h3>
+<p>
+Yes, STT is applicable on both the purchase and sale of listed equity shares, including IPO shares, transacted on a recognised stock exchange. The concessional tax rates for STCG and LTCG are contingent upon STT being paid.
+</p>
+<h3>What if I don&#x27;t sell my IPO shares?</h3>
+<p>
+If you hold your IPO shares and do not sell them, there is no capital gain or loss realised, and thus no capital gains tax liability arises until you eventually sell them.
+</p>
+<h3>Which ITR form should I use for IPO gains?</h3>
+<p>
+If you have capital gains from IPOs and other income sources like salary or house property but no business income, ITR-2 is generally applicable. If you also have income from a business or profession, you would typically file ITR-3.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>Ministry of Finance: https://finmin.nic.in</li>
+<li>SEBI: https://sebi.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>

@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Gold Prices Dip: What Could Spark the Next Rally?</title>
+<meta name="description" content="Gold prices have recently experienced a correction, moving away from their previous highs due to various global factors. A strong US dollar and rising global .">
+<meta name="keywords" content="prices, interest, global, investors, inflation, investment, capital, economic">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-05-macro-gold-prices-dip-what-could-spark-the-next-rally/">
+<meta property="og:title" content="Gold Prices Dip: What Could Spark the Next Rally?">
+<meta property="og:description" content="Gold prices have recently experienced a correction, moving away from their previous highs due to various global factors. A strong US dollar and rising global .">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-05-macro-gold-prices-dip-what-could-spark-the-next-rally/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Gold Prices Dip: What Could Spark the Next Rally?", "description": "Gold prices have recently experienced a correction, moving away from their previous highs due to various global factors. A strong US dollar and rising global .", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-05", "dateModified": "2026-07-05", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-05-macro-gold-prices-dip-what-could-spark-the-next-rally/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/" class="active">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Macro &amp; Markets · 2026-07-05</div><h1>Gold Prices Dip: What Could Spark the Next Rally?</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Gold prices have recently experienced a correction, moving away from their previous highs due to various global factors.</li>
+<li>A strong US dollar and rising global interest rates have been key contributors to this downward pressure on gold.</li>
+<li>The future trajectory of gold prices will largely depend on evolving macroeconomic trends and geopolitical developments.</li>
+<li>Potential triggers for a significant gold rally include escalating trade tensions, persistent inflation, and renewed recessionary fears.</li>
+<li>Consistent gold purchases by central banks globally continue to provide a foundational support for demand and prices.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Gold, often considered a timeless safe haven asset, has seen its prices cool down recently. After reaching significant peaks, the yellow metal has entered a phase of correction, which simply means its price has fallen from those highs. This isn&#x27;t an unusual phenomenon for any commodity, and it&#x27;s largely influenced by shifts in the global economic landscape. Currently, other investment avenues, particularly those offering higher interest rates, have become more appealing to investors, diverting some capital away from gold. Additionally, a strengthening US dollar makes gold more expensive for buyers using other currencies, further dampening demand.
+</p>
+<p>
+However, it&#x27;s crucial to understand that the fundamental reasons for holding gold in a portfolio – primarily as a hedge against economic uncertainty, inflation, and currency depreciation – remain relevant. While the immediate outlook suggests some headwinds, the underlying factors that can trigger a significant rally are still very much in play. For Indian investors, gold also carries a strong cultural significance, making its price movements a topic of widespread interest beyond just financial returns.
+</p>
+<h2>Understanding the Recent Correction in Gold Prices</h2>
+<p>
+The recent dip in gold prices can be attributed to a confluence of global economic factors that have shifted investor sentiment away from safe-haven assets. A primary driver has been the <strong>strengthening US dollar</strong>. As the world&#x27;s reserve currency, a stronger dollar makes dollar-denominated commodities like gold more expensive for international buyers holding other currencies, thereby reducing demand and putting downward pressure on prices.
+</p>
+<p>
+Simultaneously, <strong>rising global interest rates</strong>, particularly by major central banks, have made fixed-income investments more attractive. Unlike gold, which does not offer a yield, bonds and other interest-bearing instruments now provide a more competitive return. This increases the opportunity cost of holding gold, as investors might choose to park their money in assets that generate regular income. For instance, if a fixed deposit offers 7-8% interest, holding gold that offers no direct income might seem less appealing in the short term.
+</p>
+<p>
+Furthermore, a perception of <strong>reduced inflationary pressure</strong> or at least a belief that central banks are successfully managing inflation has lessened gold&#x27;s appeal as an inflation hedge. When inflation is perceived to be under control, the urgency to protect purchasing power through gold diminishes. Lastly, periods of <strong>optimism regarding global economic growth</strong> often lead investors to favour riskier, growth-oriented assets like equities over traditional safe havens. This rotation of capital from defensive assets to growth assets contributes to gold&#x27;s correction.
+</p>
+<h2>Key Triggers for Gold&#x27;s Next Bull Run</h2>
+<p>
+Despite the recent correction, several significant macroeconomic and geopolitical factors could swiftly reverse gold&#x27;s trajectory and trigger its next bull run. Investors typically flock to gold when there is uncertainty or perceived risk in the global financial system.
+</p>
+<h3>Geopolitical Tensions and Trade Policy Shifts</h3>
+<p>
+Global political instability and escalating trade disputes are powerful catalysts for gold. When major economies engage in trade wars, impose tariffs, or when regional conflicts intensify, it creates widespread uncertainty. This &quot;flight to safety&quot; often sees investors move capital into assets traditionally seen as secure, with gold being a prime beneficiary. New or intensifying geopolitical flashpoints, even if seemingly distant, can have a ripple effect on global markets, making gold an attractive hedge. For instance, if trade negotiations between major powers falter or if new sanctions are imposed, the resulting market volatility could send gold prices soaring.
+</p>
+<h3>Resurfacing Inflationary Pressures</h3>
+<p>
+Gold has historically been a robust hedge against inflation. If global inflation, which central banks have been battling, resurfaces or proves to be more persistent than anticipated, gold&#x27;s appeal would significantly increase. When the purchasing power of fiat currencies erodes due to rising prices, investors seek assets that can preserve their wealth. Gold&#x27;s inherent value and limited supply make it an ideal candidate during such periods. Unexpectedly high inflation readings from key economies could quickly reignite demand for gold.
+</p>
+<h3>Renewed Recession Fears</h3>
+<p>
+A significant slowdown in global economic growth or the specter of an impending recession can trigger a strong demand for gold. During economic downturns, corporate earnings typically decline, and equity markets tend to perform poorly. In such scenarios, investors often liquidate riskier assets and move into safe havens. Signs of an economic contraction, such as declining manufacturing output, rising unemployment, or inverted yield curves, could signal an impending recession, leading to a sharp increase in gold investments.
+</p>
+<h3>Sustained Central Bank Gold Purchases</h3>
+<p>
+Central banks globally have been consistent net buyers of gold for several years, diversifying their foreign exchange reserves away from traditional currencies. This sustained buying provides a strong underlying demand for gold and acts as a significant price support. If central banks continue or even accelerate their gold accumulation, it signals confidence in gold as a reserve asset and can absorb significant supply, pushing prices higher. This institutional demand is a crucial, often overlooked, factor in gold&#x27;s long-term price stability and growth.
+</p>
+<h2>Gold as a Portfolio Diversifier for Indian Investors</h2>
+<p>
+For Indian investors, gold holds a unique and multifaceted position in a financial portfolio. Beyond its role as a global safe haven, it carries deep cultural significance, often being seen as a symbol of wealth, security, and tradition. This cultural affinity means that gold demand in India remains robust, irrespective of global price movements to some extent.
+</p>
+<p>
+From a purely financial perspective, gold serves as an excellent <strong>portfolio diversifier</strong>. Its price movements typically have a low or even negative correlation with other major asset classes like equities and real estate. This means that when equities might be underperforming, gold could be rising, thereby helping to stabilise the overall portfolio&#x27;s returns and reduce volatility. For instance, during periods of market turmoil or economic uncertainty, gold often acts as a cushion, mitigating losses in other parts of the portfolio. This characteristic is particularly valuable for long-term investors aiming to build a resilient and balanced financial plan.
+</p>
+<p>
+Furthermore, gold offers a hedge against <strong>currency depreciation</strong>. As the Indian Rupee fluctuates against major global currencies, holding gold, which is priced internationally, can offer a degree of protection against the erosion of purchasing power. For Non-Resident Indians (NRIs), especially those in the Gulf, investing in gold can also be a way to diversify their wealth across different geographies and economic cycles, offering a hedge against both home country and host country economic fluctuations.
+</p>
+<h2>Ways to Invest in Gold in India</h2>
+<p>
+Indian investors have several avenues to invest in gold, each with its own benefits and considerations. Choosing the right method depends on your investment goal, liquidity needs, and tax implications.
+</p>
+<h3>Physical Gold: Jewellery, Coins, and Bars</h3>
+<p>
+This is the most traditional form of gold investment in India. You can buy gold in the form of jewellery, coins, or bars.
+</p>
+<ul>
+<li><strong>Pros:</strong> Tangible asset, cultural value, immediate liquidity (can be sold quickly).</li>
+<li><strong>Cons:</strong> Purity concerns (especially with jewellery), making charges (for jewellery) which can be significant, storage costs and security risks, and potential for capital gains tax upon sale. It&#x27;s crucial to buy from reputable jewellers who provide proper purity certification.</li>
+</ul>
+<h3>Sovereign Gold Bonds (SGBs)</h3>
+<p>
+Issued by the Reserve Bank of India (RBI) on behalf of the Government of India, SGBs are an excellent way to invest in gold digitally without holding physical gold.
+</p>
+<ul>
+<li><strong>Pros:</strong></li>
+<p>
+    *   <strong>Interest Income:</strong> SGBs offer a fixed interest rate of 2.50% per annum on the initial investment amount, paid semi-annually.
+    *   <strong>No Storage Risk:</strong> As they are dematerialised, there are no storage costs or security risks associated with physical gold.
+    *   <strong>Purity Guarantee:</strong> The purity is guaranteed by the government.
+    *   <strong>Tax Benefits:</strong> Capital gains arising from redemption of SGBs by an individual are exempt from tax. Interest earned is taxable as per your income tax slab.
+    *   <strong>Liquidity:</strong> SGBs can be traded on stock exchanges within a few days of issuance, though liquidity might vary. They have a maturity period of 8 years with an exit option after the 5th year.
+</p>
+<li><strong>Cons:</strong> Price risk (if gold prices fall), and the interest income is taxable.</li>
+<p>
+    *   You can find more details on SGBs on the RBI website.
+</p>
+</ul>
+<h3>Gold Exchange Traded Funds (ETFs) &amp; Gold Mutual Funds</h3>
+<p>
+These are popular options for investors who prefer to invest in gold digitally through the financial markets.
+</p>
+<ul>
+<li><strong>Gold ETFs:</strong> These are open-ended mutual funds that invest in 99.5% pure physical gold. Each unit of a Gold ETF typically represents one gram of gold.</li>
+<p>
+    *   <strong>Pros:</strong> High liquidity (can be bought and sold on stock exchanges like shares), no making charges, no storage costs, transparent pricing, and professional management. Requires a demat account and trading account.
+    *   <strong>Cons:</strong> Expense ratio, brokerage charges, and price risk.
+    *   You can learn more about ETFs on the AMFI India website.
+</p>
+<li><strong>Gold Mutual Funds (Funds of Funds):</strong> These funds do not directly invest in physical gold but rather invest in Gold ETFs.</li>
+<p>
+    *   <strong>Pros:</strong> No demat account required, can invest through SIPs, professional management.
+    *   <strong>Cons:</strong> Higher expense ratio (fund of funds structure), price risk.
+</p>
+</ul>
+<p>
+When considering any of these options, it&#x27;s advisable to check the latest notifications from the Income Tax Department for the most current tax implications.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Priya, 42, an IT professional with a ₹35L CTC, based in Hyderabad.</strong> Priya has a diversified portfolio primarily comprising equities and fixed deposits. She recognises the importance of gold as a diversifier and decides to allocate 10% of her investment portfolio to gold. This amounts to an initial investment of ₹3.5 lakhs.
+</p>
+<p>
+Priya chooses to invest in Sovereign Gold Bonds (SGBs) for their interest income and tax benefits. She buys SGBs worth ₹3.5 lakhs.
+</p>
+<p>
+<strong>Scenario 1: Gold prices fall</strong>
+A few months later, global factors lead to a 5% correction in gold prices.
+Her SGB investment value would dip: ₹3,50,000 - (5% of ₹3,50,000) = ₹3,50,000 - ₹17,500 = <strong>₹3,32,500</strong>.
+At this point, Priya also receives her semi-annual interest payment on the SGBs, which is (2.50% / 2) of ₹3,50,000 = ₹4,375. While the capital value has reduced, the interest income provides a small buffer.
+</p>
+<p>
+<strong>Scenario 2: Gold prices rally</strong>
+Following the correction, a new geopolitical event triggers a 10% rally in gold prices from the lower level.
+Her SGB investment value would recover and grow: ₹3,32,500 + (10% of ₹3,32,500) = ₹3,32,500 + ₹33,250 = <strong>₹3,65,750</strong>.
+From her initial investment of ₹3.5 lakhs, Priya&#x27;s gold allocation is now worth ₹3,65,750, representing a capital gain of ₹15,750 (₹3,65,750 - ₹3,50,000), in addition to the interest she has received.
+</p>
+<p>
+This example illustrates that while gold prices can fluctuate, its role as a long-term diversifier and a hedge against uncertainty remains valuable. For Priya, the SGBs offer the added benefit of regular interest income and tax-exempt capital gains if held until maturity, making it a suitable choice for her long-term diversification strategy rather than short-term trading.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your asset allocation:</strong> Take 30 minutes to assess your current investment portfolio. Determine what percentage of your total investments is allocated to gold. If it&#x27;s significantly lower than your target (e.g., 10-15% for diversification), consider increasing your exposure.</li>
+<li><strong>Research Sovereign Gold Bonds (SGBs):</strong> Visit the RBI website to understand the features, interest payment schedule, and current issuance details of SGBs. Also, check the Income Tax India website for the latest tax implications.</li>
+<li><strong>Explore Gold ETFs/Mutual Funds:</strong> If you prefer digital gold and have a demat account, look into Gold ETFs. If you don&#x27;t have a demat account, consider Gold Mutual Funds (Fund of Funds). You can find more information on these options on the AMFI India website.</li>
+<li><strong>Track key economic indicators:</strong> Stay informed about global inflation data, interest rate announcements from major central banks, and significant geopolitical news. These factors heavily influence gold prices.</li>
+<li><strong>Consult a Certified Financial Planner (CFP):</strong> Discuss how gold fits into your overall financial plan, considering your personal risk tolerance, investment horizon, and financial goals. A professional can provide tailored advice.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Is now a good time to buy gold?</h3>
+<p>
+Gold investment should align with your long-term asset allocation strategy rather than short-term market timing. Current dips might offer an entry point for those under-allocated to gold and looking to diversify their portfolio.
+</p>
+<h3>How does a strong US dollar affect gold prices?</h3>
+<p>
+A strong US dollar makes gold more expensive for investors holding other currencies, which can reduce demand and put downward pressure on gold prices in international markets.
+</p>
+<h3>What are Sovereign Gold Bonds (SGBs)?</h3>
+<p>
+SGBs are government securities denominated in grams of gold. They offer an annual interest rate, are exempt from capital gains tax upon maturity for individuals, and eliminate the need for physical storage.
+</p>
+<h3>Are gold ETFs better than physical gold?</h3>
+<p>
+Gold ETFs offer convenience, high liquidity, and no storage costs, unlike physical gold. They also track gold prices closely and can be bought/sold on stock exchanges like shares, making them a popular digital alternative.
+</p>
+<h3>How does inflation impact gold?</h3>
+<p>
+Gold is traditionally considered a hedge against inflation. When inflation rises, the purchasing power of currency erodes, and investors often turn to gold to preserve their wealth and protect against rising costs.
+</p>
+<h3>What is the tax treatment for Gold ETFs and Gold Mutual Funds?</h3>
+<p>
+For Gold ETFs and Gold Mutual Funds, capital gains are taxed based on the holding period. Short-term capital gains (held for 36 months or less) are added to your income and taxed as per your slab, while long-term capital gains (held for more than 36 months) are taxed at 20% with indexation benefits.
+</p>
+<h3>Can NRIs invest in gold in India?</h3>
+<p>
+Yes, Non-Resident Indians (NRIs) can invest in various forms of gold in India, including physical gold, Sovereign Gold Bonds (SGBs), and Gold Exchange Traded Funds (ETFs), subject to FEMA regulations.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint: https://www.livemint.com/market/commodities/gold-price-forecast-what-could-trigger-the-next-rally-2026-11783076811520.html</li>
+<li>RBI: https://rbi.org.in</li>
+<li>AMFI India: https://amfiindia.com</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
