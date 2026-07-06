@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>EPF Withdrawal: Understanding TDS After Five Years of Service</title>
+<meta name="description" content="EPF withdrawals are generally tax-exempt if you have completed five years of continuous service with an employer. If you withdraw your EPF balance before comp.">
+<meta name="keywords" content="withdrawal, service, online, account, continuous, employer, partial, period">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-06-personal_finance-epf-withdrawal-understanding-tds-after-five-years-of-service/">
+<meta property="og:title" content="EPF Withdrawal: Understanding TDS After Five Years of Service">
+<meta property="og:description" content="EPF withdrawals are generally tax-exempt if you have completed five years of continuous service with an employer. If you withdraw your EPF balance before comp.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-06-personal_finance-epf-withdrawal-understanding-tds-after-five-years-of-service/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "EPF Withdrawal: Understanding TDS After Five Years of Service", "description": "EPF withdrawals are generally tax-exempt if you have completed five years of continuous service with an employer. If you withdraw your EPF balance before comp.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-06", "dateModified": "2026-07-06", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-06-personal_finance-epf-withdrawal-understanding-tds-after-five-years-of-service/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-07-06</div><h1>EPF Withdrawal: Understanding TDS After Five Years of Service</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>EPF withdrawals are generally tax-exempt if you have completed five years of continuous service with an employer.</li>
+<li>If you withdraw your EPF balance before completing five years of service, Tax Deducted at Source (TDS) is applicable if the withdrawal amount exceeds ₹50,000.</li>
+<li>To avoid TDS on early withdrawals, eligible individuals can submit Form 15G or Form 15H, provided their total taxable income is below the basic exemption limit.</li>
+<li>Partial withdrawals from EPF are allowed under specific circumstances, such as medical emergencies, home purchase, or children&#x27;s education and marriage, and these are typically tax-free.</li>
+<li>The EPF claim process can be conveniently completed online through the EPFO portal, or via an offline application.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+The Employees&#x27; Provident Fund (EPF) is a mandatory savings scheme for salaried employees in India, designed to provide financial security post-retirement. Both the employee and employer contribute a portion of the employee&#x27;s salary to this fund, and these contributions, along with the interest earned, accumulate over time. While it&#x27;s a long-term savings tool, there are provisions for withdrawal, both full and partial, under certain conditions.
+</p>
+<p>
+A key aspect of EPF withdrawals is their tax treatment. The government encourages long-term savings, so it offers tax benefits for those who keep their funds invested for a significant period. Specifically, if you withdraw your entire EPF balance after completing five years of continuous service, the amount is completely tax-exempt. This means you won&#x27;t have to pay any income tax on it, nor will any TDS (Tax Deducted at Source) be applied.
+</p>
+<p>
+However, if you decide to withdraw your EPF corpus before completing five years of continuous service, the rules change. In such cases, the withdrawal becomes taxable, and TDS may be deducted by the EPFO before the funds are credited to your account, especially if the withdrawal amount is substantial. Understanding these rules is crucial to avoid unexpected tax liabilities and ensure you plan your finances effectively.
+</p>
+<h2>Understanding the Five-Year Rule for EPF Taxability</h2>
+<p>
+The five-year rule is a cornerstone of EPF taxation. It dictates whether your EPF withdrawal will be subject to income tax or not. If an employee completes five years of continuous service with an employer (or multiple employers, provided the EPF accounts were transferred), any withdrawal from their EPF account is entirely exempt from income tax. This exemption covers both the employer&#x27;s and employee&#x27;s contributions, as well as the interest accrued on them.
+</p>
+<h3>What Constitutes &#x27;Continuous Service&#x27;?</h3>
+<p>
+Continuous service doesn&#x27;t necessarily mean working for the same employer for five consecutive years. If you switch jobs, your service is considered continuous if you transfer your EPF account from your previous employer to your new employer. The cumulative period across different employers, linked by EPF transfers, will count towards the five-year threshold. However, if you withdraw your EPF balance from your old employer instead of transferring it and then join a new one, the continuity of service for tax purposes is broken. The EPFO portal facilitates online EPF transfers, making it easier to maintain this continuity.
+</p>
+<h3>When is an EPF Withdrawal Fully Tax-Exempt?</h3>
+<p>
+Beyond completing five years of continuous service, there are a few other specific scenarios where an EPF withdrawal is fully tax-exempt, even if the five-year mark hasn&#x27;t been met:
+</p>
+<ul>
+<li><strong>Termination of service due to employee&#x27;s ill health:</strong> If the employee&#x27;s service is terminated due to a severe illness or permanent disability.</li>
+<li><strong>Discontinuation of employer&#x27;s business:</strong> If the employer&#x27;s business is closed down.</li>
+<li><strong>Other reasons beyond the employee&#x27;s control:</strong> The Income Tax Act also allows for tax-free withdrawal in certain cases where the cessation of employment is due to reasons beyond the employee&#x27;s control.</li>
+</ul>
+<h2>TDS on EPF Withdrawals Before Five Years</h2>
+<p>
+If you withdraw your EPF balance before completing five years of continuous service, and none of the exceptional conditions for tax exemption apply, the withdrawal becomes taxable. Tax Deducted at Source (TDS) will be applied if the withdrawal amount exceeds a certain threshold.
+</p>
+<h3>Threshold and TDS Rates</h3>
+<p>
+TDS is applicable if the withdrawal amount is more than ₹50,000. The rates for TDS vary based on whether you have provided your Permanent Account Number (PAN):
+</p>
+<ul>
+<li><strong>With PAN:</strong> If you furnish your PAN, the TDS rate is 10%.</li>
+<li><strong>Without PAN:</strong> If you do not furnish your PAN, the TDS rate is significantly higher, at 20%. This is to encourage compliance with tax regulations.</li>
+</ul>
+<p>
+It&#x27;s important to note that even if TDS is deducted, the actual tax liability depends on your total taxable income for that financial year. The TDS is merely an advance tax payment, and you might be eligible for a refund if your total tax liability is lower than the TDS deducted, or you might need to pay additional tax if your liability is higher.
+</p>
+<h3>Role of Form 15G/15H</h3>
+<p>
+To avoid TDS on early EPF withdrawals, eligible individuals can submit Form 15G (for non-senior citizens) or Form 15H (for senior citizens). These forms are declarations stating that your total taxable income for the financial year is below the basic exemption limit, and therefore, no tax is payable on the EPF withdrawal.
+</p>
+<ul>
+<li><strong>Eligibility for Form 15G/15H:</strong></li>
+<p>
+    *   <strong>Form 15G:</strong> Can be submitted by an individual or HUF (Hindu Undivided Family) whose age is below 60 years. Their estimated total income for the financial year must be less than the basic exemption limit (e.g., ₹2.5 lakhs for individuals below 60 years).
+    *   <strong>Form 15H:</strong> Can be submitted by an individual who is 60 years of age or older. Their estimated total income for the financial year must be less than the basic exemption limit applicable to senior citizens (e.g., ₹3 lakhs for those aged 60-80, ₹5 lakhs for those above 80).
+</p>
+</ul>
+<p>
+These forms can be submitted online through the EPFO member portal during the withdrawal process. By submitting these forms, you declare that your income is below the taxable threshold, thus preventing the deduction of TDS by the EPFO. However, if your actual income turns out to be taxable, it is your responsibility to pay the tax during your Income Tax Return (ITR) filing.
+</p>
+<h2>EPF Withdrawal Process: Online and Offline</h2>
+<p>
+Withdrawing your EPF funds has become significantly easier with the advent of online services provided by the Employees&#x27; Provident Fund Organisation (EPFO).
+</p>
+<h3>Online Withdrawal Process</h3>
+<p>
+The online claim facility is a convenient option for most members. To be eligible for an online claim, you must meet the following criteria:
+</p>
+<ul>
+<li>Your Universal Account Number (UAN) must be activated.</li>
+<li>Your Aadhaar number must be linked and verified with your UAN.</li>
+<li>Your bank account details (account number and IFSC code) must be seeded with your UAN.</li>
+<li>Your PAN must be seeded with your UAN if your service period is less than five years and the withdrawal amount exceeds ₹50,000.</li>
+</ul>
+<p>
+<strong>Steps for Online Withdrawal:</strong>
+</p>
+<ol>
+<li><strong>Log in:</strong> Visit the EPFO member e-Sewa portal (unifiedportal-mem.epfindia.gov.in) and log in using your UAN and password.</li>
+<li><strong>Verify details:</strong> Go to the &#x27;Manage&#x27; tab and check if your KYC details (Aadhaar, PAN, Bank account) are verified.</li>
+<li><strong>Initiate claim:</strong> Under the &#x27;Online Services&#x27; tab, select &#x27;Claim (Form-31, 19, 10C &amp; 10D)&#x27;.</li>
+<li><strong>Enter bank account number:</strong> Enter your bank account number linked with your UAN for verification.</li>
+<li><strong>Proceed with claim:</strong> Click on &#x27;Proceed For Online Claim&#x27;.</li>
+<li><strong>Select withdrawal type:</strong> Choose the appropriate claim form (e.g., Form 19 for full and final settlement, Form 31 for partial withdrawal, Form 10C for pension withdrawal).</li>
+<li><strong>Fill details:</strong> Provide the required details, including the purpose of withdrawal (for Form 31), your address, and upload scanned copies of necessary documents if prompted.</li>
+<li><strong>Get Aadhaar OTP:</strong> Request an OTP on your Aadhaar-linked mobile number.</li>
+<li><strong>Submit claim:</strong> Enter the OTP and submit your claim.</li>
+</ol>
+<h3>Offline Withdrawal Process</h3>
+<p>
+If you cannot apply online due to unseeded KYC details or other reasons, you can opt for the offline method using a Composite Claim Form.
+</p>
+<p>
+<strong>Steps for Offline Withdrawal:</strong>
+</p>
+<ol>
+<li><strong>Download Form:</strong> Download the Composite Claim Form (Aadhaar/Non-Aadhaar) from the EPFO website.</li>
+<li><strong>Fill details:</strong> Fill in all required details accurately.</li>
+<li><strong>Attach documents:</strong> Attach necessary documents such as cancelled cheque, identity proof, and address proof.</li>
+<li><strong>Attestation:</strong> If you are using the Non-Aadhaar Composite Claim Form, it requires attestation from your employer or a gazetted officer. The Aadhaar-based form generally doesn&#x27;t require employer attestation if KYC is complete.</li>
+<li><strong>Submit:</strong> Submit the form to the respective EPFO office.</li>
+</ol>
+<h2>Permitted Partial Withdrawals from EPF</h2>
+<p>
+Even if you haven&#x27;t completed five years of service, the EPFO allows for partial withdrawals under specific circumstances, often referred to as &#x27;advances&#x27;. These partial withdrawals are generally tax-free.
+</p>
+<h3>Conditions for Partial Withdrawal</h3>
+<p>
+The EPFO specifies various conditions under which a member can make a partial withdrawal:
+</p>
+<ul>
+<li><strong>Medical Treatment:</strong> For treatment of serious illness for self, spouse, children, or parents. Withdrawal limit is usually six months&#x27; basic wages plus DA or employee&#x27;s share with interest, whichever is less.</li>
+<li><strong>Purchase/Construction of House:</strong> For purchasing a plot, or constructing/purchasing a house. Specific service period (usually 5 years) and contribution limits apply.</li>
+<li><strong>Renovation of House:</strong> For additions or alterations to an existing house. Requires a minimum service period.</li>
+<li><strong>Marriage:</strong> For the marriage of self, son, daughter, or brother/sister. Requires a minimum of 7 years of service.</li>
+<li><strong>Post-Matriculation Education:</strong> For the education of children. Requires a minimum of 7 years of service.</li>
+<li><strong>Disability:</strong> For purchasing equipment for a physically handicapped person.</li>
+<li><strong>Unemployment:</strong> If an employee is unemployed for more than one month, they can withdraw 75% of their EPF balance. If unemployment extends to two months, the remaining 25% can be withdrawn, leading to full settlement.</li>
+</ul>
+<p>
+Each of these conditions has specific eligibility criteria regarding service period, permissible withdrawal amount (usually a percentage of the employee&#x27;s share or total accumulation), and required documents. It&#x27;s advisable to check the EPFO portal for the latest guidelines before applying for any partial withdrawal.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, ₹28L CTC, Bengaluru</strong>. His monthly basic salary + DA is ₹1,00,000.
+</p>
+<p>
+<strong>Scenario 1: Rahul withdraws EPF after 3 years of service.</strong>
+Rahul started a new job three years ago and has been contributing to EPF. Due to an urgent financial need, he decides to withdraw his entire EPF balance. His accumulated balance is ₹4,50,000.
+</p>
+<ul>
+<li><strong>Service Period:</strong> 3 years (less than 5 years).</li>
+<li><strong>Withdrawal Amount:</strong> ₹4,50,000 (more than ₹50,000).</li>
+<li><strong>TDS Applicability:</strong> Yes, TDS will be applicable.</li>
+<li><strong>TDS Calculation:</strong></li>
+<p>
+    *   If Rahul provides his PAN, TDS will be 10% of ₹4,50,000 = ₹45,000.
+    *   His net withdrawal would be ₹4,50,000 - ₹45,000 = ₹4,05,000.
+    *   If Rahul had submitted Form 15G (assuming his total taxable income for the year was below the basic exemption limit), no TDS would have been deducted. However, given his ₹28L CTC, this is highly unlikely.
+</p>
+<li><strong>Tax Liability:</strong> The withdrawn amount (₹4,50,000) will be added to his income for the year and taxed as per his applicable income tax slab. The ₹45,000 TDS deducted will be adjusted against his final tax liability.</li>
+</ul>
+<p>
+<strong>Scenario 2: Rahul withdraws EPF after 6 years of continuous service.</strong>
+Rahul continues with his job for six years, or he transferred his EPF account seamlessly when he changed jobs. His accumulated balance is now ₹9,00,000. He decides to withdraw his entire EPF balance to fund a down payment for a house.
+</p>
+<ul>
+<li><strong>Service Period:</strong> 6 years (more than 5 years).</li>
+<li><strong>TDS Applicability:</strong> No TDS will be applicable.</li>
+<li><strong>Tax Liability:</strong> The entire withdrawal amount of ₹9,00,000 is tax-exempt. He will receive the full amount without any deductions.</li>
+</ul>
+<p>
+This example clearly illustrates the significant tax implications of withdrawing EPF before or after the five-year continuous service period.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Verify UAN and Aadhaar Linking:</strong> Log in to the EPFO member e-Sewa portal (unifiedportal-mem.epfindia.gov.in) to ensure your Universal Account Number (UAN) is activated and linked with your Aadhaar and bank account details. This is crucial for online claims.</li>
+<li><strong>Check Service Period:</strong> Review your EPF passbook or service history on the EPFO portal to accurately determine your total continuous service period. This will help you understand the tax implications of any potential withdrawal.</li>
+<li><strong>Familiarise with Form 15G/15H:</strong> If you anticipate an early EPF withdrawal and believe your taxable income might be below the basic exemption limit, understand the eligibility criteria and process for submitting Form 15G (for non-senior citizens) or Form 15H (for senior citizens) to avoid TDS.</li>
+<li><strong>Review Partial Withdrawal Conditions:</strong> Understand the various conditions and limits for partial EPF withdrawals. Knowing these can help you access funds for genuine needs without fully closing your account or incurring tax penalties.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the minimum service period to avoid TDS on EPF withdrawal?</h3>
+<p>
+You need to complete five years of continuous service to avoid TDS on your EPF withdrawal.
+</p>
+<h3>Can I withdraw my EPF if I change jobs?</h3>
+<p>
+Yes, you can withdraw your EPF if you change jobs, but if it&#x27;s before five years of continuous service, TDS may apply to amounts over ₹50,000. It&#x27;s often better to transfer your EPF account to your new employer to maintain continuity of service.
+</p>
+<h3>What is Form 15G/15H and who can submit it?</h3>
+<p>
+Form 15G/15H are self-declarations to avoid TDS. Form 15G is for individuals below 60 years, and Form 15H is for senior citizens (60 years and above), provided their total taxable income for the year is below the basic exemption limit.
+</p>
+<h3>Are partial EPF withdrawals also tax-free?</h3>
+<p>
+Yes, partial withdrawals (advances) from EPF for specific reasons like medical treatment, education, or house purchase are generally tax-free, irrespective of the service period.
+</p>
+<h3>What happens if I don&#x27;t submit Form 15G/15H and withdraw early?</h3>
+<p>
+If you don&#x27;t submit Form 15G/15H and withdraw before five years with an amount over ₹50,000, TDS will be deducted by the EPFO. The withdrawn amount will be added to your income and taxed as per your slab during ITR filing.
+</p>
+<h3>Is it mandatory to link Aadhaar for EPF withdrawal?</h3>
+<p>
+Yes, for online EPF withdrawal claims, it is mandatory to link and verify your Aadhaar with your UAN.
+</p>
+<h3>How long does it take to process an EPF withdrawal claim?</h3>
+<p>
+Online EPF claims are typically processed within 5-10 working days, provided all details are correct and verified. Offline claims may take longer, usually 15-20 days.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>EPFO: https://epfindia.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
