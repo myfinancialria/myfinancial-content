@@ -3,8 +3,8 @@ title: "Market Wrap — 08 July 2026"
 date: 2026-07-08
 author: myfinancial
 category: post_market
-description: "Nifty 50 closed at 24,398.70, down 0.13%. Bank Nifty ended at 58,200.70, down 0.16%."
-keywords: [stocks, markets, bullish, sector, sectors, consumer, swiggy, economictimes]
+description: "The Nifty 50 closed at 23,882.05, down 2.12%. The Bank Nifty closed at 56,742.60, down 2.51%."
+keywords: [change, prices, markets, sectors, indian, dependent, services, losers]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-07-08-post_market-market-wrap-08-july-2026/
 slug: 2026-07-08-post_market-market-wrap-08-july-2026
 ---
@@ -12,81 +12,86 @@ slug: 2026-07-08-post_market-market-wrap-08-july-2026
 # Market Wrap — 08 July 2026
 
 **TL;DR**
-- Nifty 50 closed at 24,398.70, down 0.13%.
-- Bank Nifty ended at 58,200.70, down 0.16%.
-- IT sector was the top gainer, up 2.43%.
-- Realty sector was the biggest loser, down 1.58%.
-- Info Edge (India) Ltd. was the top gainer, up 13.10%.
-- Trent Ltd. was the top loser, down 12.44%.
-- FIIs were net buyers at ₹393 crore, while DIIs were net sellers at ₹-383 crore.
-- F&O build-up data is unavailable for today and will appear from the next wrap.
+- The Nifty 50 closed at 23,882.05, down 2.12%.
+- The Bank Nifty closed at 56,742.60, down 2.51%.
+- The market saw a gap open and a downward trend, with volatility spiking 26.01%.
+- The biggest factor was the surge in crude oil prices and geopolitical tensions.
+- Kalyan Jewellers India Ltd. was the standout gainer, up 5.47%.
+- Aegis Logistics Ltd. was the standout loser, down 9.99%.
+- FIIs were net buyers, while DIIs were net sellers.
+- F&O build-up data is unavailable for today and will be populated from the next session.
 
 ## How the market behaved today
-The Nifty 50 closed at 24,398.70, down 0.13%, while the Bank Nifty ended at 58,200.70, down 0.16%. The market opened in a gap-down manner and trended lower throughout the day, with a slight recovery towards the close. The Nifty Midcap 100 and Smallcap 100 also saw declines, down 0.30% and 0.55%, respectively. The India VIX fell 1.44% to 11.65, indicating reduced volatility.
+The Indian stock market witnessed a significant decline today, with the Nifty 50 closing at 23,882.05, down 2.12% from its previous close. The Bank Nifty also fell 2.51% to close at 56,742.60. The market opened with a gap down and continued to slide throughout the day, with the Nifty 50 touching a low of 23,805.20. The day's range for the Nifty 50 was between 23,805.20 and 24,300.00.
 
-| Index | Close | Change | High | Low |
-|-------|-------|--------|------|-----|
-| Nifty 50 | 24,398.70 | -0.13% | 24,530.90 | 24,348.90 |
-| Bank Nifty | 58,200.70 | -0.16% | 58,581.10 | 58,110.10 |
-| Nifty Midcap 100 | 62,285.30 | -0.30% | 62,611.40 | 62,047.60 |
-| Nifty Smallcap 100 | 19,213.40 | -0.55% | 19,360.10 | 19,161.90 |
+| Index            | Close       | Change  | High       | Low        |
+|------------------|-------------|---------|------------|------------|
+| Nifty 50         | 23,882.05   | -2.12%  | 24,300.00  | 23,805.20  |
+| Bank Nifty       | 56,742.60   | -2.51%  | 58,075.60  | 56,549.40  |
+| Nifty Midcap 100 | 61,322.75   | -1.55%  | 62,279.50  | 61,004.90  |
+| Nifty Smallcap 100| 18,783.30 | -2.24%  | 19,201.55  | 18,706.75  |
+
+The India VIX rose 26.01% to 14.68, indicating increased volatility in the market.
 
 ## What moved the market — the factors
-The market's decline today was driven by a combination of weak global cues and sector-specific headwinds. The IT sector stood out as a bright spot, gaining 2.43%, supported by strong performances from major players like Info Edge (India) Ltd. and Physicswallah Ltd. However, the real estate and metal sectors saw significant losses, with the realty sector down 1.58% and the metal sector down 1.10%. FIIs were net buyers at ₹393 crore, but DIIs were net sellers at ₹-383 crore, indicating a cautious stance. The decline in Brent crude prices, which rose 5.70%, and the strengthening of the US dollar, up 0.98%, also influenced the market sentiment.
+The market decline was primarily driven by the surge in crude oil prices and heightened geopolitical tensions. Crude oil prices jumped over 6% after U.S. President Donald Trump declared the Iran peace deal "over," reviving fears of supply disruptions from the Middle East. This led to a sharp sell-off in sectors heavily dependent on oil, such as PSU banks, FMCG, and financial services. Additionally, the rupee weakened to a one-month low, further dampening investor sentiment. FII inflows of ₹393 crore did little to offset the negative momentum, while DII outflows of ₹383 crore added to the market's woes.
 
 ## Sectors — winners and losers
-### Top 3 Gainer Sectors
-- IT: +2.43% (Strong performances from major IT companies)
-- FMCG: +0.06% (Stable consumer demand)
-- AUTO: -0.04% (Mixed performance)
-
-### Top 3 Loser Sectors
-- REALTY: -1.58% (Concerns over liquidity and demand)
-- METAL: -1.10% (Weak global commodity prices)
-- MEDIA: -0.74% (Adverse regulatory changes)
+- **PSU BANK**: -2.72% (Hit by rising crude oil prices and geopolitical tensions)
+- **BANK**: -2.51% (Similar factors affecting PSU banks)
+- **FMCG**: -2.49% (Higher input costs due to rising oil prices)
+- **METAL**: -0.91% (Relatively resilient amid market sell-off)
+- **PHARMA**: -0.97% (Moderate underperformance)
+- **ENERGY**: -1.26% (Affected by volatile oil prices)
 
 ## Stocks that moved the market
 ### Top 5 gainers (Nifty 500)
-- **Info Edge (India) Ltd. (NAUKRI, Consumer Services)**: ₹1,159.45, +13.10% (Positive earnings outlook)
-- **Physicswallah Ltd. (PWL, Consumer Services)**: ₹148.78, +10.13% (Strong user growth)
-- **RITES Ltd. (RITES, Construction)**: ₹235.43, +8.92% (New project wins)
-- **Swiggy Ltd. (SWIGGY, Consumer Services)**: ₹266.27, +7.21% (Increased user base)
-- **NATCO Pharma Ltd. (NATCOPHARM, Healthcare)**: ₹984.15, +5.60% (Positive drug trial results)
+- **Kalyan Jewellers India Ltd. (KALYANKJIL, Consumer Durables)**: close ₹374.15, +5.47%, change ₹+19.40
+- **Ather Energy Ltd. (ATHERENERG, Automobile and Auto Components)**: close ₹1,200.00, +5.21%, change ₹+59.40
+- **Multi Commodity Exchange of India Ltd. (MCX, Financial Services)**: close ₹2,742.00, +3.74%, change ₹+98.80
+- **Chennai Petroleum Corporation Ltd. (CHENNPETRO, Oil Gas & Consumable Fuels)**: close ₹1,109.90, +2.19%, change ₹+23.80
+- **National Aluminium Co. Ltd. (NATIONALUM, Metals & Mining)**: close ₹349.75, +2.10%, change ₹+7.20
 
 ### Top 5 losers (Nifty 500)
-- **Trent Ltd. (TRENT, Consumer Services)**: ₹2,927.80, -12.44% (Weak quarterly results)
-- **Kalyan Jewellers India Ltd. (KALYANKJIL, Consumer Durables)**: ₹354.75, -6.95% (Slowing sales)
-- **Emmvee Photovoltaic Power Ltd. (EMMVEE, Capital Goods)**: ₹327.90, -6.54% (Regulatory challenges)
-- **Himadri Speciality Chemical Ltd. (HSCL, Chemicals)**: ₹643.55, -5.93% (Operational issues)
-- **Saregama India Ltd (SAREGAMA, Media Entertainment & Publication)**: ₹460.15, -5.72% (Declining viewership)
+- **Aegis Logistics Ltd. (AEGISLOG, Oil Gas & Consumable Fuels)**: close ₹1,245.40, -9.99%, change ₹-138.30
+- **Aegis Vopak Terminals Ltd. (AEGISVOPAK, Oil Gas & Consumable Fuels)**: close ₹276.61, -6.02%, change ₹-17.71
+- **L&T Finance Ltd. (LTF, Financial Services)**: close ₹314.30, -5.95%, change ₹-19.90
+- **Jubilant Foodworks Ltd. (JUBLFOOD, Consumer Services)**: close ₹429.20, -5.66%, change ₹-25.75
+- **PCBL Chemical Ltd. (PCBL, Chemicals)**: close ₹297.00, -5.65%, change ₹-17.80
 
 ## News that moved stocks
-- **Uno Minda Expands into 4-Wheeler Seating Systems**: Uno Minda is entering the four-wheeler passenger vehicle seating systems segment with a ₹320-crore capex. This expansion is expected to boost the company's growth prospects. (Source: [ET Markets](https://economictimes.indiatimes.com/markets/stocks/news/uno-minda-shares-in-focus-as-firm-enters-4-wheeler-seating-systems-segment-with-rs-320-crore-capex/articleshow/132252808.cms))
-- **Info Edge Among Stocks Flashing Bullish Signals**: Info Edge (India) Ltd. is one of the three stocks flashing bullish signals, hinting at a possible uptrend. (Source: [ET Markets](https://economictimes.indiatimes.com/markets/stocks/news/info-edge-among-3-stocks-flashing-bullish-signals-hinting-at-a-possible-uptrend/slideshow/132252733.cms))
-- **Swiggy Shows Bullish RSI Upswing**: Swiggy is among the five stocks showing a bullish RSI upswing, indicating improving momentum. (Source: [ET Markets](https://economictimes.indiatimes.com/markets/stocks/news/swiggy-among-5-stocks-showing-bullish-rsi-upswing/slideshow/132252660.cms))
-- **Global Market Cues Remain Weak**: Asian markets traded lower, weighed down by a selloff in semiconductor stocks and concerns over escalating tensions in the Middle East. (Source: [Livemint Markets](https://www.livemint.com/market/stock-market-news/us-stock-market-to-nikkei-here-s-world-equity-heatmap-you-should-know-before-the-opening-of-indian-stock-market-today-11783479918473.html))
+- **Crude Oil Prices Surge**: Crude oil prices jumped 6% to a two-week high after Donald Trump declared the Iran peace deal "over," causing a sell-off in oil-dependent sectors. (Source: [ET Markets])
+- **Rupee Weakens**: The Indian rupee fell to its weakest level in nearly a month, adding to market pressure. (Source: [ET Markets])
+- **Sebi Amends FPI Rules**: Sebi has modified its foreign investor registration fees, shifting to a rupee-based model effective in six months. (Source: [ET Markets])
 
 ## F&O build-up — where traders are positioning
-F&O build-up data is unavailable for today. OI build-up needs the previous session and will appear from the next wrap.
+F&O build-up data is unavailable for today and will be populated from the next session.
 
 ## Market breadth
-The market breadth was negative, with 172 advances and 325 declines, indicating a broad-based sell-off.
+The market breadth was heavily skewed to the downside, with only 55 advancing stocks against 445 declining stocks out of a total of 500.
 
 ## FII / DII flows
-| FII Net | DII Net |
-|---------|---------|
-| ₹393 cr | ₹-383 cr |
+Today, FIIs were net buyers to the tune of ₹393 crore, while DIIs were net sellers to the tune of ₹383 crore. Over the past five days, FIIs have been net buyers in three sessions, while DIIs have been net sellers in three sessions, indicating a mixed sentiment.
 
-Over the past five days, FIIs have been net buyers, while DIIs have shown mixed flows. This suggests a cautious stance from institutional investors.
+| Day          | FII Net (₹ crore) | DII Net (₹ crore) |
+|--------------|-------------------|-------------------|
+| 2026-07-07   | +393              | -383              |
+| 2026-07-06   | +243              | +3,791            |
+| 2026-07-03   | +1,355            | -1,954            |
+| 2026-07-02   | -312              | +1,784            |
+| 2026-07-01   | -1,140            | +3,159            |
 
 ## Event breakdown — what happened today and how it hit the market
-The session was driven by broad flows and global cues. There was no single defining event today, but the weak performance of the real estate and metal sectors, along with the positive momentum in the IT sector, influenced the market dynamics.
+The session was driven by broad flows and global cues, particularly the surge in crude oil prices and the declaration of the Iran peace deal being "over" by U.S. President Donald Trump. This led to a sharp sell-off in oil-dependent sectors and a weakening rupee, which further exacerbated the market's decline.
 
 ## Setup for tomorrow
-The market is likely to open on a cautious note, with global cues pointing to a mixed start. Brent crude prices have risen, and the US dollar has strengthened, which could impact sentiment. Key sectors to watch include IT, real estate, and metals. Levels to watch on the Nifty 50 are 24,300 on the downside and 24,500 on the upside.
+The Indian market is likely to remain under pressure tomorrow, with global cues pointing to continued volatility. Brent crude is up 5.49% to $78.23, and WTI crude is up 5.27% to $74.15, indicating sustained concerns over supply disruptions. The USD/INR is marginally down 0.05% to 95.56, while the US 10Y yield is up 0.98% to 4.53. Investors should watch for further developments in the Middle East and monitor the performance of oil-dependent sectors.
 
 ## Sources
-- [ET Markets](https://economictimes.indiatimes.com/markets/stocks/news/uno-minda-shares-in-focus-as-firm-enters-4-wheeler-seating-systems-segment-with-rs-320-crore-capex/articleshow/132252808.cms)
-- [ET Markets](https://economictimes.indiatimes.com/markets/stocks/news/info-edge-among-3-stocks-flashing-bullish-signals-hinting-at-a-possible-uptrend/slideshow/132252733.cms)
-- [ET Markets](https://economictimes.indiatimes.com/markets/stocks/news/swiggy-among-5-stocks-showing-bullish-rsi-upswing/slideshow/132252660.cms)
-- [Livemint Markets](https://www.livemint.com/market/stock-market-news/us-stock-market-to-nikkei-here-s-world-equity-heatmap-you-should-know-before-the-opening-of-indian-stock-market-today-11783479918473.html)
+- [ET Markets] Sebi amends FPIs rule; directs registration fee payment in Indian rupee
+- [ET Markets] Crude oil prices jump 6%, hit two-week high after Trump says Iran peace deal is ‘over’. What are experts saying?
+- [ET Markets] Rupee slumps to one-month low as oil soars after Trump says Iran deal is 'over'
+- [ET Markets] US futures tumble as Trump says Iran deal is 'over'; oil climbs
+- [ET Markets] Sensex sinks 1,680 points; Nifty closes below 23,900. 5 key factors behind today’s market mayhem
+- [Livemint Markets] Oil jumps over 6% as Trump declares Iran ceasefire, MoU effectively over
+- [Livemint Markets] Top Gainers & Losers on 8 July: Aegis Logistics, HPCL, Bank of India, IndiGo, Coforge, MRF among top losers
