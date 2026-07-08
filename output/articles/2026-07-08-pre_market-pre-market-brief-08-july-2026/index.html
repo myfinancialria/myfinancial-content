@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Pre-Market Brief — 08 July 2026</title>
+<meta name="description" content="Global markets show mixed signals with US indices down and Asian markets mostly up. GIFT Nifty data unavailable, but Nifty 50 is expected to gap down slightly.">
+<meta name="keywords" content="stocks, markets, bullish, global, interpretation, signals, prices, dividend">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-08-pre_market-pre-market-brief-08-july-2026/">
+<meta property="og:title" content="Pre-Market Brief — 08 July 2026">
+<meta property="og:description" content="Global markets show mixed signals with US indices down and Asian markets mostly up. GIFT Nifty data unavailable, but Nifty 50 is expected to gap down slightly.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-08-pre_market-pre-market-brief-08-july-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Pre-Market Brief \u2014 08 July 2026", "description": "Global markets show mixed signals with US indices down and Asian markets mostly up. GIFT Nifty data unavailable, but Nifty 50 is expected to gap down slightly.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-08", "dateModified": "2026-07-08", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-08-pre_market-pre-market-brief-08-july-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/" class="active">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Pre-Market · 2026-07-08</div><h1>Pre-Market Brief — 08 July 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Global markets show mixed signals with US indices down and Asian markets mostly up.</li>
+<li>GIFT Nifty data unavailable, but Nifty 50 is expected to gap down slightly.</li>
+<li>FIIs were net buyers, while DIIs were net sellers yesterday.</li>
+<li>Uno Minda&#x27;s expansion into 4-wheeler seating systems is a key corporate news.</li>
+<li>Watch the 24,500 level on Nifty and 58,200 on Bank Nifty.</li>
+<li>Main risk: Brent crude prices surging, which could pressure OMCs and aviation stocks.</li>
+</ul>
+</div>
+<h2>How global markets traded — and what it means for India</h2>
+<p>
+Global markets closed with mixed signals overnight. US indices ended lower, with the Dow Jones down 0.25%, Nasdaq falling 1.16%, and the S&amp;P 500 down 0.45%. In contrast, Asian markets showed a more positive tone, with the Hang Seng rising 1.98% and the Shanghai Composite up 0.33%. The Nikkei 225, however, closed 0.73% lower.
+</p>
+<table><thead><tr><th>Index</th><th>% Change</th></tr></thead><tbody>
+<tr><td>Dow Jones</td><td>-0.25%</td></tr>
+<tr><td>Nasdaq</td><td>-1.16%</td></tr>
+<tr><td>S&amp;P 500</td><td>-0.45%</td></tr>
+<tr><td>FTSE 100</td><td>+0.13%</td></tr>
+<tr><td>Nikkei 225</td><td>-0.73%</td></tr>
+<tr><td>Hang Seng</td><td>+1.98%</td></tr>
+<tr><td>Shanghai</td><td>+0.33%</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The mixed global cues suggest a cautious start for the Indian market. The positive tone in Asia, especially the Hang Seng, could provide some support, but the negative close in the US and the Nikkei&#x27;s decline may limit the upside.
+</p>
+<h2>Currency, commodities and yields</h2>
+<ul>
+<li><strong>USD/INR:</strong> 95.14 (-0.48%)</li>
+<li><strong>Dollar Index:</strong> 101.07 (+0.22%)</li>
+<li><strong>Brent Crude:</strong> 76.08 (+5.68%)</li>
+<li><strong>WTI Crude:</strong> 72.28 (+5.44%)</li>
+<li><strong>Gold:</strong> 4140.30 (-0.36%)</li>
+<li><strong>Silver:</strong> 60.98 (-1.52%)</li>
+<li><strong>US 10Y Yield:</strong> 4.53 (+0.98%)</li>
+</ul>
+<p>
+<strong>Interpretation:</strong> The decline in USD/INR is positive for IT and pharma stocks, while the surge in crude prices could pressure oil marketing companies (OMCs) and the aviation sector. The rise in US yields may deter FII inflows, adding to market caution.
+</p>
+<h2>GIFT Nifty — what it&#x27;s signalling</h2>
+<p>
+Data unavailable.
+</p>
+<p>
+<strong>Interpretation:</strong> Without GIFT Nifty data, we rely more on global cues and technical levels to gauge the opening bias.
+</p>
+<h2>FII/DII flows — who&#x27;s driving the tape</h2>
+<p>
+Yesterday, FIIs were net buyers with ₹393 crore, while DIIs were net sellers with ₹-383 crore.
+</p>
+<table><thead><tr><th>Date</th><th>FII Net (₹ cr)</th><th>DII Net (₹ cr)</th></tr></thead><tbody>
+<tr><td>2026-07-07</td><td>+393</td><td>-383</td></tr>
+<tr><td>2026-07-06</td><td>+243</td><td>+3,791</td></tr>
+<tr><td>2026-07-03</td><td>+1,355</td><td>-1,954</td></tr>
+<tr><td>2026-07-02</td><td>-312</td><td>+1,784</td></tr>
+<tr><td>2026-07-01</td><td>-1,140</td><td>+3,159</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The recent trend shows FIIs and DIIs taking opposing stances, with FIIs being net buyers and DIIs being net sellers. This could lead to a choppy session, with the market direction influenced by the strength of FII inflows.
+</p>
+<h2>Key levels to watch — Nifty &amp; Bank Nifty (technical)</h2>
+<h3>Nifty 50</h3>
+<table><thead><tr><th>Level</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>24426.18</td></tr>
+<tr><td>Top of CPR</td><td>24439.93</td></tr>
+<tr><td>Bottom of CPR</td><td>24412.44</td></tr>
+<tr><td>R1</td><td>24503.42</td></tr>
+<tr><td>R2</td><td>24608.13</td></tr>
+<tr><td>R3</td><td>24685.37</td></tr>
+<tr><td>S1</td><td>24321.47</td></tr>
+<tr><td>S2</td><td>24244.23</td></tr>
+<tr><td>S3</td><td>24139.52</td></tr>
+<tr><td>Swing High</td><td>24530.9</td></tr>
+<tr><td>Swing Low</td><td>23784.95</td></tr>
+<tr><td>20-DMA</td><td>23922.47</td></tr>
+<tr><td>50-DMA</td><td>23828.35</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The narrow CPR width suggests a trending day is more likely. A break above 24,500 could signal a bullish move, while a drop below 24,300 could indicate weakness.
+</p>
+<h3>Bank Nifty</h3>
+<table><thead><tr><th>Level</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>58297.3</td></tr>
+<tr><td>Top of CPR</td><td>58345.6</td></tr>
+<tr><td>Bottom of CPR</td><td>58249.0</td></tr>
+<tr><td>R1</td><td>58484.5</td></tr>
+<tr><td>R2</td><td>58768.3</td></tr>
+<tr><td>R3</td><td>58955.5</td></tr>
+<tr><td>S1</td><td>58013.5</td></tr>
+<tr><td>S2</td><td>57826.3</td></tr>
+<tr><td>S3</td><td>57542.5</td></tr>
+<tr><td>Swing High</td><td>58706.05</td></tr>
+<tr><td>Swing Low</td><td>57074.9</td></tr>
+<tr><td>20-DMA</td><td>57361.47</td></tr>
+<tr><td>50-DMA</td><td>55664.0</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The Bank Nifty&#x27;s wider CPR width suggests a more sideways or range-bound day. A break above 58,500 could signal strength, while a drop below 58,000 could indicate weakness.
+</p>
+<h2>Option-chain signals (OI) — where support &amp; resistance sit</h2>
+<h3>Nifty 50</h3>
+<ul>
+<li><strong>Highest Call OI (Resistance):</strong> 24500 (8,160,160), 25000 (5,505,500), 24400 (5,312,380)</li>
+<li><strong>Highest Put OI (Support):</strong> 24500 (4,632,940), 24000 (4,619,550), 23800 (3,551,280)</li>
+<li><strong>PCR:</strong> 0.77</li>
+</ul>
+<p>
+<strong>Interpretation:</strong> The high call OI at 24,500 suggests a ceiling, while the high put OI at 24,000 indicates a floor. The PCR below 0.7 leans cautious, suggesting potential selling pressure.
+</p>
+<h3>Bank Nifty</h3>
+<ul>
+<li><strong>Highest Call OI (Resistance):</strong> 59000 (2,017,680), 58000 (1,152,840), 58500 (816,150)</li>
+<li><strong>Highest Put OI (Support):</strong> 59000 (1,313,310), 58000 (1,206,270), 57000 (665,910)</li>
+<li><strong>PCR:</strong> 0.84</li>
+</ul>
+<p>
+<strong>Interpretation:</strong> The high call OI at 59,000 and put OI at 58,000 suggest key levels to watch. The PCR of 0.84 is neutral to slightly bullish, indicating balanced sentiment.
+</p>
+<h2>Companies reporting results today</h2>
+<p>
+No Nifty 500 / large-cap results scheduled today.
+</p>
+<h2>Corporate actions today</h2>
+<ul>
+<li><strong>BLISSGVS:</strong> Dividend - Re 1 Per Share</li>
+<li><strong>UNITDSPR:</strong> Dividend - Rs 11 Per Share</li>
+<li><strong>KRISHNADEF:</strong> Dividend - Rs 1.25 Per Share</li>
+<li><strong>MPHASIS:</strong> Dividend - Rs 62 Per Share</li>
+</ul>
+<p>
+<strong>Interpretation:</strong> The ex-dividend dates for these companies will see their stock prices adjust downward by the dividend amount, which could impact trading volumes and prices.
+</p>
+<h2>Stock &amp; sector news that matters</h2>
+<p>
+<strong>Uno Minda shares in focus as firm enters 4-wheeler seating systems segment with Rs 320-crore capex</strong>
+Uno Minda is expanding into four-wheeler passenger vehicle seating systems with a new manufacturing facility in Maharashtra, representing a significant capital expenditure.
+<strong>Why it matters:</strong> This expansion could boost Uno Minda&#x27;s revenue and market share in the automotive sector, making it a key stock to watch today.
+</p>
+<p>
+<strong>Jubilant FoodWorks among 4 stocks closed above VWAP, signalling bullish shift</strong>
+On July 7, four Nifty500 stocks, including Jubilant FoodWorks, closed more than 1% above their VWAP levels, indicating improving buying interest and positive intraday sentiment.
+<strong>Why it matters:</strong> A close above the VWAP is a bullish signal, suggesting these stocks could continue to trend higher.
+</p>
+<p>
+<strong>Info Edge among 3 stocks flashing bullish signals, hinting at a possible uptrend</strong>
+On July 7, three stocks in the Nifty500, including Info Edge, appeared on the &#x27;White Marubozu&#x27; bullish scanner, reflecting strong buying momentum.
+<strong>Why it matters:</strong> The bullish candlestick pattern suggests a potential uptrend for these stocks, making them worth monitoring.
+</p>
+<p>
+<strong>Swiggy among 5 stocks showing bullish RSI upswing</strong>
+Five stocks from the Nifty500 segment, including Swiggy, gained over 3% and showed an RSI upswing, moving above the 50 mark from lower levels.
+<strong>Why it matters:</strong> The RSI moving above 50 signals improving momentum, which could lead to further gains.
+</p>
+<h2>Events &amp; data to watch — and how markets usually react</h2>
+<ul>
+<li><strong>RBI Policy Meeting:</strong> The Reserve Bank of India (RBI) is scheduled to announce its monetary policy decision this week. Markets typically react with volatility around policy announcements, as investors gauge the impact of rate changes and policy statements on the economy and inflation.</li>
+<li><strong>US Fed Meeting:</strong> The US Federal Reserve is also holding its policy meeting this week. Global markets often react to US Fed decisions, especially regarding interest rates and forward guidance.</li>
+<li><strong>F&amp;O Expiry:</strong> The monthly F&amp;O expiry is approaching, which can lead to increased market volatility and churn as positions are squared off.</li>
+</ul>
+<h2>What to watch in today&#x27;s session</h2>
+<ol>
+<li><strong>Nifty 50 and Bank Nifty levels:</strong> Watch the 24,500 level on Nifty and 58,200 on Bank Nifty for support and resistance.</li>
+<li><strong>Uno Minda:</strong> Monitor the stock&#x27;s performance following the announcement of its expansion into the 4-wheeler seating systems segment.</li>
+<li><strong>Corporate actions:</strong> Pay attention to the ex-dividend dates for BLISSGVS, UNITDSPR, KRISHNADEF, and MPHASIS.</li>
+<li><strong>Global cues:</strong> Keep an eye on the mixed signals from global markets, especially the impact of higher crude prices.</li>
+<li><strong>RBI and US Fed meetings:</strong> Stay tuned for any announcements that could impact market sentiment.</li>
+<li><strong>F&amp;O Expiry:</strong> Be cautious of increased volatility as the monthly expiry approaches.</li>
+</ol>
+<h2>Bottom line</h2>
+<p>
+The market is expected to open with a cautious bias, influenced by mixed global cues and the surge in crude prices. The key level to watch on Nifty is 24,500, and on Bank Nifty, it&#x27;s 58,200. Investors should be cautious about the main risks, including the impact of higher crude prices on OMCs and aviation stocks, and the potential volatility around the RBI and US Fed meetings.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>[ET Markets] Uno Minda shares in focus as firm enters 4-wheeler seating systems segment with Rs 320-crore capex</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/uno-minda-shares-in-focus-as-firm-enters-4-wheeler-seating-systems-segment-with-rs-320-crore-capex/articleshow/132252808.cms
+</p>
+<li>[ET Markets] Jubilant FoodWorks among 4 stocks closed above VWAP, signalling bullish shift</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/jubilant-foodworks-among-4-stocks-closed-above-vwap-signalling-bullish-shift/slideshow/132252782.cms
+</p>
+<li>[ET Markets] Info Edge among 3 stocks flashing bullish signals, hinting at a possible uptrend</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/info-edge-among-3-stocks-flashing-bullish-signals-hinting-at-a-possible-uptrend/slideshow/132252733.cms
+</p>
+<li>[ET Markets] Swiggy among 5 stocks showing bullish RSI upswing</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/swiggy-among-5-stocks-showing-bullish-rsi-upswing/slideshow/132252660.cms
+</p>
+<li>[Livemint Markets] IC Electricals IPO allotment today: SME IPO subscribed 420x, GMP rises. Here&#x27;s how to check status online</li>
+<p>
+  https://www.livemint.com/market/ipo/ic-electricals-ipo-allotment-today-sme-ipo-subscribed-420x-gmp-rises-heres-how-to-check-status-online-11783480070658.html
+</p>
+<li>[Livemint Markets] US stock market to Nikkei: Here’s world equity heatmap you should know before the opening of Indian stock market today</li>
+<p>
+  https://www.livemint.com/market/stock-market-news/us-stock-market-to-nikkei-here-s-world-equity-heatmap-you-should-know-before-the-opening-of-indian-stock-market-today-11783479918473.html
+</p>
+<li>[Livemint Markets] Kusumgar IPO Day 1: Issue opens today. GMP hints 40% listing pop. Should you apply or not?</li>
+<p>
+  https://www.livemint.com/market/ipo/kusumgar-ipo-gmp-kusumgar-ipo-review-kusumgar-ipo-details-kusumgar-ipo-date-kusumgar-ipo-good-or-bad-kusumgar-ipo-11783478700978.html
+</p>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
