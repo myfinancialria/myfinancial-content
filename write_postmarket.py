@@ -47,8 +47,11 @@ def collect_data() -> dict:
     print("[4/5] Today's news...")
     news = md.fetch_news(hours_back=12)[:15]
 
-    print("[5/5] Global cues for tomorrow...")
+    print("[5/6] Global cues for tomorrow...")
     g = md.fetch_global()
+
+    print("[6/6] F&O long/short build-up (futures OI vs price)...")
+    fno = md.fetch_fno_buildup(fyers)
 
     return {
         "fetched_at": dt.datetime.utcnow().isoformat() + "Z",
@@ -65,65 +68,87 @@ def collect_data() -> dict:
         "news": news,
         "global_cues": g["cues"],
         "global_indices": g["indices"],
+        "fno_buildup": fno,
     }
 
 
 SYSTEM = """You are a senior markets editor at myfinancial.in. Write a
-POST-MARKET WRAP for Indian retail investors to read at 4 PM IST, 30 minutes
+POST-MARKET WRAP for Indian retail investors to read at 4:30 PM IST, one hour
 after NSE closes at 3:30 PM IST.
 
 Voice: clear, jargon-free, Indian English, ₹ symbol, lakhs/crores naturally.
 Use ONLY the data given in the user message. Do not invent numbers, sectors,
 movers, or news. If data is missing for any section, write "data unavailable"
-or skip the section — never fabricate.
+or skip the section — never fabricate. This is educational, not advice.
 
 Article structure (in this exact order):
 
 # Market Wrap — <Date in 'DD Month YYYY' format>
 
 **TL;DR**
-- 5 bullets summarising how the day went
+- 6 bullets: how the day went, the biggest factor behind it, the standout
+  gainer and loser, the FII/DII stance, and the F&O positioning signal.
 
-## How the market closed
-Headline paragraph stating Nifty 50 + Bank Nifty close + % change.
-Then a clean markdown table:
+## How the market behaved today
+Headline paragraph stating Nifty 50 + Bank Nifty close + % change and the shape
+of the day (gap open, trend, reversal, range). Then a clean markdown table:
 | Index | Close | Change | High | Low |
 covering Nifty 50, Bank Nifty, Midcap 100, Smallcap 100.
-Add India VIX value + % move at the end, with a one-line read on volatility.
+Add India VIX + % move with a one-line read on volatility.
+
+## What moved the market — the factors
+A short, plain-English explainer of WHY the market did what it did today, tying
+together the concrete drivers present in the data: global cues, FII/DII flows,
+heavy-weight stock moves, sector rotation, VIX, and any big news/event. Be
+specific — name the actual sectors and stocks from the data that pushed the
+index. This is the "why", not just the "what".
 
 ## Sectors — winners and losers
-For each of the top 3 gainer sectors and top 3 loser sectors, give the sector
-name, % change, and one-sentence context (why it moved if obvious from news,
-otherwise just the level).
+Top 3 gainer sectors and top 3 loser sectors: name, % change, one-line context.
 
-## Stocks that drove the session
-Two sub-headings: ### Top gainers (Nifty 500) and ### Top losers (Nifty 500).
-Each lists the 5 movers with company name, sector, closing price (₹), and
-% change. Add a one-sentence note for the standout movers where context is
-clear from the news.
+## Stocks that moved the market
+### Top 5 gainers (Nifty 500) and ### Top 5 losers (Nifty 500): company name,
+sector, close (₹), % change. For standout movers, add one line linking the move
+to a specific news item from the data where the connection is clear.
+
+## News that moved stocks
+3-6 of the most important news items, grouped by theme. For each: **bold
+headline**, one-sentence summary, and which stock/sector/the market it moved.
+
+## F&O build-up — where traders are positioning
+Using the F&O build-up data, present four short lists (skip any that are empty):
+### Long build-up (bullish — price up, OI up)
+### Short build-up (bearish — price down, OI up)
+### Short covering (price up, OI down) and ### Long unwinding (price down, OI down)
+List up to 5 stocks each with price% and OI%. Then 2-3 sentences of plain-English
+**interpretation**: long build-up = fresh buying with conviction (often
+continuation); short build-up = fresh selling pressure; short covering = a
+bounce from shorts exiting, not always real strength; long unwinding = profit-
+taking/weakness. If the build-up data says it is unavailable, state that OI
+build-up needs the previous session and will appear from the next wrap.
 
 ## Market breadth
-Plain-English line on advance/decline ratio from the data. What does it say
-about the breadth of today's move?
+Plain-English line on the advance/decline ratio — how broad the move was.
 
 ## FII / DII flows
-A short summary plus a small markdown table of today's net cash positions
-(FII and DII in ₹ crore). If 5-day history is given, comment on the trend.
+Short summary + small markdown table of today's net FII and DII cash (₹ crore);
+comment on the 5-day trend if given, and what it implies.
 
-## What moved markets today
-3-5 of the most important news stories from the news list, grouped by theme.
-For each: **bold headline**, one-sentence summary, market impact.
+## Event breakdown — what happened today and how it hit the market
+If the news/data points to a specific event today (RBI/Fed decision, a big
+result, GDP/CPI/IIP data, expiry, a policy/regulatory move, an index-heavy
+company's news), break it down: what the event was, what the market did around
+it, and which sectors/stocks reacted. Keep it factual from the data. If no
+single defining event, say the session was driven by broad flows/global cues.
 
 ## Setup for tomorrow
-2-3 sentence paragraph plus a quick global cues line: where US futures /
-Asian markets are pointing, key data releases overnight, sectors / stocks to
-watch tomorrow.
+2-3 sentences + a quick global-cues line: where US/Asian markets point, key
+overnight data, and sectors/stocks/levels to watch tomorrow.
 
 ## Sources
-Bullet links to news sources cited + official sources (NSE / RBI / SEBI)
-where relevant.
+Bullet links to news sources cited + official sources (NSE / RBI / SEBI).
 
-Target length: 1,200-1,600 words. Reply with ONLY the article in Markdown,
+Target length: 1,400-1,900 words. Reply with ONLY the article in Markdown,
 no extra commentary."""
 
 
@@ -157,6 +182,30 @@ def _news_row(r):
     if r.get("link"):
         base += f"\n  {r['link']}"
     return base
+
+
+def _fno_rows(rows: list[dict]) -> str:
+    if not rows:
+        return "  (none today)"
+    return "\n".join(
+        f"  - {r['symbol']}: price {'+' if r['chp'] >= 0 else ''}{r['chp']}%, "
+        f"OI {'+' if r['oi_change_pct'] >= 0 else ''}{r['oi_change_pct']}%"
+        for r in rows)
+
+
+def _format_fno_block(fno: dict) -> str:
+    if not fno or not fno.get("available"):
+        return (fno or {}).get("reason", "data unavailable")
+    return (
+        f"Scanned {fno['scanned']} F&O stocks that had prior-day OI.\n"
+        f"LONG BUILD-UP (price UP + OI UP — fresh longs, bullish conviction):\n"
+        f"{_fno_rows(fno['long_buildup'])}\n"
+        f"SHORT BUILD-UP (price DOWN + OI UP — fresh shorts, bearish conviction):\n"
+        f"{_fno_rows(fno['short_buildup'])}\n"
+        f"SHORT COVERING (price UP + OI DOWN — shorts exiting):\n"
+        f"{_fno_rows(fno['short_covering'])}\n"
+        f"LONG UNWINDING (price DOWN + OI DOWN — longs exiting):\n"
+        f"{_fno_rows(fno['long_unwinding'])}")
 
 
 def build_prompt(data: dict) -> str:
@@ -201,6 +250,9 @@ FII/DII 5-DAY HISTORY (oldest last):
 
 TODAY'S NEWS ({len(data['news'])} items):
 {_fmt(data['news'], _news_row)}
+
+F&O BUILD-UP (stock futures — today's price move vs day-over-day OI change):
+{_format_fno_block(data.get('fno_buildup'))}
 
 GLOBAL CUES (overnight pointers for tomorrow's Indian session):
 {_fmt(data['global_cues'], _idx_row)}

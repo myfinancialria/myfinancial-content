@@ -73,6 +73,7 @@ def fyers_quotes(fyers, symbols: list[str], batch: int = 50) -> dict[str, dict]:
                 "low": float(v.get("low_price") or 0),
                 "prev_close": float(v.get("prev_close_price") or 0),
                 "volume": int(v.get("volume") or 0),
+                "oi": int(v.get("oi") or 0),  # open interest (derivatives only)
             }
         time.sleep(0.2)
     return out
@@ -505,6 +506,135 @@ def fetch_oi_levels(fyers, strikecount: int = 15) -> list[dict]:
                          "oi": int(x.get("oi", 0) or 0)} for x in top_pe],
         })
     return out
+
+
+# ============================================================
+# F&O long/short build-up (futures OI vs price, day-over-day)
+# ============================================================
+
+FNO_LOTS_URL = "https://archives.nseindia.com/content/fo/fo_mktlots.csv"
+FNO_SNAPSHOT = HERE / "data" / "snapshots" / "fno_oi.json"
+_MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+           "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+# Non-stock underlyings to exclude from the stock build-up scan.
+_FNO_INDEX = {"NIFTY", "BANKNIFTY", "FINNIFTY", "MIDCPNIFTY", "NIFTYNXT50",
+              "NIFTYIT", "BANKEX", "SENSEX"}
+# Fallback universe if the NSE lot-size CSV is unreachable (top liquid F&O names).
+_FNO_FALLBACK = [
+    "RELIANCE", "HDFCBANK", "ICICIBANK", "INFY", "TCS", "SBIN", "AXISBANK",
+    "KOTAKBANK", "LT", "ITC", "BHARTIARTL", "HINDUNILVR", "BAJFINANCE",
+    "MARUTI", "TATAMOTORS", "TATASTEEL", "M&M", "SUNPHARMA", "WIPRO",
+    "HCLTECH", "ADANIENT", "ADANIPORTS", "TITAN", "ULTRACEMCO", "NTPC",
+    "POWERGRID", "COALINDIA", "ONGC", "JSWSTEEL", "HINDALCO", "GRASIM",
+    "BAJAJFINSV", "TECHM", "DRREDDY", "CIPLA", "DIVISLAB", "EICHERMOT",
+    "HEROMOTOCO", "BAJAJ-AUTO", "BPCL", "IOC", "GAIL", "DLF", "SBILIFE",
+    "HDFCLIFE", "ICICIPRULI", "PNB", "CANBK", "BANKBARODA", "IDFCFIRSTB",
+    "VEDL", "NMDC", "SAIL", "TATAPOWER", "LICI", "ZOMATO", "PAYTM",
+    "TATACONSUM", "BRITANNIA", "NESTLEIND", "PIDILITIND", "DABUR",
+]
+
+
+def load_fno_symbols() -> list[str]:
+    """F&O underlying stock symbols from NSE's lot-size CSV; static fallback."""
+    try:
+        r = requests.get(FNO_LOTS_URL, headers=HEADERS, timeout=20)
+        r.raise_for_status()
+        syms: list[str] = []
+        for line in r.text.splitlines()[1:]:
+            parts = [p.strip() for p in line.split(",")]
+            if len(parts) < 2:
+                continue
+            sym = (parts[1] or "").upper()
+            if sym.isalnum() and sym not in _FNO_INDEX and sym not in syms:
+                syms.append(sym)
+        if len(syms) >= 30:
+            print(f"F&O universe: {len(syms)} stocks from NSE lot file")
+            return syms
+    except Exception as e:
+        print(f"F&O lot-size CSV failed: {e}", file=sys.stderr)
+    print(f"F&O universe: using fallback list ({len(_FNO_FALLBACK)})")
+    return list(_FNO_FALLBACK)
+
+
+def _current_futures_month(today: dt.date | None = None) -> tuple[int, int]:
+    """(year, month) of the live monthly futures — rolls after last-Thursday expiry."""
+    today = today or dt.date.today()
+    nxt = (dt.date(today.year + 1, 1, 1) if today.month == 12
+           else dt.date(today.year, today.month + 1, 1))
+    last = nxt - dt.timedelta(days=1)
+    expiry = last - dt.timedelta(days=(last.weekday() - 3) % 7)  # last Thursday
+    if today <= expiry:
+        return today.year, today.month
+    return (nxt.year, nxt.month)
+
+
+def fetch_fno_buildup(fyers, top: int = 5) -> dict:
+    """Classify F&O stocks into long/short build-up etc. from futures price move
+    and day-over-day OI change (OI snapshot persisted in data/snapshots)."""
+    syms = load_fno_symbols()
+    if not syms:
+        return {"available": False, "reason": "F&O universe unavailable"}
+    y, m = _current_futures_month()
+    tag = f"{y % 100:02d}{_MONTHS[m - 1]}"
+    fut_map = {s: f"NSE:{s}{tag}FUT" for s in syms}
+    quotes = fyers_quotes(fyers, list(fut_map.values()))
+
+    prev = {}
+    if FNO_SNAPSHOT.exists():
+        try:
+            prev = (json.loads(FNO_SNAPSHOT.read_text()) or {}).get("oi", {})
+        except Exception:
+            prev = {}
+
+    today_oi, rows = {}, []
+    for s, fut in fut_map.items():
+        q = quotes.get(fut, {})
+        oi, lp, chp = q.get("oi", 0), q.get("lp", 0), q.get("chp", 0)
+        if not oi or not lp:
+            continue
+        today_oi[s] = oi
+        prev_oi = prev.get(s)
+        if not prev_oi:
+            continue
+        rows.append({
+            "symbol": s, "lp": lp, "chp": round(chp, 2), "oi": oi,
+            "oi_change_pct": round((oi - prev_oi) / prev_oi * 100, 1),
+        })
+
+    # Persist today's OI for tomorrow's comparison (committed by the workflow).
+    try:
+        FNO_SNAPSHOT.parent.mkdir(parents=True, exist_ok=True)
+        FNO_SNAPSHOT.write_text(json.dumps(
+            {"date": dt.date.today().isoformat(), "futures_month": tag,
+             "oi": today_oi}, indent=2))
+    except Exception as e:
+        print(f"F&O OI snapshot save failed: {e}", file=sys.stderr)
+
+    if not rows:
+        return {"available": False,
+                "reason": ("OI build-up needs the previous session's OI — it will "
+                           "populate from the next run."),
+                "scanned": len(today_oi)}
+
+    def pick(cond, key, reverse):
+        return sorted([r for r in rows if cond(r)], key=key, reverse=reverse)[:top]
+
+    return {
+        "available": True,
+        "scanned": len(rows),
+        # long build-up: price up + OI up (fresh longs / bullish conviction)
+        "long_buildup": pick(lambda r: r["chp"] > 0 and r["oi_change_pct"] > 0,
+                             lambda r: r["chp"], True),
+        # short build-up: price down + OI up (fresh shorts / bearish conviction)
+        "short_buildup": pick(lambda r: r["chp"] < 0 and r["oi_change_pct"] > 0,
+                              lambda r: r["chp"], False),
+        # short covering: price up + OI down (shorts exiting)
+        "short_covering": pick(lambda r: r["chp"] > 0 and r["oi_change_pct"] < 0,
+                               lambda r: r["chp"], True),
+        # long unwinding: price down + OI down (longs exiting)
+        "long_unwinding": pick(lambda r: r["chp"] < 0 and r["oi_change_pct"] < 0,
+                               lambda r: r["chp"], False),
+    }
 
 
 def fetch_n500(fyers) -> list[dict]:
