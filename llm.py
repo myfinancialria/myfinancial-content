@@ -377,6 +377,84 @@ def _call_openai(
     return None
 
 
+# ============================================================
+# Qwen + Llama (OpenRouter) — "both draft, then merge"
+# ============================================================
+OPENROUTER_BASE_URL = os.environ.get(
+    "OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1").rstrip("/")
+
+
+def _openrouter_chat(model, system, user, *, temperature, max_tokens, top_p,
+                     timeout=180):
+    r = requests.post(
+        f"{OPENROUTER_BASE_URL}/chat/completions",
+        headers={
+            "Authorization": f"Bearer {os.environ['OPENROUTER_API_KEY']}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://myfinancialria.github.io/myfinancial-content/",
+            "X-Title": "myfinancial content engine",
+        },
+        json={
+            "model": model,
+            "messages": [
+                {"role": "system", "content": system},
+                {"role": "user", "content": user},
+            ],
+            "temperature": temperature,
+            "top_p": top_p,
+            "max_tokens": max_tokens,
+        },
+        timeout=timeout,
+    )
+    if r.status_code >= 400:
+        raise RuntimeError(f"HTTP {r.status_code}: {r.text[:300]}")
+    choices = r.json().get("choices") or []
+    if not choices:
+        raise RuntimeError("no choices in OpenRouter response")
+    return (choices[0].get("message", {}).get("content") or "").strip()
+
+
+def _safe_openrouter(model, system, user, **kw):
+    try:
+        return _openrouter_chat(model, system, user, **kw)
+    except Exception as e:  # noqa: BLE001 - provider/network errors vary
+        print(f"  OpenRouter model {model} failed: {e}", file=sys.stderr)
+        return ""
+
+
+def _call_qwen_llama(prompt, system, *, temperature, max_tokens, top_p):
+    """Qwen and Llama each draft independently, then the two are merged into
+    one final piece. Falls back to the fuller draft if the merge call fails."""
+    if not os.environ.get("OPENROUTER_API_KEY"):
+        print("OPENROUTER_API_KEY not set — Qwen+Llama unavailable",
+              file=sys.stderr)
+        return None
+    qmodel = os.environ.get("QWEN_MODEL", "qwen/qwen-2.5-72b-instruct")
+    lmodel = os.environ.get("LLAMA_MODEL", "meta-llama/llama-3.3-70b-instruct")
+    mmodel = os.environ.get("MERGE_MODEL", qmodel)
+    kw = dict(temperature=temperature, max_tokens=max_tokens, top_p=top_p)
+    print(f"Qwen+Llama: drafting with {qmodel} + {lmodel}, merging with {mmodel}")
+    draft_q = _safe_openrouter(qmodel, system, prompt, **kw)
+    draft_l = _safe_openrouter(lmodel, system, prompt, **kw)
+    if not draft_q and not draft_l:
+        print("Both Qwen and Llama drafts failed", file=sys.stderr)
+        return None
+    if not draft_q:
+        return draft_l
+    if not draft_l:
+        return draft_q
+    merge_user = (
+        "Two senior markets editors independently drafted the piece below from "
+        "the SAME source data. Merge them into ONE final version that follows the "
+        "required structure exactly, keeping the most useful, specific and correct "
+        "points from each and removing repetition. Do NOT add any fact, number or "
+        "news item that is not present in at least one draft.\n\n"
+        f"=== DRAFT A (Qwen) ===\n{draft_q}\n\n=== DRAFT B (Llama) ===\n{draft_l}"
+    )
+    merged = _safe_openrouter(mmodel, system, merge_user, **kw)
+    return merged or (draft_q if len(draft_q) >= len(draft_l) else draft_l)
+
+
 def call_llm(
     prompt: str,
     system: str,
@@ -389,6 +467,20 @@ def call_llm(
     provider: Optional[str] = None,
 ) -> Optional[str]:
     p = (provider or os.environ.get("LLM_PROVIDER", "gemini")).lower()
+    if p in ("qwen_llama", "qwen+llama", "openrouter", "dual"):
+        out = _call_qwen_llama(
+            prompt, system,
+            temperature=temperature, max_tokens=max_tokens, top_p=top_p)
+        if out:
+            return out
+        fb = os.environ.get("DUAL_FALLBACK_PROVIDER", "gemini").lower()
+        if fb and fb not in ("qwen_llama", "qwen+llama", "openrouter", "dual"):
+            print(f"Qwen+Llama unavailable — falling back to {fb}", file=sys.stderr)
+            return call_llm(
+                prompt, system, temperature=temperature, max_tokens=max_tokens,
+                top_p=top_p, grounding=grounding, thinking_budget=thinking_budget,
+                provider=fb)
+        return None
     print(f"LLM provider: {p}  model: "
           f"{os.environ.get({'gemini':'GEMINI_MODEL','groq':'GROQ_MODEL','anthropic':'ANTHROPIC_MODEL','openai':'OPENAI_MODEL','chatgpt':'OPENAI_MODEL'}.get(p,''), '(default)')}")
     if p == "gemini":

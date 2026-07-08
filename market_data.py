@@ -381,6 +381,132 @@ def fetch_gift_nifty(fyers) -> dict:
     return {"name": "GIFT NIFTY"}
 
 
+# ============================================================
+# Technical levels (CPR / pivots / swings / MAs) via Fyers history
+# ============================================================
+
+LEVEL_INDICES = [
+    ("NIFTY 50", "NSE:NIFTY50-INDEX"),
+    ("BANK NIFTY", "NSE:NIFTYBANK-INDEX"),
+]
+
+
+def _fyers_daily_candles(fyers, symbol: str, days: int = 90) -> list[list]:
+    """Daily OHLC candles [[ts,o,h,l,c,v], ...] oldest→newest, fail-soft."""
+    to = dt.date.today()
+    frm = to - dt.timedelta(days=days * 2)  # buffer for weekends/holidays
+    try:
+        resp = fyers.history(data={
+            "symbol": symbol, "resolution": "D", "date_format": "1",
+            "range_from": frm.isoformat(), "range_to": to.isoformat(),
+            "cont_flag": "1"})
+    except Exception as e:
+        print(f"  fyers history {symbol} failed: {e}", file=sys.stderr)
+        return []
+    if isinstance(resp, dict) and resp.get("s") == "ok":
+        return resp.get("candles") or []
+    return []
+
+
+def _round(x, nd=0):
+    try:
+        return round(float(x), nd) if nd else int(round(float(x)))
+    except (TypeError, ValueError):
+        return None
+
+
+def fetch_index_technicals(fyers, swing_lookback: int = 15) -> list[dict]:
+    """CPR/pivots from the previous session + recent swing high/low + 20/50 DMA
+    for Nifty and Bank Nifty. Everything computed from daily candles."""
+    out: list[dict] = []
+    for name, sym in LEVEL_INDICES:
+        candles = _fyers_daily_candles(fyers, sym)
+        if len(candles) < 5:
+            out.append({"name": name, "available": False})
+            continue
+        closes = [c[4] for c in candles]
+        highs = [c[2] for c in candles]
+        lows = [c[3] for c in candles]
+        h, l, c = candles[-1][2], candles[-1][3], candles[-1][4]  # prev session
+        p = (h + l + c) / 3.0
+        bc = (h + l) / 2.0
+        tc = 2 * p - bc
+        rec = {
+            "name": name,
+            "available": True,
+            "prev_close": _round(c, 2),
+            "cpr": {"pivot": _round(p, 2), "bc": _round(min(bc, tc), 2),
+                     "tc": _round(max(bc, tc), 2),
+                     "width_pct": _round(abs(tc - bc) / p * 100, 2)},
+            "resistance": {
+                "r1": _round(2 * p - l, 2),
+                "r2": _round(p + (h - l), 2),
+                "r3": _round(h + 2 * (p - l), 2),
+            },
+            "support": {
+                "s1": _round(2 * p - h, 2),
+                "s2": _round(p - (h - l), 2),
+                "s3": _round(l - 2 * (h - p), 2),
+            },
+            "swing_high": _round(max(highs[-swing_lookback:]), 2),
+            "swing_low": _round(min(lows[-swing_lookback:]), 2),
+            "dma20": _round(sum(closes[-20:]) / min(20, len(closes)), 2),
+            "dma50": _round(sum(closes[-50:]) / min(50, len(closes)), 2),
+        }
+        out.append(rec)
+    return out
+
+
+# ============================================================
+# Option-chain OI levels (support/resistance from open interest)
+# ============================================================
+
+OI_INDICES = [
+    ("NIFTY", "NSE:NIFTY50-INDEX"),
+    ("BANK NIFTY", "NSE:NIFTYBANK-INDEX"),
+]
+
+
+def fetch_oi_levels(fyers, strikecount: int = 15) -> list[dict]:
+    """Highest call-OI strikes (resistance), highest put-OI strikes (support),
+    PCR and ATM from the nearest-expiry option chain. Fail-soft per index."""
+    out: list[dict] = []
+    for name, sym in OI_INDICES:
+        try:
+            resp = fyers.optionchain(data={
+                "symbol": sym, "strikecount": strikecount, "timestamp": ""})
+        except Exception as e:
+            print(f"  fyers optionchain {sym} failed: {e}", file=sys.stderr)
+            out.append({"name": name, "available": False})
+            continue
+        data = (resp or {}).get("data") or {}
+        chain = data.get("optionsChain") or []
+        calls = [x for x in chain if x.get("option_type") == "CE"
+                 and x.get("strike_price")]
+        puts = [x for x in chain if x.get("option_type") == "PE"
+                and x.get("strike_price")]
+        if not calls or not puts:
+            out.append({"name": name, "available": False})
+            continue
+        top_ce = sorted(calls, key=lambda x: x.get("oi", 0) or 0, reverse=True)[:3]
+        top_pe = sorted(puts, key=lambda x: x.get("oi", 0) or 0, reverse=True)[:3]
+        tot_ce = sum((x.get("oi", 0) or 0) for x in calls)
+        tot_pe = sum((x.get("oi", 0) or 0) for x in puts)
+        # spot / underlying row is usually option_type == "" in the chain
+        spot_row = next((x for x in chain if not x.get("option_type")), {})
+        out.append({
+            "name": name,
+            "available": True,
+            "spot": _round(spot_row.get("ltp") or data.get("indiavixData", {}).get("ltp"), 2),
+            "pcr": _round(tot_pe / tot_ce, 2) if tot_ce else None,
+            "resistance": [{"strike": _round(x["strike_price"], 0),
+                            "oi": int(x.get("oi", 0) or 0)} for x in top_ce],
+            "support": [{"strike": _round(x["strike_price"], 0),
+                         "oi": int(x.get("oi", 0) or 0)} for x in top_pe],
+        })
+    return out
+
+
 def fetch_n500(fyers) -> list[dict]:
     """Returns full Nifty 500 quotes with sector/company info."""
     import nifty500_live as nl

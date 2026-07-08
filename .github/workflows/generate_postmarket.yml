@@ -1,8 +1,8 @@
-name: Post-market wrap (4 PM IST)
+name: Post-market wrap (4:30 PM IST)
 
 on:
   schedule:
-    - cron: "30 10 * * 1-5"   # 16:00 IST Mon–Fri
+    - cron: "0 11 * * 1-5"   # 16:30 IST Mon–Fri
   workflow_dispatch: {}
 
 permissions:
@@ -35,6 +35,11 @@ jobs:
       - name: Write post-market article
         env:
           FYERS_CLIENT_ID: ${{ secrets.FYERS_CLIENT_ID }}
+          # Post-market wrap is written by Qwen + Llama via OpenRouter.
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          QWEN_MODEL: ${{ vars.QWEN_MODEL || 'qwen/qwen-2.5-72b-instruct' }}
+          LLAMA_MODEL: ${{ vars.LLAMA_MODEL || 'meta-llama/llama-3.3-70b-instruct' }}
+          DUAL_FALLBACK_PROVIDER: ${{ vars.DUAL_FALLBACK_PROVIDER || 'gemini' }}
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}

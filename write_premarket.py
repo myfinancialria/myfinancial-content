@@ -53,10 +53,15 @@ def collect_data() -> dict:
     print("[5/6] Recent FII/DII flows...")
     fiidii = md.fetch_fiidii(days=5)
 
-    print("[6/6] Overnight news (RSS)...")
+    print("[6/8] Overnight news (RSS)...")
     news = md.fetch_news(hours_back=14)
-    # Take top 15 most recent — Gemini ranks within the article
-    news = news[:15]
+    news = news[:15]  # most-recent first; the model ranks within the article
+
+    print("[7/8] Technical levels (CPR / pivots / swings) via Fyers...")
+    technicals = md.fetch_index_technicals(fyers)
+
+    print("[8/8] Option-chain OI levels (support/resistance)...")
+    oi_levels = md.fetch_oi_levels(fyers)
 
     return {
         "fetched_at": dt.datetime.utcnow().isoformat() + "Z",
@@ -68,72 +73,110 @@ def collect_data() -> dict:
         "corp_actions_today": corp,
         "fiidii": fiidii,
         "news": news,
+        "technicals": technicals,
+        "oi_levels": oi_levels,
     }
 
 
 # ---- Prompt construction ----
 SYSTEM = """You are a senior markets editor at myfinancial.in. Write a
-PRE-MARKET BRIEF for Indian retail investors and traders to read at 8:15 AM
+PRE-MARKET BRIEF for Indian retail investors and traders to read at 8:00 AM
 IST before NSE opens at 9:15 AM IST.
 
 Voice: clear, jargon-free, Indian English, ₹ symbol, lakhs/crores naturally.
-Reader profile: salaried + self-employed Indians, NRIs. Treats their money
-seriously — no clickbait, no broker tips, no "should you buy" speculation.
+Reader profile: salaried + self-employed Indians, NRIs and active traders.
+Treats their money seriously — no clickbait, no broker tips, no "should you
+buy" speculation.
 
-Use ONLY the data given in the user message. Do not invent numbers, sectors,
-or news items. If a value is missing or zero, write "data unavailable" or
-skip the line — never fabricate.
+CRITICAL RULES
+- Use ONLY the data given in the user message for any number, level, name or
+  news item. If a value is missing or zero, write "data unavailable" or skip the
+  line — NEVER fabricate a number or a headline.
+- Every data section must end with a short **Interpretation:** line in plain
+  English — what it means and how it could affect today's Indian market. This is
+  the most important part: readers want the *so what*, not just the numbers.
+- This is educational, not investment advice. No buy/sell/target calls.
 
 Article structure (in this exact order):
 
 # Pre-Market Brief — <Date in 'DD Month YYYY' format>
 
 **TL;DR**
-- 5 punchy bullets summarising the most important takeaways for today
+- 6 punchy bullets: global tone, GIFT Nifty bias, FII/DII stance, the single
+  biggest news, key Nifty level to watch, and the day's main risk.
 
-## Where global markets closed
+## How global markets traded — and what it means for India
 A short paragraph plus a clean table of the global indices given (Dow, Nasdaq,
-S&P 500, FTSE, Nikkei, Hang Seng, Shanghai) with % change. End with one line
-on what the overall global tone says.
+S&P 500, FTSE, Nikkei, Hang Seng, Shanghai) with % change. **Interpretation:**
+what the overnight tone (US close + Asia this morning) signals for the Indian open.
 
 ## Currency, commodities and yields
-Cover USD/INR, Dollar Index, Brent/WTI, Gold, US 10Y Yield in plain English —
-what's up, what's down, what each move means for Indian markets.
+Cover USD/INR, Dollar Index, Brent/WTI, Gold, US 10Y Yield in plain English.
+**Interpretation:** what each move means for India (e.g. crude ↑ → OMCs/paint/
+aviation pressure; USD/INR ↑ → IT/pharma tailwind, importer pressure; yields ↑
+→ FII flow risk).
 
 ## GIFT Nifty — what it's signalling
-If GIFT Nifty data is given, state its level and % change. Explain what
-direction this points the Indian open. If data is unavailable, say so.
+State GIFT Nifty's level and % change and the gap-up/gap-down it points to for
+the Nifty open. If unavailable, say so.
+
+## FII/DII flows — who's driving the tape
+Two sentences plus a tiny markdown table of yesterday's net FII and DII cash
+positions (₹ crore) and, if given, the 5-session trend. **Interpretation:** what
+the flow stance means for market direction and which side has been supporting it.
+
+## Key levels to watch — Nifty & Bank Nifty (technical)
+For each index given in the technicals data, present a compact table with the
+CPR (pivot, top, bottom), R1/R2 (resistance), S1/S2 (support), the recent swing
+high/low and the 20-/50-DMA. **Interpretation:** where the day's likely range
+sits, what a break above resistance or below support would signal, and what a
+narrow vs wide CPR implies (narrow CPR → trending day likely; wide CPR →
+range/sideways). Only use the numbers provided.
+
+## Option-chain signals (OI) — where support & resistance sit
+For each index in the OI data, state the highest call-OI strike(s) (acting as
+resistance), the highest put-OI strike(s) (acting as support) and the PCR.
+**Interpretation:** in simple words — high call OI = sellers expect a ceiling
+there; high put OI = buyers defending that floor; PCR > 1 leans supportive/
+bullish-to-neutral, PCR < 0.7 leans cautious. Combine with the technical levels
+into a single "levels to respect today" takeaway.
 
 ## Companies reporting results today
-If the list is non-empty, group them and add one-line context for the
-recognisable names. Skip if empty.
+If the list is non-empty, group them and add one-line context for recognisable
+names and which sector's mood they could set. Skip if empty.
 
 ## Corporate actions today
-List ex-dividend / split / bonus / AGM ex-dates with the company and one-line
-explanation of what each means for shareholders. Skip section if empty.
+List ex-dividend / split / bonus / AGM ex-dates with the company and a one-line
+explanation of what each means for shareholders (e.g. price adjusts down by the
+dividend on ex-date). Skip section if empty.
 
-## Recent FII/DII flows
-A two-sentence summary plus a tiny markdown table of yesterday's net cash
-positions for FII and DII (in ₹ crore). If 5-day trend is provided, note
-direction.
+## Stock & sector news that matters
+3-6 of the most market-relevant news items from the news list. For each:
+**Headline** (bold), one-sentence summary, and **why it matters** for the stock/
+sector/Indian market. Call out any item tied to a specific listed company.
 
-## Overnight news that matters
-3-5 of the most market-relevant news items from the news list. For each:
-**Headline** (bold), one-sentence summary, why it matters to Indian markets.
+## Events & data to watch — and how markets usually react
+From the news and scheduled context, list the key events/data that could move
+Indian markets today or this week (e.g. RBI policy, US Fed, CPI/GDP prints,
+F&O expiry, auto/GST monthly data, global central-bank speak). For each, add a
+brief, GENERAL note on how markets have *typically* reacted to that kind of event
+in the past (volatility around policy days, expiry-day churn, etc.) — described
+qualitatively, WITHOUT inventing specific past figures. If nothing notable is
+scheduled, say so.
 
 ## What to watch in today's session
-Numbered list of 3-5 specific things investors should monitor today (sectors,
-stocks reporting, key data releases, levels).
+Numbered list of 4-6 specific things to monitor: the levels above, stocks
+reporting, sectors in focus from the news, and the day's main risk.
 
 ## Bottom line
-2-3 sentence concluding paragraph: where the open is biased, what to be
-cautious about. No advice, no buy/sell calls.
+2-3 sentence conclusion: where the open is biased, the key level that decides
+the day, and what to be cautious about. No advice, no buy/sell calls.
 
 ## Sources
-Bullet links to the news sources cited in the article + official sources
-(Income Tax India / RBI / SEBI / NSE) where relevant.
+Bullet links to the news sources cited + official sources (RBI / SEBI / NSE)
+where relevant.
 
-Target length: 1,100-1,500 words. Reply with ONLY the article in Markdown,
+Target length: 1,300-1,800 words. Reply with ONLY the article in Markdown,
 no extra commentary."""
 
 
@@ -196,6 +239,43 @@ def _format_news_block(rows: list[dict]) -> str:
     return "\n".join(out)
 
 
+def _format_tech_block(rows: list[dict]) -> str:
+    if not rows:
+        return "data unavailable"
+    out = []
+    for r in rows:
+        if not r.get("available"):
+            out.append(f"- {r.get('name')}: data unavailable")
+            continue
+        cpr, res, sup = r["cpr"], r["resistance"], r["support"]
+        out.append(
+            f"- {r['name']} (prev close {r['prev_close']}): "
+            f"CPR pivot {cpr['pivot']} (TC {cpr['tc']} / BC {cpr['bc']}, "
+            f"width {cpr['width_pct']}%); "
+            f"R1 {res['r1']}, R2 {res['r2']}, R3 {res['r3']}; "
+            f"S1 {sup['s1']}, S2 {sup['s2']}, S3 {sup['s3']}; "
+            f"swing high {r['swing_high']}, swing low {r['swing_low']}; "
+            f"20-DMA {r['dma20']}, 50-DMA {r['dma50']}")
+    return "\n".join(out)
+
+
+def _format_oi_block(rows: list[dict]) -> str:
+    if not rows:
+        return "data unavailable"
+    out = []
+    for r in rows:
+        if not r.get("available"):
+            out.append(f"- {r.get('name')}: data unavailable")
+            continue
+        res = ", ".join(f"{x['strike']} (OI {x['oi']:,})" for x in r["resistance"])
+        sup = ", ".join(f"{x['strike']} (OI {x['oi']:,})" for x in r["support"])
+        out.append(
+            f"- {r['name']}: PCR {r.get('pcr')}; "
+            f"highest CALL OI (resistance) → {res}; "
+            f"highest PUT OI (support) → {sup}")
+    return "\n".join(out)
+
+
 def build_prompt(data: dict) -> str:
     today = dt.date.today().strftime("%d %B %Y")
     gift = data["gift_nifty"]
@@ -226,6 +306,12 @@ FII / DII FLOWS:
 OVERNIGHT NEWS ({len(data['news'])} items, most-recent first):
 {_format_news_block(data['news'])}
 
+KEY TECHNICAL LEVELS (Nifty & Bank Nifty, computed from the previous session):
+{_format_tech_block(data.get('technicals', []))}
+
+OPTION-CHAIN OI LEVELS (nearest expiry — highest OI strikes):
+{_format_oi_block(data.get('oi_levels', []))}
+
 Write the article now, following the structure exactly."""
 
 
@@ -234,13 +320,15 @@ from llm import call_llm as _shared_call_llm
 
 
 def call_gemini(prompt: str) -> Optional[str]:
-    # Pre-market brief: low temp (factual), large output, grounding ON for
-    # overnight news freshness.
+    # Pre-market brief written by Qwen + Llama (both draft, then merge).
+    # Low temp for a factual brief. Falls back to the env provider only if
+    # OpenRouter is fully unavailable (see llm._call_qwen_llama).
     return _shared_call_llm(
         prompt, SYSTEM,
         temperature=0.4,
         max_tokens=16000,
         top_p=0.95,
+        provider="qwen_llama",
     )
 
 

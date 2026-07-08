@@ -1,8 +1,8 @@
-name: Pre-market article (8:15 AM IST)
+name: Pre-market article (8:00 AM IST)
 
 on:
   schedule:
-    - cron: "45 2 * * 1-5"   # 08:15 IST Mon–Fri
+    - cron: "30 2 * * 1-5"   # 08:00 IST Mon–Fri
   workflow_dispatch: {}
 
 permissions:
@@ -35,6 +35,11 @@ jobs:
       - name: Write pre-market article
         env:
           FYERS_CLIENT_ID: ${{ secrets.FYERS_CLIENT_ID }}
+          # Pre-market brief is written by Qwen + Llama via OpenRouter.
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          QWEN_MODEL: ${{ vars.QWEN_MODEL || 'qwen/qwen-2.5-72b-instruct' }}
+          LLAMA_MODEL: ${{ vars.LLAMA_MODEL || 'meta-llama/llama-3.3-70b-instruct' }}
+          DUAL_FALLBACK_PROVIDER: ${{ vars.DUAL_FALLBACK_PROVIDER || 'gemini' }}
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}

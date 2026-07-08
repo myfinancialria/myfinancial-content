@@ -212,13 +212,14 @@ from llm import call_llm as _shared_call_llm
 
 
 def call_gemini(prompt: str) -> Optional[str]:
-    # Post-market wrap: low temp (factual), large output, grounding ON
-    # for FII/DII + sector flows freshness.
+    # Post-market wrap written by Qwen + Llama (both draft, then merge).
+    # Falls back to the env provider only if OpenRouter is fully unavailable.
     return _shared_call_llm(
         prompt, SYSTEM,
         temperature=0.4,
         max_tokens=16000,
         top_p=0.95,
+        provider="qwen_llama",
     )
 
 
