@@ -232,12 +232,15 @@ def movers_table(draw: ImageDraw.ImageDraw, title: str,
 
 def post_telegram(image_path: Path, caption: str,
                   chat_id_env: str = "TELEGRAM_PULSE_CHAT_ID") -> bool:
-    """sendPhoto helper. Returns True on success."""
+    """sendPhoto helper. Returns True on success OR when Telegram isn't
+    configured (an unconfigured optional channel is a no-op, not a failure —
+    the caller shouldn't fail content publishing just because there's no chat)."""
     token = os.environ.get("TELEGRAM_BOT_TOKEN")
     chat_id = os.environ.get(chat_id_env)
     if not token or not chat_id:
-        print(f"TELEGRAM_BOT_TOKEN / {chat_id_env} not set", file=sys.stderr)
-        return False
+        print(f"TELEGRAM_BOT_TOKEN / {chat_id_env} not set — skipping Telegram post",
+              file=sys.stderr)
+        return True
     url = f"https://api.telegram.org/bot{token}/sendPhoto"
     for attempt in range(3):
         with open(image_path, "rb") as f:
