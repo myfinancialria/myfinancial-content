@@ -3,8 +3,8 @@ title: "Pre-Market Brief — 09 July 2026"
 date: 2026-07-09
 author: myfinancial
 category: pre_market
-description: "Global markets show mixed sentiment, with US indices closing lower and Asian markets mixed. GIFT Nifty data is unavailable, providing no clear signal for the ."
-keywords: [markets, stocks, sentiment, strong, kusumgar, prices, interpretation, investor]
+description: "Global markets are mixed, with the Dow and FTSE down, while the Nikkei and Shanghai are up. GIFT Nifty suggests a positive bias, up 0.58%."
+keywords: [markets, shares, interpretation, positive, support, global, resistance, suggests]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-07-09-pre_market-pre-market-brief-09-july-2026/
 slug: 2026-07-09-pre_market-pre-market-brief-09-july-2026
 ---
@@ -12,130 +12,199 @@ slug: 2026-07-09-pre_market-pre-market-brief-09-july-2026
 # Pre-Market Brief — 09 July 2026
 
 **TL;DR**
-- Global markets show mixed sentiment, with US indices closing lower and Asian markets mixed.
-- GIFT Nifty data is unavailable, providing no clear signal for the Indian open.
-- FIIs and DIIs were net buyers yesterday, with FIIs leading the charge.
-- The single biggest news is the strong investor interest in Kusumgar IPO.
-- Key Nifty level to watch is 23995.75 (CPR pivot).
-- The day's main risk is the sharp rise in crude oil prices, which could pressure oil marketing companies and related sectors.
+- Global markets are mixed, with the Dow and FTSE down, while the Nikkei and Shanghai are up.
+- GIFT Nifty suggests a positive bias, up 0.58%.
+- FIIs are net buyers, with ₹1,963 crore invested yesterday.
+- Cupid shares rebounded 6% after a sharp fall, driven by upgraded FY27 guidance.
+- Key Nifty level to watch is 24035.22, the CPR pivot.
+- The day's main risk is the potential impact of global market volatility on Indian markets.
 
 ## How global markets traded — and what it means for India
-Global markets closed with mixed sentiment yesterday. US indices saw a decline, with the Dow Jones falling 1.09%, the S&P 500 down 0.28%, and the Nasdaq gaining 0.20%. European markets were weak, with the FTSE 100 dropping 1.66%. In Asia, the Nikkei 225 closed 2.04% higher, while the Hang Seng and Shanghai Composite were down 0.59% and 0.56%, respectively.
+Global markets were mixed overnight, with the Dow Jones down 1.09% and the FTSE 100 down 1.66%, while the Nikkei 225 was up 1.62% and the Shanghai Composite up 1.20%. The S&P 500 was down 0.28%, and the Nasdaq was up 0.20%.
 
-| Index         | % Change |
-|---------------|----------|
-| Dow Jones     | -1.09%   |
-| Nasdaq        | +0.20%   |
-| S&P 500       | -0.28%   |
-| FTSE 100      | -1.66%   |
-| Nikkei 225    | +2.04%   |
-| Hang Seng     | -0.59%   |
-| Shanghai      | -0.56%   |
+| Index          | % Change |
+|----------------|----------|
+| Dow Jones      | -1.09%   |
+| Nasdaq         | +0.20%   |
+| S&P 500        | -0.28%   |
+| FTSE 100       | -1.66%   |
+| Nikkei 225     | +1.62%   |
+| Hang Seng      | -0.83%   |
+| Shanghai       | +1.20%   |
 
-**Interpretation:** The mixed global sentiment suggests a cautious start for the Indian market. The positive tone from Japan and the slight gain in the Nasdaq could provide some support, but the declines in the US and Europe could weigh on investor sentiment.
+**Interpretation:** The mixed global tone, combined with the positive GIFT Nifty, suggests that the Indian market may open on a positive note, but with a cautious undertone, as investors weigh the impact of global market volatility.
 
 ## Currency, commodities and yields
-- **USD/INR:** 95.54 (-0.06%)
-- **Dollar Index:** 100.97 (-0.17%)
-- **Brent Crude:** 78.91 (+6.41%)
-- **WTI Crude:** 74.41 (+5.64%)
-- **Gold:** 4065.70 (-1.92%)
-- **Silver:** 58.08 (-4.67%)
+- **USD/INR:** 95.37 (-0.23%)
+- **Dollar Index:** 100.88 (-0.17%)
+- **Brent Crude:** 77.78 (-0.31%)
+- **WTI Crude:** 73.22 (-0.41%)
+- **Gold:** 4107.10 (+0.89%)
 - **US 10Y Yield:** 4.57 (+0.88%)
 
 **Interpretation:**
-- The slight depreciation of the USD/INR is positive for IT and pharma sectors but could pressure importers.
-- The sharp rise in crude oil prices could negatively impact oil marketing companies, paint, and aviation sectors.
-- The decline in gold and silver prices could reduce demand for these metals.
-- The rise in US 10Y yields could lead to cautious FII flows, as higher yields make US assets more attractive.
+- **USD/INR:** The slight depreciation of the rupee could provide a tailwind for IT and pharma sectors but may pressure importers.
+- **Crude Oil:** The slight decline in crude prices could ease some pressure on oil marketing companies and airlines.
+- **Gold:** The rise in precious metals could benefit jewelry and precious metals companies.
+- **US 10Y Yield:** The increase in yields could make equities less attractive and potentially lead to reduced FII inflows.
 
 ## GIFT Nifty — what it's signalling
-Data unavailable.
-
-**Interpretation:** Without GIFT Nifty data, there is no clear signal for the Nifty open. Traders should be cautious and look for early market cues.
+The GIFT Nifty is up 0.58% at 24077.50, indicating a positive bias for the Nifty open.
+**Interpretation:** The positive GIFT Nifty suggests that the Nifty may open on a positive note, but the extent of the gain will depend on the global market trends and other domestic factors.
 
 ## FII/DII flows — who's driving the tape
-Yesterday, FIIs were net buyers with ₹1,963 crore, and DIIs also bought ₹790 crore. Over the last five sessions, FIIs have been net buyers in three sessions, while DIIs have been net buyers in four sessions.
+FIIs were net buyers, with ₹1,963 crore invested yesterday, while DIIs were net buyers, with ₹790 crore invested. Over the last 5 sessions, FIIs have been net buyers, with a total investment of ₹4,642 crore.
 
-| Date          | FII Net (₹ cr) | DII Net (₹ cr) |
-|---------------|----------------|----------------|
-| 2026-07-08    | +1,963         | +790           |
-| 2026-07-07    | +393           | -383           |
-| 2026-07-06    | +243           | +3,791         |
-| 2026-07-03    | +1,355         | -1,954         |
-| 2026-07-02    | -312           | +1,784         |
+| Session | FII Net (₹ crore) | DII Net (₹ crore) |
+|---------|-------------------|------------------|
+| 2026-07-08 | +1,963 | +790 |
+| 2026-07-07 | +393 | -383 |
+| 2026-07-06 | +243 | +3,791 |
+| 2026-07-03 | +1,355 | -1,954 |
+| 2026-07-02 | -312 | +1,784 |
 
-**Interpretation:** The strong buying by FIIs and DIIs suggests a positive sentiment. However, the mixed trend over the last five sessions indicates that the market is still finding direction. Traders should watch for sustained buying to confirm the bullish trend.
+**Interpretation:** The continued buying by FIIs suggests that they are bullish on the Indian market, which may provide support to the market. However, the buying by DIIs may be a contrarian indicator, suggesting that the market may be due for a correction.
 
-## Key levels to watch — Nifty & Bank Nifty (technical)
+## Key levels to watch — Nifty, Bank Nifty & Sensex (technical)
 
-| Index         | CPR Pivot | Top | Bottom | Width | R1 | R2 | R3 | S1 | S2 | S3 | Swing High | Swing Low | 20-DMA | 50-DMA |
-|---------------|-----------|-----|--------|-------|----|----|----|----|----|----|------------|-----------|--------|--------|
-| NIFTY 50      | 23995.75  | 24052.6 | 23938.9 | 0.47% | 24186.3 | 24490.55 | 24681.1 | 23691.5 | 23500.95 | 23196.7 | 24530.9 | 23784.95 | 23954.47 | 23828.03 |
-| BANK NIFTY    | 57122.53  | 57312.5 | 56932.57 | 0.67% | 57695.67 | 58648.73 | 59221.87 | 56169.47 | 55596.33 | 54643.27 | 58706.05 | 56549.4 | 57438.87 | 55677.06 |
+### Nifty 50
+| Level | Value |
+|-------|-------|
+| CPR Pivot | 24035.22 |
+| R1 | 24142.73 |
+| R2 | 24242.22 |
+| R3 | 24349.73 |
+| S1 | 23935.73 |
+| S2 | 23828.22 |
+| S3 | 23728.73 |
+| Swing High | 24530.9 |
+| Swing Low | 23784.95 |
+| 20-DMA | 23995.89 |
+| 50-DMA | 23827.04 |
 
-**Interpretation:** The narrow CPR for Nifty suggests a trending day is likely, while the wider CPR for Bank Nifty indicates a more sideways or range-bound day. Traders should watch for a break above 24186.3 (Nifty R1) or below 23691.5 (Nifty S1) to confirm direction. For Bank Nifty, a break above 57695.67 (R1) or below 56169.47 (S1) would signal a move.
+**Interpretation:** The Nifty is likely to trade in a range of 23935.73 to 24142.73, with the CPR pivot at 24035.22 acting as a crucial support level. A break above 24142.73 may lead to a rally towards 24242.22, while a break below 23935.73 may lead to a decline towards 23828.22.
+
+### Bank Nifty
+| Level | Value |
+|-------|-------|
+| CPR Pivot | 57186.28 |
+| R1 | 57505.27 |
+| R2 | 57783.18 |
+| R3 | 58102.17 |
+| S1 | 56908.37 |
+| S2 | 56589.38 |
+| S3 | 56311.47 |
+| Swing High | 58706.05 |
+| Swing Low | 56549.4 |
+| 20-DMA | 57545.22 |
+| 50-DMA | 55696.32 |
+
+**Interpretation:** The Bank Nifty's narrow CPR also points to a trending day. A move above R1 at 57505.27 could signal a bullish trend, while a drop below S1 at 56908.37 could indicate weakness.
+
+### Sensex
+| Level | Value |
+|-------|-------|
+| CPR Pivot | 76979.21 |
+| R1 | 77382.29 |
+| R2 | 77729.72 |
+| R3 | 78132.8 |
+| S1 | 76631.78 |
+| S2 | 76228.7 |
+| S3 | 75881.27 |
+| Swing High | 78664.92 |
+| Swing Low | 76082.51 |
+| 20-DMA | 76829.41 |
+| 50-DMA | 76079.83 |
+
+**Interpretation:** The Sensex's narrow CPR suggests a trending day. A break above R1 at 77382.29 could indicate further gains, while a drop below S1 at 76631.78 could signal a pullback.
 
 ## Option-chain signals (OI) — where support & resistance sit
+### Nifty
+- **Highest Call OI (Resistance):** 24500 (12,320,685), 24300 (9,363,640), 24200 (8,649,225)
+- **Highest Put OI (Support):** 24000 (9,979,905), 23500 (7,417,735), 23800 (7,052,240)
+- **PCR:** 0.89
 
-| Index         | PCR | Highest Call OI (Resistance) | Highest Put OI (Support) |
-|---------------|-----|------------------------------|--------------------------|
-| NIFTY 50      | 0.73 | 24500 (12,033,700), 24200 (9,900,540), 24300 (9,213,820) | 23500 (5,673,590), 23600 (5,127,590), 23800 (4,800,580) |
-| BANK NIFTY    | 1.14 | 58000 (1,455,720), 57000 (477,150), 57500 (281,130) | 58000 (993,780), 57000 (710,340), 56000 (535,560) |
+**Interpretation:** High call OI at 24500 suggests sellers expect a ceiling there, while high put OI at 24000 indicates buyers are defending this floor. The PCR of 0.89 leans slightly cautious.
 
-**Interpretation:** High call OI at 24500 for Nifty and 58000 for Bank Nifty suggests these levels could act as resistance. High put OI at 23500 for Nifty and 58000 for Bank Nifty indicates strong support. The PCR for Nifty is below 0.7, indicating cautious sentiment, while the PCR for Bank Nifty is above 1, suggesting a more supportive stance.
+### Bank Nifty
+- **Highest Call OI (Resistance):** 58000 (1,402,650), 58500 (771,750), 57000 (466,680)
+- **Highest Put OI (Support):** 58000 (965,580), 57000 (764,100), 56000 (593,100)
+- **PCR:** 0.98
+
+**Interpretation:** High call OI at 58000 suggests resistance, while high put OI at 58000 indicates support. The PCR of 0.98 is neutral to slightly cautious.
+
+### Sensex
+- **Highest Call OI (Resistance):** 77500 (6,942,040), 78000 (5,129,040), 77200 (4,864,840)
+- **Highest Put OI (Support):** 76500 (9,247,620), 77000 (6,872,040), 76800 (5,392,200)
+- **PCR:** 1.14
+
+**Interpretation:** High call OI at 77500 suggests resistance, while high put OI at 76500 indicates support. The PCR of 1.14 leans supportive.
+
+**Levels to respect today:**
+- **Nifty:** Resistance at 24500, Support at 24000
+- **Bank Nifty:** Resistance at 58000, Support at 58000
+- **Sensex:** Resistance at 77500, Support at 76500
 
 ## Companies reporting results today
 No Nifty 50 or large-cap results scheduled today.
 
 ## Corporate actions today
-- **TITAN**: Dividend - Rs 15 Per Share
-- **HARSHA**: Dividend - Rs 1.50 Per Share
-- **SFL**: Dividend - Re 1 Per Share
-- **TARACHAND**: Dividend - Re 0.20 Per Share
-- **RPGLIFE**: Dividend - Rs 24 Per Share
+- **TITAN:** Dividend - Rs 15 Per Share
+- **HARSHA:** Dividend - Rs 1.50 Per Share
+- **SFL:** Dividend - Re 1 Per Share
+- **TARACHAND:** Dividend - Re 0.20 Per Share
+- **RPGLIFE:** Dividend - Rs 24 Per Share
 
-**Interpretation:** Shareholders of these companies will see their stock prices adjust downward by the dividend amount on the ex-date. This could lead to some short-term volatility in these stocks.
+**Interpretation:** The dividend payments by these companies may lead to a positive impact on their stock prices, as investors may view the dividend as a sign of the company's financial health.
 
 ## Stock & sector news that matters
-**Headline:** Aegis Logistics among 4 stocks that closed below VWAP
-**Summary:** Four Nifty500 stocks, including Aegis Logistics, closed over 3% below their volume-weighted average price (VWAP), indicating bearish sentiment.
-**Why it matters:** This could signal further weakness in these stocks and the broader market.
+**Cupid rebounds 6% after sharp fall as upgraded FY27 guidance boosts sentiment**
+- **Summary:** Cupid shares rebounded nearly 6% after a sharp correction, driven by the company’s upgraded FY27 revenue guidance of Rs 660 crore.
+- **Why it matters:** This positive sentiment could boost the healthcare sector.
 
-**Headline:** NALCO shares in focus on JV with NLC India for 1,080 MW thermal plant in Odisha
-**Summary:** National Aluminium Company and NLC India have signed an agreement for a joint venture to establish a 1,080 MW captive thermal power plant in Odisha.
-**Why it matters:** This development could boost NALCO's operational efficiency and long-term growth prospects.
+**Uno Minda shares rise after Motilal Oswal initiates coverage with a Buy call**
+- **Summary:** Uno Minda shares rose after Motilal Oswal initiated coverage with a Buy call, citing industry trends like premiumization and the EV transition.
+- **Why it matters:** This could provide a positive catalyst for the auto component sector.
 
-**Headline:** Premier Energies among 4 stocks showing bullish RSI upswing
-**Summary:** Four stocks in the Nifty500 pack, including Premier Energies, showed improving momentum with their RSI moving above 50.
-**Why it matters:** This could indicate a potential price rebound in these stocks, making them attractive for short-term traders.
+**India’s top 3 fuel retailers may report Rs 47,700 crore loss in Q1**
+- **Summary:** India's three largest fuel retailers—HPCL, BPCL, and IOCL—are expected to report a combined EBITDA loss of up to Rs 47,700 crore in Q1FY27 due to soaring crude oil prices and LPG under-recoveries.
+- **Why it matters:** This could weigh heavily on the oil marketing companies and the broader market sentiment.
 
-**Headline:** Kusumgar IPO Day 2: GMP at 38%, Rs 650-crore issue sees strong investor interest
-**Summary:** The Kusumgar IPO received a solid response on Day 1, with the issue subscribed 3.45 times. The retail investor portion was subscribed 3.52 times.
-**Why it matters:** Strong investor interest in the IPO could be a positive signal for the broader market sentiment.
+**Kalyan Jewellers shares jump 9%, extend two-day rally to over 15% after robust Q1 business update**
+- **Summary:** Kalyan Jewellers shares surged following a robust first-quarter business update, reporting an estimated 38% year-on-year increase in consolidated revenue for Q1 FY27.
+- **Why it matters:** This strong performance could boost the jewelry sector.
+
+**Dixon Technologies, Syrma SGS Technologies, and Amber Enterprises shares surge up to 6%**
+- **Summary:** These companies' shares rallied after the Centre expanded customs duty exemptions on electronics manufacturing machinery and components until 2029.
+- **Why it matters:** This could provide a significant boost to the electronics manufacturing sector.
 
 ## Events & data to watch — and how markets usually react
-- **Kusumgar IPO Day 2:** The IPO is expected to close on July 11. Strong subscription could indicate positive market sentiment.
-- **RBI Policy Meeting:** The Reserve Bank of India's next policy meeting is scheduled for July 28. Markets typically experience volatility around policy announcements, with a focus on interest rate decisions and economic outlook.
-- **US Fed Meeting:** The US Federal Reserve's next meeting is on July 25-26. Markets are sensitive to changes in US monetary policy, which can impact global flows.
-- **F&O Expiry:** The next F&O expiry is on July 26. Expiry days often see increased trading volumes and volatility as positions are squared off.
+- **RBI Policy Review:** Scheduled for 06 July 2026. Markets typically react with volatility, especially if interest rate changes are announced.
+- **US Non-Farm Payrolls:** Scheduled for 03 July 2026. Strong employment data can boost market sentiment, while weak data can lead to caution.
+- **F&O Expiry:** Scheduled for 16 July 2026. Expiry days often see increased volatility and churn in the market.
+- **Auto Sales Data:** Scheduled for 01 July 2026. Positive sales data can boost auto stocks, while negative data can weigh on the sector.
 
-**Interpretation:** Traders should be cautious around these events, as they can lead to increased market volatility. The Kusumgar IPO and RBI policy meeting are particularly important for the Indian market.
+**Interpretation:** Traders should be cautious around these events, as they can cause significant market movements. The RBI policy and F&O expiry are particularly important to watch.
 
 ## What to watch in today's session
-1. **Nifty and Bank Nifty levels:** Watch for a break above 24186.3 (Nifty R1) or below 23691.5 (Nifty S1) for Nifty, and above 57695.67 (Bank Nifty R1) or below 56169.47 (Bank Nifty S1) for Bank Nifty.
-2. **Crude oil prices:** The sharp rise in crude oil prices could pressure oil marketing companies and related sectors.
-3. **Kusumgar IPO:** Strong subscription could boost market sentiment.
-4. **FII and DII flows:** Sustained buying by FIIs and DIIs could drive the market higher.
-5. **Corporate actions:** Monitor the ex-dividend stocks for any short-term volatility.
-6. **Key economic events:** Stay updated on the RBI policy meeting and US Fed meeting for potential market-moving news.
+1. **Key Levels:** Nifty 24142.73 (R1), Bank Nifty 57505.27 (R1), Sensex 77382.29 (R1).
+2. **Corporate Actions:** Dividend ex-dates for Titan, Harsha, SFL, Tarachand, and RPGLife.
+3. **Sectoral Performance:** Watch the healthcare, auto component, and electronics manufacturing sectors.
+4. **Geopolitical Tensions:** Monitor any developments that could impact oil prices and market sentiment.
+5. **FII/DII Flows:** Track the continuation of the buying trend by FIIs and DIIs.
+6. **Global Cues:** Keep an eye on the performance of global markets, particularly the US and Asian indices.
 
 ## Bottom line
-The market is expected to open cautiously, with mixed global cues and a sharp rise in crude oil prices. The key level to watch is 23995.75 (Nifty CPR pivot). Traders should be cautious about the impact of high crude prices and monitor FII and DII flows for direction. The Kusumgar IPO and upcoming economic events could also influence market sentiment.
+The market is biased towards a positive open, with the GIFT Nifty and strong FII/DII flows supporting this bias. The key level to watch is Nifty 24035.22, the CPR pivot. Traders should be cautious about geopolitical tensions and oil price volatility, which could impact the market sentiment.
 
 ## Sources
-- [ET Markets] Aegis Logistics among 4 stocks that closed below VWAP: https://economictimes.indiatimes.com/markets/stocks/news/aegis-logistics-among-4-stocks-that-closed-below-vwap/slideshow/132276266.cms
-- [ET Markets] NALCO shares in focus on JV with NLC India for 1,080 MW thermal plant in Odisha: https://economictimes.indiatimes.com/markets/stocks/news/nalco-shares-in-focus-on-jv-with-nlc-india-for-1080-mw-thermal-plant-in-odisha/articleshow/132276115.cms
-- [ET Markets] Premier Energies among 4 stocks showing bullish RSI upswing: https://economictimes.indiatimes.com/markets/stocks/news/premier-energies-among-4-stocks-showing-bullish-rsi-upswing/slideshow/132276058.cms
-- [ET Markets] Kusumgar IPO Day 2: GMP at 38%, Rs 650-crore issue sees strong investor interest: https://economictimes.indiatimes.com/markets/ipos/fpos/kusumgar-ipo-day-2-gmp-at-38-rs-650-crore-issue-sees-strong-investor-interest/articleshow/132275581.cms
-- [Livemint Markets] Rupee opens flat at 95.55 against US dollar: https://www.livemint.com/market/stock-market-news/rupee-opens-flat-at-95-55-against-us-dollar-11783567974219.html
+- [ET Markets] Cupid rebounds 6% after sharp fall as upgraded FY27 guidance boosts sentiment
+  https://economictimes.indiatimes.com/markets/stocks/news/cupid-rebounds-6-after-sharp-fall-as-upgraded-fy27-guidance-boosts-sentiment/articleshow/132278692.cms
+- [ET Markets] Motilal Oswal initiates coverage on this auto component maker with a 25% upside. 4 reasons why
+  https://economictimes.indiatimes.com/markets/stocks/news/motilal-oswal-initiates-coverage-on-this-auto-component-maker-with-a-25-upside-4-reasons-why/articleshow/132278703.cms
+- [ET Markets] India’s top 3 fuel retailers may report Rs 47,700 crore loss in Q1. What’s behind this?
+  https://economictimes.indiatimes.com/markets/stocks/news/indias-top-3-fuel-retailers-may-report-rs-47700-crore-loss-in-q1-whats-behind-this/articleshow/132277434.cms
+- [ET Markets] Kalyan Jewellers shares jump 9%, extend two-day rally to over 15% after robust Q1 business update
+  https://economictimes.indiatimes.com/markets/stocks/news/kalyan-jewellers-shares-jump-9-extend-two-day-rally-to-over-15-after-robust-q1-business-update/articleshow/132277444.cms
+- [ET Markets] Dixon Tech, Syrma SGS, Amber shares surge up to 6%. What does customs duty relief mean?
+  https://economictimes.indiatimes.com/markets/stocks/news/dixon-tech-syrma-sgs-amber-shares-surge-up-to-6-what-does-customs-duty-relief-mean/articleshow/132277651.cms
