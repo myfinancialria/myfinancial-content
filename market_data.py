@@ -373,12 +373,48 @@ def fetch_india(fyers) -> dict:
     return {"indices": indices, "vix": vix, "sectors": sectors}
 
 
-def fetch_gift_nifty(fyers) -> dict:
-    for sym in GIFT_CANDIDATES:
-        q = fyers_quotes(fyers, [sym])
-        d = q.get(sym, {})
-        if d.get("lp"):
-            return {"name": "GIFT NIFTY", "symbol": sym, **d}
+GIFT_GROWW_URL = "https://groww.in/indices/global-indices/sgx-nifty"
+
+
+def _gift_from_groww() -> dict:
+    """GIFT Nifty live value from Groww's page (embedded __NEXT_DATA__ JSON).
+    Fyers has no NSE-IX feed and Google Finance doesn't list GIFT Nifty, so this
+    is the reliable free source. Plain HTTP — no browser needed. Fail-soft."""
+    try:
+        r = requests.get(GIFT_GROWW_URL,
+                         headers={"User-Agent": HEADERS["User-Agent"]}, timeout=15)
+        r.raise_for_status()
+        m = re.search(r'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', r.text, re.S)
+        if not m:
+            return {}
+        gd = (json.loads(m.group(1)).get("props", {}).get("pageProps", {})
+              .get("globalIndicesData", {}) or {})
+        pd = gd.get("priceData") or {}
+        val, close = pd.get("value"), pd.get("close")
+        if not val:
+            return {}
+        chp = ((val - close) / close * 100) if close else 0
+        return {
+            "name": "GIFT NIFTY", "symbol": "GIFTNIFTY", "source": "groww",
+            "lp": float(val), "prev_close": float(close or 0),
+            "ch": float(val - close) if close else 0, "chp": round(chp, 2),
+            "high": float(pd.get("high") or 0), "low": float(pd.get("low") or 0),
+        }
+    except Exception as e:
+        print(f"  GIFT Nifty (Groww) failed: {e}", file=sys.stderr)
+        return {}
+
+
+def fetch_gift_nifty(fyers=None) -> dict:
+    """GIFT Nifty — Groww web feed first (reliable), Fyers NSE-IX as fallback."""
+    g = _gift_from_groww()
+    if g.get("lp"):
+        return g
+    if fyers is not None:
+        for sym in GIFT_CANDIDATES:
+            d = fyers_quotes(fyers, [sym]).get(sym, {})
+            if d.get("lp"):
+                return {"name": "GIFT NIFTY", "symbol": sym, "source": "fyers", **d}
     return {"name": "GIFT NIFTY"}
 
 
