@@ -389,6 +389,7 @@ def fetch_gift_nifty(fyers) -> dict:
 LEVEL_INDICES = [
     ("NIFTY 50", "NSE:NIFTY50-INDEX"),
     ("BANK NIFTY", "NSE:NIFTYBANK-INDEX"),
+    ("SENSEX", "BSE:SENSEX-INDEX"),
 ]
 
 
@@ -465,6 +466,7 @@ def fetch_index_technicals(fyers, swing_lookback: int = 15) -> list[dict]:
 OI_INDICES = [
     ("NIFTY", "NSE:NIFTY50-INDEX"),
     ("BANK NIFTY", "NSE:NIFTYBANK-INDEX"),
+    ("SENSEX", "BSE:SENSEX-INDEX"),
 ]
 
 

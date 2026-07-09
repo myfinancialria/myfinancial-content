@@ -125,8 +125,9 @@ Two sentences plus a tiny markdown table of yesterday's net FII and DII cash
 positions (₹ crore) and, if given, the 5-session trend. **Interpretation:** what
 the flow stance means for market direction and which side has been supporting it.
 
-## Key levels to watch — Nifty & Bank Nifty (technical)
-For each index given in the technicals data, present a compact table with the
+## Key levels to watch — Nifty, Bank Nifty & Sensex (technical)
+For each index given in the technicals data (Nifty 50, Bank Nifty and Sensex),
+present a compact table with the
 CPR (pivot, top, bottom), R1/R2 (resistance), S1/S2 (support), the recent swing
 high/low and the 20-/50-DMA. **Interpretation:** where the day's likely range
 sits, what a break above resistance or below support would signal, and what a
@@ -306,7 +307,7 @@ FII / DII FLOWS:
 OVERNIGHT NEWS ({len(data['news'])} items, most-recent first):
 {_format_news_block(data['news'])}
 
-KEY TECHNICAL LEVELS (Nifty & Bank Nifty, computed from the previous session):
+KEY TECHNICAL LEVELS (Nifty, Bank Nifty & Sensex, computed from the previous session):
 {_format_tech_block(data.get('technicals', []))}
 
 OPTION-CHAIN OI LEVELS (nearest expiry — highest OI strikes):
