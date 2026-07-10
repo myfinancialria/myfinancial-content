@@ -98,6 +98,20 @@ def main() -> int:
 
     url_field = body4.get("Url") or body4.get("url")
     if not url_field:
+        # A "s:ok" response carrying a data.auth consent object (no Url) means
+        # this app has never been authorised for this user. Granting access is a
+        # one-time manual browser step; headless TOTP login works only afterwards.
+        if (body4.get("data") or {}).get("auth"):
+            authcode_url = (
+                "https://api-t1.fyers.in/api/v3/generate-authcode"
+                f"?client_id={CLIENT_ID}&redirect_uri={REDIRECT}"
+                "&response_type=code&state=ci"
+            )
+            sys.exit(
+                "App not authorised yet. Open this URL once in a browser, log "
+                "in and grant access to the app, then re-run this workflow:\n  "
+                + authcode_url
+            )
         sys.exit(f"No Url in get_auth_code response: {body4}")
     auth_code = parse_qs(urlparse(url_field).query).get("auth_code", [None])[0]
     if not auth_code:
