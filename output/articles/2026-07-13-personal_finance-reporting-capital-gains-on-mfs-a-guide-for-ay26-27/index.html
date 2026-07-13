@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Reporting Capital Gains on MFs: A Guide for AY26-27</title>
+<meta name="description" content="Accurately reporting capital gains from mutual fund investments in your Income Tax Return is mandatory. Equity-oriented and debt-oriented mutual funds are sub.">
+<meta name="keywords" content="equity, capital, mutual, oriented, months, applicable, losses, acquisition">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-13-personal_finance-reporting-capital-gains-on-mfs-a-guide-for-ay26-27/">
+<meta property="og:title" content="Reporting Capital Gains on MFs: A Guide for AY26-27">
+<meta property="og:description" content="Accurately reporting capital gains from mutual fund investments in your Income Tax Return is mandatory. Equity-oriented and debt-oriented mutual funds are sub.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-13-personal_finance-reporting-capital-gains-on-mfs-a-guide-for-ay26-27/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Reporting Capital Gains on MFs: A Guide for AY26-27", "description": "Accurately reporting capital gains from mutual fund investments in your Income Tax Return is mandatory. Equity-oriented and debt-oriented mutual funds are sub.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-13", "dateModified": "2026-07-13", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-13-personal_finance-reporting-capital-gains-on-mfs-a-guide-for-ay26-27/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-07-13</div><h1>Reporting Capital Gains on MFs: A Guide for AY26-27</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Accurately reporting capital gains from mutual fund investments in your Income Tax Return is mandatory.</li>
+<li>Equity-oriented and debt-oriented mutual funds are subject to different capital gains tax rules.</li>
+<li>The classification of gains as Short-Term Capital Gains (STCG) or Long-Term Capital Gains (LTCG) depends on the holding period.</li>
+<li>For debt funds, gains from units sold in FY25-26 (AY26-27) are taxed at your income slab rates, irrespective of holding period or purchase date.</li>
+<li>Always reconcile your fund house statements with Form 26AS and Annual Information Statement (AIS) before filing your ITR.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you invest in mutual funds and sell your units for a profit, this profit is called a capital gain. The Income Tax Department considers these gains as part of your income, and you need to report them in your Income Tax Return (ITR). The way these gains are taxed depends mainly on two factors: whether your mutual fund primarily invests in equities or debt instruments, and how long you held the units before selling them.
+</p>
+<p>
+For equity-oriented mutual funds, if you sell units after holding them for more than 12 months, the gains are considered Long-Term Capital Gains (LTCG). If you sell within 12 months, they are Short-Term Capital Gains (STCG). Debt funds, on the other hand, have seen a significant change in their taxation. For any debt fund units sold in the financial year 2025-26 (for which you&#x27;ll file returns in Assessment Year 2026-27), the gains are simply added to your total income and taxed at your individual income tax slab rate. Understanding these distinctions is crucial to ensure you file your taxes correctly and avoid any discrepancies.
+</p>
+<h2>Understanding Capital Gains for Mutual Funds</h2>
+<p>
+Capital gains from mutual funds are categorised based on the type of fund and the duration of your investment. This classification directly impacts how much tax you pay.
+</p>
+<h3>Equity-Oriented vs. Debt-Oriented Funds</h3>
+<p>
+The primary distinction for tax purposes lies in the asset allocation of your mutual fund scheme.
+</p>
+<ul>
+<li><strong>Equity-Oriented Mutual Funds:</strong> A fund is considered equity-oriented if at least 65% of its corpus is invested in Indian equities. This includes most diversified equity funds, ELSS (Equity Linked Savings Schemes), and sector-specific equity funds.</li>
+<li><strong>Debt-Oriented Mutual Funds:</strong> These are funds that invest less than 65% in equities and primarily focus on debt instruments like corporate bonds, government securities, and money market instruments. This category also includes Gold ETFs and Funds of Funds (FoFs) that invest in international equities, as they are not considered equity-oriented for Indian tax purposes.</li>
+</ul>
+<h3>Long-Term vs. Short-Term Capital Gains</h3>
+<p>
+The holding period of your mutual fund units determines if the gain is long-term or short-term.
+</p>
+<ul>
+<li><strong>For Equity-Oriented Funds:</strong></li>
+<p>
+    *   <strong>Short-Term Capital Gain (STCG):</strong> If you sell units after holding them for 12 months or less.
+    *   <strong>Long-Term Capital Gain (LTCG):</strong> If you sell units after holding them for more than 12 months.
+</p>
+<li><strong>For Debt-Oriented Funds (and other non-equity funds like Gold ETFs, FoFs):</strong></li>
+<p>
+    *   Previously, the distinction was 36 months. However, with the changes effective from April 1, 2023, for units sold in FY25-26 (AY26-27), this distinction is largely irrelevant for taxation purposes as all gains are now taxed at slab rates.
+</p>
+</ul>
+<h3>Tax Rates for Capital Gains</h3>
+<p>
+The tax rates differ significantly for equity and debt funds.
+</p>
+<ul>
+<li><strong>Equity-Oriented Funds:</strong></li>
+<p>
+    *   <strong>STCG:</strong> Taxed at a flat rate of 15% (plus cess and surcharge, if applicable).
+    *   <strong>LTCG:</strong> Taxed at 10% on gains exceeding ₹1 lakh in a financial year, without indexation benefit. Gains up to ₹1 lakh are exempt.
+</p>
+<li><strong>Debt-Oriented Funds (for units sold in FY25-26/AY26-27):</strong></li>
+<p>
+    *   All capital gains (irrespective of holding period) are now added to your total income and taxed as per your applicable income tax slab rates. The benefit of indexation and the distinction between STCG and LTCG for debt funds have been removed for units purchased on or after April 1, 2023. Even for units purchased before April 1, 2023, if sold in FY25-26, the gains will be taxed at slab rates.
+</p>
+</ul>
+<h2>The Reporting Framework: Forms and Documents</h2>
+<p>
+Accurate reporting relies on having the right documents and understanding which forms to use.
+</p>
+<h3>Consolidated Account Statement (CAS)</h3>
+<p>
+Your CAS is a critical document provided by registrar and transfer agents (RTAs) like CAMS or KFintech. It provides a consolidated view of all your mutual fund transactions (purchases, redemptions, switches, dividends) across all fund houses where you have investments. This statement helps you calculate your capital gains and losses accurately. Ensure you request an annual CAS that covers the entire financial year (April 1 to March 31).
+</p>
+<h3>Form 26AS and Annual Information Statement (AIS)</h3>
+<p>
+These statements, available on the Income Tax India e-filing portal, are invaluable for cross-checking your reported income.
+</p>
+<ul>
+<li><strong>Form 26AS:</strong> Provides details of tax deducted at source (TDS) and tax collected at source (TCS) on various incomes, including certain capital gains. While fund houses typically don&#x27;t deduct TDS on mutual fund gains (unless you&#x27;re an NRI), it&#x27;s still a good reference.</li>
+<li><strong>Annual Information Statement (AIS):</strong> This is a comprehensive statement that contains a wider range of financial transactions, including details of mutual fund purchases and sales reported by RTAs and fund houses. It&#x27;s crucial to download your AIS and TIS (Taxpayer Information Summary) and reconcile the reported transactions with your own records. Discrepancies should be noted and addressed before filing.</li>
+</ul>
+<h3>Income Tax Return (ITR) Forms and Schedule CG</h3>
+<p>
+For individuals, capital gains from mutual funds are generally reported in <strong>ITR-2</strong> or <strong>ITR-3</strong>.
+</p>
+<ul>
+<li><strong>ITR-2:</strong> Used by individuals and HUFs not having income from &quot;Profits and Gains from Business or Profession.&quot; Most salaried individuals with capital gains will use ITR-2.</li>
+<li><strong>ITR-3:</strong> Used by individuals and HUFs having income from &quot;Profits and Gains from Business or Profession.&quot; If you are self-employed or have business income along with capital gains, this is your form.</li>
+</ul>
+<p>
+Within these ITR forms, you will need to fill out <strong>Schedule CG (Capital Gains)</strong>. This schedule requires detailed information about each capital asset sold, including:
+</p>
+<ul>
+<li>Description of the asset (e.g., Equity Mutual Fund units, Debt Mutual Fund units).</li>
+<li>Date of acquisition and date of sale.</li>
+<li>Full value of consideration received.</li>
+<li>Cost of acquisition.</li>
+<li>Expenses related to transfer.</li>
+<li>Indexed cost of acquisition (if applicable, though not for debt funds sold in FY25-26).</li>
+<li>Nature of gain (STCG or LTCG).</li>
+</ul>
+<h2>Specifics for Equity Mutual Funds</h2>
+<p>
+Equity-oriented mutual funds enjoy preferential tax treatment compared to other asset classes, particularly for long-term gains.
+</p>
+<h3>Long-Term Capital Gains (LTCG) on Equity</h3>
+<p>
+If you sell equity mutual fund units after holding them for more than 12 months, the gains are considered LTCG.
+</p>
+<ul>
+<li><strong>Exemption Limit:</strong> Up to ₹1 lakh of LTCG from equity shares and equity-oriented mutual funds in a financial year is completely exempt from tax.</li>
+<li><strong>Tax Rate:</strong> Any LTCG exceeding this ₹1 lakh limit is taxed at a rate of 10% (plus cess and surcharge, if applicable).</li>
+<li><strong>No Indexation:</strong> Unlike some other long-term capital assets, equity LTCG does not get the benefit of indexation.</li>
+<li><strong>Grandfathering Rule (January 31, 2018):</strong> For equity units purchased before February 1, 2018, and sold after 12 months, the cost of acquisition is &quot;grandfathered.&quot; This means the cost of acquisition for calculating LTCG is considered to be the higher of:</li>
+<p>
+    1.  The actual cost of acquisition.
+    2.  The Net Asset Value (NAV) of the mutual fund units as of January 31, 2018.
+    This rule ensures that gains accrued before this date are not taxed.
+</p>
+</ul>
+<h3>Short-Term Capital Gains (STCG) on Equity</h3>
+<p>
+When you sell equity mutual fund units within 12 months of purchase, the gains are classified as STCG.
+</p>
+<ul>
+<li><strong>Tax Rate:</strong> STCG from equity-oriented mutual funds is taxed at a flat rate of 15% (plus cess and surcharge, if applicable), regardless of the amount.</li>
+<li>These gains are added to your total income, but taxed at this special rate, not your slab rate.</li>
+</ul>
+<h2>Specifics for Debt Mutual Funds</h2>
+<p>
+The taxation of debt mutual funds has undergone significant changes in recent years, which are fully applicable for the financial year 2025-26 (Assessment Year 2026-27).
+</p>
+<h3>Taxation Post April 1, 2023</h3>
+<p>
+For all debt mutual fund units sold in FY25-26 (AY26-27), the capital gains are treated differently.
+</p>
+<ul>
+<li><strong>Taxed at Slab Rates:</strong> Any gains arising from the sale of debt mutual fund units are now added to your total income and taxed as per your applicable income tax slab rate. This applies irrespective of the holding period or the date of purchase of the units.</li>
+<li><strong>No Indexation Benefit:</strong> The benefit of indexation, which allowed investors to adjust the purchase price for inflation, has been completely removed for debt mutual funds.</li>
+<li><strong>No STCG/LTCG Distinction:</strong> The earlier distinction between short-term (held for 36 months or less) and long-term (held for more than 36 months) capital gains for debt funds is no longer relevant for tax calculation purposes for sales made in FY25-26.</li>
+<li>This simplified approach means that gains from debt funds are now treated similarly to interest income from fixed deposits for tax purposes.</li>
+</ul>
+<h3>Hybrid Funds and Taxation</h3>
+<p>
+Hybrid funds, which invest in a mix of equity and debt, are taxed based on their equity allocation:
+</p>
+<ul>
+<li><strong>Equity-Oriented Hybrid Funds:</strong> If a hybrid fund invests 65% or more in Indian equities, it is treated as an equity-oriented fund for tax purposes, following the STCG (15%) and LTCG (10% over ₹1 lakh) rules.</li>
+<li><strong>Debt-Oriented Hybrid Funds:</strong> If a hybrid fund invests less than 65% in Indian equities, it is treated as a debt fund for tax purposes. Consequently, any gains from units sold in FY25-26 will be added to your income and taxed at your slab rates.</li>
+</ul>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, ₹28L CTC, Bengaluru</strong>, who is filing his ITR for AY26-27 (FY25-26). He has the following mutual fund transactions:
+</p>
+<ol>
+<li><strong>Equity Fund A:</strong> Sold units on 15th July 2025 (held for 20 months).</li>
+<p>
+    *   Sale Value: ₹4,50,000
+    *   Cost of Acquisition: ₹3,00,000
+    *   LTCG: ₹1,50,000
+</p>
+</ol>
+<ol>
+<li><strong>Equity Fund B:</strong> Sold units on 10th November 2025 (held for 8 months).</li>
+<p>
+    *   Sale Value: ₹1,80,000
+    *   Cost of Acquisition: ₹1,50,000
+    *   STCG: ₹30,000
+</p>
+</ol>
+<ol>
+<li><strong>Debt Fund C:</strong> Sold units on 20th January 2026 (purchased on 1st May 2024).</li>
+<p>
+    *   Sale Value: ₹2,20,000
+    *   Cost of Acquisition: ₹2,00,000
+    *   Gain: ₹20,000
+</p>
+</ol>
+<p>
+<strong>Calculation of Capital Gains:</strong>
+</p>
+<ul>
+<li><strong>Equity LTCG from Fund A:</strong></li>
+<p>
+    *   Total LTCG: ₹1,50,000
+    *   Exempt limit: ₹1,00,000
+    *   Taxable LTCG: ₹1,50,000 - ₹1,00,000 = ₹50,000
+    <em>   Tax @ 10%: ₹50,000 \</em> 10% = ₹5,000
+</p>
+</ul>
+<ul>
+<li><strong>Equity STCG from Fund B:</strong></li>
+<p>
+    *   Total STCG: ₹30,000
+    <em>   Tax @ 15%: ₹30,000 \</em> 15% = ₹4,500
+</p>
+</ul>
+<ul>
+<li><strong>Debt Fund Gain from Fund C:</strong></li>
+<p>
+    *   Total Gain: ₹20,000
+    *   This ₹20,000 will be added to Rahul&#x27;s total income (₹28,00,000 + ₹20,000 = ₹28,20,000) and taxed as per his applicable income tax slab rate. Assuming Rahul is in the 30% tax bracket (plus cess), this portion of his income will be taxed at 30% (+cess).
+</p>
+</ul>
+<p>
+<strong>Summary for Rahul&#x27;s ITR:</strong>
+</p>
+<ul>
+<li>Taxable Equity LTCG: ₹50,000 (taxed at 10%)</li>
+<li>Taxable Equity STCG: ₹30,000 (taxed at 15%)</li>
+<li>Debt Fund Gain: ₹20,000 (added to gross total income and taxed at slab rate)</li>
+</ul>
+<p>
+Rahul will report these figures in Schedule CG of his ITR-2. The tax on equity LTCG and STCG will be calculated separately, and the debt fund gain will increase his overall taxable income.
+</p>
+<h2>What to do this week</h2>
+<p>
+To ensure a smooth tax filing process for your mutual fund capital gains:
+</p>
+<ol>
+<li><strong>Gather Your Consolidated Account Statement (CAS):</strong> Request an annual CAS for FY25-26 from your RTA (CAMS or KFintech). This document lists all your mutual fund transactions across various fund houses.</li>
+<li><strong>Download Form 26AS and AIS:</strong> Access these statements from the Income Tax India e-filing portal (incometax.gov.in). They provide a summary of financial transactions reported against your PAN.</li>
+<li><strong>Reconcile and Verify:</strong> Compare the transactions listed in your CAS with those in Form 26AS and AIS. Ensure all sales and purchases are accurately reflected and that the reported values match your records. Note down any discrepancies for clarification.</li>
+<li><strong>Calculate Gains/Losses:</strong> Based on your reconciled statements, calculate your STCG and LTCG for equity funds, and total gains for debt funds. Keep a clear record of purchase dates, sale dates, purchase prices, and sale prices.</li>
+<li><strong>Consult a Professional:</strong> If you find the process complex or have substantial transactions, consider reaching out to a Certified Financial Planner or a tax advisor for personalised guidance.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the difference between equity and debt MFs for tax purposes?</h3>
+<p>
+Equity MFs (65%+ equity) have specific LTCG (10% over ₹1L) and STCG (15%) rates. Debt MFs (less than 65% equity) sold in FY25-26 have all gains added to your income and taxed at your slab rate.
+</p>
+<h3>Do I need to report losses from MFs?</h3>
+<p>
+Yes, it is mandatory to report capital losses. While you don&#x27;t pay tax on losses, reporting them allows you to carry forward these losses to offset future capital gains for up to 8 assessment years.
+</p>
+<h3>What is the grandfathering rule for equity MFs?</h3>
+<p>
+The grandfathering rule applies to equity mutual fund units purchased before January 31, 2018. For LTCG calculation, the cost of acquisition is considered the higher of the actual purchase price or the NAV as of January 31, 2018, protecting gains accrued before this date.
+</p>
+<h3>How are debt MFs taxed after April 1, 2023?</h3>
+<p>
+For all debt mutual fund units sold in FY25-26 (AY26-27), the gains are added to your total income and taxed as per your applicable income tax slab rate. The indexation benefit and the distinction between STCG/LTCG are no longer applicable.
+</p>
+<h3>Can I adjust capital losses against gains?</h3>
+<p>
+Yes, short-term capital losses can be set off against both short-term and long-term capital gains. Long-term capital losses can only be set off against long-term capital gains. Unadjusted losses can be carried forward for 8 years.
+</p>
+<h3>What is a Consolidated Account Statement (CAS)?</h3>
+<p>
+A CAS is a single statement provided by RTAs (like CAMS or KFintech) that summarises all your mutual fund transactions across different fund houses, making it easier to track your investments and calculate gains.
+</p>
+<h3>Which ITR form should I use for capital gains?</h3>
+<p>
+Most salaried individuals with capital gains from mutual funds will use ITR-2. If you also have income from &quot;Profits and Gains from Business or Profession,&quot; you would typically use ITR-3.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+<li>AMFI India: https://amfiindia.com</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
