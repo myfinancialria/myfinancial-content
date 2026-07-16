@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>NRI Tax Filing: When to File ITR After Moving Abroad</title>
+<meta name="description" content="Becoming a Non-Resident Indian (NRI) does not automatically end your tax obligations in India. Your residential status for tax purposes is crucial and differs.">
+<meta name="keywords" content="vertexaisearch, google, grounding, redirect, indian, accounts, financial, interest">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-16-personal_finance-nri-tax-filing-when-to-file-itr-after-moving-abroad/">
+<meta property="og:title" content="NRI Tax Filing: When to File ITR After Moving Abroad">
+<meta property="og:description" content="Becoming a Non-Resident Indian (NRI) does not automatically end your tax obligations in India. Your residential status for tax purposes is crucial and differs.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-16-personal_finance-nri-tax-filing-when-to-file-itr-after-moving-abroad/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NRI Tax Filing: When to File ITR After Moving Abroad", "description": "Becoming a Non-Resident Indian (NRI) does not automatically end your tax obligations in India. Your residential status for tax purposes is crucial and differs.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-16", "dateModified": "2026-07-16", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-16-personal_finance-nri-tax-filing-when-to-file-itr-after-moving-abroad/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-07-16</div><h1>NRI Tax Filing: When to File ITR After Moving Abroad</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Becoming a Non-Resident Indian (NRI) does not automatically end your tax obligations in India.</li>
+<li>Your residential status for tax purposes is crucial and differs from your immigration status.</li>
+<li>You must file an ITR in India if your gross total income from Indian sources exceeds the basic exemption limit.</li>
+<li>Filing an ITR is often beneficial even if not mandatory, especially for claiming TDS refunds or carrying forward losses.</li>
+<li>Income from Indian property, capital gains from Indian assets, and interest from NRO accounts are typically taxable for NRIs.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you move abroad, your residency status changes, but your financial ties to India often remain. Many NRIs assume that once they leave India, they no longer need to worry about Indian taxes. However, this isn&#x27;t always true. The Indian Income Tax Act has specific rules that determine if you are considered a &#x27;resident&#x27; or &#x27;non-resident&#x27; for tax purposes, and this classification dictates what income you need to declare in India.
+</p>
+<p>
+Even if you live and work overseas, any income you earn from sources <em>within</em> India might still be taxable here. This could include rental income from property, interest from certain bank accounts, or profits from selling shares or property in India. Understanding these rules is vital to avoid penalties and ensure compliance with Indian tax laws.
+</p>
+<h2>Understanding Your Residential Status for Tax Purposes</h2>
+<p>
+Your residential status is the cornerstone of determining your tax liability in India. It&#x27;s important to note that your residential status for tax purposes is distinct from your immigration status in another country or even your citizenship. The Income Tax Act, 1961, defines a person&#x27;s residential status based on their physical presence in India during a financial year (1st April to 31st March).
+</p>
+<h3>Key Criteria for Residential Status</h3>
+<p>
+An individual is considered a &#x27;Resident&#x27; in India for a financial year if they satisfy either of the following basic conditions:
+</p>
+<ol>
+<li>They are in India for a period of 182 days or more during the financial year.</li>
+<li>They are in India for a period of 60 days or more during the financial year AND 365 days or more during the four preceding financial years.</li>
+</ol>
+<p>
+However, for Indian citizens or Persons of Indian Origin (PIOs) who leave India for employment outside India, or as a crew member of an Indian ship, the 60-day period in the second condition is extended to 182 days. Similarly, for Indian citizens or PIOs who come to India for a visit, the 60-day period is extended to 120 days if their total income (excluding foreign sources) exceeds ₹15 lakhs during the financial year, or 182 days if their total income is up to ₹15 lakhs.
+</p>
+<p>
+If an individual does not meet any of the basic conditions, they are classified as a &#x27;Non-Resident&#x27; (NRI) for that financial year.
+</p>
+<h2>Taxable Income for NRIs in India</h2>
+<p>
+As an NRI, you are generally only liable to pay tax in India on income that accrues or arises in India, or is deemed to accrue or arise in India, or is received in India. Income earned outside India is typically not taxable in India for an NRI.
+</p>
+<h3>Common Income Sources Taxable for NRIs</h3>
+<ul>
+<li><strong>Income from Salary:</strong> If you receive a salary for services rendered in India, or if your salary is paid by the Government of India for services rendered outside India (e.g., Indian embassy staff), it is taxable in India.</li>
+<li><strong>Income from House Property:</strong> Rental income from any property located in India is taxable. Deductions for municipal taxes, standard deduction (30% of Net Annual Value), and interest on home loans are permissible.</li>
+<li><strong>Capital Gains:</strong> Profits from the sale of capital assets located in India, such as property, shares of Indian companies, or mutual funds, are taxable. The tax rate depends on whether it&#x27;s a short-term or long-term capital gain.</li>
+<li><strong>Interest Income:</strong> Interest earned on Non-Resident Ordinary (NRO) bank accounts, fixed deposits, and certain bonds or debentures issued by Indian companies is taxable. Interest from Non-Resident External (NRE) accounts and FCNR accounts is tax-exempt in India.</li>
+<li><strong>Other Income:</strong> This can include royalties, technical service fees, or business income if you have a business connection in India.</li>
+</ul>
+<h2>Why File an ITR Even If Not Mandatory?</h2>
+<p>
+Even if your taxable income in India falls below the basic exemption limit (currently ₹2.5 lakhs for individuals below 60 years), it&#x27;s often prudent for an NRI to file an Income Tax Return (ITR).
+</p>
+<h3>Benefits of Voluntary ITR Filing</h3>
+<ul>
+<li><strong>Claiming TDS Refunds:</strong> Banks, tenants, or financial institutions often deduct Tax Deducted at Source (TDS) on various payments to NRIs, such as interest on NRO accounts or rental income. If the total TDS deducted exceeds your actual tax liability, filing an ITR is the only way to claim a refund of the excess amount.</li>
+<li><strong>Carrying Forward Capital Losses:</strong> If you incur capital losses from the sale of Indian assets (e.g., shares, property), you can carry forward these losses to offset future capital gains, provided you file an ITR within the due date. This can significantly reduce your future tax burden.</li>
+<li><strong>Future Tax Planning:</strong> Filing ITRs consistently establishes a clear financial record with the Indian tax authorities. This can be beneficial for future transactions, loan applications, or even when repatriating funds.</li>
+<li><strong>Proof of Income:</strong> An ITR serves as official proof of your income earned in India, which can be useful for various purposes, including visa applications, loan applications, or demonstrating financial stability.</li>
+<li><strong>Avoiding Scrutiny:</strong> Timely filing of ITRs, even when not strictly mandatory, demonstrates compliance and can help avoid potential scrutiny or notices from the Income Tax Department.</li>
+</ul>
+<h2>A real example</h2>
+<p>
+Meet <strong>Suresh, 42, a software engineer based in Dubai, earning ₹60 lakhs equivalent per year.</strong> Suresh owns an apartment in Bengaluru which he rents out, generating ₹30,000 per month in rental income. He also has an NRO fixed deposit of ₹20 lakhs earning 7% interest annually. In the last financial year, he sold some Indian mutual funds, incurring a short-term capital loss of ₹80,000.
+</p>
+<p>
+Let&#x27;s calculate his taxable income and why he should file an ITR:
+</p>
+<ol>
+<li><strong>Rental Income:</strong></li>
+<p>
+    *   Annual Rent: ₹30,000 x 12 = ₹3,60,000
+    *   Less: Standard Deduction (30% of NAV): ₹3,60,000 x 30% = ₹1,08,000
+    *   Taxable Rental Income: ₹3,60,000 - ₹1,08,000 = ₹2,52,000
+</p>
+</ol>
+<ol>
+<li><strong>NRO FD Interest:</strong></li>
+<p>
+    *   Annual Interest: ₹20,00,000 x 7% = ₹1,40,000
+    *   TDS on NRO FD (30% for NRIs + surcharge + cess): Banks typically deduct TDS at 30% or as per DTAA. For simplicity, let&#x27;s assume 30% for now: ₹1,40,000 x 30% = ₹42,000
+</p>
+</ol>
+<ol>
+<li><strong>Gross Total Income (before considering losses):</strong></li>
+<p>
+    *   ₹2,52,000 (Rental) + ₹1,40,000 (Interest) = ₹3,92,000
+</p>
+</ol>
+<p>
+Suresh&#x27;s gross total income of ₹3,92,000 is above the basic exemption limit of ₹2.5 lakhs. Therefore, he <strong>must</strong> file an ITR.
+</p>
+<p>
+Additionally, even if his income was below the exemption limit, he should still file for two reasons:
+</p>
+<ul>
+<li><strong>TDS Refund:</strong> If the bank deducted TDS at 30% (₹42,000) on his NRO interest, his actual tax liability would be calculated on ₹3,92,000. Assuming no other deductions, his tax would be:</li>
+<p>
+    *   (₹3,92,000 - ₹2,50,000) x 5% = ₹1,42,000 x 5% = ₹7,100 (plus 4% cess = ₹7,384).
+    *   He would be eligible for a refund of ₹42,000 - ₹7,384 = ₹34,616.
+</p>
+<li><strong>Carry Forward Loss:</strong> He has a short-term capital loss of ₹80,000. By filing his ITR, he can carry forward this loss for up to 8 assessment years to set it off against future capital gains, thus reducing his future tax burden.</li>
+</ul>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Determine your Residential Status:</strong> Review your travel history to India for the current financial year (April 1 to March 31) and the preceding four financial years. Use the criteria from the Income Tax Act to ascertain if you are a Resident or Non-Resident for tax purposes.</li>
+<li><strong>Gather Indian Income Documents:</strong> Collect all statements for income earned in India – NRO bank statements, rental agreements, Form 16A for TDS deducted, capital gains statements from mutual funds/brokerage accounts, and any other income proofs.</li>
+<li><strong>Consult DTAA (if applicable):</strong> If your country of residence has a Double Taxation Avoidance Agreement (DTAA) with India, review its provisions. This might offer relief from double taxation or lower tax rates on certain income types. The Income Tax Department website (incometax.gov.in) has DTAA details.</li>
+<li><strong>Organise Documents for ITR Filing:</strong> Even if you plan to use a tax professional, having all your documents organised will save time and ensure accuracy. This includes PAN card, Aadhaar (if applicable), bank account details, and income proofs.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>### Do I need to file an ITR if all my Indian income is from NRE accounts?</h3>
+<p>
+No, interest earned on NRE (Non-Resident External) accounts is fully exempt from tax in India. Therefore, if your only income from India is from NRE accounts, you typically do not need to file an ITR.
+</p>
+<h3>### What is the difference between NRE and NRO accounts for tax purposes?</h3>
+<p>
+Interest earned on NRE accounts is tax-exempt in India, while interest earned on NRO (Non-Resident Ordinary) accounts is taxable in India. NRE accounts are for repatriable foreign earnings, whereas NRO accounts are for managing income earned in India.
+</p>
+<h3>### Can I claim deductions like Section 80C as an NRI?</h3>
+<p>
+Yes, NRIs can claim certain deductions under Chapter VI-A of the Income Tax Act, such as Section 80C (for investments in PPF, ELSS, life insurance premiums, etc.), 80D (health insurance), and 80G (donations), provided the investments or expenses are made in India.
+</p>
+<h3>### What if I have a PAN card but no taxable income in India?</h3>
+<p>
+Even if you have a PAN card but no taxable income, you are not mandated to file an ITR. However, as discussed, filing can be beneficial for claiming TDS refunds or carrying forward losses. Your PAN remains active regardless.
+</p>
+<h3>### Does my residential status change every year?</h3>
+<p>
+Yes, your residential status for tax purposes is determined for each financial year independently, based on your physical presence in India during that specific year. It can change from Resident to NRI and vice-versa.
+</p>
+<h3>### What is a DTAA and how does it help NRIs?</h3>
+<p>
+A Double Taxation Avoidance Agreement (DTAA) is a tax treaty between India and another country that prevents taxpayers from paying taxes on the same income in both countries. It helps by providing relief through exemption or tax credit methods, or by specifying lower tax rates.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>Income Tax India: <a href="https://incometax.gov.in" rel="noopener" target="_blank">https://incometax.gov.in</a></li>
+<li>RBI: <a href="https://rbi.org.in" rel="noopener" target="_blank">https://rbi.org.in</a></li>
+<li>Livemint Money: <a href="https://www.livemint.com/money/personal-finance/nri-tax-filing-when-to-file-itr-in-india-tax-planning-benefits-11784102078001.html" rel="noopener" target="_blank">https://www.livemint.com/money/personal-finance/nri-tax-filing-when-to-file-itr-in-india-tax-planning-benefits-11784102078001.html</a></li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# NRI Tax Filing: When to File ITR After Moving Abroad
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Becoming a Non-Resident Indian (NRI) does not automatically end your tax obligations in India.</li>
+<li>Your residential status for tax purposes is crucial and differs from your immigration status.</li>
+<li>You must file an ITR in India if your gross total income from Indian sources exceeds the basic exemption limit.</li>
+<li>Filing an ITR is often beneficial even if not mandatory, especially for claiming TDS refunds or carrying forward losses.</li>
+<li>Income from Indian property, capital gains from Indian assets, and interest from NRO accounts are typically taxable for NRIs.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you move abroad, your residency status changes, but your financial ties to India often remain. Many NRIs assume that once they leave India, they no longer need to worry about Indian taxes. However, this isn&#x27;t always true. The Indian Income Tax Act has specific rules that determine if you are considered a &#x27;resident&#x27; or &#x27;non-resident&#x27; for tax purposes, and this classification dictates what income you need to declare in India.
+</p>
+<p>
+Even if you live and work overseas, any income you earn from sources <em>within</em> India might still be taxable here. This could include rental income from property, interest from certain bank accounts, or profits from selling shares or property in India. Understanding these rules is vital to avoid penalties and ensure compliance with Indian tax laws.
+</p>
+<h2>Understanding Your Residential Status for Tax Purposes</h2>
+<p>
+Your residential status is the cornerstone of determining your tax liability in India. It&#x27;s important to note that your residential status for tax purposes is distinct from your immigration status in another country or even your citizenship. The Income Tax Act, 1961, defines an individual&#x27;s residential status based on their physical presence in India during a financial year (1st April to 31st March).
+</p>
+<h3>Key Criteria for Residential Status</h3>
+<p>
+An individual is considered a &#x27;Resident&#x27; in India for a financial year if they satisfy either of the following basic conditions:
+</p>
+<ol>
+<li>They are in India for a period of 182 days or more during the financial year.</li>
+<li>They are in India for a period of 60 days or more during the financial year AND 365 days or more during the four preceding financial years.</li>
+</ol>
+<p>
+However, for Indian citizens or Persons of Indian Origin (PIOs) who leave India for employment outside India, or as a crew member of an Indian ship, the 60-day period in the second condition is extended to 182 days. Similarly, for Indian citizens or PIOs who come to India for a visit, the 60-day period is extended to 120 days if their total income (excluding foreign sources) exceeds ₹15 lakhs during the financial year, or 182 days if their total income is up to ₹15 lakhs.
+</p>
+<p>
+If an individual does not meet any of the basic conditions, they are classified as a &#x27;Non-Resident&#x27; (NRI) for that financial year.
+</p>
+<h2>Taxable Income for NRIs in India</h2>
+<p>
+As an NRI, you are generally only liable to pay tax in India on income that accrues or arises in India, or is deemed to accrue or arise in India, or is received in India. Income earned outside India is typically not taxable in India for an NRI.
+</p>
+<h3>Common Income Sources Taxable for NRIs</h3>
+<ul>
+<li><strong>Income from Salary:</strong> If you receive a salary for services rendered in India, or if your salary is paid by the Government of India for services rendered outside India (e.g., Indian embassy staff), it is taxable in India.</li>
+<li><strong>Income from House Property:</strong> Rental income from any property located in India is taxable. Deductions for municipal taxes, standard deduction (30% of Net Annual Value), and interest on home loans are permissible.</li>
+<li><strong>Capital Gains:</strong> Profits from the sale of capital assets located in India, such as property, shares of Indian companies, or mutual funds, are taxable. The tax rate depends on whether it&#x27;s a short-term or long-term capital gain.</li>
+<li><strong>Interest Income:</strong> Interest earned on Non-Resident Ordinary (NRO) bank accounts, fixed deposits, and certain bonds or debentures issued by Indian companies is taxable. Interest from Non-Resident External (NRE) accounts and FCNR accounts is tax-exempt in India.</li>
+<li><strong>Other Income:</strong> This can include royalties, technical service fees, or business income if you have a business connection in India.</li>
+</ul>
+<h2>Why File an ITR Even If Not Mandatory?</h2>
+<p>
+Even if your taxable income in India falls below the basic exemption limit (currently ₹2.5 lakhs for individuals below 60 years under the old regime, or ₹4 lakhs under the new regime for FY 2025-26), it&#x27;s often prudent for an NRI to file an Income Tax Return (ITR).
+</p>
+<h3>Benefits of Voluntary ITR Filing</h3>
+<ul>
+<li><strong>Claiming TDS Refunds:</strong> Banks, tenants, or financial institutions often deduct Tax Deducted at Source (TDS) on various payments to NRIs, such as interest on NRO accounts or rental income. If the total TDS deducted exceeds your actual tax liability, filing an ITR is the only way to claim a refund of the excess amount.</li>
+<li><strong>Carrying Forward Capital Losses:</strong> If you incur capital losses from the sale of Indian assets (e.g., shares, property), you can carry forward these losses to offset future capital gains, provided you file an ITR within the due date. This can significantly reduce your future tax burden.</li>
+<li><strong>Future Tax Planning:</strong> Filing ITRs consistently establishes a clear financial record with the Indian tax authorities. This can be beneficial for future transactions, loan applications, or even when repatriating funds.</li>
+<li><strong>Proof of Income:</strong> An ITR serves as official proof of your income earned in India, which can be useful for various purposes, including visa applications, loan applications, or demonstrating financial stability.</li>
+<li><strong>Avoiding Scrutiny:</strong> Timely filing of ITRs, even when not strictly mandatory, demonstrates compliance and can help avoid potential scrutiny or notices from the Income Tax Department.</li>
+</ul>
+<h2>A real example</h2>
+<p>
+Meet <strong>Suresh, 42, a software engineer based in Dubai, earning ₹60 lakhs equivalent per year.</strong> Suresh owns an apartment in Bengaluru which he rents out, generating ₹30,000 per month in rental income. He also has an NRO fixed deposit of ₹20 lakhs earning 7% interest annually. In the last financial year, he sold some Indian mutual funds, incurring a short-term capital loss of ₹80,000.
+</p>
+<p>
+Let&#x27;s calculate his taxable income and why he should file an ITR:
+</p>
+<ol>
+<li><strong>Rental Income:</strong></li>
+<p>
+    *   Annual Rent: ₹30,000 x 12 = ₹3,60,000
+    *   Less: Standard Deduction (30% of NAV): ₹3,60,000 x 30% = ₹1,08,000
+    *   Taxable Rental Income: ₹3,60,000 - ₹1,08,000 = ₹2,52,000
+</p>
+</ol>
+<ol>
+<li><strong>NRO FD Interest:</strong></li>
+<p>
+    *   Annual Interest: ₹20,00,000 x 7% = ₹1,40,000
+    *   TDS on NRO FD (30% for NRIs + surcharge + cess): Banks typically deduct TDS at 30% or as per DTAA. For simplicity, let&#x27;s assume 30% for now: ₹1,40,000 x 30% = ₹42,000
+</p>
+</ol>
+<ol>
+<li><strong>Gross Total Income (before considering losses):</strong></li>
+<p>
+    *   ₹2,52,000 (Rental) + ₹1,40,000 (Interest) = ₹3,92,000
+</p>
+</ol>
+<p>
+Suresh&#x27;s gross total income of ₹3,92,000 is above the basic exemption limit of ₹2.5 lakhs (assuming old tax regime). Therefore, he <strong>must</strong> file an ITR.
+</p>
+<p>
+Additionally, even if his income was below the exemption limit, he should still file for two reasons:
+</p>
+<ul>
+<li><strong>TDS Refund:</strong> If the bank deducted TDS at 30% (₹42,000) on his NRO interest, his actual tax liability would be calculated on ₹3,92,000. Assuming no other deductions, his tax would be:</li>
+<p>
+    *   (₹3,92,000 - ₹2,50,000) x 5% = ₹1,42,000 x 5% = ₹7,100 (plus 4% cess = ₹7,384).
+    *   He would be eligible for a refund of ₹42,000 - ₹7,384 = ₹34,616.
+</p>
+<li><strong>Carry Forward Loss:</strong> He has a short-term capital loss of ₹80,000. By filing his ITR, he can carry forward this loss for up to 8 assessment years to set it off against future capital gains, thus reducing his future tax burden.</li>
+</ul>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Determine your Residential Status:</strong> Review your travel history to India for the current financial year (April 1 to March 31) and the preceding four financial years. Use the criteria from the Income Tax Act to ascertain if you are a Resident or Non-Resident for tax purposes.</li>
+<li><strong>Gather Indian Income Documents:</strong> Collect all statements for income earned in India – NRO bank statements, rental agreements, Form 16A for TDS deducted, capital gains statements from mutual funds/brokerage accounts, and any other income proofs.</li>
+<li><strong>Consult DTAA (if applicable):</strong> If your country of residence has a Double Taxation Avoidance Agreement (DTAA) with India, review its provisions. This might offer relief from double taxation or lower tax rates on certain income types. The Income Tax Department website (incometax.gov.in) has DTAA details.</li>
+<li><strong>Organise Documents for ITR Filing:</strong> Even if you plan to use a tax professional, having all your documents organised will save time and ensure accuracy. This includes PAN card, Aadhaar (if applicable), bank account details, and income proofs.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>### Do I need to file an ITR if all my Indian income is from NRE accounts?</h3>
+<p>
+No, interest earned on NRE (Non-Resident External) accounts is fully exempt from tax in India. Therefore, if your only income from India is from NRE accounts, you typically do not need to file an ITR.
+</p>
+<h3>### What is the difference between NRE and NRO accounts for tax purposes?</h3>
+<p>
+Interest earned on NRE accounts is tax-exempt in India, while interest earned on NRO (Non-Resident Ordinary) accounts is taxable in India. NRE accounts are for repatriable foreign earnings, whereas NRO accounts are for managing income earned in India.
+</p>
+<h3>### Can I claim deductions like Section 80C as an NRI?</h3>
+<p>
+Yes, NRIs can claim certain deductions under Chapter VI-A of the Income Tax Act, such as Section 80C (for investments in PPF, ELSS, life insurance premiums, etc.), 80D (health insurance), and 80G (donations), provided the investments or expenses are made in India.
+</p>
+<h3>### What if I have a PAN card but no taxable income in India?</h3>
+<p>
+Even if you have a PAN card but no taxable income, you are not mandated to file an ITR. However, as discussed, filing can be beneficial for claiming TDS refunds or carrying forward losses. Your PAN remains active regardless.
+</p>
+<h3>### Does my residential status change every year?</h3>
+<p>
+Yes, your residential status for tax purposes is determined for each financial year independently, based on your physical presence in India during that specific year. It can change from Resident to NRI and vice-versa.
+</p>
+<h3>### What is a DTAA and how does it help NRIs?</h3>
+<p>
+A Double Taxation Avoidance Agreement (DTAA) is a tax treaty between India and another country that prevents taxpayers from paying taxes on the same income in both countries. It helps by providing relief through exemption or tax credit methods, or by specifying lower tax rates.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>Income Tax India: <a href="https://incometax.gov.in" rel="noopener" target="_blank">https://incometax.gov.in</a></li>
+<li>NRI Blueprint: How NRIs File Income Tax in India (FY 2025-26): <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVq5BZD11sbIalhwHkkjlJELQ3h-QItV-JBmC4Byvu<em>usFI5jMMkW-qReuDqV0-98yTYsa3lgqRpTKk4H-rUp9KpoWPuPy7lmwi6E1wVhO93YPHUr03DzXh4Uu0NTxvUKs6BF0soR71hRxn52vb5uLCF5c3mrOkahNMave" rel="noopener" target="</em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVq5BZD11sbIalhwHkkjlJELQ3h-QItV-JBmC4Byvu_usFI5jMMkW-qReuDqV0-98yTYsa3lgqRpTKk4H-rUp9KpoWPuPy7lmwi6E1wVhO93YPHUr03DzXh4Uu0NTxvUKs6BF0soR71hRxn52vb5uLCF5c3mrOkahNMave</a></li>
+<li>Income Tax Department - Residential Status: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9c8IyPPWpDNLjP7iM4H6dixbhGTOwMQFQWft4LlZnCucPVsZUIa1vnuW4PTOImt7mLS6rv2byd4bkjJxH295pq8VqACpbSZjcfCQNClzJ02q22iN4uQVd4Ddr5mvDiWwf<em>gaPnwdCJWUR9ThVPHicag==" rel="noopener" target="</em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF9c8IyPPWpDNLjP7iM4H6dixbhGTOwMQFQWft4LlZnCucPVsZUIa1vnuW4PTOImt7mLS6rv2byd4bkjJxH295pq8VqACpbSZjcfCQNClzJ02q22iN4uQVd4Ddr5mvDiWwf_gaPnwdCJWUR9ThVPHicag==</a></li>
+<li>ICICI Bank - Difference Between NRE and NRO Accounts: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsTw0oTq-9bOh63Mkppjz-4T5SeTRyBnDCQq<em>gMQQGfUiHVzJN-dGE6G0lrvVesJHiRrZ9FbvOFBJq-kvzpCpP0ufan2dFh3t-hkfjD1mn85dWxAsDcn4</em>Va5c9hoI<em>vprkItHIkX5TB-TRkFr79AY36</em>cxY-iMM17ZgERkF6730OozbXEQCohqJp-hZM=" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHsTw0oTq-9bOh63Mkppjz-4T5SeTRyBnDCQq</em>gMQQGfUiHVzJN-dGE6G0lrvVesJHiRrZ9FbvOFBJq-kvzpCpP0ufan2dFh3t-hkfjD1mn85dWxAsDcn4<em>Va5c9hoI</em>vprkItHIkX5TB-TRkFr79AY36_cxY-iMM17ZgERkF6730OozbXEQCohqJp-hZM=</a></li>
+<li>Income Tax Department - Taxation of Non-Resident: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9nzzYyG3h0KlOg<em>Yt9eVGVL6kcv2cmrgmH2ng</em>WjOPNP8KpGJ6Q0T0zsJ8EnY4vfctV3ap46fqQuqZt5XiW8V3QeTpBCr4b<em>KGmUY4BkVawZJxLbzojeSS2-3jDdxEMId</em>ML6mbG87V6yBtbq<em>yAiNZwCEC3Pq9XjkGpMx3FFCnp2cehkds-V885tsVsysij</em>EajGaiixujl3vl2GhHwks8FtsouZsYgj5KiAWzuxFIwQEbHnJ4goJNDzigf27j9tWa7qVTkDUnlsLPstruFCV5xWXdAvC9przz3ai<em>MbX</em>P86vBTymd<em>uFOB</em>jSTcg==" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE9nzzYyG3h0KlOg</em>Yt9eVGVL6kcv2cmrgmH2ng<em>WjOPNP8KpGJ6Q0T0zsJ8EnY4vfctV3ap46fqQuqZt5XiW8V3QeTpBCr4b</em>KGmUY4BkVawZJxLbzojeSS2-3jDdxEMId<em>ML6mbG87V6yBtbq</em>yAiNZwCEC3Pq9XjkGpMx3FFCnp2cehkds-V885tsVsysij<em>EajGaiixujl3vl2GhHwks8FtsouZsYgj5KiAWzuxFIwQEbHnJ4goJNDzigf27j9tWa7qVTkDUnlsLPstruFCV5xWXdAvC9przz3ai</em>MbX<em>P86vBTymd</em>uFOB_jSTcg==</a></li>
+<li>NRI Income Tax Return Filing — ITR-2, Schedules, Deadlines: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNxii3I5<em>n1VEdwialnELCsbVQAM1Mk65P9BamEszJ-QVmzgrk3GbdtaGToLt5CdZE7kBS8nbpJAE9ogeTBf</em>AkjvX6xzei21gooKxu9lv-8JtUC<em>sXrm3vvZFxIpDhJJj-sxrZ9qjDD4VQ14EoEktykxFMhM1dYPsLWooW1LR6ViHLa42T-eP1XH7KyOS" rel="noopener" target="</em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHNxii3I5<em>n1VEdwialnELCsbVQAM1Mk65P9BamEszJ-QVmzgrk3GbdtaGToLt5CdZE7kBS8nbpJAE9ogeTBf</em>AkjvX6xzei21gooKxu9lv-8JtUC_sXrm3vvZFxIpDhJJj-sxrZ9qjDD4VQ14EoEktykxFMhM1dYPsLWooW1LR6ViHLa42T-eP1XH7KyOS</a></li>
+<li>NRO and NRE Accounts Taxation: Everything You Should Know - Ujjivan Small Finance Bank: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpLsaShg<em>fb-9G7IK4d</em>lDf801TnkWfdpgo9cfSND5-0aMRPFk6QkK2qZe33q9egNaAOBufMdjBqCihydD8oIGg9GuFFmVDRQABZ41FQqSBcCyRLsvedPeUalAGWl619VYR2jGzCy7W5DGHSnQaDtfPOCRDFs32512WDSQ2LJYDY2zzItrHAYE0uGPvyRw2R4=" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEpLsaShg</em>fb-9G7IK4d_lDf801TnkWfdpgo9cfSND5-0aMRPFk6QkK2qZe33q9egNaAOBufMdjBqCihydD8oIGg9GuFFmVDRQABZ41FQqSBcCyRLsvedPeUalAGWl619VYR2jGzCy7W5DGHSnQaDtfPOCRDFs32512WDSQ2LJYDY2zzItrHAYE0uGPvyRw2R4=</a></li>
+<li>Can NRIs Claim 80C Deductions? | Tax Benefits Explained - TaxBuddy.com: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGWHGjSXIVpqzn5gSKqe5kzpxf8DOyeoYbGLtOpjM66hwAeVP-GKWqCAwviM6BHvTFcFDWnGcIrIadPtQobJHZv5HNs9oM23n4uBpZwdPM8CC<em>hdirjSFEQHtZBonipBYQvRgQBygRhb12pN</em>-BNpbA9WKWN9-8" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGWHGjSXIVpqzn5gSKqe5kzpxf8DOyeoYbGLtOpjM66hwAeVP-GKWqCAwviM6BHvTFcFDWnGcIrIadPtQobJHZv5HNs9oM23n4uBpZwdPM8CC</em>hdirjSFEQHtZBonipBYQvRgQBygRhb12pN_-BNpbA9WKWN9-8</a></li>
+<li>Does NRI Need To File Income Tax Returns In India - Kotak Mahindra Bank: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHe9zI0eKpbwN-dv-Aa8Uck-YX7FC3tJe1F8h5Y<em>fZ9E27fVgk</em>7sIODBfUevLFHfga6KfkzZiQ71JbE9JGaX5LL3sPc60CQl0974wxLN7QLMdeILhZT9bCu5P2sNLL0GQpC1yAfV9Z8wJDLPFXlShU3QYUhJu<em>PyYsixjJnOtv2</em>SEJ5N2MeEtSGTlIfjOLnMjnIDliX2vBZxviD-h3r72j9x88Lq6gO3rYvAckYHkw9LxLYHlAhOe" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHe9zI0eKpbwN-dv-Aa8Uck-YX7FC3tJe1F8h5Y</em>fZ9E27fVgk<em>7sIODBfUevLFHfga6KfkzZiQ71JbE9JGaX5LL3sPc60CQl0974wxLN7QLMdeILhZT9bCu5P2sNLL0GQpC1yAfV9Z8wJDLPFXlShU3QYUhJu</em>PyYsixjJnOtv2_SEJ5N2MeEtSGTlIfjOLnMjnIDliX2vBZxviD-h3r72j9x88Lq6gO3rYvAckYHkw9LxLYHlAhOe</a></li>
+<li>NRI Income Tax Filing In India For Non Residents, NRIs - S Lohia &amp; Associates: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG<em>hT-VBH3NGMOiAgcAVHZjc6d4Nu6LoCyteScvGFssqc</em>AEAqprCjdWLVvqq7tvTtHakEyTaxKgqtDRcPJ9SBmWaqpxDCxCqV-r9eneBPvkYEW0suKV7ZaFwepiYrXcOWL6TWaombUD2cJ0CFARs46bOZlwNKn<em>BugmBdT2eNKlxu4vuv13xuMbeGLTA==" rel="noopener" target="</em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG<em>hT-VBH3NGMOiAgcAVHZjc6d4Nu6LoCyteScvGFssqc</em>AEAqprCjdWLVvqq7tvTtHakEyTaxKgqtDRcPJ9SBmWaqpxDCxCqV-r9eneBPvkYEW0suKV7ZaFwepiYrXcOWL6TWaombUD2cJ0CFARs46bOZlwNKn_BugmBdT2eNKlxu4vuv13xuMbeGLTA==</a></li>
+<li>Difference between NRE &amp; NRO Accounts [Explained] - Wise: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWBOIllfmnZYpuJoeIF2qRMenEy5Tqgf724tsPkxUbNTbb-c4OMHLk7GrR<em>wy1ZJZJc8p6PdmWa1JXdlCEvQc2N5oNAyVlThfgMJZjXjJDNHiM0g-HEfS1vNTw9zSZmCLt9lryEZb</em>jQ==" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHWBOIllfmnZYpuJoeIF2qRMenEy5Tqgf724tsPkxUbNTbb-c4OMHLk7GrR</em>wy1ZJZJc8p6PdmWa1JXdlCEvQc2N5oNAyVlThfgMJZjXjJDNHiM0g-HEfS1vNTw9zSZmCLt9lryEZb_jQ==</a></li>
+<li>NRI Income Tax Filing Guide 2026: Rules, Process &amp; Documents: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrnwpnLZwGgneIiwL2kIzB7I6B-RuF4eYhU2Ex8gFk5pBKnCwYIE14lJcSn0m0OOfgG<em>mBoVMAqK9IrKWr1hG9EaYe3a8ENhhdOJi</em>CaxyYWtprGE<em>LS1woTI2jyjtmBsu-5</em>wRcgZWexpThHxXygQQg==" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHrnwpnLZwGgneIiwL2kIzB7I6B-RuF4eYhU2Ex8gFk5pBKnCwYIE14lJcSn0m0OOfgG</em>mBoVMAqK9IrKWr1hG9EaYe3a8ENhhdOJi<em>CaxyYWtprGE</em>LS1woTI2jyjtmBsu-5_wRcgZWexpThHxXygQQg==</a></li>
+<li>NRE vs NRO Account: Differences, Taxation &amp; Repatriation Guide - Documitra: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG103d7P46Ofu<em>qxXOf3lTsk7hLd</em>vb<em>2JLGJik-AXPe7YCX9qLxLlptOvPU8D6rB4dz6IgJ6lz4Z6-ZGE7QISi3ML8qTSwwBkVawZJxLbzojeSS2-3jDdxEMId</em>ML6mbG87V6yBtbq<em>yAiNZwCEC3Pq9XjkGpMx3FFCnp2cehkds-V885tsVsysij</em>EajGaiixujl3vl2GhHwks8FtsouZsYgj5KiAWzuxFIwQEbHnJ4goJNDzigf27j9tWa7qVTkDUnlsLPstruFCV5xWXdAvC9przz3ai<em>MbX</em>P86vBTymd<em>uFOB</em>jSTcg==" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG103d7P46Ofu</em>qxXOf3lTsk7hLd<em>vb</em>2JLGJik-AXPe7YCX9qLxLlptOvPU8D6rB4dz6IgJ6lz4Z6-ZGE7QISi3ML8qTSwwYiySMDYG8SUkRpVW0PRpnpRCreLlItCKWZZ_UeuzLkEJSYm5pIgnWdxBH4Hbc-3d7ivmA1V0TbANByaIld0S7rXJ9TV-g==</a></li>
+<li>Livemint Money: NRI tax filing: Moved abroad? Here&#x27;s when you still need to file an ITR in India: <a href="https://www.livemint.com/money/personal-finance/nri-tax-filing-when-to-file-itr-in-india-tax-planning-benefits-11784102078001.html" rel="noopener" target="_blank">https://www.livemint.com/money/personal-finance/nri-tax-filing-when-to-file-itr-in-india-tax-planning-benefits-11784102078001.html</a></li>
+<li>How does a Double Taxation Avoidance Agreement (DTAA) help NRIs/OCIs/PIOs?: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaRMsiJlR5iXv-IrAHGAi21iTr8hhrJHiR97J6rMFq14osQqlQhjuBhMqgzRDDan-7XMipR6BbgFDzADzu-c-QTVDW8aTHxJI7qoZzHbI=" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGaRMsiJlR5iXv-IrAHGAi21iTr8hhrJHiR97J6rMFq14osQqlQhjuBhMqgzRDDan-7XMipR6BbgFDzADzu-c-QTVDW8aTHV4w5hRo2OeeeNQ9sA6m3dT9hLXpzb9NWWdpIeWdAHr0b81FY9Faq2wxn52jL-xgtvqHm</em>49mXlyjWTb6z5RHByaD9kyvW4nC<em>SI3N</em>THxJI7qoZzHbI=</a></li>
+<li>Taxation for NRIs: A Guide to Understanding Income Tax Rules in India: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2PrqE8uTT6LUucKzjnj<em>oztmMMU6pjXx7L2UkU3LWxazM-4tsWGPVuAeHBd</em>AYOlDln2pgr<em>QT5qnsCd4jHPv2e98tQ2YEN8</em>PMPQ3SFRcOjGs7QzsqSMDkDw373KQRA62XBvADFlaxBEosY6ecgoVbSJMeCrIJKI9JOpMSKJfzsZEFOTLp8=" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG2PrqE8uTT6LUucKzjnj</em>oztmMMU6pjXx7L2UkU3LWxazM-4tsWGPVuAeHBd<em>AYOlDln2pgr</em>QT5qnsCd4jHPv2e98tQ2YEN8_PMPQ3SFRcOjGs7QzsqSMDkDw373KQRA62XBvADFlaxBEosY6ecgoVbSJMeCrIJKI9JOpMSKJfzsZEFOTLp8=</a></li>
+<li>New NRI Taxation Rules in India: Exemptions, Deductions &amp; Benefits - Tata AIA: <a href="https://vertexaisearch.google.com/grounding-api-redirect/AUZIYQHDign6FHI77hGFrCRY8VVBKbaaSG9n668<em>rwYiiOw3LPlCKBkl7Ei1nTayK1dMkR15Y-pTnqAQCWKyor9yl0qUnRFwW8aBXk02b5z7kvxsw98EUnFM5zmfbQPOcKGqnefClRKUsWZi1Ig5GsDE7tlX8YTS2IDtWEYqwSxXKEung4QUQRYhJzA=" rel="noopener" target="</em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHDign6FHI77hGFrCRY8VVBKbaaSG9n668_rwYiiOw3LPlCKBkl7Ei1nTayK1dMkR15Y-pTnqAQCWKyor9yl0qUnRFwW8aBXk02b5z7kvxsw98EUnFM5zmfbQPOcKGqnefClRKUsWZi1Ig5GsDE7tlX8YTS2IDtWEYqwSxXKEung4QUQRYhJzA=</a></li>
+<li>Non-Resident Individual for AY 2026-2027 - Income Tax Department: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFirQS6yerHeDf0fslkUAT1bkCSW6V6wUJqxNBkCCNeVVC9OGGEgOsL0JaVKczYdyHJG0WLXwWSQPwSMXCKZ2GNOVOAUI5hBpBVGvaWRwzuaiBxOfiDJPSDKV<em>RBeMH7DCa61eAXDZzzrsT3KCDBbgkT-V4euvbIQgBjv1WlBshiuoMdcsftQXC" rel="noopener" target="</em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFirQS6yerHeDf0fslkUAT1bkCSW6V6wUJqxNBkCCNeVVC9OGGEgOsL0JaVKczYdyHJG0WLXwWSQPwSMXCKZ2GNOVOAUI5hBpBVGvaWRwzuaiBxOfiDJPSDKV_RBeMH7DCa61eAXDZzzrsT3KCDBbgkT-V4euvbIQgBjv1WlBshiuoMdcsftQXC</a></li>
+<li>India - Individual - Residence - Worldwide Tax Summaries: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6eJDbchT6TV9zjqdRY0XMLnwiWy1gLsEXqj<em>X9H3nEkXGrYht7tFE8uxd-ho-y3B</em>3Nck6sLuvd8JMBKNvj0iXbnrNDSB-iB8aSBupEZ2ppnupn8cAgCaCchZBF387JnAS8gnF7pEZMB24PZPJJqDDNE=" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQF6eJDbchT6TV9zjqdRY0XMLnwiWy1gLsEXqj</em>X9H3nEkXGrYht7tFE8uxd-ho-y3B_3Nck6sLuvd8JMBKNvj0iXbnrNDSB-iB8aSBupEZ2ppnupn8cAgCaCchZBF387JnAS8gnF7pEZMB24PZPJJqDDNE=</a></li>
+<li>Section 80C of Income Tax Act - 80C Deduction List - SaveTaxs: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKv3qMacqgOzf6-KOJ1UZWAfwmacQudJft5igbLFi7bQH9r5JSULgu8k52EE54BmEZT5qXdPgHP<em>1hyibsX0uL9yvLL6iiHPHUQZl62DK3XwywKRMMorxLKyIOK4u7R7jtnmHrxr1bqFzD" rel="noopener" target="</em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEKv3qMacqgOzf6-KOJ1UZWAfwmacQudJft5igbLFi7bQH9r5JSULgu8k52EE54BmEZT5qXdPgHP_1hyibsX0uL9yvLL6iiHPHUQZl62DK3XwywKRMMorxLKyIOK4u7R7jtnmHrxr1bqFzD</a></li>
+<li>What is Residential Status in India for Tax Purposes? NRI Guide - InvestMates: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGKmFMkR8nuiWKL66wa6VNhue6qyH5T-J72JZAfCUWIC1xlT20UP-d3RWSRU1M<em>sdZXfe</em>5YnpOQxDeJIIVTD98PTGjrimIBTHn7jHE6cYFn0mIDHkYGHwFiAnAI5E<em>9pM6EzWquZ8BxX4n8jt3DINJPQ==" rel="noopener" target="</em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGKmFMkR8nuiWKL66wa6VNhue6qyH5T-J72JZAfCUWIC1xlT20UP-d3RWSRU1M<em>sdZXfe</em>5YnpOQxDeJIIVTD98PTGjrimIBTHn7jHE6cYFn0mIDHkYGHwFiAnAI5E_9pM6EzWquZ8BxX4n8jt3DINJPQ==</a></li>
+<li>What is DTAA and How NRIs can get Benefits Under DTAA? | Ebizfiling: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJsRD<em>wpJRByNmWxrJhpio7D8Rkkc2y009XncGRg</em>-c8n2H7KTpjb0RaiILEwOpzgog3-Z2S725iFeCNZKAgr5O46nHDKYAKAXeaFSaW7XTC6L<em>cnVLvJ2fb7l0EJuhrNp4KavclL08rM30x1pdShTGylHznuuQFaxfsgZ" rel="noopener" target="</em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFJsRD<em>wpJRByNmWxrJhpio7D8Rkkc2y009XncGRg</em>-c8n2H7KTpjb0RaiILEwOpzgog3-Z2S725iFeCNZKAgr5O46nHDKYAKAXeaFSaW7XTC6L_cnVLvJ2fb7l0EJuhrNp4KavclL08rM30x1pdShTGylHznuuQFaxfsgZ</a></li>
+<li>Income Tax for NRIs in India - Tax Slab, Rates, Rules, Exemptions &amp; Deductions - TATA AIG: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjUkqAls7ZyRaLC9G-z7rtKcouf9FZv6<em>pWMS9OOGTfjIDr3d8JzL2hgPJja6vJA4wjTBsXS8UGko8sB7GRAGiQ0jgTP2p5U1yguNZ3OwSrXP8gBt</em>95L8t0DmCGwzCqslFDDd4Ks43V5-WquYfhXMAxZ4E9F3" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFjUkqAls7ZyRaLC9G-z7rtKcouf9FZv6</em>pWMS9OOGTfjIDr3d8JzL2hgPJja6vJA4wjTBsXS8UGko8sB7GRAGiQ0jgTP2p5U1yguNZ3OwSrXP8gBt_95L8t0DmCGwzCqslFDDd4Ks43V5-WquYfhXMAxZ4E9F3</a></li>
+<li>DTAA for NRIs: Meaning, Benefits &amp; How to Claim in 2026 - InvestMates: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHRt9zfHnHXhQycW72rWKqgl3eJiDVIIteex9Jz9UaT6jBFOo<em>IcKkqm</em>Cs7u2JTKvGV0Y51kwxHv1CmptgXJ6v-bUa4-IdIz<em>C-Dp69K99Z1DZTu</em>hzEh4jaW" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFHRt9zfHnHXhQycW72rWKqgl3eJiDVIIteex9Jz9UaT6jBFOo</em>IcKkqm<em>Cs7u2JTKvGV0Y51kwxHv1CmptgXJ6v-bUa4-IdIz</em>C-Dp69K99Z1DZTu_hzEh4jaW</a></li>
+<li>Claiming DTAA Benefits in India: What Every NRI Must Know to Reduce Tax Liability: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVBHaZSEBzc-ItUg0lVGJoJYuTBK<em>47u1oN-zvnp-Y</em>HCxpApy8wMcwpcZ<em>UmncY7-qwRYyoYe3HwZ7zv1cB73gncntI</em>Y2OsOod3VxkoT0CFZ0VubtYsXFMJ6o-oSOTLhEIM06Q57t04LQi0os4RwbvrYHw8tZ08ITaOiuP4iVWbZkyEEHHph8LW1jEIS9zrU" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFVBHaZSEBzc-ItUg0lVGJoJYuTBK</em>47u1oN-zvnp-Y<em>HCxpApy8wMcwpcZ</em>UmncY7-qwRYyoYe3HwZ7zv1cB73gncntI_Y2OsOod3VxkoT0CFZ0VubtYsXFMJ6o-oSOTLhEIM06Q57t04LQi0os4RwbvrYHw8tZ08ITaOiuP4iVWbZkyEEHHph8LW1jEIS9zrU</a></li>
+<li>NRI Income Tax Return Filing: Step-by-Step Guide 2026 - InvestMates: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE<em>Kjs6r5QUQeq2muF</em>SyFVkfn5cwL17RefVF7j4ue1LpOprEvn9-WbnAgX4sBLmrNwo3WnREq6P4Ko1L<em>TJYK5h9C-</em>JKpb3N00o856HfFiRwqDRkdlt743Djd3YnYTTVuFXGnCJXql29j" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE</em>Kjs6r5QUQeq2muF<em>SyFVkfn5cwL17RefVF7j4ue1LpOprEvn9-WbnAgX4sBLmrNwo3WnREq6P4Ko1L</em>TJYK5h9C-_JKpb3N00o856HfFiRwqDRkdlt743Djd3YnYTTVuFXGnCJXql29j</a></li>
+<li>DTAA Benefits for NRIs: Avoid Double Taxation - Axis Bank: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnHIwxHgtLSLJ<em>zUw0d4T5jfQHuGddG3AOpbq5ALiLaLsjD6F4Opfr6X</em>XFX40UT25d2gxRIOL4ahPmKqVfVcy3j058ulLOR<em>4pNGqVI3Ic0Bc9EWRa5zvM6EV0nYcp-R-wjAOhLQnq</em>aZcU6A2nV6cKhsDgioqt9VvIi3" rel="noopener" target="<em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnHIwxHgtLSLJ</em>zUw0d4T5jfQHuGddG3AOpbq5ALiLaLsjD6F4Opfr6X<em>XFX40UT25d2gxRIOL4ahPmKqVfVcy3j058ulLOR</em>4pNGqVI3Ic0Bc9EWRa5zvM6EV0nYcp-R-wjAOhLQnq_aZcU6A2nV6cKhsDgioqt9VvIi3</a></li>
+<li>How to File IT Return for NRIs &amp; Which ITR Form to Fill? - Digit Insurance: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbKXJZlYrxsYNnQM1pBzF90MIzaR5TRWxA0Vw8dR__GEfxv4jdpCZ1THZY8B<em>sYz6rgpNOzMv5k2elnqRwzPnztJGW-yk28gD35qVY1oJd-rDSUCMXfm1bAW9jff7NvzaRG4sfLeF3kZ3qyhAHU</em>zT" rel="noopener" target="_blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHbKXJZlYrxsYNnQM1pBzF90MIzaR5TRWxA0Vw8dR__GEfxv4jdpCZ1THZY8B<em>sYz6rgpNOzMv5k2elnqRwzPnztJGW-yk28gD35qVY1oJd-rDSUCMXfm1bAW9jff7NvzaRG4sfLeF3kZ3qyhAHU</em>zT</a></li>
+<li>8 NRE and NRO account mistakes every NRI should avoid - The Economic Times: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmWHulYYjkMUNR2sOnKxLfiKvGHYcx-mBD0-UDRBW2FhWacl8FDntdVohfEe77bVzCcJU7D8ZLphxQU2ro2i2RCoOp5vv-e4zKiHaoW5rCuxzOJezLLL1QJqrMBGVyzBzXnPqO0nOMPvCxA8cIykI0KX<em>Xk23uaYZowbwsx-qjSbpBxdUD7gbV0TFeYPXsyLLAR4bK4Jq779lKxpMUqui6fhwsUnnzXInKeeZl-gOgTmDl0mDNuCAcbz8fWagdxqLxBDJ1DgM0EdQtPaVcWZmf3THGpcs=" rel="noopener" target="</em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFmWHulYYjkMUNR2sOnKxLfiKvGHYcx-mBD0-UDRBW2FhWacl8FDntdVohfEe77bVzCcJU7D8ZLphxQU2ro2i2RCoOp5vv-e4zKiHaoW5rCuxzOJezLLL1QJqrMBGVyzBzXnPqO0nOMPvCxA8cIykI0KX_Xk23uaYZowbwsx-qjSbpBxdUD7gbV0TFeYPXsyLLAR4bK4Jq779lKxpMUqui6fhwsUnnzXInKeeZl-gOgTmDl0mDNuCAcbz8fWagdxqLxBDJ1DgM0EdQtPaVcWZmf3THGpcs=</a></li>
+<li>How to Determine Residential Status Under the Income Tax Act - Nricaservices: <a href="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQM1jTTFqDopSVHwz9be6BD4yM8co16ScsZPuxIw9kr4PO4nzNjoXnDKv7yv88cBMfc8g9OzKO5EZCvhlNSIRQO5CovfC0HEQ52NYKUJ2PHSs<em>gFKNVFN1CydHpJM</em>M5gSeT4nHA<em>-vZzN2yR2bN0mUJX-sd-QrtmfLyRXcUoVXKr6L3Cd78chLLdrclGDPUERwmGbnlu6fIlG" rel="noopener" target="</em>blank">https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGQM1jTTFqDopSVHwz9be6BD4yM8co16ScsZPuxIw9kr4PO4nzNjoXnDKv7yv88cBMfc8g9OzKO5EZCvhlNSIRQO5CovfC0HEQ52NYKUJ2PHSs<em>gFKNVFN1CydHpJM</em>M5gSeT4nHA_-vZzN2yR2bN0mUJX-sd-QrtmfLyRXcUoVXKr6L3Cd78chLLdrclGDPUERwmGbnlu6fIlG</a></li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
