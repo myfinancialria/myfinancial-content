@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Market Wrap — 17 July 2026</title>
+<meta name="description" content="Indian benchmark indices, Nifty 50 and Bank Nifty, closed significantly higher today. The market rally was primarily driven by strong Q1 earnings reports and .">
+<meta name="keywords" content="markets, stocks, strong, earnings, profit, economictimes, indiatimes, buying">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-17-post_market-market-wrap-17-july-2026/">
+<meta property="og:title" content="Market Wrap — 17 July 2026">
+<meta property="og:description" content="Indian benchmark indices, Nifty 50 and Bank Nifty, closed significantly higher today. The market rally was primarily driven by strong Q1 earnings reports and .">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-17-post_market-market-wrap-17-july-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Market Wrap \u2014 17 July 2026", "description": "Indian benchmark indices, Nifty 50 and Bank Nifty, closed significantly higher today. The market rally was primarily driven by strong Q1 earnings reports and .", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-17", "dateModified": "2026-07-17", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-17-post_market-market-wrap-17-july-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/" class="active">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Market Wrap · 2026-07-17</div><h1>Market Wrap — 17 July 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Indian benchmark indices, Nifty 50 and Bank Nifty, closed significantly higher today.</li>
+<li>The market rally was primarily driven by strong Q1 earnings reports and robust buying in the IT and Banking sectors.</li>
+<li>eClerx Services Ltd. was the standout gainer, surging over 12.5%, while Ceat Ltd. was the biggest loser, dropping over 7%.</li>
+<li>Foreign Institutional Investors (FIIs) were net sellers for the day, offloading ₹4,206 crore.</li>
+<li>Domestic Institutional Investors (DIIs) provided strong support, with net buying of ₹2,986 crore.</li>
+<li>F&amp;O positioning data is unavailable for today&#x27;s wrap and will populate from the next session.</li>
+</ul>
+</div>
+<h2>How the market behaved today</h2>
+<p>
+Indian equity markets displayed strong upward momentum today, with the Nifty 50 closing above the 24,300 mark and the Bank Nifty surging past 58,500. The Nifty 50 opened with a gap up and maintained its positive trajectory throughout the session, while the Bank Nifty also saw significant gains. In contrast, the broader market indices, Nifty Midcap 100 and Nifty Smallcap 100, ended the day in negative territory, indicating a shift towards large-cap performance.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>Change</th><th>High</th><th>Low</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>24334.30</td><td>+1.09%</td><td>24367.30</td><td>24099.05</td></tr>
+<tr><td>Bank Nifty</td><td>58521.40</td><td>+1.63%</td><td>58596.85</td><td>57542.15</td></tr>
+<tr><td>Midcap 100</td><td>62428.05</td><td>-0.41%</td><td>62786.25</td><td>62198.90</td></tr>
+<tr><td>Smallcap 100</td><td>19296.30</td><td>-0.21%</td><td>19381.55</td><td>19115.45</td></tr>
+</tbody></table>
+<p>
+The India VIX, a measure of market volatility, increased by 2.10% to 13.15, suggesting a slight uptick in expected market fluctuations despite the positive close for frontline indices.
+</p>
+<h2>What moved the market — the factors</h2>
+<p>
+The Indian market&#x27;s strong performance today, particularly in the Nifty 50 and Bank Nifty, was primarily driven by robust Q1 earnings reports and sustained buying interest in key sectors like IT and Banking. Despite a significant outflow from Foreign Institutional Investors (FIIs) amounting to ₹4,206 crore, Domestic Institutional Investors (DIIs) provided crucial support with net buying of ₹2,986 crore, helping to absorb the selling pressure. The positive sentiment was further bolstered by improving momentum observed in large-cap stocks. While global cues saw Hong Kong&#x27;s Hang Seng index crash over 2% due to a tech selloff, Indian markets showed resilience, with the IT sector being a top gainer, indicating a divergence in performance. The banking sector also saw strong buying, with Federal Bank notably hitting a 52-week high.
+</p>
+<h2>Sectors — winners and losers</h2>
+<p>
+<strong>Top 3 Gainer Sectors:</strong>
+</p>
+<ul>
+<li><strong>IT:</strong> +1.75% - The sector saw strong buying interest, contributing significantly to the Nifty&#x27;s upward move.</li>
+<li><strong>BANK:</strong> +1.63% - Banking stocks rallied, with several private and public sector banks performing well.</li>
+<li><strong>REALTY:</strong> +1.38% - The realty sector showed positive momentum, possibly on the back of strong earnings from companies like Oberoi Realty.</li>
+</ul>
+<p>
+<strong>Top 3 Loser Sectors:</strong>
+</p>
+<ul>
+<li><strong>PHARMA:</strong> -1.40% - The pharmaceutical sector witnessed profit-booking today.</li>
+<li><strong>METAL:</strong> -0.47% - Despite strong Q1 results from JSW Steel, the broader metal sector ended in the red.</li>
+<li><strong>ENERGY:</strong> -0.17% - The energy sector saw a marginal decline.</li>
+</ul>
+<h2>Stocks that moved the market</h2>
+<h3>Top 5 gainers (Nifty 500)</h3>
+<ul>
+<li><strong>eClerx Services Ltd.</strong> (ECLERX, Services): close ₹1979.80, +12.51%, change ₹+220.10</li>
+<li><strong>Authum Investment &amp; Infrastructure Ltd.</strong> (AIIL, Financial Services): close ₹571.00, +9.88%, change ₹+51.35</li>
+<li><strong>Federal Bank Ltd.</strong> (FEDERALBNK, Financial Services): close ₹349.00, +6.86%, change ₹+22.40. The stock hit a fresh 52-week high today, reflecting sustained buying interest.</li>
+<li><strong>Kalyan Jewellers India Ltd.</strong> (KALYANKJIL, Consumer Durables): close ₹574.40, +5.09%, change ₹+27.80</li>
+<li><strong>Afcons Infrastructure Ltd.</strong> (AFCONS, Construction): close ₹299.75, +5.03%, change ₹+14.35</li>
+</ul>
+<h3>Top 5 losers (Nifty 500)</h3>
+<ul>
+<li><strong>Ceat Ltd.</strong> (CEATLTD, Automobile and Auto Components): close ₹3549.90, -7.30%, change ₹-279.70</li>
+<li><strong>Welspun Corp Ltd.</strong> (WELCORP, Capital Goods): close ₹1581.50, -6.09%, change ₹-102.50</li>
+<li><strong>Kirloskar Oil Eng Ltd.</strong> (KIRLOSENG, Capital Goods): close ₹2255.70, -5.86%, change ₹-140.40</li>
+<li><strong>Emmvee Photovoltaic Power Ltd.</strong> (EMMVEE, Capital Goods): close ₹345.05, -5.56%, change ₹-20.30</li>
+<li><strong>Vijaya Diagnostic Centre Ltd.</strong> (VIJAYA, Healthcare): close ₹1341.30, -5.04%, change ₹-71.20</li>
+</ul>
+<h2>News that moved stocks</h2>
+<p>
+<strong>Q1 Earnings Season in Focus</strong>
+</p>
+<ul>
+<li><strong>JSW Steel Q1 Results: Net profit doubles to ₹4,696 crore.</strong> JSW Steel reported a significant increase in its net profit for the first quarter of the fiscal year, more than doubling to ₹4,696 crore, driven by a 9.8% revenue increase. This positive earnings report highlighted strong performance in the steel sector.</li>
+<li><strong>Oberoi Realty Q1 profit jumps 29% to ₹544 crore, revenue rises 32%; declares ₹2 interim dividend.</strong> Oberoi Realty demonstrated strong financial growth in Q1 FY27, with net profit rising 29% and revenue increasing 31.7%, alongside an interim dividend declaration. This news likely contributed to the positive sentiment in the realty sector.</li>
+<li><strong>Reliance Industries Q1 Results Live: RIL to announce earnings today; EBITDA may rise up to 10% on O2C, Jio growth.</strong> Reliance Industries was set to announce its Q1 earnings today, with expectations of up to 10% EBITDA growth driven by its O2C and Jio segments. This kept the market anticipating results from an index heavyweight.</li>
+</ul>
+<p>
+<strong>Corporate Actions and Stake Changes</strong>
+</p>
+<ul>
+<li><strong>Rs 9,000 crore bet! Reliance Industries promoters increase stake by 0.5% in June quarter.</strong> Promoters of Reliance Industries increased their stake to 50.48% in the June quarter through market purchases worth an estimated ₹8,500–9,000 crore. This move signals strong confidence from the promoters despite recent stock performance.</li>
+<li><strong>PB Fintech share price rises 3% after HDFC Mutual Fund stake raise to 5.02%.</strong> Shares of PB Fintech saw a 3% intraday rise after HDFC Mutual Fund increased its stake in the company to 5.02% via an open market purchase. This institutional buying provided a boost to the stock.</li>
+</ul>
+<p>
+<strong>Macroeconomic and Global Developments</strong>
+</p>
+<ul>
+<li><strong>Rupee closes at 96.28 vs USD; logs sharpest weekly drop since May as oil price jump stings.</strong> The Indian rupee experienced its most significant weekly decline since May, primarily due to rising oil prices and robust demand for the US dollar, exacerbated by geopolitical tensions. This indicates pressure on the domestic currency.</li>
+<li><strong>Hang Seng crashes over 2% as tech selloff hits Asia markets. Why Hong Kong stocks are falling on Friday?</strong> Hong Kong&#x27;s Hang Seng Index fell over 2% due to a global selloff in technology stocks, driven by renewed inflation concerns. This highlighted broader risk aversion in some Asian markets.</li>
+<li><strong>Federal Bank among 4 stocks that hit 52-week highs and rallied up to 25% in a month.</strong> Federal Bank was among several BSE 200 stocks to hit a fresh 52-week high today, reflecting sustained buying interest and strong performance.</li>
+</ul>
+<h2>F&amp;O build-up — where traders are positioning</h2>
+<p>
+OI build-up needs the previous session&#x27;s OI — it will populate from the next run.
+</p>
+<h2>Market breadth</h2>
+<p>
+The market breadth for the day was negative, with 204 advances against 291 declines out of a total of 495 stocks. This indicates that while the frontline indices saw strong gains, a larger number of individual stocks in the broader market ended in the red, suggesting a concentrated rally.
+</p>
+<h2>FII / DII flows</h2>
+<p>
+Foreign Institutional Investors (FIIs) were net sellers in the Indian cash equity market today, offloading shares worth ₹4,206 crore. In contrast, Domestic Institutional Investors (DIIs) continued to provide strong support, with net purchases amounting to ₹2,986 crore.
+</p>
+<table><thead><tr><th>Investor Type</th><th>Net Flow (₹ crore)</th></tr></thead><tbody>
+<tr><td>FII</td><td>-4,206</td></tr>
+<tr><td>DII</td><td>2,986</td></tr>
+</tbody></table>
+<p>
+Looking at the 5-day history, FIIs have been net sellers for four out of the last five sessions, with today marking their largest outflow in this period. Conversely, DIIs have been consistent net buyers throughout the past five trading days, providing a crucial counterbalance to FII selling. This trend suggests that domestic investors are actively accumulating Indian equities, offsetting the foreign outflows.
+</p>
+<h2>Event breakdown — what happened today and how it hit the market</h2>
+<p>
+Today&#x27;s session was largely driven by a combination of robust Q1 earnings reports and sector-specific buying, particularly in the IT and Banking sectors. While there wasn&#x27;t a single defining macroeconomic event like a central bank decision, the ongoing earnings season provided significant impetus. Strong results from companies like JSW Steel and Oberoi Realty contributed to positive sentiment, even as the broader market breadth remained negative. The market also reacted to corporate news, such as Reliance Industries promoters increasing their stake and HDFC Mutual Fund raising its stake in PB Fintech, which provided stock-specific movements. Despite FII outflows, DII buying ensured that the large-cap indices maintained their upward trajectory.
+</p>
+<h2>Setup for tomorrow</h2>
+<p>
+Looking ahead to tomorrow, global cues will be important. The USD/INR closed at 96.27, and rising Brent Crude prices at $85.95 could continue to put pressure on the rupee. The US 10-year yield is slightly up at 4.57%. Investors will continue to monitor the ongoing Q1 earnings season, with Reliance Industries&#x27; results, expected today, likely to influence market sentiment. Sectors like IT and Banking, which performed well today, will be watched for continuation, while the broader market&#x27;s negative breadth suggests a cautious approach to mid and small caps. Key levels for Nifty 50 and Bank Nifty will be crucial to observe for further direction.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>[ET Markets] Market wrap: Top gainers and losers on Nifty and Sensex today</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/market-wrap-top-gainers-and-losers-on-nifty-and-sensex-today/articleshow/132460186.cms
+</p>
+<li>[ET Markets] Federal Bank among 4 stocks that hit 52-week highs and rallied up to 25% in a month</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/federal-bank-among-4-stocks-that-hit-52-week-highs-and-rallied-up-to-25-in-a-month/slideshow/132460099.cms
+</p>
+<li>[ET Markets] Shapoorji Pallonji Group completes long-delayed debt fundraising, sources say</li>
+<p>
+  https://economictimes.indiatimes.com/markets/bonds/shapoorji-pallonji-group-completes-long-delayed-debt-fundraising-sources-say/articleshow/132459713.cms
+</p>
+<li>[ET Markets] Rupee closes at 96.28 vs USD; logs sharpest weekly drop since May as oil price jump stings</li>
+<p>
+  https://economictimes.indiatimes.com/markets/forex/forex-news/rupee-closes-at-96-28-vs-usd-logs-sharpest-weekly-drop-since-may-as-oil-price-jump-stings/articleshow/132458678.cms
+</p>
+<li>[ET Markets] Reliance Industries Q1 Results Live: RIL to announce earnings today; EBITDA may rise up to 10% on O2C, Jio growth</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/ril-q1-results-live-updates-reliance-industries-ltd-q1-fy27-revenue-earning-net-profit-loss-bonus-shares-date-time/liveblog/132458673.cms
+</p>
+<li>[ET Markets] Rs 9,000 crore bet! Reliance Industries promoters increase stake by 0.5% in June quarter</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/rs-9000-crore-bet-reliance-industries-promoters-increase-stake-by-0-5-in-june-quarter/articleshow/132458644.cms
+</p>
+<li>[ET Markets] Hang Seng crashes over 2% as tech selloff hits Asia markets. Why Hong Kong stocks are falling on Friday?</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/hang-seng-crashes-over-2-as-tech-selloff-hits-asia-markets-why-hong-kong-stocks-are-falling-on-friday/articleshow/132458594.cms
+</p>
+<li>[ET Markets] Global Market: South Korea&#x27;s AI-driven stock frenzy fuels volatility, challenges market fundamentals</li>
+<p>
+  https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-south-koreas-ai-driven-stock-frenzy-fuels-volatility-challenges-market-fundamentals/articleshow/132458499.cms
+</p>
+<li>[ET Markets] Global Market: Euro zone current account surplus widens in May; market impact likely limited</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/global-market-euro-zone-current-account-surplus-widens-in-may-market-impact-likely-limited/articleshow/132458459.cms
+</p>
+<li>[ET Markets] Bitcoin falls nearly 2% to $63,000 as geopolitical tensions weigh on crypto markets</li>
+<p>
+  https://economictimes.indiatimes.com/markets/cryptocurrency/crypto-news/bitcoin-falls-nearly-2-to-63000-as-geopolitical-tensions-weigh-on-crypto-markets/articleshow/132458432.cms
+</p>
+<li>[ET Markets] JSW Steel Q1 Results: Net profit doubles to Rs 4,696 crore</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/earnings/jsw-steel-q1-results-net-profit-doubles-to-rs-4696-crore/articleshow/132458385.cms
+</p>
+<li>[ET Markets] Foreign inflows in Asian bonds surge to seven-month high in June</li>
+<p>
+  https://economictimes.indiatimes.com/markets/bonds/foreign-inflows-in-asian-bonds-surge-to-seven-month-high-in-june/articleshow/132457296.cms
+</p>
+<li>[Livemint Markets] Oberoi Realty Q1 profit jumps 29% to ₹544 crore, revenue rises 32%; declares ₹2 interim dividend</li>
+<p>
+  https://www.livemint.com/market/stock-market-news/oberoi-realty-q1-profit-jumps-29-to-rs-544-crore-revenue-rises-32-declares-rs-2-interim-dividend-11784283993297.html
+</p>
+<li>[Livemint Markets] PB Fintech share price rises 3% after HDFC Mutual Fund stake raise to 5.02%</li>
+<p>
+  https://www.livemint.com/market/stock-market-news/pb-fintech-share-price-rises-3-after-hdfc-mutual-fund-stake-raise-to-502-11784281552145.html
+</p>
+<li>[Livemint Markets] JSW Steel Q1 result: Net Profit doubles to ₹4,696 crore; revenue jumps 10%</li>
+<p>
+  https://www.livemint.com/market/stock-market-news/jsw-steel-q1-result-net-profit-doubles-to-rs-4-696-crore-revenue-jumps-10-11784283126412.html
+</p>
+<li>Official Sources: NSE / RBI / SEBI</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
