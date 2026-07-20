@@ -3,8 +3,8 @@ title: "Pre-Market Brief — 20 July 2026"
 date: 2026-07-20
 author: myfinancial
 category: pre_market
-description: "Global markets show a mixed to negative tone, with US indices closing lower and Asian markets trading mixed, while Japan's Nikkei saw a sharp decline. GIFT Ni."
-keywords: [markets, stocks, support, prices, highest, resistance, earnings, global]
+description: "Mixed global cues, with US indices down and Asian markets showing divergence. GIFT Nifty signals a negative start for Indian equities."
+keywords: [markets, global, stocks, shares, support, contracts, strong, sentiment]
 canonical: https://myfinancialria.github.io/myfinancial-content/articles/2026-07-20-pre_market-pre-market-brief-20-july-2026/
 slug: 2026-07-20-pre_market-pre-market-brief-20-july-2026
 ---
@@ -12,179 +12,150 @@ slug: 2026-07-20-pre_market-pre-market-brief-20-july-2026
 # Pre-Market Brief — 20 July 2026
 
 **TL;DR**
-*   Global markets show a mixed to negative tone, with US indices closing lower and Asian markets trading mixed, while Japan's Nikkei saw a sharp decline.
-*   GIFT Nifty signals a cautious start for Indian equities, pointing to a potential gap-down open.
-*   Foreign Institutional Investors (FIIs) continue their selling spree, while Domestic Institutional Investors (DIIs) provide consistent buying support.
-*   Escalating tensions between the US and Iran have driven crude oil prices significantly higher, crossing the $90 mark, raising inflation concerns.
-*   Nifty 50's immediate support sits around 24,166 (S1) and 24,000 (highest Put OI), with resistance near 24,434 (R1) and 24,700-25,000 (Call OI).
-*   The primary risk for the day remains geopolitical instability in the Middle East and its inflationary impact through rising crude oil prices.
+- Mixed global cues, with US indices down and Asian markets showing divergence.
+- GIFT Nifty signals a negative start for Indian equities.
+- FIIs remain net sellers, while DIIs continue to provide strong support.
+- Chinese state funds intervened to stabilise their equity markets after a sharp sell-off.
+- The 24200-24207 zone will be crucial for Nifty's direction today.
+- Continued FII selling and weakness in global equity markets pose the main risk.
 
 ## How global markets traded — and what it means for India
 
-Global markets presented a mixed picture overnight, with US indices closing in the red, largely influenced by a sell-off in chip stocks and growing Federal Reserve rate hike concerns. Asian markets this morning are trading with hesitation, though some like Hang Seng and Shanghai managed gains, while Japan's Nikkei saw a significant decline. This cautious global sentiment, coupled with rising oil prices, is likely to set a subdued tone for the Indian market open.
+Overnight, US markets closed lower, with the Dow Jones, Nasdaq, and S&P 500 all registering declines, led by technology stocks. This indicates a cautious sentiment in Western markets. In Asia this morning, the picture is mixed; Japan's Nikkei 225 saw a significant drop, while Chinese equities rebounded following state-backed support measures. Hong Kong's Hang Seng also posted gains.
 
-| Index        | Value      | % Change |
-| :----------- | :--------- | :------- |
-| Dow Jones    | 52146.42   | -0.77%   |
-| Nasdaq       | 25520.24   | -1.40%   |
-| S&P 500      | 7457.69    | -1.01%   |
-| FTSE 100     | 10600.40   | +0.27%   |
-| Nikkei 225   | 64141.12   | -4.03%   |
-| Hang Seng    | 24987.64   | +1.73%   |
-| Shanghai     | 3825.77    | +1.64%   |
+| Index        | % Change |
+| :----------- | :------- |
+| Dow Jones    | -0.77%   |
+| Nasdaq       | -1.40%   |
+| S&P 500      | -1.01%   |
+| FTSE 100     | +0.27%   |
+| Nikkei 225   | -4.03%   |
+| Hang Seng    | +1.83%   |
+| Shanghai     | +0.15%   |
 
-**Interpretation:** The negative close in major US indices, particularly the tech-heavy Nasdaq, and the sharp fall in Nikkei suggest a cautious start for Indian equities. While some Asian markets show resilience, the overall global tone points to potential weakness at the open.
+**Interpretation:** The negative close in US markets and the sharp decline in Nikkei suggest a cautious to negative overhang for the Indian market open. However, the rebound in Chinese markets due to state intervention could provide some counter-balancing sentiment, though overall global risk appetite appears subdued.
 
 ## Currency, commodities and yields
 
-The Indian Rupee strengthened against the US Dollar, with USD/INR trading at 96.27, down 0.40%. The Dollar Index remained largely stable, down a marginal 0.02% at 100.73. Crude oil prices surged significantly, with Brent Crude jumping 2.19% to $90.03 and WTI Crude up 1.10% to $83.40, driven by escalating US-Iran tensions. Gold saw a modest gain of 0.30% to $4024.60, while Silver rallied 2.32% to $57.34. The US 10-year Treasury yield eased slightly by 0.61% to 4.54%.
+The Indian Rupee (USD/INR) strengthened slightly against the US Dollar, closing at ₹96.47, a decline of 0.18%. The Dollar Index also saw a marginal dip of 0.03% to 100.72. Crude oil prices witnessed a notable rise, with Brent Crude up 2.53% to $90.33 and WTI Crude gaining 1.36% to $83.61. Gold prices remained relatively stable with a slight increase of 0.04% to $4014.30, while Silver saw a more significant jump of 1.38% to $56.81. The US 10-Year Yield eased by 0.61% to 4.54%.
 
-**Interpretation:** The sharp rise in crude oil prices is a significant concern for India, a major oil importer. This could fuel domestic inflation, put pressure on oil marketing companies (OMCs), and impact sectors like paints and aviation. A stronger Rupee (lower USD/INR) is generally positive for importers as it makes imports cheaper, but can be a slight headwind for IT and pharma exporters. The easing US 10-year yield could offer some relief, potentially making emerging markets like India more attractive to foreign investors, though this is overshadowed by FII selling.
+**Interpretation:** A stronger Rupee (lower USD/INR) is generally positive for importers as it makes imports cheaper and can help curb imported inflation. The rise in crude oil prices is a concern for India, a major oil importer, as it could put pressure on oil marketing companies (OMCs), paint, and aviation sectors, and potentially fuel inflationary pressures. A slight dip in the US 10-Year Yield could offer some relief from global rate hike concerns, but the overall impact needs to be seen in context of other global factors.
 
 ## GIFT Nifty — what it's signalling
 
-GIFT Nifty is currently trading at 24314.50, down 0.37% from Nifty's previous close.
+The GIFT Nifty is trading at 24191.50, down 0.87%.
 
-**Interpretation:** This indicates a negative bias for the Indian market open, suggesting a potential gap-down for the Nifty 50 today.
+**Interpretation:** This indicates a negative bias for the Indian Nifty 50 at the open, suggesting a potential gap-down start for the domestic market.
 
 ## FII/DII flows — who's driving the tape
 
-Foreign Institutional Investors (FIIs) remained net sellers in the Indian cash equity market yesterday, offloading equities worth ₹376 crore. In contrast, Domestic Institutional Investors (DIIs) continued to provide strong support, buying equities worth ₹1,018 crore. This trend of FII selling being largely absorbed by DII buying has been consistent over the last five trading sessions.
+Foreign Institutional Investors (FIIs) remained net sellers in the Indian equity market yesterday, offloading equities worth ₹376 crore. Domestic Institutional Investors (DIIs), however, continued to provide strong support, buying equities worth ₹1,018 crore.
 
-| Date         | FII Net (₹ cr) | DII Net (₹ cr) |
-| :----------- | :------------- | :------------- |
-| 2026-07-17   | -376           | +1,018         |
-| 2026-07-16   | -4,206         | +2,986         |
-| 2026-07-15   | -736           | +705           |
-| 2026-07-14   | -740           | +2,928         |
-| 2026-07-13   | -3,062         | +2,172         |
+| Date         | FII Net (₹ crore) | DII Net (₹ crore) |
+| :----------- | :---------------- | :---------------- |
+| 2026-07-17   | -376              | +1,018            |
+| 2026-07-16   | -4,206            | +2,986            |
+| 2026-07-15   | -736              | +705              |
+| 2026-07-14   | -740              | +2,928            |
+| 2026-07-13   | -3,062            | +2,172            |
 
-**Interpretation:** The persistent FII selling, particularly the significant outflows seen last week, indicates a cautious stance from foreign investors, possibly due to global factors like rising crude and US rate hike concerns. However, robust DII buying is acting as a crucial counterweight, preventing sharper market corrections and providing a floor for the indices.
+**Interpretation:** The consistent selling by FIIs over the last five sessions, coupled with robust buying by DIIs, highlights a divergence in market sentiment. DIIs have been the primary support for the market amidst foreign outflows, preventing sharper declines. Sustained FII selling could continue to weigh on market sentiment.
 
 ## Key levels to watch — Nifty, Bank Nifty & Sensex (technical)
 
-Here are the key technical levels for the major Indian indices:
+| Index       | CPR Pivot | CPR Top | CPR Bottom | R1        | R2        | S1        | S2        | Swing High | Swing Low | 20-DMA    | 50-DMA    |
+| :---------- | :-------- | :------ | :--------- | :-------- | :-------- | :-------- | :-------- | :--------- | :-------- | :-------- | :-------- |
+| Nifty 50    | 24207.35  | 24208.58| 24206.12   | 24264.8   | 24319.8   | 24152.35  | 24094.9   | 24530.9    | 23805.2   | 24105.41  | 23829.12  |
+| Bank Nifty  | 57733.32  | 57760.43| 57706.21   | 57909.33  | 58139.57  | 57503.08  | 57327.07  | 58596.85   | 56549.4   | 57819.38  | 56058.0   |
+| Sensex      | 77745.36  | 77798.12| 77692.59   | 78045.92  | 78452.02  | 77339.26  | 77038.7   | 78664.92   | 76259.03  | 77244.88  | 76094.32  |
 
-**NIFTY 50 (prev close 24334.3)**
-| Level Type | Value      |
-| :--------- | :--------- |
-| CPR Pivot  | 24266.88   |
-| CPR TC     | 24300.59   |
-| CPR BC     | 24233.17   |
-| CPR Width  | 0.28%      |
-| R1         | 24434.72   |
-| R2         | 24535.13   |
-| S1         | 24166.47   |
-| S2         | 23998.63   |
-| Swing High | 24530.9    |
-| Swing Low  | 23805.2    |
-| 20-DMA     | 24095.58   |
-| 50-DMA     | 23831.46   |
-
-**BANK NIFTY (prev close 58521.4)**
-| Level Type | Value      |
-| :--------- | :--------- |
-| CPR Pivot  | 58220.13   |
-| CPR TC     | 58370.77   |
-| CPR BC     | 58069.5    |
-| CPR Width  | 0.52%      |
-| R1         | 58898.12   |
-| R2         | 59274.83   |
-| S1         | 57843.42   |
-| S2         | 57165.43   |
-| Swing High | 58596.85   |
-| Swing Low  | 56549.4    |
-| 20-DMA     | 57819.72   |
-| 50-DMA     | 56025.37   |
-
-**SENSEX (prev close 78151.45)**
-| Level Type | Value      |
-| :--------- | :--------- |
-| CPR Pivot  | 77914.0    |
-| CPR TC     | 78032.73   |
-| CPR BC     | 77795.27   |
-| CPR Width  | 0.3%       |
-| R1         | 78520.0    |
-| R2         | 78888.55   |
-| S1         | 77545.45   |
-| S2         | 76939.45   |
-| Swing High | 78664.92   |
-| Swing Low  | 76259.03   |
-| 20-DMA     | 77203.04   |
-| 50-DMA     | 76098.41   |
-
-**Interpretation:** The Nifty 50's narrow CPR width (0.28%) suggests the possibility of a trending day, while Bank Nifty's slightly wider CPR (0.52%) could imply more range-bound movement. For Nifty, a break above R1 (24434.72) could signal further upside towards R2 (24535.13) and potentially its swing high. Conversely, a break below S1 (24166.47) could lead to a test of S2 (23998.63). The 20-DMA and 50-DMA for all indices are currently below the previous close, indicating a short-to-medium term uptrend.
+**Interpretation:** The CPR for Nifty 50 is extremely narrow (width 0.01%), suggesting a potentially trending day if a clear direction is established. For Bank Nifty and Sensex, the CPRs are also relatively narrow, indicating a higher probability of a trending move rather than a range-bound session. A break above R1 or R2 could signal upward momentum, while a fall below S1 or S2 would suggest further downside. The 20-DMA for Nifty is at 24105.41, which could act as a dynamic support level.
 
 ## Option-chain signals (OI) — where support & resistance sit
 
 **NIFTY:**
-*   Highest Call OI (resistance): 25000 (OI 10,262,400), 24700 (OI 8,296,990), 24800 (OI 7,933,250)
-*   Highest Put OI (support): 24000 (OI 12,583,200), 24200 (OI 12,460,400), 24100 (OI 10,241,300)
-*   PCR: 1.11
+- Highest Call OI (resistance): 24200 (19,622,200 contracts), 24300 (15,199,795 contracts), 24250 (13,601,640 contracts)
+- Highest Put OI (support): 24200 (25,608,050 contracts), 24000 (19,068,790 contracts), 24100 (18,156,385 contracts)
+- PCR: 1.12
 
 **BANK NIFTY:**
-*   Highest Call OI (resistance): 59000 (OI 2,150,310), 60000 (OI 1,774,050), 58000 (OI 1,200,900)
-*   Highest Put OI (support): 58000 (OI 1,359,780), 59000 (OI 1,193,850), 57000 (OI 972,720)
-*   PCR: 0.75
+- Highest Call OI (resistance): 59000 (2,244,480 contracts), 58000 (1,650,930 contracts), 58500 (1,126,680 contracts)
+- Highest Put OI (support): 59000 (1,188,690 contracts), 58000 (1,138,080 contracts), 57000 (852,780 contracts)
+- PCR: 0.81
 
 **SENSEX:**
-*   Highest Call OI (resistance): 78000 (OI 420,220), 77500 (OI 390,740), 79500 (OI 335,840)
-*   Highest Put OI (support): 77500 (OI 827,660), 77000 (OI 706,720), 78000 (OI 665,820)
-*   PCR: 1.37
+- Highest Call OI (resistance): 77500 (933,620 contracts), 78000 (845,120 contracts), 77700 (673,600 contracts)
+- Highest Put OI (support): 77500 (1,116,420 contracts), 77600 (738,280 contracts), 77000 (714,460 contracts)
+- PCR: 1.06
 
-**Interpretation:** For Nifty, the highest Call OI at 25000 and 24700 suggests strong resistance where sellers expect the market to find a ceiling. Conversely, the highest Put OI at 24000 and 24200 indicates significant support where buyers are defending a floor. A Nifty PCR of 1.11 leans towards a bullish-to-neutral sentiment, suggesting more put writing than call writing.
+**Interpretation:** For Nifty, the 24200 strike sees significant activity on both call and put sides, but with higher put OI, suggesting it could act as a strong immediate support level. The PCR of 1.12 leans supportive to neutral, indicating that put writers (who expect prices to rise or stay stable) are slightly more aggressive than call writers. For Bank Nifty, the highest Call OI at 59000 and 58000 suggests these levels will act as strong resistance, while the PCR of 0.81 indicates a cautious sentiment, with more call writing than put writing. Sensex's PCR of 1.06 suggests a neutral-to-supportive bias, with 77500 being a key battleground. Combining with technicals, Nifty's CPR pivot at 24207.35 aligns closely with the 24200 OI levels, making this a critical zone to respect today. For Bank Nifty, 58000 and 59000 are key resistance levels, while 57000 could offer support.
 
-Bank Nifty's highest Call OI at 59000 and 60000 will act as immediate resistance, while 58000 and 57000 are key Put OI supports. A Bank Nifty PCR of 0.75 indicates a cautious or slightly bearish sentiment, with more call writing than put writing.
+## Companies reporting results today
 
-For Sensex, 78000 and 77500 are key resistance levels based on Call OI, while 77500 and 77000 are strong Put OI supports. A high Sensex PCR of 1.37 suggests a supportive or bullish-to-neutral bias.
+No Nifty 500 / large-cap results scheduled today.
 
-Combining technicals and OI, for Nifty, the zone of 24,000-24,100 appears to be a crucial support, while 24,400-24,500 and then 24,700-25,000 are significant resistance levels to respect today.
+## Corporate actions today
+
+No major ex-dates today.
 
 ## Stock & sector news that matters
 
-*   **Oil Price Today (July 20): Crude oil jumps 3%, crosses $90 as US and Iran exchange attacks. $100 in sight?**
-    Brent crude futures surged over 3%, crossing $90 a barrel, reaching their highest level since June 11, driven by escalating US-Iran conflict in the Middle East.
-    **Why it matters:** This is a critical development for the Indian economy. Higher crude prices directly impact inflation, increase the import bill, and put pressure on sectors like oil marketing companies (OMCs), paints, and aviation due to increased input costs. It could also lead to concerns about fuel price hikes.
-*   **Q1 earnings begin on a strong note as banks fuel double-digit growth**
-    For a common sample of 164 companies, revenue grew 17.5% year-on-year, the fastest in at least nine quarters, with net profit rising 14.5%, marking a second consecutive quarter of double-digit growth, largely driven by banks.
-    **Why it matters:** Strong Q1 earnings, particularly from the banking sector, provide a fundamental tailwind for the market. This positive earnings momentum could support valuations and investor sentiment, especially for financial stocks.
-*   **Nifty ready for 24,500-24,750 levels after breakout rally: Analysts**
-    Analysts expect the Nifty rally to extend towards 24,500-24,750, with some seeing potential for 25,000, provided the index overcomes resistance around the 24,350-24,600 zone.
-    **Why it matters:** This indicates that despite current global headwinds, market analysts see underlying strength in Nifty, with clear upside targets if key resistance levels are breached. It provides a directional outlook for traders.
-*   **Jio Financial Services among 6 stocks showing bullish RSI upswing**
-    Jio Financial Services was among six Nifty500 stocks that gained over 2.5% on July 17 and showed improving momentum with their Relative Strength Index (RSI) moving above the 50 mark.
-    **Why it matters:** This highlights specific stock-level momentum. Positive technical signals like an RSI upswing can attract trader interest and potentially lead to short-term price movements in these identified stocks, including Jio Financial Services.
-*   **Positive Breakout: These 9 stocks cross above their 200 DMAs**
-    Nine stocks have crossed above their 200-day Simple Moving Averages (SMA), which is generally considered a signal of an overall uptrend.
-    **Why it matters:** Crossing above the 200-DMA is a significant bullish technical signal. Stocks exhibiting this pattern could see increased buying interest as it indicates a shift towards a long-term uptrend.
+*   **VA Tech Wabag shares rise 4% after securing major Bengaluru wastewater treatment order**
+    VA Tech Wabag shares gained after the company announced a significant order from BWSSB for two energy-efficient wastewater treatment facilities in Bengaluru.
+    **Why it matters:** This large order win is positive for VA Tech Wabag, indicating strong business momentum and potentially boosting investor confidence in the company's order book and future revenue. It could also bring focus to the water treatment and infrastructure sector.
+
+*   **PC Jeweller shares jump 6%: What’s driving the rally after 220% gains in 3 years?**
+    PC Jeweller shares surged after its board approved raising up to ₹1,000 crore through a Qualified Institutional Placement (QIP), which nearly reversed Friday's losses.
+    **Why it matters:** The QIP approval signals the company's intent to raise capital, which can be used for expansion or debt reduction. This news, coupled with strong Q1 revenue growth, could attract investor interest in the stock.
+
+*   **Global Market: China stocks rebound as state support boosts sentiment, tech shares remain under pressure**
+    Chinese equities rebounded after steep losses last week, as signs of government-backed support lifted investor confidence and sparked buying in traditional sectors. China's securities regulator is also set to meet market participants to discuss equity market stabilization, with state-backed investors buying shares to arrest declines.
+    **Why it matters:** Government intervention in China's markets highlights concerns about economic stability but also shows a strong intent to prevent further sell-offs. While it stabilises Chinese markets, the underlying issues causing the sell-off (e.g., tech sector pressure) remain, and global investors will watch for sustained recovery or further volatility.
+
+*   **Rs 91,000 crore wipeout: What spooked HDFC Bank, Axis Bank and Kotak investors even as credit growth picked up?**
+    Nearly ₹91,000 crore was wiped off the market value of HDFC Bank, Axis Bank, and Kotak Mahindra Bank as stronger credit growth failed to offset concerns over shrinking net interest margins (NIMs) and weaker capital adequacy ratios (CARs). Kotak Mahindra Bank shares specifically fell over 3% despite reporting a 26% year-on-year increase in Q1 net profit.
+    **Why it matters:** This indicates significant pressure on the private banking sector, particularly large-cap names, due to concerns over profitability metrics like NIMs, even if credit growth is strong. This could lead to continued cautious sentiment towards private bank stocks.
+
+*   **PNB shares jump 6% as Q1 profit soars 214%, beats Street estimates. What next?**
+    Punjab National Bank (PNB) shares rose sharply after the PSU lender reported a 214% year-on-year jump in Q1FY27 net profit, surpassing Street estimates, driven by strong asset quality and lower provisions.
+    **Why it matters:** This strong performance from a public sector bank contrasts with the private bank concerns, potentially shifting investor interest towards PSU banking stocks. It highlights improving fundamentals within the PSU banking space.
+
+*   **SBI Funds Management IPO listing tomorrow: GMP signals 18% listing gain**
+    SBI Funds Management is set to debut on the NSE and BSE on July 21, with the grey market indicating an around 18% listing premium over the IPO price.
+    **Why it matters:** A strong listing for SBI Funds Management could boost sentiment for the broader financial services sector and other upcoming IPOs, indicating healthy investor appetite for quality public offerings.
 
 ## Events & data to watch — and how markets usually react
 
-*   **Escalating US-Iran Conflict:** The intensifying conflict in the Middle East, leading to a surge in crude oil prices, will be a major focus. Markets typically react to such geopolitical tensions with increased volatility and a flight to safety, while rising crude prices can trigger inflation concerns and impact growth outlook.
-*   **Ongoing Q1 Earnings Season:** While no major Nifty 500 results are scheduled today, the broader Q1 earnings season is in full swing, with banks reporting strong growth. Markets will continue to react to individual company results and management commentaries, which can drive sector-specific movements.
-*   **Indo-MIM IPO:** The initial public offering (IPO) of Indo-MIM is scheduled to open on July 23. IPOs can sometimes draw liquidity from the secondary market, and their performance can gauge investor appetite for new listings.
+*   **Global Central Bank Decisions (ECB and Asian Central Banks):** This week features decisions from the European Central Bank (ECB) and several Asian central banks. Markets typically react with increased volatility around such policy announcements, as interest rate decisions and forward guidance can significantly impact global liquidity and currency movements.
+*   **Key Economic Data:** Global markets will also be tracking key economic data releases this week. Economic data points like inflation, GDP, and employment figures can influence central bank policy expectations and overall market sentiment, often leading to short-term price movements.
+*   **Ongoing Earnings Season:** While no major Nifty 500 results are scheduled for today, the broader Q1 earnings season is underway. Individual company results, especially from large-cap and sector-leading firms, can drive stock-specific and sectoral movements. Markets typically react to earnings surprises, management commentary, and future outlooks.
 
 ## What to watch in today's session
 
-1.  **Crude Oil Movement:** Monitor Brent crude prices closely. Any further escalation in the Middle East or sustained high prices will weigh on sentiment and specific sectors.
-2.  **GIFT Nifty Trend:** The early morning trend of GIFT Nifty will provide cues for the Nifty's opening and initial direction.
-3.  **FII vs. DII Flows:** Observe if FII selling intensifies or moderates, and if DIIs continue to provide strong buying support.
-4.  **Nifty 50 Key Levels:** Watch the Nifty's reaction around the CPR pivot (24266), S1 (24166), and the highest Put OI at 24000 for support, and R1 (24434) and Call OI at 24700-25000 for resistance.
-5.  **Banking Sector Performance:** Given the strong Q1 earnings reported by banks, watch if the banking sector continues to show resilience and leadership.
-6.  **Momentum Stocks:** Keep an eye on stocks showing bullish technical signals, such as those with RSI upswings (like Jio Financial Services) or breaking above their 200-DMAs.
+1.  **Global Market Cues:** The negative sentiment from US markets and the sharp drop in Nikkei will be closely watched for their potential impact on Indian equities.
+2.  **GIFT Nifty Trend:** The continued negative bias in GIFT Nifty suggests a weak opening, and its movement before the NSE open will be a key indicator.
+3.  **FII/DII Flows:** Sustained FII selling pressure versus DII buying support will determine the market's ability to hold ground.
+4.  **Nifty's 24200-24207 Zone:** This critical technical and option-chain level will dictate the immediate direction for Nifty 50. A decisive break above or below could set the day's trend.
+5.  **Banking Sector Performance:** Following the recent concerns over private banks (HDFC, Axis, Kotak) and the strong Q1 results from PNB, the banking sector will be in focus.
+6.  **Crude Oil Prices:** The recent surge in Brent and WTI crude could lead to concerns over inflation and impact sectors like OMCs, aviation, and paints.
 
 ## Bottom line
 
-The Indian market is poised for a cautious start, with a negative bias signalled by GIFT Nifty, largely influenced by global headwinds from weaker US markets and the significant surge in crude oil prices due to geopolitical tensions. While domestic institutional buying and strong Q1 earnings from banks offer some underlying support, the key will be Nifty's ability to hold crucial support levels, particularly around 24,000-24,100. Traders should remain vigilant of crude oil price movements and global cues, as these will likely dictate the market's direction through the day.
+Indian markets are likely to open with a negative bias today, influenced by weak global cues and a negative signal from GIFT Nifty. The 24200-24207 zone for Nifty will be crucial, acting as a key pivot for the day's direction. While DIIs continue to provide support, sustained FII selling and rising crude oil prices remain key factors to be cautious about.
 
 ## Sources
-*   [ET Markets] Jio Financial Services among 6 stocks showing bullish RSI upswing. https://economictimes.indiatimes.com/markets/stocks/news/jio-financial-services-among-6-stocks-showing-bullish-rsi-upswing/slideshow/132504884.cms
-*   [ET Markets] Oil Price Today (July 20): Crude oil jumps 3%, crosses $90 as US and Iran exchange attacks. $100 in sight? https://economictimes.indiatimes.com/markets/commodities/news/oil-price-today-july-20-crude-oil-jumps-3-crosses-90-as-us-and-iran-exchange-attacks-100-in-sight/articleshow/132504278.cms
-*   [ET Markets] Positive Breakout: These 9 stocks cross above their 200 DMAs. https://economictimes.indiatimes.com/markets/stocks/news/positive-breakout-these-9-stocks-cross-above-their-200-dmas/slideshow/132504158.cms
-*   [ET Markets] Gold slips as oil prices advance, Fed rate-hike voices grow. https://economictimes.indiatimes.com/markets/commodities/news/gold-slips-as-oil-prices-advance-fed-rate-hike-voices-grow/articleshow/132504087.cms
-*   [ET Markets] Dollar firmer as US-Iran conflict intensifies, Brent hits $90. https://economictimes.indiatimes.com/markets/forex/forex-news/dollar-firmer-as-us-iran-conflict-intensifies-brent-hits-90/articleshow/132504053.cms
-*   [ET Markets] Brent oil tops $90 as US, Iran intensify attacks in Middle East. https://economictimes.indiatimes.com/markets/commodities/news/brent-oil-tops-90-as-us-iran-intensify-attacks-in-middle-east/articleshow/132504042.cms
-*   [ET Markets] Global Market Today: Asian shares hesitant as oil climbs, earnings loom. https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-today-asian-shares-hesitant-as-oil-climbs-earnings-loom/articleshow/132503857.cms
-*   [ET Markets] Q1 earnings begin on a strong note as banks fuel double-digit growth. https://economictimes.indiatimes.com/markets/stocks/earnings/q1-earnings-begin-on-a-strong-note-as-banks-fuel-double-digit-growth/articleshow/132503813.cms
-*   [ET Markets] Nifty ready for 24,500-24,750 levels after breakout rally: Analysts. https://economictimes.indiatimes.com/markets/stocks/news/nifty-ready-for-24500-24750-levels-after-breakout-rally-analysts/articleshow/132503795.cms
-*   [Livemint Markets] Indo-MIM IPO: Price band set at ₹461-485 per share; check key dates, issue details. https://www.livemint.com/market/ipo/indomim-ipo-price-band-set-at-rs-461-485-per-share-check-key-dates-issue-details-11784515607262.html
+*   [ET Markets] VA Tech Wabag shares rise 4% after securing major Bengaluru wastewater treatment order. https://economictimes.indiatimes.com/markets/stocks/news/va-tech-wabag-shares-rise-4-after-securing-major-bengaluru-wastewater-treatment-order/articleshow/132507063.cms
+*   [ET Markets] PC Jeweller shares jump 6%: What’s driving the rally after 220% gains in 3 years? https://economictimes.indiatimes.com/markets/stocks/news/pc-jeweller-shares-jump-6-whats-driving-the-rally-after-220-gains-in-3-years/articleshow/132507054.cms
+*   [ET Markets] Global Market: China stocks rebound as state support boosts sentiment, tech shares remain under pressure. https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-china-stocks-rebound-as-state-support-boosts-sentiment-tech-shares-remain-under-pressure/articleshow/132506964.cms
+*   [ET Markets] Global Market: China's securities regulator to meet market participants as state-backed investors step in to support stocks. https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-chinas-securities-regulator-to-meet-market-participants-as-state-backed-investors-step-in-to-support-stocks/articleshow/132506871.cms
+*   [ET Markets] South Korea's share market losses deepen as leveraged AI bets take a heavy toll. https://economictimes.indiatimes.com/markets/us-stocks/news/south-koreas-share-market-losses-deepen-as-leveraged-ai-bets-take-a-heavy-toll/articleshow/132506695.cms
+*   [ET Markets] Global Market: Chinese state-backed funds step in with fresh equity purchases after market sell-off. https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-chinese-state-backed-funds-step-in-with-fresh-equity-purchases-after-market-sell-off/articleshow/132506678.cms
+*   [ET Markets] ​5 global market themes investors will track this week. https://economictimes.indiatimes.com/markets/us-stocks/news/5-global-market-themes-investors-will-track-this-week/slideshow/132506747.cms
+*   [ET Markets] PB Fintech among 5 F&O stocks with a sharp rise in futures open interest. https://economictimes.indiatimes.com/markets/stocks/news/pb-fintech-among-5-fampo-stocks-with-a-sharp-rise-in-futures-open-interest/slideshow/132506617.cms
+*   [ET Markets] Rs 91,000 crore wipeout: What spooked HDFC Bank, Axis Bank and Kotak investors even as credit growth picked up? https://economictimes.indiatimes.com/markets/stocks/news/rs-91000-crore-wipeout-what-spooked-hdfc-bank-axis-bank-and-kotak-investors-even-as-credit-growth-picked-up/articleshow/132506463.cms
+*   [ET Markets] SBI Funds Management IPO listing tomorrow: GMP signals 18% listing gain. https://economictimes.indiatimes.com/markets/ipos/fpos/sbi-funds-management-ipo-listing-tomorrow-gmp-signals-18-listing-gain/articleshow/132506401.cms
+*   [ET Markets] Kotak Mahindra Bank shares fall over 3% despite Q1 profit growth. Analysts weigh in. https://economictimes.indiatimes.com/markets/stocks/news/kotak-mahindra-bank-shares-fall-over-3-after-q1-earnings-what-are-motilal-oswal-other-brokerages-saying/articleshow/132506336.cms
+*   [ET Markets] PNB shares jump 6% as Q1 profit soars 214%, beats Street estimates. What next? https://economictimes.indiatimes.com/markets/stocks/news/pnb-shares-jump-6-as-q1-profit-soars-214-beats-street-estimates-what-next/articleshow/132506317.cms
+*   [Livemint Markets] Alpine Texworld IPO listing in focus. Here's what GMP signals ahead of debut. https://www.livemint.com/market/ipo/alpine-texworld-ipo-listing-in-focus-heres-what-gmp-signals-ahead-of-debut-11784525274311.html
+*   [Livemint Markets] Havells India’s margin recovery hinges on easing A&P spends, price hikes after weak Q1. https://www.livemint.com/market/mark-to-market/havells-q1fy27-results-margin-pressure-renewables-lloyd-growth-analysis-117845206423251
+*   [Livemint Markets] Small-cap stock under ₹50: Elitecon International shares jump 11% despite stock market crash amid US-Iran war jitters. https://www.livemint.com/market/stock-market-news/smallcap-stock-under-rs-50-elitecon-international-shares-jump-11-despite-stock-market-crash-amid-us-iran-war-jitters-11784523516505.html
