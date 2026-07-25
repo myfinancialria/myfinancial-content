@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>ITR Portal MSP Penalised: What It Means for Your Filing</title>
+<meta name="description" content="The government has penalised the managed service provider (MSP) of the Income Tax e-filing portal for technical issues. These issues had previously led to ext.">
+<meta name="keywords" content="filing, portal, taxpayers, government, deadline, issues, service, extensions">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-25-personal_finance-itr-portal-msp-penalised-what-it-means-for-your-filing/">
+<meta property="og:title" content="ITR Portal MSP Penalised: What It Means for Your Filing">
+<meta property="og:description" content="The government has penalised the managed service provider (MSP) of the Income Tax e-filing portal for technical issues. These issues had previously led to ext.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-25-personal_finance-itr-portal-msp-penalised-what-it-means-for-your-filing/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ITR Portal MSP Penalised: What It Means for Your Filing", "description": "The government has penalised the managed service provider (MSP) of the Income Tax e-filing portal for technical issues. These issues had previously led to ext.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-25", "dateModified": "2026-07-25", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-25-personal_finance-itr-portal-msp-penalised-what-it-means-for-your-filing/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-07-25</div><h1>ITR Portal MSP Penalised: What It Means for Your Filing</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The government has penalised the managed service provider (MSP) of the Income Tax e-filing portal for technical issues.</li>
+<li>These issues had previously led to extensions in the Income Tax Return (ITR) filing deadlines.</li>
+<li>The penalty, imposed in FY2025-26, signals the government&#x27;s expectation of robust portal performance.</li>
+<li>This action suggests that taxpayers should not anticipate further ITR deadline extensions due to technical glitches.</li>
+<li>Ensuring timely ITR filing is now more critical than ever to avoid penalties and complications.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+The news essentially means that the company responsible for running India&#x27;s Income Tax e-filing website has been fined by the government. This penalty was imposed because the portal experienced significant technical problems and outages, which often forced the government to extend the deadlines for filing Income Tax Returns. By penalising the service provider, the government is sending a clear message: they expect the portal to function smoothly and reliably. For you, the taxpayer, this implies that future ITR filing deadlines are unlikely to be extended due to portal issues. It&#x27;s a strong signal to plan your tax filing well in advance and not rely on last-minute extensions.
+</p>
+<h2>Why the ITR Portal Faced Challenges</h2>
+<p>
+The current Income Tax e-filing portal, launched in June 2021, was intended to be a modernised and user-friendly platform for taxpayers. However, its initial rollout and subsequent phases were marred by numerous technical glitches and operational issues. Taxpayers reported difficulties with logging in, filing various forms, generating OTPs, linking Aadhaar, and performing other essential functions. These persistent problems led to widespread frustration and, critically, necessitated several extensions of the ITR filing deadlines by the Central Board of Direct Taxes (CBDT). The government acknowledged these issues, with the Ministry of Finance frequently engaging with the service provider to resolve the bugs and enhance the portal&#x27;s stability and performance.
+</p>
+<h2>The Government&#x27;s Stance and Penalty Imposed</h2>
+<p>
+The government has consistently emphasised its commitment to providing a seamless tax filing experience. The decision to penalise the managed service provider (MSP) in FY2025-26 for issues that led to due date extensions underscores this commitment. This action reflects the government&#x27;s firm expectation that the portal must meet stringent service level agreements (SLAs) and deliver a stable, error-free environment for taxpayers. The penalty serves as a strong deterrent, compelling the MSP to ensure future compliance and operational excellence. It signifies a clear shift towards accountability, where service disruptions and their impact on taxpayer convenience will carry financial consequences for the provider. This move aims to prevent a recurrence of past issues and ensure that the e-filing infrastructure is robust enough to handle peak filing loads without faltering.
+</p>
+<h2>Impact on Future ITR Filing Deadlines</h2>
+<p>
+The imposition of a penalty on the MSP has significant implications for future ITR filing deadlines. Historically, extensions have often been granted in response to widespread technical glitches on the portal, giving taxpayers more time to comply. However, with the MSP now being held financially accountable for such disruptions, the likelihood of similar extensions in the future is considerably reduced. This means taxpayers should not anticipate last-minute reprieves and must adhere strictly to the stipulated deadlines for filing their Income Tax Returns. The standard deadline for most individual taxpayers is July 31st of the assessment year (e.g., July 31, 2026, for income earned in FY 2025-26). Missing this deadline can lead to penalties, interest, and other adverse consequences, making timely filing paramount. The government&#x27;s message is clear: the portal is expected to work, and taxpayers are expected to file on time.
+</p>
+<h2>Key Dates and Responsibilities for Taxpayers</h2>
+<p>
+For most individual taxpayers whose accounts are not subject to audit, the general deadline to file Income Tax Returns for a given financial year (FY) is July 31st of the subsequent assessment year (AY). For example, for income earned between April 1, 2025, and March 31, 2026 (FY 2025-26), the ITR filing deadline is July 31, 2026. For taxpayers whose accounts need to be audited, the deadline is typically October 31st. It is crucial for taxpayers to be aware of these dates and take proactive steps to gather all necessary documents well in advance. These include Form 16 from employers, Form 26AS, AIS/TIS, interest certificates, investment proofs, and any other relevant financial statements. Procrastination can lead to a rushed filing process, increasing the chances of errors, and now, with reduced likelihood of extensions, also exposes taxpayers to penalties. The responsibility for timely and accurate filing ultimately rests with the individual taxpayer.
+</p>
+<h2>A real example</h2>
+<p>
+Meet Rahul, 38, earning ₹28 lakhs CTC, based in Bengaluru. For the financial year 2025-26, Rahul typically waits until mid-July to start gathering his documents and filing his ITR. In previous years, he had seen deadlines extended due to portal issues, which gave him a buffer. However, with the government penalising the MSP, Rahul knows he cannot rely on such extensions anymore.
+</p>
+<p>
+Let&#x27;s say Rahul has a tax liability of ₹2,50,000 after TDS, which he needs to pay. If he misses the July 31, 2026, deadline and files his ITR on, say, December 10, 2026, here’s how the penalties would add up:
+</p>
+<ol>
+<li><strong>Late Filing Fee (Section 234F):</strong></li>
+<p>
+    *   Since his total income is above ₹5 lakhs, the late filing fee would be ₹5,000 if filed after July 31 but on or before December 31 of the assessment year.
+    *   If he files after December 31, the fee jumps to ₹10,000. In Rahul&#x27;s case, filing on December 10, 2026, incurs a <strong>₹5,000</strong> penalty.
+</p>
+</ol>
+<ol>
+<li><strong>Interest for Late Payment (Section 234A):</strong></li>
+<p>
+    *   Interest is charged at 1% per month or part thereof on the unpaid tax amount, from the original due date until the actual date of filing.
+    *   Rahul&#x27;s unpaid tax is ₹2,50,000.
+    *   From August 1, 2026, to December 10, 2026, is 5 months (August, September, October, November, December).
+    <em>   Interest = 1% of ₹2,50,000 per month </em> 5 months = ₹2,500 * 5 = <strong>₹12,500</strong>.
+</p>
+</ol>
+<ol>
+<li><strong>Total Additional Cost:</strong> ₹5,000 (late fee) + ₹12,500 (interest) = <strong>₹17,500</strong>.</li>
+</ol>
+<p>
+Besides these financial penalties, Rahul would also lose the ability to revise his ITR if he discovers an error later. He might also be unable to carry forward certain losses to future years. This example highlights the tangible financial and procedural consequences of not filing on time, especially now that deadline extensions are less likely.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Gather Documents:</strong> Start collecting all necessary documents for your ITR filing, such as Form 16/16A, bank statements, investment proofs, rent receipts, and any other relevant financial records for FY 2025-26.</li>
+<li><strong>Verify Form 26AS/AIS/TIS:</strong> Log in to the Income Tax portal (https://incometax.gov.in) and check your Form 26AS, Annual Information Statement (AIS), and Taxpayer Information Summary (TIS) to ensure all income and TDS/TCS entries match your records. Report any discrepancies immediately.</li>
+<li><strong>Review Previous ITRs:</strong> Go through your last year&#x27;s ITR to understand the income heads and deductions you claimed. This can serve as a checklist for the current year.</li>
+<li><strong>Confirm Deductions &amp; Exemptions:</strong> Revisit your investment plans and expenses to maximise eligible deductions under Sections 80C, 80D, HRA, etc., for the current financial year.</li>
+<li><strong>Set a Filing Target:</strong> Aim to complete your ITR filing at least 2-3 weeks before the July 31st deadline. This buffer will help you address any unexpected issues with the portal or documentation without stress.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Will the ITR filing deadline be extended this year due to portal issues?</h3>
+<p>
+Given the government&#x27;s decision to penalise the managed service provider for past issues, it is highly unlikely that ITR filing deadlines will be extended due to portal glitches in the future. Taxpayers should plan to file by the original due date.
+</p>
+<h3>What happens if I miss the ITR filing deadline?</h3>
+<p>
+Missing the deadline can result in late filing fees under Section 234F (up to ₹5,000 for incomes over ₹5 lakhs), interest under Section 234A on unpaid tax, and loss of benefits like carrying forward certain losses.
+</p>
+<h3>Is the Income Tax e-filing portal stable now?</h3>
+<p>
+While the government has taken steps to penalise the MSP and improve performance, users should always aim to file well in advance to avoid any potential last-minute technical glitches. The penalty aims to ensure stability.
+</p>
+<h3>Who is the managed service provider (MSP) for the ITR portal?</h3>
+<p>
+The managed service provider for the Income Tax e-filing portal is Infosys. They are responsible for the development and maintenance of the portal.
+</p>
+<h3>How can I ensure a smooth ITR filing experience?</h3>
+<p>
+Start gathering documents early, verify your Form 26AS/AIS/TIS, calculate your tax liability in advance, and file your ITR well before the official deadline to avoid last-minute stress and potential technical issues.
+</p>
+<h3>Can I revise my ITR if I file it late?</h3>
+<p>
+If you file a belated return (after the original due date), you generally cannot revise it. This is another critical reason to file your original return on time.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/itr-portal-govt-says-managed-service-provider-was-penalised-in-fy26-for-outages-and-due-date-extension-11784888450078.html</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# ITR Portal MSP Penalised: What It Means for Your Filing
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The government has penalised the managed service provider (MSP) of the Income Tax e-filing portal for technical issues.</li>
+<li>These issues had previously led to extensions in the Income Tax Return (ITR) filing deadlines.</li>
+<li>The penalty, imposed in FY2025-26, signals the government&#x27;s expectation of robust portal performance.</li>
+<li>This action suggests that taxpayers should not anticipate further ITR deadline extensions due to technical glitches.</li>
+<li>Ensuring timely ITR filing is now more critical than ever to avoid penalties and complications.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+The news essentially means that the company responsible for running India&#x27;s Income Tax e-filing website has been fined by the government. This penalty was imposed because the portal experienced significant technical problems and outages, which often forced the government to extend the deadlines for filing Income Tax Returns. By penalising the service provider, the government is sending a clear message: they expect the portal to function smoothly and reliably. For you, the taxpayer, this implies that future ITR filing deadlines are unlikely to be extended due to portal issues. It&#x27;s a strong signal to plan your tax filing well in advance and not rely on last-minute extensions.
+</p>
+<h2>Why the ITR Portal Faced Challenges</h2>
+<p>
+The current Income Tax e-filing portal, launched in June 2021, was intended to be a modernised and user-friendly platform for taxpayers. However, its initial rollout and subsequent phases were marred by numerous technical glitches and operational issues. Taxpayers reported difficulties with logging in, filing various forms, generating OTPs, linking Aadhaar, and performing other essential functions. These persistent problems led to widespread frustration and, critically, necessitated several extensions of the ITR filing deadlines by the Central Board of Direct Taxes (CBDT). The government acknowledged these issues, with the Ministry of Finance frequently engaging with the service provider to resolve the bugs and enhance the portal&#x27;s stability and performance.
+</p>
+<h2>The Government&#x27;s Stance and Penalty Imposed</h2>
+<p>
+The government has consistently emphasised its commitment to providing a seamless tax filing experience. The decision to penalise the managed service provider (MSP) in FY2025-26 for issues that led to due date extensions underscores this commitment. This action reflects the government&#x27;s firm expectation that the portal must meet stringent service level agreements (SLAs) and deliver a stable, error-free environment for taxpayers. The penalty serves as a strong deterrent, compelling the MSP (Infosys) to ensure future compliance and operational excellence. It signifies a clear shift towards accountability, where service disruptions and their impact on taxpayer convenience will carry financial consequences for the provider. This move aims to prevent a recurrence of past issues and ensure that the e-filing infrastructure is robust enough to handle peak filing loads without faltering.
+</p>
+<h2>Impact on Future ITR Filing Deadlines</h2>
+<p>
+The imposition of a penalty on the MSP has significant implications for future ITR filing deadlines. Historically, extensions have often been granted in response to widespread technical glitches on the portal, giving taxpayers more time to comply. However, with the MSP now being held financially accountable for such disruptions, the likelihood of similar extensions in the future is considerably reduced. This means taxpayers should not anticipate last-minute reprieves and must adhere strictly to the stipulated deadlines for filing their Income Tax Returns. The standard deadline for most individual taxpayers is July 31st of the assessment year (e.g., July 31, 2026, for income earned in FY 2025-26). Missing this deadline can lead to penalties, interest, and other adverse consequences, making timely filing paramount. The government&#x27;s message is clear: the portal is expected to work, and taxpayers are expected to file on time.
+</p>
+<h2>Key Dates and Responsibilities for Taxpayers</h2>
+<p>
+For most individual taxpayers whose accounts are not subject to audit, the general deadline to file Income Tax Returns for a given financial year (FY) is July 31st of the subsequent assessment year (AY). For example, for income earned between April 1, 2025, and March 31, 2026 (FY 2025-26), the ITR filing deadline is July 31, 2026. For taxpayers whose accounts need to be audited, the deadline is typically October 31st. It is crucial for taxpayers to be aware of these dates and take proactive steps to gather all necessary documents well in advance. These include Form 16 from employers, Form 26AS, AIS/TIS, interest certificates, investment proofs, and any other relevant financial statements. Procrastination can lead to a rushed filing process, increasing the chances of errors, and now, with reduced likelihood of extensions, also exposes taxpayers to penalties. The responsibility for timely and accurate filing ultimately rests with the individual taxpayer.
+</p>
+<h2>A real example</h2>
+<p>
+Meet Rahul, 38, earning ₹28 lakhs CTC, based in Bengaluru. For the financial year 2025-26, Rahul typically waits until mid-July to start gathering his documents and filing his ITR. In previous years, he had seen deadlines extended due to portal issues, which gave him a buffer. However, with the government penalising the MSP, Rahul knows he cannot rely on such extensions anymore.
+</p>
+<p>
+Let&#x27;s say Rahul has a tax liability of ₹2,50,000 after TDS, which he needs to pay. If he misses the July 31, 2026, deadline and files his ITR on, say, December 10, 2026, here’s how the penalties would add up:
+</p>
+<ol>
+<li><strong>Late Filing Fee (Section 234F):</strong></li>
+<p>
+    *   Since his total income is above ₹5 lakhs, the late filing fee would be ₹5,000 if filed after July 31 but on or before December 31 of the assessment year.
+    *   If he files after December 31, the fee jumps to ₹10,000. In Rahul&#x27;s case, filing on December 10, 2026, incurs a <strong>₹5,000</strong> penalty.
+</p>
+</ol>
+<ol>
+<li><strong>Interest for Late Payment (Section 234A):</strong></li>
+<p>
+    *   Interest is charged at 1% per month or part thereof on the unpaid tax amount, from the original due date until the actual date of filing.
+    *   Rahul&#x27;s unpaid tax is ₹2,50,000.
+    *   From August 1, 2026, to December 10, 2026, is 5 months (August, September, October, November, December).
+    <em>   Interest = 1% of ₹2,50,000 per month </em> 5 months = ₹2,500 * 5 = <strong>₹12,500</strong>.
+</p>
+</ol>
+<ol>
+<li><strong>Total Additional Cost:</strong> ₹5,000 (late fee) + ₹12,500 (interest) = <strong>₹17,500</strong>.</li>
+</ol>
+<p>
+Besides these financial penalties, Rahul would also lose the ability to revise his ITR if he discovers an error later. He might also be unable to carry forward certain losses to future years. This example highlights the tangible financial and procedural consequences of not filing on time, especially now that deadline extensions are less likely.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Gather Documents:</strong> Start collecting all necessary documents for your ITR filing, such as Form 16/16A, bank statements, investment proofs, rent receipts, and any other relevant financial records for FY 2025-26.</li>
+<li><strong>Verify Form 26AS/AIS/TIS:</strong> Log in to the Income Tax portal (https://incometax.gov.in) and check your Form 26AS, Annual Information Statement (AIS), and Taxpayer Information Summary (TIS) to ensure all income and TDS/TCS entries match your records. Report any discrepancies immediately.</li>
+<li><strong>Review Previous ITRs:</strong> Go through your last year&#x27;s ITR to understand the income heads and deductions you claimed. This can serve as a checklist for the current year.</li>
+<li><strong>Confirm Deductions &amp; Exemptions:</strong> Revisit your investment plans and expenses to maximise eligible deductions under Sections 80C, 80D, HRA, etc., for the current financial year.</li>
+<li><strong>Set a Filing Target:</strong> Aim to complete your ITR filing at least 2-3 weeks before the July 31st deadline. This buffer will help you address any unexpected issues with the portal or documentation without stress.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Will the ITR filing deadline be extended this year due to portal issues?</h3>
+<p>
+Given the government&#x27;s decision to penalise the managed service provider for past issues, it is highly unlikely that ITR filing deadlines will be extended due to portal glitches in the future. Taxpayers should plan to file by the original due date.
+</p>
+<h3>What happens if I miss the ITR filing deadline?</h3>
+<p>
+Missing the deadline can result in late filing fees under Section 234F (up to ₹5,000 for incomes over ₹5 lakhs), interest under Section 234A on unpaid tax, and loss of benefits like carrying forward certain losses.
+</p>
+<h3>Is the Income Tax e-filing portal stable now?</h3>
+<p>
+While the government has taken steps to penalise the MSP and improve performance, users should always aim to file well in advance to avoid any potential last-minute technical glitches. The penalty aims to ensure stability.
+</p>
+<h3>Who is the managed service provider (MSP) for the ITR portal?</h3>
+<p>
+The managed service provider for the Income Tax e-filing portal is Infosys. They are responsible for the development and maintenance of the portal.
+</p>
+<h3>How can I ensure a smooth ITR filing experience?</h3>
+<p>
+Start gathering documents early, verify your Form 26AS/AIS/TIS, calculate your tax liability in advance, and file your ITR well before the official deadline to avoid last-minute stress and potential technical issues.
+</p>
+<h3>Can I revise my ITR if I file it late?</h3>
+<p>
+If you file a belated return (after the original due date), you generally cannot revise it. This is another critical reason to file your original return on time.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/itr-portal-govt-says-managed-service-provider-was-penalised-in-fy26-for-outages-and-due-date-extension-11784888450078.html</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
