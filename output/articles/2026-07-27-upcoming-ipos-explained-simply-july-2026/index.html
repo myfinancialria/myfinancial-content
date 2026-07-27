@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Upcoming IPOs, Explained Simply — July 2026</title>
+<meta name="description" content="This week, three IPOs — Xtranet Technologies, INDO-MIM, and Lohia Corp — are closing today, July 27th. Propshop Events and Exhibitions&#x27; IPO opens today, July .">
+<meta name="keywords" content="shares, company, investors, public, limited, minimum, announced, offering">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-27-upcoming-ipos-explained-simply-july-2026/">
+<meta property="og:title" content="Upcoming IPOs, Explained Simply — July 2026">
+<meta property="og:description" content="This week, three IPOs — Xtranet Technologies, INDO-MIM, and Lohia Corp — are closing today, July 27th. Propshop Events and Exhibitions&#x27; IPO opens today, July .">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-27-upcoming-ipos-explained-simply-july-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Upcoming IPOs, Explained Simply \u2014 July 2026", "description": "This week, three IPOs \u2014 Xtranet Technologies, INDO-MIM, and Lohia Corp \u2014 are closing today, July 27th. Propshop Events and Exhibitions' IPO opens today, July .", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-27", "dateModified": "2026-07-27", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-27-upcoming-ipos-explained-simply-july-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/" class="active">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">IPO Watch · 2026-07-27</div><h1>Upcoming IPOs, Explained Simply — July 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>This week, three IPOs — Xtranet Technologies, INDO-MIM, and Lohia Corp — are closing today, July 27th.</li>
+<li>Propshop Events and Exhibitions&#x27; IPO opens today, July 27th.</li>
+<li>Manipal Health Enterprises&#x27; IPO is set to open on July 29th.</li>
+<li>We&#x27;ll explain what an IPO is, how to read its key numbers, and the step-by-step process of applying.</li>
+</ul>
+</div>
+<h2>First, what is an IPO — in one minute?</h2>
+<p>
+Imagine a popular local shop that has been doing well for years. Now, the owners want to expand, maybe open new branches or buy new equipment. To get the money they need, they decide to sell a small part of their shop&#x27;s ownership to the public for the very first time.
+</p>
+<p>
+This act of a private company selling its shares to the public for the first time is called an <strong>Initial Public Offering (IPO)</strong>. When a company does an IPO, it enters the <strong>primary market</strong> (where new shares are sold directly by the company). After the IPO, its shares will be traded on a stock exchange like NSE or BSE, a process called <strong>listing</strong>. Once listed, you can buy or sell these shares in the <strong>secondary market</strong> (the regular stock market).
+</p>
+<h2>The IPOs on the calendar right now</h2>
+<p>
+Here&#x27;s a look at the IPOs that are currently open or coming up this week, along with what their numbers mean.
+</p>
+<h3>Xtranet Technologies Limited</h3>
+<p>
+Xtranet Technologies Limited operates in the technology sector. Its IPO is open for bidding today, July 27th, which is also its last day.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹120 to ₹127 per share</td></tr>
+<tr><td>Issue Size</td><td>91,93,800 shares</td></tr>
+<tr><td>Open Date</td><td>July 23, 2026</td></tr>
+<tr><td>Close Date</td><td>July 27, 2026</td></tr>
+</tbody></table>
+<ul>
+<li><strong>Price Band (the fixed range within which you can bid):</strong> For Xtranet, you can bid for shares anywhere between ₹120 and ₹127 each. Most investors bid at the upper end of this band, which is called the &quot;cut-off price&quot;.</li>
+<li><strong>Lot Size (the minimum number of shares you must apply for):</strong> The lot size for this IPO is not yet announced in the provided data. You cannot bid for just one share; you must bid for a minimum &#x27;lot&#x27; of shares.</li>
+<li><strong>Issue Size (the total number of shares the company is offering to the public):</strong> Xtranet is offering 91,93,800 shares. This number, multiplied by the upper price band, gives you the total value of the IPO.</li>
+<li><strong>Open Date &amp; Close Date:</strong> The period during which you can place your bid. Xtranet&#x27;s IPO opened on July 23rd and closes today, July 27th.</li>
+</ul>
+<h3>INDO-MIM Limited</h3>
+<p>
+INDO-MIM Limited is a company in the manufacturing sector. Its IPO also closes today, July 27th.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹461 to ₹485 per share</td></tr>
+<tr><td>Issue Size</td><td>5,50,93,201 shares</td></tr>
+<tr><td>Open Date</td><td>July 23, 2026</td></tr>
+<tr><td>Close Date</td><td>July 27, 2026</td></tr>
+</tbody></table>
+<ul>
+<li><strong>Price Band:</strong> You can bid for INDO-MIM shares between ₹461 and ₹485 each.</li>
+<li><strong>Lot Size:</strong> The lot size for this IPO is not yet announced.</li>
+<li><strong>Issue Size:</strong> INDO-MIM is offering 5,50,93,201 shares to the public.</li>
+<li><strong>Open Date &amp; Close Date:</strong> This IPO opened on July 23rd and closes today, July 27th.</li>
+</ul>
+<h3>Lohia Corp Limited</h3>
+<p>
+Lohia Corp Limited operates in the manufacturing sector. Its IPO is also closing today, July 27th.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹404 to ₹425 per share</td></tr>
+<tr><td>Issue Size</td><td>1,43,52,274 shares</td></tr>
+<tr><td>Open Date</td><td>July 23, 2026</td></tr>
+<tr><td>Close Date</td><td>July 27, 2026</td></tr>
+</tbody></table>
+<ul>
+<li><strong>Price Band:</strong> You can bid for Lohia Corp shares between ₹404 and ₹425 each.</li>
+<li><strong>Lot Size:</strong> The lot size for this IPO is not yet announced.</li>
+<li><strong>Issue Size:</strong> Lohia Corp is offering 1,43,52,274 shares.</li>
+<li><strong>Open Date &amp; Close Date:</strong> This IPO opened on July 23rd and closes today, July 27th.</li>
+</ul>
+<h3>Propshop Events and Exhibitions Limited</h3>
+<p>
+Propshop Events and Exhibitions Limited is a company in the events and exhibitions sector. Its IPO opens today, July 27th. This is an SME IPO, which means it&#x27;s for smaller companies and often has different rules for minimum investment.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>Not yet announced</td></tr>
+<tr><td>Open Date</td><td>July 27, 2026</td></tr>
+<tr><td>Close Date</td><td>July 29, 2026</td></tr>
+</tbody></table>
+<ul>
+<li><strong>Price Band:</strong> The price range for bidding is not yet announced for this IPO.</li>
+<li><strong>Lot Size:</strong> The lot size is not yet announced.</li>
+<li><strong>Issue Size:</strong> The total number of shares being offered is not yet announced.</li>
+<li><strong>Open Date &amp; Close Date:</strong> This IPO opens today, July 27th, and will close on July 29th.</li>
+</ul>
+<h3>Manipal Health Enterprises Limited</h3>
+<p>
+Manipal Health Enterprises Limited operates in the healthcare sector. This IPO is &quot;forthcoming&quot;, meaning it will open later this week.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹560 to ₹590 per share</td></tr>
+<tr><td>Issue Size</td><td>16,45,00,738 shares</td></tr>
+<tr><td>Open Date</td><td>July 29, 2026</td></tr>
+<tr><td>Close Date</td><td>July 31, 2026</td></tr>
+</tbody></table>
+<ul>
+<li><strong>Price Band:</strong> You can bid for Manipal Health shares between ₹560 and ₹590 each.</li>
+<li><strong>Lot Size:</strong> The lot size for this IPO is not yet announced.</li>
+<li><strong>Issue Size:</strong> Manipal Health is offering a significant 16,45,00,738 shares to the public.</li>
+<li><strong>Open Date &amp; Close Date:</strong> This IPO will open on July 29th and close on July 31st.</li>
+</ul>
+<h2>How to actually read an IPO (the 6 things on every IPO)</h2>
+<p>
+When you look at an IPO announcement, you&#x27;ll see a few standard terms. Understanding them helps you make sense of the offer:
+</p>
+<ol>
+<li><strong>Price Band:</strong> This is the range (e.g., ₹120 to ₹127) within which you can bid for the shares. The company sets this range. You usually bid at the &quot;cut-off price,&quot; which is the highest price in the band.</li>
+<li><strong>Lot Size:</strong> You cannot buy just one share in an IPO. You must bid for a minimum number of shares, called a &quot;lot.&quot; For example, if the lot size is 50 shares, and the price band is ₹100-₹105, your minimum bid would be for 50 shares at ₹105 each.</li>
+<li><strong>Minimum Investment:</strong> This is simply the lot size multiplied by the upper end of the price band. It tells you the smallest amount of money you need to apply for an IPO. For example, if the lot size is 50 shares and the upper price band is ₹127, your minimum investment would be ₹127 x 50 = ₹6,350.</li>
+<li><strong>Issue Size:</strong> This refers to the total number of shares the company is offering to the public. Sometimes, it&#x27;s also expressed as the total value of shares being offered (e.g., ₹500 crores).</li>
+<li><strong>Fresh Issue vs. Offer-for-Sale (OFS):</strong> An IPO can be a combination of these two.</li>
+<p>
+    *   <strong>Fresh Issue:</strong> When the company issues new shares to the public. The money raised from these new shares goes directly to the company for its business needs (like expansion, debt repayment).
+    *   <strong>Offer-for-Sale (OFS):</strong> When existing shareholders (like promoters or early investors) sell some of their shares to the public. The money from these shares goes to the selling shareholders, not to the company itself.
+</p>
+<li><strong>RHP/DRHP (Red Herring Prospectus / Draft Red Herring Prospectus):</strong> This is the official document filed by the company with SEBI (Securities and Exchange Board of India). It contains all the detailed information about the company, its business, financials, risks, management, and the IPO itself. It&#x27;s like a detailed report card and business plan rolled into one. Always read it before considering any IPO.</li>
+</ol>
+<h2>The IPO process, step by step</h2>
+<p>
+Applying for an IPO involves a few clear stages:
+</p>
+<ol>
+<li><strong>DRHP Filing:</strong> First, the company files its Draft Red Herring Prospectus (DRHP) with SEBI. This document contains all the necessary details about the company and its planned IPO.</li>
+<li><strong>SEBI Approval &amp; RHP:</strong> After SEBI reviews the DRHP, the company incorporates any changes and files the final Red Herring Prospectus (RHP). At this stage, the <strong>price band</strong> and <strong>issue dates</strong> are announced.</li>
+<li><strong>Bidding Period:</strong> The IPO opens for a few days (usually 3-5 working days). During this time, investors can place their bids for shares. Investors are typically divided into categories:</li>
+<p>
+    *   <strong>Retail Individual Investors (RIIs):</strong> Ordinary investors like you and me, applying for shares worth up to ₹2 lakhs.
+    *   <strong>Non-Institutional Investors (NIIs) / High Net-worth Individuals (HNIs):</strong> Investors applying for shares worth more than ₹2 lakhs.
+    *   <strong>Qualified Institutional Buyers (QIBs):</strong> Large institutional investors like mutual funds, insurance companies, and foreign portfolio investors.
+</p>
+<li><strong>Allotment:</strong> After the bidding period closes, the company and its bankers decide how to distribute the shares. If the IPO is &quot;oversubscribed&quot; (meaning more bids than shares available), shares are typically allotted on a pro-rata basis for NIIs/QIBs, and often through a lottery system for retail investors.</li>
+<li><strong>Refund/Debit:</strong> If you are allotted shares, the money for those shares is debited from your bank account. If you are not allotted shares, the blocked amount is released back to your account.</li>
+<li><strong>Listing:</strong> Finally, the shares are listed on the stock exchanges (NSE and/or BSE) on a specific date. Once listed, you can see your shares in your demat account and can buy or sell them in the open market.</li>
+</ol>
+<h2>A simple way to think about it</h2>
+<p>
+Think of an IPO like a school fete. The school (company) wants to raise money for new sports equipment (business expansion). They decide to sell small &quot;ownership coupons&quot; (shares) for a new stall they are setting up.
+</p>
+<p>
+They announce the price range for these coupons (price band) and say you must buy them in bundles of 10 (lot size). You place your order, and if many people want coupons, they might draw names from a hat to decide who gets them (allotment). Once the fete opens, those with coupons can use them to show ownership of the stall, or even sell them to someone else who wants to join in (listing and secondary market trading).
+</p>
+<h2>Things people get confused about</h2>
+<ul>
+<li><strong>Myth:</strong> Listing gain is guaranteed in an IPO.</li>
+<p>
+    *   <strong>Fact:</strong> There is no guarantee of listing gains. While some IPOs list at a higher price than their issue price, others can list at a discount or fall below the issue price on the very first day. The stock market is unpredictable.
+</p>
+<li><strong>Myth:</strong> Applying for more lots increases my chances of getting an allotment in the retail category.</li>
+<p>
+    *   <strong>Fact:</strong> For retail investors, if an IPO is oversubscribed, allotment is typically done through a lottery system. Applying for multiple lots (beyond the minimum one) from the same PAN card does not increase your chances; it might even lead to your application being rejected. You get one chance per PAN card.
+</p>
+<li><strong>Myth:</strong> All IPOs are a quick way to make money.</li>
+<p>
+    *   <strong>Fact:</strong> Investing in IPOs, like any stock market investment, carries risks. Companies go public for long-term growth, and their share prices reflect their performance over time. It&#x27;s important to understand the company&#x27;s business and financial health.
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>How do I even apply for an IPO?</h3>
+<p>
+You can apply for an IPO through your demat and trading account, usually via your bank&#x27;s net banking portal using the ASBA (Application Supported by Blocked Amount) facility, or through your stockbroker&#x27;s platform.
+</p>
+<h3>What is a lot size?</h3>
+<p>
+A lot size is the minimum number of shares you must bid for in an IPO. You cannot apply for fewer shares than the specified lot size.
+</p>
+<h3>What is the difference between Mainboard and SME IPOs?</h3>
+<p>
+Mainboard IPOs are for larger, more established companies that list on the main exchanges (NSE, BSE). SME (Small and Medium Enterprises) IPOs are for smaller companies and are listed on dedicated SME platforms (like NSE Emerge or BSE SME) with different regulatory requirements and often higher minimum investment amounts.
+</p>
+<h3>What happens if I don&#x27;t get an allotment?</h3>
+<p>
+If you don&#x27;t receive an allotment of shares, the money you had blocked for the IPO application will be unblocked and released back into your bank account, usually within a few days after the allotment finalisation.
+</p>
+<h3>Can I sell my shares on the listing day?</h3>
+<p>
+Yes, once your allotted shares are credited to your demat account and the company officially lists on the stock exchange, you are free to sell them on the listing day itself, just like any other stock.
+</p>
+<h2>Sources</h2>
+<p>
+NSE upcoming/current issues data.
+Official company filings (DRHP/RHP).
+</p>
+<p>
+<em>This is an educational explainer, not investment advice. myfinancial is not a SEBI-registered adviser.</em>
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
