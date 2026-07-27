@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Politics explained</title>
+<meta name="description" content="The Haryana government is introducing a new policy to significantly boost Micro, Small, and Medium Enterprises (MSMEs) and exports. A major highlight is the p.">
+<meta name="keywords" content="policy, haryana, export, government, businesses, subsidy, freight, faster">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-27-explainer-politics-explained/">
+<meta property="og:title" content="Politics explained">
+<meta property="og:description" content="The Haryana government is introducing a new policy to significantly boost Micro, Small, and Medium Enterprises (MSMEs) and exports. A major highlight is the p.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-27-explainer-politics-explained/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Politics explained", "description": "The Haryana government is introducing a new policy to significantly boost Micro, Small, and Medium Enterprises (MSMEs) and exports. A major highlight is the p.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-27", "dateModified": "2026-07-27", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-27-explainer-politics-explained/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/" class="active">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Explained · 2026-07-27</div><p>
+The search results show several relevant topics from the last 7-10 days (July 17-27, 2026):
+</p>
+<ol>
+<li><strong>Cabinet approves additional investment commitment of Rs. 30,000 crore in National Investment and Infrastructure Fund (NIIF)</strong> (July 25 2026) - This is a direct government decision with economic impact.</li>
+<li><strong>Monsoon Session 2026: Govt To Table Income Tax, MSME Bills</strong> (July 19 2026) - This is about upcoming policy, not a finalized decision yet. The MSME Development (Amendment) Bill and Income Tax (Amendment) Bill are mentioned.</li>
+<li><strong>Government of India launches two key trade finance interventions to boost MSME exports</strong> (July 20 2026) - This is a concrete policy announcement with direct economic impact on MSMEs. It includes interest support under NIRYAT PROTSAHAN and collateral support.</li>
+<li><strong>RBI Invites Comments on Draft Foreign Investment Rules 2026 Replacing NDI Rules</strong> (July 22 2026) - This is a draft, not a final policy.</li>
+<li><strong>Haryana government set to unveil new MSME policy, freight subsidy, faster incentives and industrial overhaul proposed</strong> (July 26 2026) - This is a state-level policy, but very concrete and recent, with specific numbers (export freight subsidy from ₹10 lakh to ₹30 lakh). This looks like a good candidate as it&#x27;s specific and has direct impact.</li>
+<li><strong>RBI, Govt measures could turn India&#x27;s balance of payments surplus, ease pressure on rupee</strong> (July 25 2026) - This discusses the <em>effects</em> of earlier (June) RBI and government measures, not a new policy in the last 7-10 days.</li>
+<li><strong>India US Tariff Decision 2026: What Happens After July 24 Expiry</strong> (July 23 2026) - This is about international trade policy from the US side, and the implications for India. While relevant, it&#x27;s more about an external factor.</li>
+</ol>
+<p>
+Let&#x27;s compare the NIIF investment and the Haryana MSME policy.
+The NIIF investment is a central government decision, large scale (₹30,000 crore additional commitment).
+The Haryana MSME policy is a state-level policy, but it&#x27;s very specific, with concrete changes like tripling export subsidies and faster incentive approvals. It directly affects a large number of small businesses and their employees.
+</p>
+<p>
+The Haryana MSME policy seems more relatable to the &quot;ordinary Indian&quot; in terms of direct, tangible impact on small businesses and local economies, and it&#x27;s very recent (announced July 25-26). It also has clear numbers and changes.
+</p>
+<p>
+Let&#x27;s go with the <strong>Haryana government&#x27;s new MSME and Export Promotion Policy</strong>. It&#x27;s specific, recent, and has clear economic implications for ordinary people involved in MSMEs.
+</p>
+<p>
+I will ensure to cite the sources correctly.
+The article needs to be neutral, explain the &quot;what&quot; and &quot;how,&quot; and use the requested structure and voice.
+</p>
+<p>
+Double-check against exclusion list:
+</p>
+<ul>
+<li>MSME related topics have been covered, but not this specific <em>Haryana</em> policy with these specific numbers and features (tripled export subsidies, faster approvals, new portal, insurance cover). The previous MSME topics were more general or about central government initiatives. This is a specific state policy with concrete, recent announcements. &quot;India&#x27;s Big Push for EV Charging: Powering Your Electric Ride&quot; - not related. &quot;What India&#x27;s New Minimum Support Price (MSP) for Kharif Crops Means for Your Wallet&quot; - not related. &quot;India Boosts &#x27;Make in India&#x27; Electronics: What the PLI Scheme Means for You&quot; - not related. &quot;Govt plans fresh policy interventions to strengthen MSME manufacturing ecosystem&quot; (July 08 2026) and &quot;Government of India launches two key trade finance interventions to boost MSME exports&quot; (July 20 2026) are central government initiatives. The Haryana policy is distinct.</li>
+</ul>
+<p>
+This topic seems suitable.
+</p>
+<p>
+Now, I will plan the content for each section:
+</p>
+<p>
+<strong>Title:</strong> Haryana&#x27;s New MSME Policy: What Tripled Export Subsidies Mean for Small Businesses
+</p>
+<p>
+<strong>TL;DR:</strong>
+</p>
+<ul>
+<li>Haryana is introducing a new policy to boost Micro, Small, and Medium Enterprises (MSMEs) and exports.</li>
+<li>A key change is tripling the export freight subsidy limit from ₹10 lakh to ₹30 lakh per unit annually.</li>
+<li>The policy also promises faster approvals for land certificates and quicker release of incentives.</li>
+<li>It includes expanded insurance cover for small traders against fire, theft, and natural disasters.</li>
+<li>A new &#x27;Udaan Dwar Portal&#x27; will help high-exporting units connect with international buyers.</li>
+</ul>
+<p>
+<strong>What&#x27;s this about?</strong>
+Explain what MSMEs are and why they are important. Introduce the Haryana government&#x27;s new policy.
+</p>
+<p>
+<strong>Why it&#x27;s in the news right now:</strong>
+Haryana Chief Minister Nayab Singh Saini announced the draft of the &quot;Progressive MSME and Export Promotion Policy 2026&quot; on July 25, 2026, which is awaiting cabinet approval.
+</p>
+<p>
+<strong>How it actually works:</strong>
+</p>
+<ol>
+<li><strong>Export Freight Subsidy:</strong> Explain the increase from ₹10 lakh to ₹30 lakh per unit per year.</li>
+<li><strong>Faster Approvals:</strong> Land feasibility certificates within 45 working days.</li>
+<li><strong>Quicker Incentive Release:</strong> 50% of incentives within 7 days, rest within 45 days, with 8% interest on delays.</li>
+<li><strong>Expanded Insurance:</strong> &#x27;Mukhyamantri Vyapari Kshatipurti Yojana&#x27; will offer more affordable insurance against specific risks.</li>
+<li><strong>&#x27;Udaan Dwar Portal&#x27;:</strong> For recognition and international buyer connection for high exporters.</li>
+<li><strong>SAKSHAM Fund:</strong> ₹500 crore allocated in Budget 2026-27 to rejuvenate industrial areas.</li>
+<li><strong>Land-on-Lease Policy:</strong> For industrial plots, with conversion option.</li>
+</ol>
+<p>
+<strong>A simple way to think about it:</strong>
+Analogy: A small family-run chai shop (MSME) trying to sell its special blend of tea (product) to customers in another city (export). The government is like a helpful relative (policy) offering to pay for the delivery charges (freight subsidy), speeding up paperwork for a new shop license (land feasibility), giving quick cash for repairs (incentives), and providing insurance if the shop gets damaged.
+</p>
+<p>
+<strong>Why it matters to you:</strong>
+</p>
+<ol>
+<li><strong>For MSME Owners:</strong> Direct financial relief and easier operations.</li>
+<li><strong>For Employees of MSMEs:</strong> Potential for job security and growth as businesses expand.</li>
+<li><strong>For Consumers:</strong> More diverse and potentially cheaper products as local businesses become more competitive.</li>
+<li><strong>For Local Economy:</strong> Boosts industrial growth, especially in areas like Yamunanagar (plywood industry).</li>
+<li><strong>For Aspiring Entrepreneurs:</strong> Lower entry barriers and more support.</li>
+</ol>
+<p>
+<strong>Common confusions cleared up:</strong>
+</p>
+<ul>
+<li>Myth: Only big companies benefit from export schemes. Fact: This policy specifically targets MSMEs.</li>
+<li>Myth: Government schemes are always slow. Fact: This policy aims for faster approvals and incentive disbursal.</li>
+<li>Myth: This is just a general announcement. Fact: Specific financial changes and portals are part of the draft.</li>
+</ul>
+<p>
+<strong>FAQ:</strong>
+</p>
+<ul>
+<li>What is an MSME?</li>
+<li>Which types of businesses will benefit most?</li>
+<li>When will this policy officially start?</li>
+<li>How can an MSME apply for these benefits?</li>
+<li>Is this only for new businesses?</li>
+</ul>
+<p>
+<strong>Sources:</strong>
+I will use the URLs from the search results that directly support the facts.# Haryana&#x27;s New MSME Policy: What Tripled Export Subsidies Mean for Small Businesses
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The Haryana government is introducing a new policy to significantly boost Micro, Small, and Medium Enterprises (MSMEs) and exports.</li>
+<li>A major highlight is the plan to triple the export freight subsidy limit from ₹10 lakh to ₹30 lakh per unit per year.</li>
+<li>The policy aims for faster government approvals, including land feasibility certificates within 45 days.</li>
+<li>It promises quicker release of incentives, with 50% in seven days and the rest within 45 days, plus interest for delays.</li>
+<li>An expanded insurance cover under the &#x27;Mukhyamantri Vyapari Kshatipurti Yojana&#x27; will protect small traders from fire, theft, and natural disasters.</li>
+</ul>
+</div>
+<h2>What&#x27;s this about?</h2>
+<p>
+The Haryana government is set to introduce a new &quot;Progressive MSME and Export Promotion Policy 2026&quot; aimed at strengthening its Micro, Small, and Medium Enterprises (MSMEs) and boosting the state&#x27;s exports. MSMEs are small businesses that form the backbone of India&#x27;s economy, employing many people and producing a wide range of goods and services. This new policy is designed to make it easier for these businesses to operate, grow, and sell their products internationally.
+</p>
+<p>
+The policy includes several key measures, such as increasing financial support for exporters, speeding up administrative processes, and providing better protection against business risks. The goal is to help Haryana&#x27;s industries become more competitive and reach new heights, both within India and globally.
+</p>
+<h2>Why it&#x27;s in the news right now</h2>
+<p>
+Haryana Chief Minister Nayab Singh Saini announced the draft of this new MSME and Export Promotion Policy on Saturday, July 25, 2026. He shared these details while interacting with representatives from the plywood industry in Yamunanagar, a region known as India&#x27;s plywood capital. The policy is currently awaiting cabinet approval, making it a current and significant development for businesses and the economy in Haryana.
+</p>
+<h2>How it actually works</h2>
+<ol>
+<li><strong>Tripled Export Freight Subsidy:</strong> The policy proposes to significantly increase the financial support for MSMEs that export their goods. The limit for export freight subsidy will rise from ₹10 lakh to ₹30 lakh per unit per year. This subsidy helps cover the costs of transporting goods to international markets, making exports more affordable for small businesses.</li>
+<li><strong>Faster Land Approvals:</strong> To improve the &#x27;ease of doing business&#x27;, the government plans to issue land feasibility certificates for industrial plots within 45 working days. This speeds up the process for businesses looking to set up or expand their operations.</li>
+<li><strong>Quicker Incentive Release:</strong> When MSMEs apply for government incentives, 50% of the eligible amount will be released within seven working days after an initial check. The remaining amount will be paid within 45 days after a detailed verification. If there&#x27;s a delay from the industries department in releasing these incentives, entrepreneurs will receive 8% interest per year on the delayed payment.</li>
+<li><strong>Expanded Insurance Cover:</strong> The &#x27;Mukhyamantri Vyapari Kshatipurti Yojana&#x27; will be widened to offer more affordable insurance products. This expanded cover is designed to protect small traders and MSMEs against financial losses caused by events like fire, theft, and natural disasters.</li>
+<li><strong>&#x27;Udaan Dwar Portal&#x27; for Exporters:</strong> Industries that export more than 80% of their production will receive special recognition on a new online platform called the &#x27;Udaan Dwar Portal&#x27;. This portal is expected to help these high-performing exporters connect more easily with international buyers.</li>
+<li><strong>SAKSHAM Fund for Industrial Development:</strong> The state has created a special fund called SAKSHAM, with an initial allocation of ₹500 crore in the Budget 2026-27. This fund is dedicated to rejuvenating existing industrial areas and developing them into world-class industrial hubs.</li>
+<li><strong>Land-on-Lease Policy:</strong> To address the high cost of industrial land, the government has introduced a &quot;land-on-lease&quot; policy. Under this, industrial plots will be provided on a long-term lease, with an option for businesses to convert them into freehold (full ownership) when needed.</li>
+</ol>
+<h2>A simple way to think about it</h2>
+<p>
+Imagine you run a small pickle business from your home in Haryana, and you want to sell your delicious pickles to a supermarket chain in Dubai. The Haryana government&#x27;s new policy is like a helpful relative who offers to pay a big chunk of the shipping cost (tripled export freight subsidy). They also help you quickly get permission to build a small factory (faster land approvals) and give you some money upfront for new equipment, promising the rest soon, with interest if they&#x27;re late (quicker incentive release). Plus, they offer insurance in case your factory catches fire or your pickles get stolen (expanded insurance cover). They even put your business on a special website to help you find more international buyers (Udaan Dwar Portal). All these steps make it much easier and less risky for your small pickle business to grow and reach customers far away.
+</p>
+<h2>Why it matters to you</h2>
+<ol>
+<li><strong>For MSME Owners and Entrepreneurs:</strong> If you run a small business in Haryana, especially one involved in exports, this policy offers direct financial relief and operational advantages. The increased freight subsidy can significantly reduce your export costs, making your products more competitive globally. Faster approvals mean less waiting time and quicker project implementation.</li>
+<li><strong>For Employees of MSMEs:</strong> As MSMEs grow and become more profitable due to these incentives, there&#x27;s a higher chance of job creation, better wages, and improved working conditions. This translates to more stable livelihoods for many families in Haryana.</li>
+<li><strong>For Consumers in Haryana:</strong> A thriving MSME sector means more local production, potentially leading to a wider variety of goods and services available in the market. While not a direct price reduction, increased competition and efficiency can benefit consumers indirectly.</li>
+<li><strong>For Local Economies:</strong> The SAKSHAM fund and the focus on developing industrial hubs can lead to overall economic growth in specific regions, attracting more investment and improving local infrastructure. Areas like Yamunanagar, with its plywood industry, are expected to see significant benefits.</li>
+<li><strong>For Aspiring Business Owners:</strong> The &#x27;ease of doing business&#x27; measures, such as faster land approvals and clearer incentive processes, can lower the entry barriers for new entrepreneurs, encouraging more people to start their own ventures.</li>
+</ol>
+<h2>Common confusions cleared up</h2>
+<ul>
+<li><strong>Myth:</strong> Only very large companies with massive export volumes benefit from government export schemes.</li>
+<p>
+    <strong>Fact:</strong> This new Haryana policy is specifically designed to support Micro, Small, and Medium Enterprises (MSMEs), which are smaller businesses. The increased export freight subsidy and other benefits are tailored to help these smaller players compete effectively in international markets.
+</p>
+<li><strong>Myth:</strong> Government processes for business incentives and approvals are always slow and complicated.</li>
+<p>
+    <strong>Fact:</strong> A key focus of this policy is to streamline and speed up these processes. It explicitly mentions issuing land feasibility certificates within 45 working days and releasing 50% of incentives within just seven days of preliminary scrutiny. There&#x27;s even a provision for interest payments if the government delays the incentives.
+</p>
+<li><strong>Myth:</strong> This is just a general announcement without concrete benefits for individual businesses.</li>
+<p>
+    <strong>Fact:</strong> The policy includes specific, tangible changes like the tripling of the export freight subsidy limit to ₹30 lakh per unit, the introduction of a new &#x27;Udaan Dwar Portal&#x27; for high exporters, and an expanded insurance scheme. These are clear, measurable benefits for eligible businesses.
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>What is an MSME?</h3>
+<p>
+MSME stands for Micro, Small, and Medium Enterprises. These are small businesses classified based on their investment in plant and machinery or equipment, and their annual turnover. They play a vital role in India&#x27;s economy by creating jobs and contributing to production.
+</p>
+<h3>Which types of businesses will benefit most from this policy?</h3>
+<p>
+Businesses in Haryana that are involved in manufacturing and exporting goods are likely to benefit most, especially those looking to expand their international presence. The policy also supports small traders through expanded insurance.
+</p>
+<h3>When will this policy officially start?</h3>
+<p>
+The &quot;Progressive MSME and Export Promotion Policy 2026&quot; is currently in its draft stage and awaiting cabinet approval from the Haryana government. Once approved, it will be officially launched.
+</p>
+<h3>How can an MSME apply for these benefits?</h3>
+<p>
+Specific details on the application process for subsidies, incentives, and portal registration will be released once the policy is officially unveiled. It is expected to involve applications through relevant government departments or dedicated online portals.
+</p>
+<h3>Is this policy only for new businesses?</h3>
+<p>
+No, the policy aims to support both existing MSMEs looking to grow and new entrepreneurs setting up businesses in Haryana. Measures like the SAKSHAM fund for industrial area rejuvenation and the land-on-lease policy can benefit both established and new ventures.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>Sarkaritel.com: Monsoon Session 2026: Govt To Table Income Tax, MSME Bills (July 19 2026).</li>
+<li>The Financial Express: Haryana government set to unveil new MSME policy, freight subsidy, faster incentives and industrial overhaul proposed (July 26 2026).</li>
+<li>Swarajya: Haryana CM Saini Announces New MSME Policy to Be Out Soon With Tripled Export Subsidies And Faster Incentive Approvals (July 26 2026).</li>
+</ol></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
