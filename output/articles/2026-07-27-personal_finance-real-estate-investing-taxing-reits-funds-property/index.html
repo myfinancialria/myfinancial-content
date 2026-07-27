@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Real Estate Investing: Taxing REITs, Funds &amp; Property</title>
+<meta name="description" content="Investing in real estate can be done directly through physical property, or indirectly via REITs or REIT mutual funds. Capital gains tax rules differ signific.">
+<meta name="keywords" content="capital, mutual, property, physical, rental, estate, indexation, months">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-27-personal_finance-real-estate-investing-taxing-reits-funds-property/">
+<meta property="og:title" content="Real Estate Investing: Taxing REITs, Funds &amp; Property">
+<meta property="og:description" content="Investing in real estate can be done directly through physical property, or indirectly via REITs or REIT mutual funds. Capital gains tax rules differ signific.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-27-personal_finance-real-estate-investing-taxing-reits-funds-property/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Real Estate Investing: Taxing REITs, Funds & Property", "description": "Investing in real estate can be done directly through physical property, or indirectly via REITs or REIT mutual funds. Capital gains tax rules differ signific.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-27", "dateModified": "2026-07-27", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-27-personal_finance-real-estate-investing-taxing-reits-funds-property/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-07-27</div><h1>Real Estate Investing: Taxing REITs, Funds &amp; Property</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Investing in real estate can be done directly through physical property, or indirectly via REITs or REIT mutual funds.</li>
+<li>Capital gains tax rules differ significantly, especially regarding the holding period for long-term gains.</li>
+<li>REITs and REIT mutual funds generally qualify for long-term capital gains after 24 months, unlike physical property which requires 36 months.</li>
+<li>Income distributions from REITs (interest, rent, dividends) are taxed differently and may attract TDS.</li>
+<li>Your final post-tax returns are heavily influenced by these varied tax treatments and TDS rules.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Investing in real estate has long been a popular choice for Indians, offering potential for both rental income and capital appreciation. However, how you choose to invest – whether buying a physical apartment or commercial space, or opting for newer financial instruments like Real Estate Investment Trusts (REITs) or REIT mutual funds – can drastically change your tax liability and ultimately, your net returns.
+</p>
+<p>
+While all these avenues provide exposure to real estate, the Income Tax Act treats them differently. These differences span how capital gains are calculated, the holding period required for long-term benefits, and how the income you receive from these investments is taxed, including any Tax Deducted at Source (TDS). Understanding these nuances is crucial for making informed investment decisions and optimising your post-tax wealth.
+</p>
+<h2>REITs, REIT Mutual Funds, and Physical Property: The Basics</h2>
+<p>
+To properly compare the tax implications, it&#x27;s essential to first understand what each investment avenue entails:
+</p>
+<h3>Physical Property</h3>
+<p>
+This is the traditional route: you directly purchase a residential or commercial property, either for self-use, rental income, or capital appreciation. You hold the title deed, manage the property, and bear all associated costs and responsibilities.
+</p>
+<h3>Real Estate Investment Trusts (REITs)</h3>
+<p>
+REITs are companies that own, operate, or finance income-generating real estate. Think of them as mutual funds for real estate. They pool money from investors to buy a portfolio of properties, primarily commercial assets like offices, malls, and warehouses. REIT units are listed and traded on stock exchanges, offering liquidity and professional management. As a unitholder, you receive a share of the income generated by these properties.
+</p>
+<h3>REIT Mutual Funds (or Funds of Funds)</h3>
+<p>
+These are mutual fund schemes that primarily invest in units of listed REITs. Instead of directly buying REIT units, you invest in a mutual fund that then invests in one or more REITs. This offers diversification across multiple REITs and professional fund management, but adds an extra layer of fees and potentially a different tax structure compared to direct REIT investing.
+</p>
+<h2>Capital Gains Tax: A Tale of Holding Periods</h2>
+<p>
+One of the most significant differentiators among these investment options is how capital gains are taxed, particularly the holding period required to qualify for long-term capital gains (LTCG).
+</p>
+<h3>Physical Property</h3>
+<ul>
+<li><strong>Short-Term Capital Gains (STCG):</strong> If you sell a property within 36 months (3 years) of purchase, any profit is treated as STCG. This gain is added to your total income and taxed at your applicable income tax slab rate.</li>
+<li><strong>Long-Term Capital Gains (LTCG):</strong> If you sell a property after holding it for more than 36 months, the profit is treated as LTCG. This is taxed at a flat rate of 20% after allowing for indexation benefit. Indexation adjusts the purchase cost for inflation, thereby reducing the taxable gain.</li>
+</ul>
+<h3>Real Estate Investment Trusts (REITs)</h3>
+<ul>
+<li><strong>Short-Term Capital Gains (STCG):</strong> If you sell REIT units within 24 months (2 years) of purchase, the gains are considered STCG. These gains are added to your total income and taxed at your applicable income tax slab rate.</li>
+<li><strong>Long-Term Capital Gains (LTCG):</strong> If you sell REIT units after holding them for more than 24 months, the gains are considered LTCG. These are taxed at a rate of 10% on gains exceeding ₹1 lakh in a financial year, without the benefit of indexation. This is similar to the taxation of equity shares and equity-oriented mutual funds.</li>
+</ul>
+<h3>REIT Mutual Funds</h3>
+<p>
+The taxation of REIT mutual funds depends on their asset allocation. Since REITs are not classified as &quot;equity&quot; for the purpose of mutual fund taxation, REIT mutual funds are typically treated as <strong>debt-oriented mutual funds</strong> for tax purposes.
+</p>
+<ul>
+<li><strong>Short-Term Capital Gains (STCG):</strong> If you sell units within 36 months (3 years) of purchase, gains are added to your total income and taxed at your applicable income tax slab rate.</li>
+<li><strong>Long-Term Capital Gains (LTCG):</strong> If you sell units after holding them for more than 36 months, gains are taxed at 20% with indexation benefit.</li>
+</ul>
+<h2>Income Distribution and TDS: Understanding Your Payouts</h2>
+<p>
+Beyond capital gains, the income you receive from your real estate investment is also subject to different tax treatments and TDS rules.
+</p>
+<h3>Physical Property</h3>
+<ul>
+<li><strong>Rental Income:</strong> Rental income from a physical property is taxed under the head &quot;Income from House Property.&quot; You can claim a standard deduction of 30% of the annual value (rent received) for repairs and maintenance. Additionally, interest paid on a home loan can be deducted (up to ₹2 lakh for self-occupied property, or fully for rented property against rental income).</li>
+<li><strong>TDS on Rent:</strong> If your tenant is an individual or Hindu Undivided Family (HUF) and pays rent exceeding ₹50,000 per month, they must deduct TDS at 5% (without requiring a TAN). For corporate or other specified tenants, TDS is 10% if the rent exceeds ₹2.40 lakh annually.</li>
+</ul>
+<h3>Real Estate Investment Trusts (REITs)</h3>
+<p>
+REITs distribute income to unitholders, which can comprise various components, each with its own tax implications:
+</p>
+<ul>
+<li><strong>Interest Income:</strong> This portion, derived from interest on loans given by the REIT&#x27;s Special Purpose Vehicle (SPV) to underlying projects, is taxable in the unitholder&#x27;s hands at their applicable income tax slab rate. TDS is typically deducted at 10% for resident unitholders.</li>
+<li><strong>Dividend Income:</strong> Dividends received by the REIT from its SPV are exempt if the SPV has opted for a specific tax regime (like Section 115BAA) and paid tax at that level. If the SPV has not opted for such a regime, the dividend received by the unitholder from the REIT would be taxable at their slab rate.</li>
+<li><strong>Rental Income:</strong> Rental income distributed by the REIT to unitholders is taxable at the unitholder&#x27;s applicable income tax slab rate. TDS is typically deducted at 10% for resident unitholders.</li>
+<li><strong>Repayment of Debt/Capital:</strong> This portion is not considered income and is therefore not taxable. Instead, it reduces the cost of acquisition of your REIT units.</li>
+</ul>
+<h3>REIT Mutual Funds</h3>
+<p>
+When you invest in a REIT mutual fund, the fund itself receives the income distributions (interest, rent, dividends) from the underlying REITs. The mutual fund then reinvests this income or distributes it to its unitholders as Income Distribution cum Capital Withdrawal (IDCW) payouts (formerly dividends).
+</p>
+<ul>
+<li><strong>IDCW Payouts:</strong> If the fund distributes IDCW, these payouts are typically added to your income and taxed at your applicable slab rate, as REIT mutual funds are generally treated as debt funds for taxation.</li>
+<li><strong>No Direct TDS:</strong> The income received by the fund from REITs may have TDS deducted at the REIT level. However, for the unitholder, there is generally no direct TDS on IDCW payouts from the mutual fund, unless the fund house explicitly states otherwise based on specific regulations. Your primary tax event is on the sale of your mutual fund units (capital gains) or on receiving IDCW.</li>
+</ul>
+<h2>Post-Tax Returns: Beyond the Headline Numbers</h2>
+<p>
+Considering all these factors, the actual post-tax return can vary significantly across these real estate investment options.
+</p>
+<ul>
+<li><strong>Liquidity and Holding Period:</strong> REITs offer higher liquidity as they are traded on exchanges, and a shorter holding period (24 months) for LTCG compared to physical property (36 months). REIT mutual funds also follow the 36-month rule for LTCG, similar to physical property if treated as debt funds.</li>
+<li><strong>Income Stream vs. Capital Appreciation:</strong> Physical property can provide stable rental income, but managing it comes with responsibilities. REITs offer a professionally managed, diversified portfolio with regular distributions, which can be a mix of interest, rent, and dividends, each taxed differently. REIT mutual funds offer an additional layer of diversification and management, with income primarily realised through capital gains on sale or IDCW.</li>
+<li><strong>Tax Efficiency:</strong> For long-term investors aiming for capital appreciation, direct REITs might offer a slightly better tax rate on LTCG (10% without indexation vs. 20% with indexation for physical property/REIT MFs), provided the gains exceed ₹1 lakh. However, the indexation benefit for physical property and REIT MFs can be very valuable in high-inflation environments, potentially making their effective tax rate lower than 10% for long holding periods.</li>
+<li><strong>TDS Impact:</strong> The TDS deducted on REIT income distributions or rental income from physical property means you receive less upfront. While this can be claimed back or adjusted against your final tax liability, it impacts your immediate cash flow.</li>
+</ul>
+<p>
+Ultimately, the &quot;best&quot; option depends on your investment horizon, risk appetite, need for liquidity, and individual tax slab. A comprehensive view of both capital gains and income taxation, along with TDS, is essential to estimate your true post-tax returns.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Priya, 42, earning ₹35 lakhs CTC, based in Mumbai</strong>, who has ₹50 lakhs to invest in real estate for a 4-year horizon. We&#x27;ll assume a 10% annual appreciation and 5% annual income generation (rental yield for property, distribution yield for REITs/MFs). Priya falls into the 30% tax bracket.
+</p>
+<p>
+<strong>Scenario 1: Investing in a Physical Property</strong>
+Priya buys a small commercial property for ₹50 lakhs.
+</p>
+<ul>
+<li><strong>Income:</strong> Annual rent of ₹2.5 lakhs (5% of ₹50L). After 30% standard deduction (₹75,000), taxable rental income is ₹1.75 lakhs. Tax @ 30% = ₹52,500 per year.</li>
+<li><strong>Capital Appreciation:</strong> After 4 years, property value grows by 10% annually.</li>
+<p>
+    *   Year 1: ₹55 lakhs
+    *   Year 2: ₹60.5 lakhs
+    *   Year 3: ₹66.55 lakhs
+    *   Year 4: ₹73.205 lakhs
+</p>
+<li><strong>Capital Gains:</strong> Sale price ₹73.205 lakhs. Original cost ₹50 lakhs.</li>
+<p>
+    *   Assuming Cost Inflation Index (CII) factor for 4 years leads to an indexed cost of, say, ₹58 lakhs.
+    *   LTCG = ₹73.205 lakhs - ₹58 lakhs = ₹15.205 lakhs.
+    *   Tax @ 20% with indexation = ₹3.041 lakhs.
+</p>
+<li><strong>Total Post-Tax Return (approx):</strong> (₹73.205L - ₹50L) - (4 * ₹52,500) - ₹3.041L = ₹23.205L - ₹2.1L - ₹3.041L = <strong>₹18.064 lakhs</strong>.</li>
+</ul>
+<p>
+<strong>Scenario 2: Investing in a Listed REIT</strong>
+Priya invests ₹50 lakhs in REIT units.
+</p>
+<ul>
+<li><strong>Income:</strong> Assume 5% annual distribution yield, split as 40% interest, 40% rental, 20% repayment of capital.</li>
+<p>
+    *   Annual distribution: ₹2.5 lakhs.
+    *   Taxable income (interest + rental): 80% of ₹2.5L = ₹2 lakhs. Tax @ 30% = ₹60,000 per year. TDS @ 10% (₹20,000) would be deducted.
+    *   Repayment of capital: ₹50,000 per year, reduces cost basis.
+</p>
+<li><strong>Capital Appreciation:</strong> After 4 years, REIT unit value grows by 10% annually.</li>
+<p>
+    *   Year 4 value: ₹73.205 lakhs.
+</p>
+<li><strong>Capital Gains:</strong> Sale price ₹73.205 lakhs. Original cost ₹50 lakhs.</li>
+<p>
+    <em>   Adjusted cost of acquisition (after 4 years of ₹50,000 repayment) = ₹50L - (4 </em> ₹0.5L) = ₹48 lakhs.
+    *   LTCG = ₹73.205 lakhs - ₹48 lakhs = ₹25.205 lakhs.
+    <em>   Tax @ 10% on gains exceeding ₹1 lakh = 10% </em> (₹25.205L - ₹1L) = ₹2.4205 lakhs.
+</p>
+<li><strong>Total Post-Tax Return (approx):</strong> (₹73.205L - ₹50L) - (4 * ₹60,000) - ₹2.4205L = ₹23.205L - ₹2.4L - ₹2.4205L = <strong>₹18.3845 lakhs</strong>.</li>
+</ul>
+<p>
+<strong>Scenario 3: Investing in a REIT Mutual Fund</strong>
+Priya invests ₹50 lakhs in a REIT mutual fund (treated as a debt fund for tax).
+</p>
+<ul>
+<li><strong>Income:</strong> Assume the fund generates 5% annual income, which is reinvested. No direct income distribution taxable to Priya unless she opts for IDCW.</li>
+<li><strong>Capital Appreciation:</strong> After 4 years, fund value grows by 10% annually.</li>
+<p>
+    *   Year 4 value: ₹73.205 lakhs.
+</p>
+<li><strong>Capital Gains:</strong> Sale price ₹73.205 lakhs. Original cost ₹50 lakhs.</li>
+<p>
+    *   Assuming CII factor for 4 years leads to an indexed cost of, say, ₹58 lakhs.
+    *   LTCG = ₹73.205 lakhs - ₹58 lakhs = ₹15.205 lakhs.
+    *   Tax @ 20% with indexation = ₹3.041 lakhs.
+</p>
+<li><strong>Total Post-Tax Return (approx):</strong> (₹73.205L - ₹50L) - ₹3.041L = ₹23.205L - ₹3.041L = <strong>₹20.164 lakhs</strong>.</li>
+</ul>
+<p>
+<strong>Observation:</strong> In this simplified example, the REIT Mutual Fund appears to offer the highest post-tax return due to the power of indexation on capital gains, as its income is primarily reinvested rather than distributed and taxed annually. However, actual returns depend heavily on the underlying assets&#x27; performance, dividend policies, and specific tax rules in effect.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your existing real estate exposure:</strong> Check if you hold any physical property or have invested in REITs/REIT mutual funds. Understand their current tax implications.</li>
+<li><strong>Calculate your potential capital gains:</strong> For any real estate asset you own, estimate the holding period and potential capital gains. Use the Income Tax India portal to understand the latest CII for indexation benefits if applicable.</li>
+<li><strong>Understand REIT income components:</strong> If you hold REITs, review the latest annual report or distribution statement to see the breakdown of interest, rental, and repayment of capital components. This will clarify how your income is taxed.</li>
+<li><strong>Consult a tax professional:</strong> Given the complexities, especially with REIT income taxation, consider speaking to a Chartered Accountant or Certified Financial Planner to understand how these rules apply to your specific financial situation.</li>
+<li><strong>Research REIT Mutual Funds:</strong> If you&#x27;re considering indirect real estate exposure, research REIT mutual funds on AMFI India to understand their investment strategy, expense ratios, and the tax treatment of their IDCW plans.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the main tax advantage of REITs over physical property?</h3>
+<p>
+REITs typically have a shorter holding period of 24 months for long-term capital gains, compared to 36 months for physical property.
+</p>
+<h3>Are REIT mutual funds taxed differently from direct REITs?</h3>
+<p>
+Yes, REIT mutual funds are generally treated as debt funds for tax purposes, meaning LTCG applies after 36 months with indexation, unlike direct REITs which have a 24-month LTCG period and 10% tax without indexation (on gains over ₹1 lakh).
+</p>
+<h3>Is TDS applicable on income distributions from REITs?</h3>
+<p>
+Yes, certain components of REIT distributions, such as interest and rental income, are subject to TDS, typically at 10% for resident unitholders.
+</p>
+<h3>Can I claim indexation benefit on REIT capital gains?</h3>
+<p>
+No, long-term capital gains from direct REIT units (held over 24 months) are taxed at 10% on gains exceeding ₹1 lakh, without indexation benefit.
+</p>
+<h3>How is rental income from physical property taxed?</h3>
+<p>
+Rental income is taxed under &quot;Income from House Property,&quot; allowing for a 30% standard deduction and deductions for home loan interest.
+</p>
+<h3>What happens if a REIT mutual fund distributes dividends (IDCW)?</h3>
+<p>
+IDCW payouts from REIT mutual funds are generally added to your income and taxed at your applicable slab rate, similar to debt fund dividends.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>AMFI India: https://amfiindia.com</li>
+<li>SEBI: https://sebi.gov.in</li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
