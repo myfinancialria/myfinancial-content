@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>No Form 16 Yet? File Your ITR Before 31st July Deadline</title>
+<meta name="description" content="Form 16 is a consolidated certificate from your employer that simplifies filing your Income Tax Return (ITR), but it is not the only document required. Salari.">
+<meta name="keywords" content="salary, employer, filing, payslips, deductions, statements, documents, interest">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-29-personal_finance-no-form-16-yet-file-your-itr-before-31st-july-deadline/">
+<meta property="og:title" content="No Form 16 Yet? File Your ITR Before 31st July Deadline">
+<meta property="og:description" content="Form 16 is a consolidated certificate from your employer that simplifies filing your Income Tax Return (ITR), but it is not the only document required. Salari.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-29-personal_finance-no-form-16-yet-file-your-itr-before-31st-july-deadline/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "No Form 16 Yet? File Your ITR Before 31st July Deadline", "description": "Form 16 is a consolidated certificate from your employer that simplifies filing your Income Tax Return (ITR), but it is not the only document required. Salari.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-29", "dateModified": "2026-07-29", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-29-personal_finance-no-form-16-yet-file-your-itr-before-31st-july-deadline/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-07-29</div><h1>No Form 16 Yet? File Your ITR Before 31st July Deadline</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Form 16 is a consolidated certificate from your employer that simplifies filing your Income Tax Return (ITR), but it is not the only document required.</li>
+<li>Salaried individuals can still accurately file their ITR even without Form 16 by gathering alternative documents like payslips, bank statements, and investment proofs.</li>
+<li>The Income Tax Department’s Form 26AS and Annual Information Statement (AIS) are crucial for verifying all tax deducted at source (TDS) and other income details.</li>
+<li>Meticulously reconcile all your income, deductions, and TDS details from various sources to ensure accuracy and avoid potential discrepancies.</li>
+<li>Begin gathering all necessary documents immediately and complete your ITR filing well before the 31st July deadline to prevent penalties.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+For many salaried individuals, Form 16 is synonymous with filing income tax returns. It&#x27;s a certificate issued by your employer that provides a detailed breakdown of your salary, perquisites, allowances, deductions claimed, and the Tax Deducted at Source (TDS) on your income. Receiving this document usually makes the ITR filing process straightforward, as most of the required information is readily available.
+</p>
+<p>
+However, sometimes employers might delay issuing Form 16, or you might have switched jobs, leading to complications in obtaining it promptly. The good news is that while Form 16 is incredibly convenient, it is not legally mandatory for filing your ITR. The Income Tax Act, 1961, requires you to declare your income and pay taxes, not necessarily to use a specific document for it. By diligently collating information from other reliable sources, you can still accurately complete your tax obligations before the deadline.
+</p>
+<p>
+The core principle is to ensure that all your income is reported, eligible deductions are claimed, and the tax paid matches the records of the Income Tax Department. This requires a bit more effort in gathering and reconciling data from various documents, but it is entirely achievable.
+</p>
+<h2>Understanding Form 16 and its Purpose</h2>
+<p>
+Form 16 is essentially a summary of your financial year&#x27;s earnings and tax deductions as recorded by your employer. It is divided into two main parts:
+</p>
+<h3>Part A: TDS Details and Employer Information</h3>
+<p>
+This section contains crucial information such as your employer&#x27;s TAN (Tax Deduction and Collection Account Number) and PAN (Permanent Account Number), your PAN, and summary details of the tax deducted at source and deposited with the government. It shows the period of employment with the employer and the amount of tax deposited against your PAN. This part is vital for cross-referencing with your Form 26AS.
+</p>
+<h3>Part B: Detailed Salary Breakdown and Deductions</h3>
+<p>
+Part B provides a comprehensive breakdown of your gross salary, including various allowances (like HRA, LTA, special allowances), perquisites, and any profits in lieu of salary. It also details the deductions allowed under Section 16 (Standard Deduction, Entertainment Allowance, Professional Tax) and Chapter VI-A (like Section 80C, 80D, 80G, etc.) as declared by you to your employer. This part ultimately calculates your taxable salary and the tax payable on it, reflecting the final tax deducted by your employer.
+</p>
+<h2>Essential Documents if Form 16 is Missing</h2>
+<p>
+If you haven&#x27;t received your Form 16, don&#x27;t panic. You can still compile all the necessary information using a combination of other documents. The key is to be thorough and ensure all data points align.
+</p>
+<h3>Payslips</h3>
+<p>
+Your monthly payslips are a treasure trove of information. They detail your basic salary, various allowances (HRA, LTA, medical, transport, special allowance), perquisites, professional tax, and any other deductions made by your employer (like EPF contributions, income tax deducted each month). Collect all payslips for the entire financial year (April to March). They will help you calculate your gross salary and verify deductions.
+</p>
+<h3>Bank Statements</h3>
+<p>
+Your bank statements will show all salary credits from your employer. More importantly, they will also reveal other income sources such as interest earned on savings accounts, fixed deposits, or recurring deposits. This is crucial as all income must be declared in your ITR, regardless of whether TDS was deducted.
+</p>
+<h3>Form 26AS &amp; Annual Information Statement (AIS)</h3>
+<p>
+These are perhaps the most critical documents after Form 16.
+</p>
+<ul>
+<li><strong>Form 26AS:</strong> This statement provides a consolidated view of all tax deducted at source against your PAN by various entities (employer, banks, etc.) and tax collected at source (TCS). It also includes details of advance tax and self-assessment tax paid by you. You can access Form 26AS from the Income Tax e-filing portal.</li>
+<li><strong>Annual Information Statement (AIS):</strong> AIS is a more comprehensive statement introduced by the Income Tax Department. It includes all financial transactions reported by various entities (banks, mutual funds, stockbrokers, etc.) against your PAN. This includes salary, interest income, dividend income, mutual fund transactions, share transactions, and more. AIS provides a holistic view of your financial activities and helps ensure you report all relevant income and taxes. It is accessible via the Income Tax e-filing portal.</li>
+</ul>
+<h3>Investment Proofs</h3>
+<p>
+To claim deductions under Chapter VI-A (e.g., Section 80C, 80D, 80E, 80G), you will need proof of your investments and expenses. This includes:
+</p>
+<ul>
+<li><strong>Section 80C:</strong> EPF statements, life insurance premium receipts, ELSS statements, PPF passbook, home loan principal repayment certificates, tuition fee receipts for children.</li>
+<li><strong>Section 80D:</strong> Health insurance premium receipts.</li>
+<li><strong>HRA Exemption:</strong> Rent receipts, landlord&#x27;s PAN (if annual rent exceeds ₹1 lakh).</li>
+<li><strong>Home Loan Interest:</strong> Interest certificate from your bank/housing finance company.</li>
+</ul>
+<h2>Reconciling Your Income and Deductions</h2>
+<p>
+The process of filing your ITR without Form 16 largely revolves around meticulous reconciliation. Here&#x27;s how to approach it:
+</p>
+<h3>Step-by-step Process of Calculating Gross Salary</h3>
+<ol>
+<li><strong>Consolidate Payslips:</strong> Gather all your monthly payslips for the financial year.</li>
+<li><strong>Calculate Basic Salary:</strong> Sum up the &#x27;Basic Salary&#x27; component from all payslips.</li>
+<li><strong>Calculate Allowances:</strong> Sum up all taxable allowances (e.g., Special Allowance, Transport Allowance, if not exempted) and perquisites from your payslips.</li>
+<li><strong>Add Exempt Allowances:</strong> For allowances like HRA, LTA, etc., you will need to calculate the exempted portion as per income tax rules and include the taxable portion in your gross salary. For example, HRA exemption is the least of (a) actual HRA received, (b) 50% of basic salary + DA (for metro cities) or 40% (for non-metros), or (c) actual rent paid minus 10% of basic salary + DA.</li>
+<li><strong>Total Gross Salary:</strong> Add up all these components to arrive at your gross salary.</li>
+</ol>
+<h3>Accounting for Perquisites and Allowances</h3>
+<p>
+Ensure all perquisites (e.g., company car for personal use, rent-free accommodation) and allowances are correctly identified and valued as per income tax rules. Your employer usually details these on payslips or a separate statement.
+</p>
+<h3>Claiming Deductions under Chapter VI-A</h3>
+<p>
+Use your investment proofs to calculate the total amount eligible for deductions under various sections.
+</p>
+<ul>
+<li><strong>Section 80C:</strong> Sum up all eligible investments like EPF, PPF, life insurance, ELSS, home loan principal, etc., up to the maximum limit of ₹1.5 lakhs.</li>
+<li><strong>Section 80D:</strong> Calculate health insurance premiums paid for yourself, your spouse, children, and parents.</li>
+<li><strong>Other Sections:</strong> Include any other applicable deductions like interest on education loan (80E), donations (80G), etc., with proper documentation.</li>
+</ul>
+<h3>Verifying TDS with Form 26AS/AIS</h3>
+<p>
+Once you have calculated your total income and deductions, compare the TDS amount reflected in your payslips with the figures in Form 26AS and AIS.
+</p>
+<ul>
+<li><strong>Match Employer TDS:</strong> Ensure the TDS on salary shown in your payslips matches the &#x27;TDS by employer&#x27; entry in Form 26AS/AIS.</li>
+<li><strong>Other TDS:</strong> Check for any other TDS entries (e.g., TDS on interest from banks) in Form 26AS/AIS and ensure you have accounted for that income in your ITR.</li>
+<li><strong>Discrepancies:</strong> If there&#x27;s a mismatch, contact your employer or the deductor immediately to get it rectified. Filing with discrepancies can lead to processing delays or notices from the Income Tax Department.</li>
+</ul>
+<h2>Potential Challenges and How to Overcome Them</h2>
+<p>
+Filing without Form 16 can present a few hurdles, but with a systematic approach, these can be managed.
+</p>
+<h3>Discrepancies between Your Records and 26AS/AIS</h3>
+<p>
+It&#x27;s possible that the TDS figures in your payslips or personal records don&#x27;t exactly match what&#x27;s reflected in Form 26AS or AIS. This could be due to late deposit of TDS by the employer, incorrect PAN details, or errors in reporting.
+</p>
+<ul>
+<li><strong>Resolution:</strong> First, re-verify your PAN details. If correct, contact your employer&#x27;s HR or finance department to understand the discrepancy and request a correction. If the employer has deposited the tax but not updated the statement, it might eventually reflect. However, if the tax wasn&#x27;t deposited, you might need to pursue it more actively. It&#x27;s advisable to file your ITR based on the figures in Form 26AS/AIS to avoid immediate notices. If your employer later rectifies it, you can file a revised return.</li>
+</ul>
+<h3>Employer Unresponsiveness for Form 16</h3>
+<p>
+Some employers, especially if you&#x27;ve left the organisation, might be slow in providing Form 16.
+</p>
+<ul>
+<li><strong>Resolution:</strong> While you should continue to follow up, do not delay your ITR filing waiting indefinitely. As established, you can file using other documents. Keep a record of your communication with the employer as proof of your attempts to obtain Form 16.</li>
+</ul>
+<h3>Consequences of Inaccurate Filing</h3>
+<p>
+Filing an ITR with incorrect income or deduction details can lead to several issues:
+</p>
+<ul>
+<li><strong>Notices from Income Tax Department:</strong> If there are significant mismatches between your reported income/TDS and the data available with the department (via AIS, 26AS), you might receive a notice.</li>
+<li><strong>Penalties:</strong> Depending on the nature and extent of the inaccuracy, penalties might be levied.</li>
+<li><strong>Interest:</strong> If you underpaid tax due to incorrect reporting, you might be liable to pay interest on the shortfall.</li>
+<li><strong>Revised Return:</strong> You might have to file a revised return, which, while allowed, is an additional hassle.</li>
+<li><strong>Resolution:</strong> Always aim for accuracy. Cross-verify every detail. When in doubt, it&#x27;s better to consult a tax professional.</li>
+</ul>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, ₹28L CTC, Bengaluru</strong>, who hasn&#x27;t received his Form 16 for the financial year 2025-26. He needs to file his ITR by July 31st.
+</p>
+<p>
+Rahul gathers his documents:
+</p>
+<ul>
+<li>12 monthly payslips</li>
+<li>Bank statements for the financial year</li>
+<li>Investment proofs (EPF statement, health insurance premium receipt, HRA receipts)</li>
+<li>Form 26AS and AIS downloaded from the Income Tax portal</li>
+</ul>
+<p>
+Here&#x27;s how he calculates his taxable income:
+</p>
+<p>
+<strong>1. Gross Salary Calculation (from Payslips):</strong>
+</p>
+<ul>
+<li>Basic Salary: ₹12,00,000</li>
+<li>House Rent Allowance (HRA): ₹4,80,000</li>
+<li>Special Allowance: ₹7,20,000</li>
+<li>Transport Allowance: ₹19,200</li>
+<li>Other Perquisites (taxable): ₹1,00,800</li>
+<li><strong>Total Gross Salary (as per payslips): ₹25,20,000</strong></li>
+</ul>
+<p>
+<strong>2. Other Income (from Bank Statements/AIS):</strong>
+</p>
+<ul>
+<li>Savings Bank Interest: ₹12,000 (from bank statement, also reflected in AIS)</li>
+<li>Fixed Deposit Interest: ₹35,000 (from bank statement, TDS deducted, reflected in 26AS/AIS)</li>
+<li><strong>Total Other Income: ₹47,000</strong></li>
+</ul>
+<p>
+<strong>3. Exemptions &amp; Deductions:</strong>
+</p>
+<ul>
+<li><strong>HRA Exemption:</strong></li>
+<p>
+    *   Actual HRA received: ₹4,80,000
+    *   50% of Basic Salary (Bengaluru is a metro): 50% of ₹12,00,000 = ₹6,00,000
+    *   Rent Paid (₹30,000/month) - 10% of Basic Salary: (₹3,60,000 - ₹1,20,000) = ₹2,40,000
+    *   Least of the three is ₹2,40,000. So, HRA Exemption: ₹2,40,000
+</p>
+<li><strong>Standard Deduction (Section 16(ia)):</strong> ₹50,000</li>
+<li><strong>Deductions under Chapter VI-A (from Investment Proofs):</strong></li>
+<p>
+    *   Section 80C (EPF contribution, ELSS): ₹1,50,000 (max limit)
+    *   Section 80D (Health Insurance Premium): ₹25,000 (for self and family)
+    *   <strong>Total Chapter VI-A Deductions: ₹1,75,000</strong>
+</p>
+</ul>
+<p>
+<strong>4. Calculation of Taxable Income:</strong>
+</p>
+<ul>
+<li>Gross Salary: ₹25,20,000</li>
+<li>Less: HRA Exemption: ₹2,40,000</li>
+<li><strong>Adjusted Gross Salary: ₹22,80,000</strong></li>
+<li>Add: Other Income: ₹47,000</li>
+<li><strong>Total Gross Income: ₹23,27,000</strong></li>
+<li>Less: Standard Deduction: ₹50,000</li>
+<li>Less: Chapter VI-A Deductions: ₹1,75,000</li>
+<li><strong>Net Taxable Income: ₹21,02,000</strong></li>
+</ul>
+<p>
+<strong>5. Tax Liability (Assuming Old Tax Regime for simplicity):</strong>
+</p>
+<ul>
+<li>Up to ₹2,50,000: Nil</li>
+<li>₹2,50,001 to ₹5,00,000 (5%): ₹12,500</li>
+<li>₹5,00,001 to ₹10,00,000 (20%): ₹1,00,000</li>
+<li>Above ₹10,00,000 (30% on ₹11,02,000): ₹3,30,600</li>
+<li><strong>Total Tax: ₹4,43,100</strong></li>
+<li>Add: Health &amp; Education Cess (4%): ₹17,724</li>
+<li><strong>Total Tax Payable: ₹4,60,824</strong></li>
+</ul>
+<p>
+<strong>6. Verify TDS (from Form 26AS):</strong>
+</p>
+<ul>
+<li>TDS on Salary (from employer): ₹4,50,000</li>
+<li>TDS on FD Interest (from bank): ₹3,500</li>
+<li><strong>Total TDS as per 26AS: ₹4,53,500</strong></li>
+</ul>
+<p>
+<strong>7. Final Tax Position:</strong>
+</p>
+<ul>
+<li>Total Tax Payable: ₹4,60,824</li>
+<li>Less: Total TDS: ₹4,53,500</li>
+<li><strong>Balance Tax Payable: ₹7,324</strong></li>
+</ul>
+<p>
+Rahul now knows he needs to pay an additional ₹7,324 as self-assessment tax before filing his ITR. He has successfully arrived at his tax liability without relying solely on Form 16.
+</p>
+<h2>What to do this week</h2>
+<p>
+The 31st July deadline for ITR filing is fast approaching. If you haven&#x27;t received your Form 16, here are concrete steps you can take this week:
+</p>
+<ol>
+<li><strong>Download Form 26AS and AIS:</strong> Immediately access the Income Tax e-filing portal (incometax.gov.in) and download your Form 26AS and Annual Information Statement (AIS) for the relevant financial year. These are crucial for verifying TDS and other income sources.</li>
+<li><strong>Gather All Payslips and Bank Statements:</strong> Collect all your monthly payslips from April to March of the financial year. Simultaneously, download or collect your bank statements for all accounts, ensuring they cover the entire financial year to capture all income credits and interest.</li>
+<li><strong>Compile Investment and Expense Proofs:</strong> Organise all documents related to your investments (EPF statements, life insurance premium receipts, ELSS statements, PPF passbook) and eligible expenses (health insurance premiums, rent receipts, home loan interest certificates). These are vital for claiming deductions.</li>
+<li><strong>Start Your Income and Deduction Calculations:</strong> Using the documents gathered, begin calculating your gross salary, other income, and eligible deductions. Compare the TDS reflected in your payslips with Form 26AS/AIS. If you find discrepancies, note them down for further investigation.</li>
+<li><strong>Seek Professional Help if Needed:</strong> If your financial situation is complex, or you encounter significant mismatches between your records and Form 26AS/AIS, consider consulting a Certified Financial Planner or a tax advisor. They can help you navigate complexities and ensure accurate filing.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Can I file ITR without Form 16?</h3>
+<p>
+Yes, absolutely. While Form 16 simplifies the process, it is not legally mandatory. You can file your ITR by collecting information from other documents like payslips, bank statements, Form 26AS, AIS, and investment proofs.
+</p>
+<h3>What if my employer doesn&#x27;t issue Form 16?</h3>
+<p>
+Your employer is legally obligated to issue Form 16 if they have deducted TDS from your salary. If they fail to do so, you can report it to the Income Tax Department. However, for filing purposes, you can proceed by compiling details from your payslips, bank statements, and Form 26AS/AIS.
+</p>
+<h3>How do I verify my TDS without Form 16?</h3>
+<p>
+You can verify all TDS deducted against your PAN by downloading Form 26AS and the Annual Information Statement (AIS) from the Income Tax e-filing portal. These documents provide a comprehensive record of all tax deducted and deposited by various entities.
+</p>
+<h3>What are the risks of filing without Form 16?</h3>
+<p>
+The primary risk is inaccurate reporting if you do not meticulously reconcile all your income and deductions. This can lead to discrepancies with the Income Tax Department&#x27;s records, potentially resulting in notices, penalties, or interest for underpaid tax.
+</p>
+<h3>Is it mandatory to wait for Form 16 if I have all other documents?</h3>
+<p>
+No, it is not mandatory to wait. If you have all the necessary documents like payslips, bank statements, Form 26AS, AIS, and investment proofs, and you can accurately calculate your income and tax liability, you should proceed with filing your ITR before the deadline.
+</p>
+<h3>What if there&#x27;s a mismatch between my calculations and Form 26AS?</h3>
+<p>
+If there&#x27;s a mismatch, first re-check your calculations. If the discrepancy persists, contact your employer or the deductor to understand the reason and request a correction. It is generally advisable to file your ITR based on the figures available in Form 26AS/AIS to avoid immediate notices from the tax department.
+</p>
+<h3>Can I claim HRA without Form 16?</h3>
+<p>
+Yes, you can claim HRA exemption without Form 16. You will need your rent receipts, proof of rent payment (bank statements), and your landlord&#x27;s PAN if the annual rent paid exceeds ₹1 lakh. You will calculate the eligible exemption based on income tax rules and declare it in your ITR.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax Department, Government of India: https://incometax.gov.in</li>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/no-form-16-yet-31-july-itr-deadline-is-near-heres-how-salaried-taxpayers-can-still-file-their-income-tax-return-11785228089709.html</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
