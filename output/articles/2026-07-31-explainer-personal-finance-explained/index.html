@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Personal Finance explained</title>
+<meta name="description" content="The government has kept interest rates for popular small savings schemes unchanged for July-September 2026. This means stable returns for schemes like PPF, SC.">
+<meta name="keywords" content="savings, schemes, vertexaisearch, google, grounding, redirect, interest, current">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-31-explainer-personal-finance-explained/">
+<meta property="og:title" content="Personal Finance explained">
+<meta property="og:description" content="The government has kept interest rates for popular small savings schemes unchanged for July-September 2026. This means stable returns for schemes like PPF, SC.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-07-31-explainer-personal-finance-explained/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Personal Finance explained", "description": "The government has kept interest rates for popular small savings schemes unchanged for July-September 2026. This means stable returns for schemes like PPF, SC.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-07-31", "dateModified": "2026-07-31", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-07-31-explainer-personal-finance-explained/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/" class="active">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Explained · 2026-07-31</div><p>
+The search results confirm that the interest rates for small savings schemes for the July-September 2026 quarter have been announced and remain unchanged from the previous quarter. This is a very current and relevant topic.
+</p>
+<p>
+Here are the key rates for July-September 2026:
+</p>
+<ul>
+<li><strong>Public Provident Fund (PPF):</strong> 7.1% per annum</li>
+<li><strong>Senior Citizen Savings Scheme (SCSS):</strong> 8.2% per annum</li>
+<li><strong>Sukanya Samriddhi Yojana (SSY):</strong> 8.2% per annum</li>
+<li><strong>National Savings Certificate (NSC):</strong> 7.7% per annum</li>
+<li><strong>Kisan Vikas Patra (KVP):</strong> 7.5% per annum (matures in 115 months)</li>
+<li><strong>Post Office Monthly Income Scheme (POMIS):</strong> 7.4% per annum</li>
+<li><strong>Post Office Time Deposits (TD):</strong></li>
+<p>
+    *   1-Year: 6.9%
+    *   2-Year: 7.0%
+    *   3-Year: 7.1%
+    *   5-Year: 7.5%
+</p>
+<li><strong>Post Office Recurring Deposit (RD):</strong> 5-Year: 6.7%</li>
+<li><strong>Post Office Savings Account:</strong> 4.0%</li>
+</ul>
+<p>
+The rates have remained unchanged for the ninth straight quarter for many schemes. The Ministry of Finance announced this on June 30, 2026, or July 1, 2026, for the quarter starting July 1, 2026.
+</p>
+<p>
+This is sufficient information to write the article.
+</p>
+<p>
+Now I will structure the article according to the user&#x27;s requirements.# Your Savings Just Got a Rate Check: What the Latest Small Savings Scheme Rates Mean for You
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The government has kept interest rates for popular small savings schemes unchanged for July-September 2026.</li>
+<li>This means stable returns for schemes like PPF, SCSS, Sukanya Samriddhi Yojana, and NSC.</li>
+<li>Rates are reviewed every three months by the Finance Ministry, often linked to government bond yields.</li>
+<li>These schemes are popular for their safety, government backing, and often attractive tax benefits.</li>
+<li>It&#x27;s a good time to review if these stable options fit your financial goals for the coming months.</li>
+</ul>
+</div>
+<h2>What&#x27;s this about?</h2>
+<p>
+Many ordinary Indians rely on government-backed &quot;small savings schemes&quot; to grow their money safely. These are special savings plans offered through post offices and some banks. Think of them as a secure place to put your hard-earned money, with the government assuring your returns. They include popular options like the Public Provident Fund (PPF), Senior Citizen Savings Scheme (SCSS), and Sukanya Samriddhi Yojana (SSY).
+</p>
+<h2>Why it&#x27;s in the news right now</h2>
+<p>
+The Indian government&#x27;s Ministry of Finance reviews the interest rates for these small savings schemes every three months. Just recently, around late June and early July 2026, they announced the rates for the current quarter, which runs from July 1, 2026, to September 30, 2026. The big news is that for many of these schemes, the interest rates have been kept unchanged for the ninth quarter in a row, offering stability to millions of savers.
+</p>
+<h2>How it actually works</h2>
+<p>
+Small savings schemes are investment tools backed by the Government of India, making them very safe. They are designed to encourage savings among various sections of society. Here’s a look at how they work and their current rates:
+</p>
+<ol>
+<li><strong>Quarterly Review:</strong> The Ministry of Finance periodically reviews and adjusts the interest rates for these schemes. This usually happens at the end of each quarter (March, June, September, December) for the upcoming three months. The rates are often linked to the yields of government bonds (G-Secs) of similar maturities, plus a small extra amount.</li>
+<li><strong>Fixed vs. Variable Rates:</strong> For most schemes, the interest rate applicable when you open the account or make a deposit is fixed for that quarter. However, for schemes like PPF, the interest rate changes quarterly, and your balance earns the prevailing rate. For SCSS, the rate is locked in for the entire 5-year tenure once you open the account.</li>
+<li><strong>Popular Schemes and Their Current Rates (July-September 2026):</strong></li>
+<p>
+    *   <strong>Public Provident Fund (PPF):</strong> A long-term savings scheme with a 15-year maturity, offering tax benefits. Current rate: 7.1% per annum.
+    *   <strong>Senior Citizen Savings Scheme (SCSS):</strong> Exclusively for individuals aged 60 and above, providing regular income. Current rate: 8.2% per annum.
+    *   <strong>Sukanya Samriddhi Yojana (SSY):</strong> A scheme for a girl child below 10 years, aimed at her education and marriage expenses. Current rate: 8.2% per annum.
+    *   <strong>National Savings Certificate (NSC):</strong> A 5-year savings instrument that offers tax benefits under Section 80C. Current rate: 7.7% per annum.
+    *   <strong>Kisan Vikas Patra (KVP):</strong> A scheme where your investment doubles in a specified period. Current rate: 7.5% per annum, maturing in 115 months (9 years and 7 months).
+    *   <strong>Post Office Monthly Income Scheme (POMIS):</strong> Provides a regular monthly income. Current rate: 7.4% per annum.
+    *   <strong>Post Office Time Deposits (TD):</strong> Similar to bank Fixed Deposits.
+        *   1-Year TD: 6.9% per annum
+        *   2-Year TD: 7.0% per annum
+        *   3-Year TD: 7.1% per annum
+        *   5-Year TD: 7.5% per annum
+    *   <strong>Post Office Recurring Deposit (RD):</strong> A 5-year scheme for regular small savings. Current rate: 6.7% per annum.
+    *   <strong>Post Office Savings Account:</strong> Basic savings account. Current rate: 4.0% per annum.
+</p>
+</ol>
+<h2>A simple way to think about it</h2>
+<p>
+Imagine you have a special, very safe piggy bank that is guaranteed by the government. Every three months, the government checks how much interest it will pay on the money you put into this piggy bank. For this quarter (July to September), they&#x27;ve announced that the interest rates will stay the same as before. So, if you&#x27;ve been saving in these special piggy banks, you know exactly what your money will earn for the next three months, and it&#x27;s a steady rate.
+</p>
+<h2>Why it matters to you</h2>
+<ol>
+<li><strong>Predictable Returns:</strong> With rates remaining unchanged, you get stability and can plan your savings with predictable returns for the next three months. This is especially good for those who prefer fixed-income investments over market-linked options.</li>
+<li><strong>Safety of Capital:</strong> These schemes are backed by the Government of India, meaning your invested capital is very safe, unlike some market-linked investments that carry higher risk.</li>
+<li><strong>Tax Benefits:</strong> Many of these schemes, like PPF, SCSS, and NSC, offer attractive tax benefits under Section 80C of the Income Tax Act, allowing you to reduce your taxable income up to ₹1.5 lakh per financial year. Interest earned on PPF and SSY is also tax-free.</li>
+<li><strong>Financial Planning:</strong> Knowing the current rates helps you decide where to put your savings for various goals – whether it&#x27;s for your retirement (SCSS), your child&#x27;s future (SSY), or simply building a long-term corpus (PPF). You can compare these rates with bank fixed deposits or other options to make informed choices.</li>
+<li><strong>Steady Income for Retirees:</strong> Schemes like SCSS and POMIS are crucial for senior citizens looking for a regular and secure income stream after retirement.</li>
+</ol>
+<h2>Common confusions cleared up</h2>
+<ul>
+<li><strong>Myth:</strong> Once I invest in a small savings scheme, the interest rate is fixed for the entire duration.</li>
+<p>
+    *   <strong>Fact:</strong> This is true for some schemes like SCSS, where the rate at the time of opening is locked for 5 years. However, for schemes like PPF, the interest rate is reviewed and applied quarterly, meaning your returns can change over time. For NSC, the rate is fixed for its 5-year maturity period.
+</p>
+<li><strong>Myth:</strong> Small savings schemes are only for senior citizens or specific groups.</li>
+<p>
+    *   <strong>Fact:</strong> While some schemes like SCSS and SSY are designed for specific demographics, many others like PPF, NSC, KVP, and Post Office Time Deposits are open to all Indian citizens, making them versatile savings tools.
+</p>
+<li><strong>Myth:</strong> These schemes are exactly like bank Fixed Deposits.</li>
+<p>
+    *   <strong>Fact:</strong> While Post Office Time Deposits are similar to FDs, other small savings schemes have unique features, maturity periods, and tax implications. For instance, PPF has a 15-year tenure and EEE (Exempt-Exempt-Exempt) tax status, which is different from most bank FDs.
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>What are small savings schemes?</h3>
+<p>
+Small savings schemes are government-backed investment options offered through post offices and some banks in India, designed to promote saving among citizens by providing secure and often tax-efficient returns.
+</p>
+<h3>Who decides the interest rates for these schemes?</h3>
+<p>
+The interest rates are decided by the Ministry of Finance, Government of India, during a quarterly review.
+</p>
+<h3>Are these rates guaranteed for my entire investment period?</h3>
+<p>
+It depends on the scheme. For SCSS and NSC, the rate is locked for the tenure of your investment. For PPF and some Post Office deposits, the interest rate can change quarterly, and your account earns the prevailing rate.
+</p>
+<h3>Which are the most popular schemes right now?</h3>
+<p>
+PPF, Senior Citizen Savings Scheme (SCSS), and Sukanya Samriddhi Yojana (SSY) are among the most popular due to their safety, competitive interest rates, and tax benefits.
+</p>
+<h3>Do these schemes offer tax benefits?</h3>
+<p>
+Yes, many small savings schemes, including PPF, SCSS, NSC, and SSY, offer tax benefits under Section 80C of the Income Tax Act for investments up to ₹1.5 lakh annually. The interest earned on PPF and SSY is also tax-free.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFIymRmT6dNyA1nV10ahu35l9mqUzPgFBEMczdhNuWwqcpOu6ojHkUcYKm64xJqfdTrK1U0OnOuP-MkOVqfS6DwnySHVdH2v9CLxhpf1wp-LMEh5j3ayVzG6y1nXFrjOsWoetnvwgik1nqUdmIXvinU3Uu-9XruC7fzo6GIeHhVKyzxswe<em>9uQPwS</em>2</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHnk<em>uSMNk</em>P0rvqmIyRnxXHq40Xvh5iKaubg1OraSd9O0M2<em>Ahq-0enrlzdFXuBdqU</em>sdv5DBeg78TL0fE0xgMMgIU7b0zK1T9Szh-bcSHwlzU24Xn7KiNpN<em>xGj9iQU</em>S8bQA0U0yVrASSeXNNVzBYPGcd7Cee_YS22InKkraFg==</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXilAKoWnzah2dUAStnd3sdi-x5sCZ9CVftfJobvodCs<em>DlegGtr18lWFLl5WgbBNcIjKAiPxQ4qRJhIRuyc-U9mXFz717UYykdn6rOVrpVzqGCHgwx2sIUvE</em>UdjZ0<em>1A5GtovgauUsURqt1-HBYdenxmK8Qn</em>bwualJK4I9Q9w1SKRWCrnyLUiLUqKRk_VNg</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEEMmrGyOEVaFVKBqLcx6bUOhapQQ5rW5NZ5k4BHY7Unjz4ORCndD-NLiyRqKtGTXgAvIPMlpV6nNCIAynPFwatQDwpdS1wAEwdqM780tL0LC4XTh6QpTkCvCCtlwFDXkSW35OXADdcT9iSvTieA-kofGxOkinbXGHXcV9e87yilEpr7VI-NuZFmZfxNISZES55WQWBOx1NKQMSql5XNid7aFwDKVgpZcYQPa9cItCxj4nKuidf4brdFaGKW5yQ1SGdM643JeYS9LD68gdEoao-LrSwMoSfkc0nig==</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQG85oHxPxbBpkt-u3H19QjirExS0vdGKtPhyzd9Fj6c1nR1o3Iw0wlLPGyOHwFd6o1vq3qJjWh0VrRyrndPMSdIJK5p90zmPhzVJ<em>FiGFlmokDoFcoSveGxix9Sb3IKCYa5o0WtC</em>s4djPyq17qDCvHyTBicGZPoL-nj5SliXCPlb_UQIuWP-MO8KbIZnRGK7DSek02JK0ppKN-TmD9iEPPJWTL0HuODucOO7lDHAX0uEbcq1RCwrGSRhDkt2LOcxN3Sl4OdpLyrJ0jKCvNNJx-Q2rMXriDcpBNcoCr2uglazU5TwzmI1TPVnQseKxIOizEQi9upk1KEveO8-DH47ikskvPNxPa7qCNMXiQbKrwgPmBTli3iveBq5uK0PWYra5XKDNYn03FCDoDZ-xkE1s=</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEU<em>nfrr7jM22C5Ss47jJ0l8nVdf9pZyClGzGMzk9hFSeF0dS8cqgHQRaRdBF-jmvxA0Zvz-CppEBEYpr0RV-RpNEBhbImON9Hd691gqEe2RHZAyxGBtJuhupN-</em>RF1isTAxMr9ulvPg5QWbbsZZMyAQiRzyyhJxLHMpw4QmJFW1Q==</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEB3iH40KdHbA5tmiALYx<em>rIIe7raiWqtm7qMA5yv22JxajjpH3-2nkCLyov5lUmNUIKwZVMMCfj</em>pHnBxSWIUJ4bSRM6ob6rs7T7b5jOHfhmBTQaY6rnJnjeIHegZTN0Vihr0m6soECD4izslu0a7i3gwxjd8ki7x7Jw3OvNlCyqso6Lyoark9avfdQbvOS3E0CqGL1eSNhtPkGG2m0KU0t8gDp4KsM7ffopuysUns5kaNn5ra_T4Q</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHJ2No0g5nYSZUUG2edajRyzkMH-24ReH2mUqj565opZdAzROHhUZDVFog9wJjv2BOuw55mk6eaJ725nVwuNYJrYNyQK2Cm<em>s2CEUP4gJ60PZWwprcwLV3nwyDAHjjj4LlnRswDwih6e4mTjX</em>D-bNM7sbPtFYoCYyRXHCDwOgJncXnDHDP0R0KF2uUuQ==</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFTIl0yhOBpqKAbjpvRFCIYGyUeFGfOBHER23yIGgmWl5dDAmjjrm018rgZi7Zi3<em>J1lIasQe</em>3BamkuRcE78EeIayn2nLHLm7xqmNf-4GqxsmceD2ZnjBzLfSDNMLcyYxz96DjbjaI07K2Dosmd7UaIw6lKClL8gTpyVpc0A5zSeVs2IQGN7aIWbo6DET3m<em>F6rwGu</em>Ob9zJyLSi1iHdL7VNKcKmzhUfi3mR3bJTs1BsYYLmI-ifQL568u87NYQ9kpGy6R4rp5aUQlg5DSkfD8Jj2q0yyZ7NGGhQWhxepqZeVpcsZn-bdVxWhFtJyrycQvG46p6I1cDDC0jbqy0m4I0DMxMSnLHXLFoKd51K1borl<em>bD</em>ac-fwh7Ifc4L_tBUm-TomRAzUFGa8Uo-mh7JOgnT2zp3Hqk=</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQFL17BaAa6PCQoJ5PP3apQavLwHgrh1PygVDxns4D8Zi2erUSY0Yu4XGKwFrhULxieocNDSZVmReTwgpwPV448moC4XSa_pTMkSkpJvg4iCplRobRXGRMMrOHMYqbVKHUseshy73QOOVnA2NxaPeArWbkvAVGU=</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHcB5MGcGsgZOJ-vCdKevXOXN6O9PaK6ILX0qPkg8p6kyquisqDt0lL<em>Zg</em>-RazEp2CPXgqIh<em>oAkrpGR2GMW9QaV4apK3N1dnFTpg6q-d7q-</em>uYIpqzB2nGanmnyc0oM2rX0DLKeI3J0QFK1MyZl0Wie0LmElhq3pYPdHBO9he1S1xNGb8UBXMWtbYROvVg3c1H8rtRJKsyqzaNSSxa4vKCCI6Ir1cFHLAqccPooaeHGguRvULNTdw0o6Jqk2Uqh40ovSHc8OgKMsp5lQTtcKJNrukjNwJ9C49ZP-hrHp1FTpyY5KlZnLA-nU=</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQE8JfLm5jx8u3R878NkeAdwAKC89t86rYAz-rSBGFsaDkH-kKH1kQf61bba6wf-eQZtWFIek4M4KPLCzpr9NitTet1sG3BMwvz8zXaL234FHNHj3u9RulpD57U7xXnCzEHHfUMG3gMBGxhLjMrqGRlQ-_JfJtAfJYpYvUpmYsQRcLPiNWORYM5A5PQ=</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQH09tSOeSTI08bl-0gHeH2k16PzWFLg-0JiTx39mIaRojleLDyD3qvggXGNVOfvGQ6N21fhlbYJehFy9QJPBA1EeqMeer<em>LyjSm9KtN6ntONg78kepjCdBlgUWW7gxlh6UnbmQNmhueNgjFDYAtzBBJ987cRoXqI3UCya5IIEBCb3og63b</em>wr9QMiTk6SdyA5JDwB4YbHgQvU22ttLbd1geKU-q8BJ<em>K0t5ii7l</em>YZCsGEzzmTcP6Mo<em>CQJwJjl</em>CSvw3U=</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGXQZpNSHwWnxOOJRokU2nBA3byiJhRbTMeolG6AgBx8cVCKdHkDzNlMFul8Pf2imei3GsCeXzT35QlFXRnlmbV<em>sSxl4OBgxyy0YpQ</em>mt4SBO2jDNtO6eOW9IbHsa5NKdy-X97eiGW6_6lLzW2Iw7vgYQmVRSrS7X6WSdu0fLzMt2tszUu4u8cMVUUqfqxln7CUbBBUysN</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPIDzKS7rt3cXxxn7htdDViTMgtMdjVoQvcRu6M3qHh7PDdekmPuq4xGIA-oycSvLt267ptRtyUMJY5skpKBYDaT7nmmjpak0RLwVZ-hAGgYYRjyGalmAQksr3ijqf-Z0tYAhGtXWtjVVznJaUUR7Oy71hf7Kje9yJlr-6Ol3z8mgnqvlqVUAxhIaBy3NX</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQHdt5l3cUBD<em>ZXD-P</em>IwoaXQ1kNjffMNTTsuUhHJPLG5m8ixEO2ZaC9sXHh0iwq5TXJGCJQ1vrnemScP7Hkgib0OewEDp4ptEkqUgEbJbU0rOEFIq9189m8LXGLRdzpjmh9HIMvrXQFydJ7Qt-VpLFpwlVjgQIFJVSRxHnfrLA7jxV<em>Qu1MDwYgo4lsCKVDX9DmJmIMg83JXbCj0jd</em>gwUSTscq_KzdQvB9jH3rNXl3ixQKBJtCzg86iYYZJckcueR7hMpr4PwOSB1OzMFh</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGAE7BbRvh1ozq8bzd1vAQqUPTS<em>TwRDEKk9qjYZ-ek59zllA64AzSK1Wpb6w7Ymc8UQK</em>X84JR3MA7jjoxRUVEBQMkvCl-5mu-ZVX-3o0iBP<em>PjpV0gZQGMtgLK1JhIUEmLaxVr</em>4S2p8c7o-WcoKQu9Bqy02ET-F4N4vb8O4CwB5VwEm7DF7D<em>qskEW5</em>YDhzYtZwGFPTgoiL24Kru2yHS7t__Y<em>7qoNxDM5Z51UIf7V1liJj3KIokFj</em>lxoNUte23Zv9PhE8R1c09vGGYFsAnHbpxwGIbEbJfAhhWmEV51G<em>n2JEJe7xkkQ6TwG0pUrx</em>rRMrOe7V4UapLopPibnPtHz0v0Z8LT2IrE0KuAyR8PzvEtu92zpEMChAht25Iy5jaNooSaow==</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGPxO1dPagyeZcZ6ECjXQe1TzwUUpfRYiEIeD2N3LVMjZ23lkNSCH5v6d89F3fHlwkqLeF3tUi7vbZwzhEBVdgdsG2cjT0lO573OyWDalAX7g-0jrqgHc06IeumAB6D5InPdBgPVhqyK5S2ZgigrLcZk-w=</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEkr22S1f9g5MX<em>hsuEHqkHFtCaWzRcmBocxGdJpI0Tm2NlKhGjjn2dcXQl4ds43S6dUq3DQSs7K4Pvut</em>RzubxpVo9BXozSxnBbkejjJC5zMo7--8FGRZ4XYnRSRd51I2Ua-ugCBInBFuA7RSqS4XFScBk1V0NYZhTCAiE24Aenhef0En1XxgAhYDkggSuXUn3fb5xlGYzFWkixYIUudEAMTE<em>dOkOGHb7TweNZ7JlQGVhHcI0tQ3nOa3oGJ2zrFkwShcCSEpRHpJRykJSrnUmMrP3HYG7cvJssU23cZJZkUcMT1rGQeWmfBxWmqPMxOL2iyE01rig0ty0m4I0DMxMSnLHXLFoKd51K1borl</em>bD<em>ac-fwh7Ifc4L</em>tBUm-TomRAzUFGa8Uo-mh7JOgnT2zp3Hqk=</li>
+<li>https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEM0CpNSdqk<em>tILB6B6fA1rigzqPoweBSapdFEwE5H</em>EDpqlIu347CTo0y9bkYZhIJ1v2ZLnYb6isRJTW8hopi_DLbeJ1PB1n9ePXRKo3L5YVk08u97twMh7MFUdKqP439vsQ5gwBvlYYkJhrhdnSIjCg==</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
