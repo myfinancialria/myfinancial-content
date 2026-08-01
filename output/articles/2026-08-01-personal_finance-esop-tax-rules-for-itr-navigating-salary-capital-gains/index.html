@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>ESOP Tax Rules for ITR: Navigating Salary &amp; Capital Gains</title>
+<meta name="description" content="ESOPs are taxed at two distinct stages: when you exercise them and when you sell the shares. The difference between the Fair Market Value (FMV) on exercise da.">
+<meta name="keywords" content="exercise, shares, capital, perquisite, options, unlisted, salary, financial">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-01-personal_finance-esop-tax-rules-for-itr-navigating-salary-capital-gains/">
+<meta property="og:title" content="ESOP Tax Rules for ITR: Navigating Salary &amp; Capital Gains">
+<meta property="og:description" content="ESOPs are taxed at two distinct stages: when you exercise them and when you sell the shares. The difference between the Fair Market Value (FMV) on exercise da.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-01-personal_finance-esop-tax-rules-for-itr-navigating-salary-capital-gains/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ESOP Tax Rules for ITR: Navigating Salary & Capital Gains", "description": "ESOPs are taxed at two distinct stages: when you exercise them and when you sell the shares. The difference between the Fair Market Value (FMV) on exercise da.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-01", "dateModified": "2026-08-01", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-01-personal_finance-esop-tax-rules-for-itr-navigating-salary-capital-gains/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-08-01</div><h1>ESOP Tax Rules for ITR: Navigating Salary &amp; Capital Gains</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>ESOPs are taxed at two distinct stages: when you exercise them and when you sell the shares.</li>
+<li>The difference between the Fair Market Value (FMV) on exercise date and the exercise price is taxed as perquisite income.</li>
+<li>This perquisite income is added to your salary and reported in your Income Tax Return (ITR) for the financial year of exercise.</li>
+<li>When you sell the shares, the difference between the sale price and the FMV on the exercise date is taxed as capital gains.</li>
+<li>Proper record-keeping of grant letters, exercise statements, and sale contract notes is crucial for accurate ITR filing.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Employee Stock Option Plans (ESOPs) are a popular way for companies, especially startups and tech firms, to reward and retain employees by giving them the option to buy company shares at a pre-determined, usually lower, price. While they can be a great wealth creation tool, understanding their taxation is key to avoiding surprises during your Income Tax Return (ITR) filing. Many individuals find ESOP taxation complex because it doesn&#x27;t just involve one type of income or one point in time.
+</p>
+<p>
+Essentially, the Indian tax system views ESOPs as generating income at two different stages. First, when you convert your option into actual shares by &#x27;exercising&#x27; it, the benefit you receive is treated like a part of your salary. Second, when you later decide to &#x27;sell&#x27; those shares in the market, any profit you make from that sale is treated as capital gains, similar to selling any other investment like mutual funds or property. Knowing how to correctly report both these components is vital for accurate tax compliance.
+</p>
+<h2>Understanding ESOPs and their Lifecycle</h2>
+<p>
+An ESOP is not an immediate share allocation; it&#x27;s an <em>option</em> given to an employee to purchase the company&#x27;s shares at a specified price (the exercise price) on a future date. The lifecycle typically involves four stages:
+</p>
+<h3>Grant of Options</h3>
+<p>
+This is when your employer formally communicates that you&#x27;ve been awarded ESOPs. At this stage, there are no tax implications as you haven&#x27;t received any tangible benefit. The grant letter specifies the number of options, the exercise price, and the vesting schedule.
+</p>
+<h3>Vesting Period</h3>
+<p>
+This is the period during which you earn the right to exercise your options. For instance, if your ESOPs vest over four years, you become eligible to exercise a portion of them each year. Vesting schedules are designed to retain employees; if you leave before your options vest, you typically forfeit them. Again, no tax implications during vesting.
+</p>
+<h3>Exercise of Options</h3>
+<p>
+Once options vest, you can choose to &#x27;exercise&#x27; them. This means you pay the pre-determined exercise price to convert your options into actual company shares. This is the first point where tax implications arise. The benefit you receive is the difference between the Fair Market Value (FMV) of the shares on the date of exercise and the exercise price you paid.
+</p>
+<h3>Sale of Shares</h3>
+<p>
+After exercising and acquiring the shares, you become a shareholder. You can then hold these shares for a period or sell them in the market. The sale of these shares triggers the second stage of taxation, where any profit made is treated as capital gains.
+</p>
+<h2>Taxation at Exercise: The Perquisite Income</h2>
+<p>
+The moment you exercise your ESOPs, the benefit you receive is treated as a &quot;perquisite&quot; and is taxable as salary income under the head &quot;Salaries&quot; as per the Income Tax Act, 1961.
+</p>
+<h3>Calculating Perquisite Value</h3>
+<p>
+The perquisite value is calculated as:
+<strong>Fair Market Value (FMV) of the shares on the date of exercise - Exercise Price paid by the employee.</strong>
+</p>
+<p>
+The FMV for listed shares is typically the average of the opening and closing price on the stock exchange on the exercise date. For unlisted shares, the FMV is determined by a SEBI-registered merchant banker as per Rule 3(8) of the Income Tax Rules.
+</p>
+<h3>Tax Deduction at Source (TDS)</h3>
+<p>
+Your employer is responsible for deducting Tax Deducted at Source (TDS) on this perquisite income, just like they do for your regular salary. This amount will reflect in your Form 16 for the financial year in which you exercised the options. If the company is unlisted and certain conditions are met, the employer might defer TDS payment till specific events, as per recent amendments.
+</p>
+<h3>Reporting in ITR</h3>
+<p>
+This perquisite income needs to be reported under &quot;Salaries&quot; in your ITR. For most salaried individuals, this means using ITR-1 or ITR-2, depending on other income sources. If you have capital gains from the sale of these shares in the same financial year, you would typically use ITR-2 or ITR-3.
+</p>
+<h2>Taxation at Sale: Capital Gains</h2>
+<p>
+Once you have exercised your ESOPs and acquired the shares, holding them makes you a shareholder. When you decide to sell these shares, any profit or loss from the sale is subject to capital gains tax.
+</p>
+<h3>Calculating Capital Gains</h3>
+<p>
+The capital gain or loss is calculated as:
+<strong>Sale Price - Fair Market Value (FMV) of the shares on the date of exercise.</strong>
+</p>
+<p>
+It&#x27;s crucial to note that the cost of acquisition for calculating capital gains is the FMV on the date of exercise, <em>not</em> the exercise price you paid. This is because the difference between FMV and exercise price has already been taxed as perquisite income.
+</p>
+<h3>Short-Term Capital Gains (STCG) vs. Long-Term Capital Gains (LTCG)</h3>
+<p>
+The tax treatment depends on your holding period, calculated from the date of exercise to the date of sale:
+</p>
+<ul>
+<li><strong>Listed Shares:</strong></li>
+<p>
+    *   <strong>Short-Term Capital Gain (STCG):</strong> If held for <strong>12 months or less</strong>. Taxed at 15% (plus cess and surcharge) if Securities Transaction Tax (STT) is paid.
+    *   <strong>Long-Term Capital Gain (LTCG):</strong> If held for <strong>more than 12 months</strong>. Taxed at 10% (plus cess and surcharge) on gains exceeding ₹1 lakh in a financial year, if STT is paid. Gains up to ₹1 lakh are exempt.
+</p>
+<li><strong>Unlisted Shares:</strong></li>
+<p>
+    *   <strong>Short-Term Capital Gain (STCG):</strong> If held for <strong>24 months or less</strong>. Taxed at your applicable income tax slab rates.
+    *   <strong>Long-Term Capital Gain (LTCG):</strong> If held for <strong>more than 24 months</strong>. Taxed at 20% (plus cess and surcharge) with the benefit of indexation. Indexation adjusts the cost of acquisition for inflation, reducing the taxable gain.
+</p>
+</ul>
+<h3>Reporting in ITR</h3>
+<p>
+Capital gains from ESOPs must be reported in your ITR. For listed shares, details are typically found in your broker&#x27;s contract notes and capital gains statement. For unlisted shares, you need to maintain proper records of the FMV at exercise and the sale consideration. You will generally use ITR-2 or ITR-3 for reporting capital gains.
+</p>
+<h2>Key Considerations for ITR Filing</h2>
+<p>
+Accurate ESOP tax reporting hinges on meticulous record-keeping and understanding the specific ITR forms.
+</p>
+<h3>Essential Documentation</h3>
+<ul>
+<li><strong>ESOP Grant Letter:</strong> Details options granted, exercise price, and vesting schedule.</li>
+<li><strong>ESOP Exercise Statement:</strong> Confirms the number of options exercised, exercise price paid, and the FMV on the date of exercise. This is critical for both perquisite and capital gains calculations.</li>
+<li><strong>Form 16/Payslips:</strong> Reflects the perquisite income added to your salary and TDS deducted by your employer.</li>
+<li><strong>Brokerage Contract Notes/Statements:</strong> For listed shares, these provide details of the sale price, date of sale, and any STT paid.</li>
+<li><strong>Valuation Report (for unlisted shares):</strong> The merchant banker&#x27;s report determining the FMV on the exercise date.</li>
+</ul>
+<h3>Choosing the Correct ITR Form</h3>
+<ul>
+<li><strong>ITR-1 (Sahaj):</strong> Generally for individuals with salary, one house property, other income (interest, etc.), and total income up to ₹50 lakhs. <em>Not suitable if you have capital gains from ESOPs.</em></li>
+<li><strong>ITR-2:</strong> For individuals and HUFs not carrying out business or profession, who have income from salary, house property, capital gains (including ESOPs), foreign assets, etc. This is often the appropriate form if you have exercised and sold ESOPs.</li>
+<li><strong>ITR-3:</strong> For individuals and HUFs having income from a proprietary business or profession. If you are self-employed and also have ESOP income, this might be the form.</li>
+</ul>
+<p>
+It&#x27;s important to consult the latest instructions from the Income Tax Department or a tax professional to ensure you select the correct form based on your entire income profile.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, ₹28L CTC, Bengaluru</strong>, who works for a listed tech startup.
+</p>
+<ul>
+<li><strong>Grant Date:</strong> 1st April 2022</li>
+<li><strong>Options Granted:</strong> 1,000 ESOPs</li>
+<li><strong>Exercise Price:</strong> ₹100 per share</li>
+<li><strong>Vesting:</strong> 25% annually over 4 years</li>
+<li><strong>Exercise Date:</strong> 1st May 2025 (Rahul exercises all 500 vested options from FY 2023-24 and FY 2024-25)</li>
+<li><strong>FMV on Exercise Date (1st May 2025):</strong> ₹500 per share</li>
+<li><strong>Sale Date:</strong> 15th December 2025 (Rahul sells all 500 shares)</li>
+<li><strong>Sale Price:</strong> ₹650 per share</li>
+<li><strong>STT Paid:</strong> Yes, on sale of listed shares.</li>
+</ul>
+<p>
+<strong>Scenario 1: Taxation at Exercise (Financial Year 2025-26, Assessment Year 2026-27)</strong>
+</p>
+<ol>
+<li><strong>Number of options exercised:</strong> 500</li>
+<li><strong>FMV on exercise date:</strong> ₹500 per share</li>
+<li><strong>Exercise price:</strong> ₹100 per share</li>
+<li><strong>Perquisite value per share:</strong> ₹500 - ₹100 = ₹400</li>
+<li><strong>Total perquisite income:</strong> 500 shares * ₹400/share = ₹2,00,000</li>
+</ol>
+<p>
+This ₹2,00,000 will be added to Rahul&#x27;s salary income for FY 2025-26. His employer will deduct TDS on this amount, and it will reflect in his Form 16. Rahul will report this under &quot;Salaries&quot; in his ITR-2 or ITR-3.
+</p>
+<p>
+<strong>Scenario 2: Taxation at Sale (Financial Year 2025-26, Assessment Year 2026-27)</strong>
+</p>
+<ol>
+<li><strong>Number of shares sold:</strong> 500</li>
+<li><strong>Sale price per share:</strong> ₹650</li>
+<li><strong>Cost of acquisition (FMV on exercise date):</strong> ₹500 per share (This is the value already taxed as perquisite)</li>
+<li><strong>Capital gain per share:</strong> ₹650 - ₹500 = ₹150</li>
+<li><strong>Total Capital Gain:</strong> 500 shares * ₹150/share = ₹75,000</li>
+</ol>
+<p>
+Now, we determine if it&#x27;s STCG or LTCG:
+</p>
+<ul>
+<li><strong>Holding Period:</strong> From 1st May 2025 (exercise date) to 15th December 2025 (sale date). This is less than 12 months.</li>
+<li>Therefore, this is a <strong>Short-Term Capital Gain (STCG)</strong>.</li>
+</ul>
+<p>
+Since it&#x27;s STCG on listed shares where STT is paid, the entire ₹75,000 will be taxed at 15% (plus cess and surcharge). Rahul will report this STCG in his ITR-2 or ITR-3 under the capital gains schedule.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Locate ESOP Documents:</strong> Gather all your ESOP grant letters, vesting schedules, and especially exercise statements from your employer. These documents are crucial for calculating the FMV on the exercise date.</li>
+<li><strong>Review Form 16:</strong> Check your latest Form 16 to see if any perquisite income from ESOP exercise has already been included in your salary and if TDS has been deducted.</li>
+<li><strong>Organise Sale Records:</strong> If you&#x27;ve sold ESOP shares, collect all contract notes and statements from your stockbroker. These will show the sale price, date of sale, and STT paid.</li>
+<li><strong>Understand FMV for Unlisted Shares:</strong> If your company is unlisted, ensure you have the valuation report from a SEBI-registered merchant banker for the FMV on your exercise date. This is a common point of error.</li>
+<li><strong>Consult a Professional:</strong> If you&#x27;ve exercised or sold ESOPs, especially unlisted ones, consider having a quick chat with a Certified Financial Planner or a tax consultant. They can help clarify your specific situation and ensure correct reporting.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the Fair Market Value (FMV) for ESOPs?</h3>
+<p>
+The FMV is the market price of the share on the date you exercise your options. For listed shares, it&#x27;s typically the average of opening and closing prices on the stock exchange. For unlisted shares, it&#x27;s determined by a SEBI-registered merchant banker.
+</p>
+<h3>When is ESOP tax due?</h3>
+<p>
+Tax on the perquisite (salary income) at exercise is due in the financial year you exercise the options, usually deducted as TDS by your employer. Tax on capital gains from selling the shares is due in the financial year you sell them.
+</p>
+<h3>Can I defer ESOP tax?</h3>
+<p>
+For unlisted company ESOPs, the Income Tax Act provides for deferment of TDS on perquisite income to the earlier of: 48 months from the end of the relevant assessment year, date of sale of shares, or date of cessation of employment.
+</p>
+<h3>How do NRIs pay ESOP tax?</h3>
+<p>
+NRIs are subject to Indian tax laws for income accrued or arising in India. The perquisite income from ESOPs exercised while working in India or for an Indian company is taxable in India. Capital gains from the sale of shares of an Indian company are also taxable in India.
+</p>
+<h3>Which ITR form should I use for ESOPs?</h3>
+<p>
+If you have only salary and ESOP perquisite income, ITR-1 might suffice. However, if you have capital gains from selling ESOP shares, you will typically need to file ITR-2 or ITR-3, depending on your other income sources.
+</p>
+<h3>Is STT (Securities Transaction Tax) applicable to ESOPs?</h3>
+<p>
+STT is applicable only when you sell listed shares on a recognised stock exchange. It is not applicable at the time of exercising your ESOPs or for unlisted shares.
+</p>
+<h3>What if my company is delisted after I exercise ESOPs?</h3>
+<p>
+If your company delists after you exercise but before you sell, the shares become unlisted. Any subsequent sale will be treated as capital gains from unlisted shares, affecting the holding period for LTCG and the tax rate.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
