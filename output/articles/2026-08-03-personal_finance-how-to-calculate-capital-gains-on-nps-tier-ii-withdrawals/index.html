@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>How to Calculate Capital Gains on NPS Tier II Withdrawals</title>
+<meta name="description" content="NPS Tier II is an optional, flexible investment account with no lock-in period, unlike Tier I. Contributions to NPS Tier II are not eligible for tax deduction.">
+<meta name="keywords" content="capital, equity, withdrawal, acquisition, account, purchase, withdrawals, investment">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-03-personal_finance-how-to-calculate-capital-gains-on-nps-tier-ii-withdrawals/">
+<meta property="og:title" content="How to Calculate Capital Gains on NPS Tier II Withdrawals">
+<meta property="og:description" content="NPS Tier II is an optional, flexible investment account with no lock-in period, unlike Tier I. Contributions to NPS Tier II are not eligible for tax deduction.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-03-personal_finance-how-to-calculate-capital-gains-on-nps-tier-ii-withdrawals/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How to Calculate Capital Gains on NPS Tier II Withdrawals", "description": "NPS Tier II is an optional, flexible investment account with no lock-in period, unlike Tier I. Contributions to NPS Tier II are not eligible for tax deduction.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-03", "dateModified": "2026-08-03", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-03-personal_finance-how-to-calculate-capital-gains-on-nps-tier-ii-withdrawals/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-08-03</div><h1>How to Calculate Capital Gains on NPS Tier II Withdrawals</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>NPS Tier II is an optional, flexible investment account with no lock-in period, unlike Tier I.</li>
+<li>Contributions to NPS Tier II are not eligible for tax deductions under Section 80C.</li>
+<li>Withdrawals from NPS Tier II are subject to capital gains tax, depending on the asset class and holding period.</li>
+<li>The eNPS portal currently does not provide a consolidated capital gains statement for Tier II accounts.</li>
+<li>Investors must maintain meticulous records of their Tier II transactions to accurately calculate taxable gains.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+The National Pension System (NPS) offers two types of accounts: Tier I and Tier II. While Tier I is primarily a long-term retirement savings account with tax benefits on contributions and restricted withdrawals, Tier II is an optional, more flexible account. Think of NPS Tier II as a voluntary savings account that offers investment options similar to Tier I, but without the lock-in period or the tax deductions on contributions. You can deposit and withdraw money from your Tier II account at any time, making it a liquid investment avenue.
+</p>
+<p>
+However, this flexibility comes with a responsibility: accurately calculating your tax liability. When you withdraw funds from your NPS Tier II account, any profit you&#x27;ve made from your investments is considered a capital gain. The challenge arises because the eNPS portal, where many investors manage their accounts, does not currently provide a pre-calculated capital gains statement for Tier II withdrawals. This means it&#x27;s up to the individual investor to track their transactions, determine their cost of acquisition, and calculate the capital gains themselves for income tax filing purposes.
+</p>
+<p>
+Understanding how to calculate these gains is crucial to ensure you comply with tax regulations and avoid any discrepancies. The taxation depends on whether your gains are short-term or long-term, and whether your investments were primarily in equity or debt instruments, mirroring the taxation principles for mutual funds.
+</p>
+<h2>Understanding NPS Tier II: Flexibility and Investment Options</h2>
+<p>
+The NPS Tier II account is designed for individuals who want to invest beyond their mandatory retirement savings in Tier I, but within the NPS framework. It operates much like a voluntary savings scheme, offering significant liquidity. Unlike Tier I, there are no restrictions on withdrawals from your Tier II account; you can withdraw your funds partially or fully at any time without any specific conditions or penalties.
+</p>
+<h3>Investment Choices in Tier II</h3>
+<p>
+Similar to Tier I, investors in Tier II have the flexibility to choose their investment pattern. You can opt for either the &#x27;Active Choice&#x27; or &#x27;Auto Choice&#x27; strategy.
+</p>
+<ul>
+<li><strong>Active Choice:</strong> This allows you to actively decide the proportion of your investments across four asset classes:</li>
+<p>
+    *   <strong>Asset Class E (Equity):</strong> Primarily invests in equity market instruments.
+    *   <strong>Asset Class C (Corporate Debt):</strong> Invests in corporate bonds and debt instruments.
+    *   <strong>Asset Class G (Government Securities):</strong> Invests in government bonds.
+    *   <strong>Asset Class A (Alternative Assets):</strong> Invests in instruments like REITs, InvITs, AIFs, etc., with a cap of 5% of the total portfolio.
+</p>
+<li><strong>Auto Choice:</strong> If you prefer a hands-off approach, your investments are automatically allocated based on your age, with the equity exposure gradually decreasing as you get older.</li>
+</ul>
+<p>
+This choice of asset allocation is critical because it directly impacts the nature of capital gains upon withdrawal, which in turn affects how they are taxed.
+</p>
+<h2>Taxation of NPS Tier II Withdrawals</h2>
+<p>
+While contributions to NPS Tier I are eligible for tax benefits under Section 80C, 80CCD(1B), and 80CCD(2), contributions to NPS Tier II do not offer any tax deductions. The primary advantage of Tier II is its flexibility and the potential for market-linked returns. However, any profits realised upon withdrawal are subject to capital gains tax.
+</p>
+<h3>Classifying Capital Gains</h3>
+<p>
+The taxation of gains from NPS Tier II withdrawals depends on the underlying asset class and the holding period, much like mutual funds.
+</p>
+<ul>
+<li><strong>Equity-oriented investments (Asset Class E):</strong></li>
+<p>
+    *   <strong>Short-Term Capital Gains (STCG):</strong> If units are held for 12 months or less, the gains are taxed at 15% under Section 111A of the Income Tax Act.
+    *   <strong>Long-Term Capital Gains (LTCG):</strong> If units are held for more than 12 months, gains exceeding ₹1 lakh in a financial year are taxed at 10% without indexation benefit under Section 112A.
+</p>
+<li><strong>Debt-oriented investments (Asset Class C, G, and A):</strong></li>
+<p>
+    *   <strong>Short-Term Capital Gains (STCG):</strong> If units are held for 36 months or less, the gains are added to your total income and taxed as per your applicable income tax slab rate.
+    *   <strong>Long-Term Capital Gains (LTCG):</strong> If units are held for more than 36 months, gains are taxed at 20% after allowing for indexation benefit under Section 112. Indexation adjusts the cost of acquisition for inflation, reducing the taxable gain.
+</p>
+</ul>
+<p>
+It&#x27;s important to note that if your Tier II account has a mix of equity and debt, the gains from each portion will be taxed according to their respective rules.
+</p>
+<h2>Calculating Capital Gains Manually for NPS Tier II</h2>
+<p>
+Since the eNPS portal does not provide a readymade capital gains statement, investors must undertake this calculation themselves. This requires diligent record-keeping of all transactions.
+</p>
+<h3>Essential Data for Calculation</h3>
+<p>
+To calculate capital gains, you will need the following information for each transaction:
+</p>
+<ol>
+<li><strong>Date of Investment:</strong> The date you purchased units.</li>
+<li><strong>Amount Invested:</strong> The rupee amount of your investment.</li>
+<li><strong>Net Asset Value (NAV) at Purchase:</strong> The NAV at which units were allotted.</li>
+<li><strong>Units Allotted:</strong> The number of units you received for each investment.</li>
+<li><strong>Date of Withdrawal:</strong> The date you redeemed units.</li>
+<li><strong>Amount Withdrawn:</strong> The rupee amount received from the withdrawal.</li>
+<li><strong>NAV at Redemption:</strong> The NAV at which units were redeemed.</li>
+<li><strong>Units Redeemed:</strong> The number of units you sold.</li>
+</ol>
+<p>
+You can obtain these details from your NPS Tier II transaction statements, which are typically available for download from the eNPS portal or through your Point of Presence (POP).
+</p>
+<h3>Step-by-Step Calculation Process</h3>
+<p>
+The calculation generally follows the &#x27;First-In, First-Out&#x27; (FIFO) method, meaning the units purchased earliest are considered to be sold first.
+</p>
+<ol>
+<li><strong>Determine Units Redeemed:</strong> Identify the number of units withdrawn.</li>
+<li><strong>Identify Cost of Acquisition:</strong> Using the FIFO method, match the redeemed units to the earliest purchased units. Multiply the number of units by their respective purchase NAV to get the cost of acquisition.</li>
+<li><strong>Calculate Sale Proceeds:</strong> Multiply the redeemed units by the NAV at the time of withdrawal.</li>
+<li><strong>Calculate Holding Period:</strong> For each set of units, determine the period between the purchase date and the withdrawal date to classify it as short-term or long-term.</li>
+<li><strong>Calculate Gross Capital Gain:</strong> Subtract the cost of acquisition from the sale proceeds.</li>
+<li><strong>Apply Indexation (for LTCG on Debt):</strong> If applicable, use the Cost Inflation Index (CII) to adjust the cost of acquisition for long-term debt gains. The indexed cost of acquisition is calculated as:</li>
+<p>
+    <code>Original Cost of Acquisition * (CII of Withdrawal Year / CII of Purchase Year)</code>
+    The capital gain will then be <code>Sale Proceeds - Indexed Cost of Acquisition</code>.
+</p>
+<li><strong>Apply Tax Rates:</strong> Based on the classification (STCG/LTCG for equity/debt), apply the relevant tax rates.</li>
+</ol>
+<p>
+This process can be intricate, especially with multiple transactions over several years. Maintaining a detailed spreadsheet is highly recommended.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, ₹28L CTC, Bengaluru</strong>, who invests in NPS Tier II. He has chosen an active allocation with 50% in Asset Class E (Equity) and 50% in Asset Class C (Corporate Debt).
+</p>
+<p>
+Here are his transactions:
+</p>
+<ul>
+<li><strong>15th April 2021:</strong> Invests ₹1,00,000.</li>
+<p>
+    *   Equity: ₹50,000 @ NAV ₹20.00 = 2,500 units
+    *   Debt: ₹50,000 @ NAV ₹10.00 = 5,000 units
+</p>
+<li><strong>10th October 2022:</strong> Invests ₹50,000.</li>
+<p>
+    *   Equity: ₹25,000 @ NAV ₹25.00 = 1,000 units
+    *   Debt: ₹25,000 @ NAV ₹11.00 = 2,272.73 units
+</p>
+<li><strong>20th November 2024:</strong> Rahul needs funds and withdraws ₹1,50,000.</li>
+<p>
+    *   Current NAV Equity: ₹35.00
+    *   Current NAV Debt: ₹13.00
+    *   Total value of his Tier II account before withdrawal:
+        <em>   Equity: (2,500 + 1,000) units </em> ₹35.00 = ₹1,22,500
+        <em>   Debt: (5,000 + 2,272.73) units </em> ₹13.00 = ₹94,545.49
+        *   Total: ₹2,17,045.49
+    *   Rahul decides to withdraw ₹75,000 from Equity and ₹75,000 from Debt.
+        *   Units to redeem from Equity: ₹75,000 / ₹35.00 = 2,142.86 units
+        *   Units to redeem from Debt: ₹75,000 / ₹13.00 = 5,769.23 units
+</p>
+</ul>
+<p>
+<strong>Calculating Capital Gains:</strong>
+</p>
+<p>
+<strong>A. Equity Withdrawal (₹75,000 by redeeming 2,142.86 units):</strong>
+Using FIFO:
+</p>
+<ol>
+<li><strong>Units from 15th April 2021:</strong> 2,142.86 units (out of 2,500 units)</li>
+<p>
+    *   Purchase Date: 15th April 2021
+    *   Redemption Date: 20th November 2024
+    *   Holding Period: More than 12 months (Long-Term)
+    <em>   Cost of Acquisition: 2,142.86 units </em> ₹20.00 = ₹42,857.20
+    <em>   Sale Proceeds: 2,142.86 units </em> ₹35.00 = ₹75,000
+    *   Long-Term Capital Gain (LTCG): ₹75,000 - ₹42,857.20 = ₹32,142.80
+</p>
+</ol>
+<p>
+<strong>B. Debt Withdrawal (₹75,000 by redeeming 5,769.23 units):</strong>
+Using FIFO:
+</p>
+<ol>
+<li><strong>Units from 15th April 2021:</strong> 5,000 units (all of the first purchase)</li>
+<p>
+    *   Purchase Date: 15th April 2021
+    *   Redemption Date: 20th November 2024
+    *   Holding Period: More than 36 months (Long-Term)
+    <em>   Original Cost of Acquisition: 5,000 units </em> ₹10.00 = ₹50,000
+    <em>   Sale Proceeds for these units: 5,000 units </em> ₹13.00 = ₹65,000
+    *   <strong>Indexation:</strong>
+        *   CII for FY 2021-22 (Purchase Year): 317
+        *   CII for FY 2024-25 (Withdrawal Year): Let&#x27;s assume 360 (for illustrative purposes, actual CII needs to be checked)
+        <em>   Indexed Cost of Acquisition: ₹50,000 </em> (360 / 317) = ₹56,782.33
+        *   LTCG on these units: ₹65,000 - ₹56,782.33 = ₹8,217.67
+</p>
+</ol>
+<ol>
+<li><strong>Remaining units from 10th October 2022:</strong> 769.23 units (5,769.23 - 5,000)</li>
+<p>
+    *   Purchase Date: 10th October 2022
+    *   Redemption Date: 20th November 2024
+    *   Holding Period: Less than 36 months (Short-Term)
+    <em>   Cost of Acquisition: 769.23 units </em> ₹11.00 = ₹8,461.53
+    <em>   Sale Proceeds: 769.23 units </em> ₹13.00 = ₹10,000
+    *   Short-Term Capital Gain (STCG): ₹10,000 - ₹8,461.53 = ₹1,538.47
+</p>
+</ol>
+<p>
+<strong>Total Taxable Gains for Rahul:</strong>
+</p>
+<ul>
+<li>Equity LTCG: ₹32,142.80 (Taxed at 10% on gains over ₹1 lakh under Sec 112A)</li>
+<li>Debt LTCG: ₹8,217.67 (Taxed at 20% with indexation under Sec 112)</li>
+<li>Debt STCG: ₹1,538.47 (Added to income and taxed at slab rate)</li>
+</ul>
+<p>
+Rahul would need to report these figures in his Income Tax Return.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Download Your NPS Tier II Transaction Statements:</strong> Log in to your eNPS account or contact your POP to get all your Tier II transaction statements since inception. These are crucial for tracking purchase and redemption details.</li>
+<li><strong>Create a Simple Spreadsheet:</strong> Set up an Excel or Google Sheet to record every investment (date, amount, NAV, units) and every withdrawal (date, amount, NAV, units) for your Tier II account. This will be your primary tool for calculating capital gains.</li>
+<li><strong>Familiarise Yourself with Current CII Values:</strong> For debt-oriented investments, understand where to find the Cost Inflation Index (CII) values published by the Income Tax Department. This will be essential for calculating indexed cost of acquisition for long-term gains.</li>
+<li><strong>Review Your Asset Allocation:</strong> Understand whether your Tier II investments are primarily equity-oriented or debt-oriented, as this will determine the applicable capital gains tax rules.</li>
+<li><strong>Consult a Professional for Complex Cases:</strong> If you have numerous transactions, multiple partial withdrawals, or are unsure about the calculations, consider consulting a Certified Financial Planner or a tax advisor.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Is NPS Tier II mandatory for all NPS subscribers?</h3>
+<p>
+No, NPS Tier II is completely optional. It is a voluntary savings account that can be opened by any existing Tier I subscriber.
+</p>
+<h3>Are contributions to NPS Tier II tax-deductible?</h3>
+<p>
+Generally, no. Contributions to NPS Tier II do not qualify for tax deductions under Section 80C or 80CCD, unlike Tier I contributions.
+</p>
+<h3>How is long-term capital gain calculated for NPS Tier II debt investments?</h3>
+<p>
+For debt investments held for more than 36 months, long-term capital gains are calculated by subtracting the indexed cost of acquisition from the sale proceeds. The indexed cost adjusts the purchase price for inflation using the Cost Inflation Index (CII).
+</p>
+<h3>Can I choose my asset allocation in Tier II?</h3>
+<p>
+Yes, similar to Tier I, you have the option of &#x27;Active Choice&#x27; where you can decide the percentage allocation across equity, corporate debt, government securities, and alternative assets, or &#x27;Auto Choice&#x27; where allocation is age-dependent.
+</p>
+<h3>What is the main difference between Tier I and Tier II taxation?</h3>
+<p>
+Tier I offers tax benefits on contributions and is largely tax-exempt on withdrawal (up to 60% lump sum, balance for annuity). Tier II contributions are not tax-deductible, and withdrawals are subject to capital gains tax on the profits made.
+</p>
+<h3>Do I need to pay tax if I re-invest the withdrawn amount from Tier II?</h3>
+<p>
+The act of withdrawal itself triggers capital gains tax on the profits realised. Re-investing the amount elsewhere does not exempt you from paying tax on the gains from the original withdrawal.
+</p>
+<h3>What if I have multiple partial withdrawals from my NPS Tier II account?</h3>
+<p>
+Each partial withdrawal is treated as a separate redemption event. You must calculate the capital gains for each withdrawal individually, using the FIFO method to determine the cost of acquisition for the units redeemed.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>PFRDA: https://pfrda.org.in</li>
+<li>Ministry of Finance: https://finmin.nic.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
