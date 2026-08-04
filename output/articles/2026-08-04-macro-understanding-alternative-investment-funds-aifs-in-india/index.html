@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Understanding Alternative Investment Funds (AIFs) in India</title>
+<meta name="description" content="Alternative Investment Funds (AIFs) are privately pooled investment vehicles for sophisticated investors seeking diverse opportunities. SEBI classifies AIFs i.">
+<meta name="keywords" content="investment, investors, category, invest, alternative, capital, mutual, private">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-04-macro-understanding-alternative-investment-funds-aifs-in-india/">
+<meta property="og:title" content="Understanding Alternative Investment Funds (AIFs) in India">
+<meta property="og:description" content="Alternative Investment Funds (AIFs) are privately pooled investment vehicles for sophisticated investors seeking diverse opportunities. SEBI classifies AIFs i.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-04-macro-understanding-alternative-investment-funds-aifs-in-india/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Understanding Alternative Investment Funds (AIFs) in India", "description": "Alternative Investment Funds (AIFs) are privately pooled investment vehicles for sophisticated investors seeking diverse opportunities. SEBI classifies AIFs i.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-04", "dateModified": "2026-08-04", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-04-macro-understanding-alternative-investment-funds-aifs-in-india/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/" class="active">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Macro &amp; Markets · 2026-08-04</div><h1>Understanding Alternative Investment Funds (AIFs) in India</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Alternative Investment Funds (AIFs) are privately pooled investment vehicles for sophisticated investors seeking diverse opportunities.</li>
+<li>SEBI classifies AIFs into three distinct categories based on their investment strategy and regulatory treatment.</li>
+<li>AIFs primarily invest in unlisted assets like private equity, venture capital, and real estate, unlike traditional mutual funds.</li>
+<li>The minimum investment for most AIFs is ₹1 crore, making them accessible mainly to High Net Worth Individuals (HNIs).</li>
+<li>While offering potential for higher returns, AIFs come with lower liquidity and higher risks compared to mutual funds.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Imagine a group of financially well-off individuals deciding to pool their money to invest in opportunities that aren&#x27;t available on the regular stock market. This could be anything from funding a promising startup to buying a stake in a private company, or even investing in large infrastructure projects. An Alternative Investment Fund (AIF) is essentially a professionally managed fund that does exactly this. It collects money from a select group of investors and invests it in a variety of &quot;alternative&quot; assets, which are typically unlisted and less conventional than stocks and bonds.
+</p>
+<p>
+Unlike mutual funds, which are designed for the general public with small investment amounts and high liquidity, AIFs cater to High Net Worth Individuals (HNIs) and institutional investors. These investors are looking for diversification beyond traditional assets and are comfortable with higher risks and longer lock-in periods. The Securities and Exchange Board of India (SEBI) regulates these funds, categorising them to ensure transparency and proper functioning within their specific investment mandates.
+</p>
+<h2>What are Alternative Investment Funds (AIFs)?</h2>
+<h3>Definition and Characteristics</h3>
+<p>
+Alternative Investment Funds (AIFs) are privately pooled investment vehicles established in India, which collect funds from investors, whether Indian or foreign, for investing in accordance with a defined investment policy for the benefit of their investors. They are distinct from conventional investment avenues like mutual funds, public provident funds, or insurance products. AIFs typically invest in assets that are not easily traded on public exchanges, such as private equity, venture capital, real estate, distressed assets, and infrastructure projects.
+</p>
+<p>
+Key characteristics include:
+</p>
+<ul>
+<li><strong>Private Pooling:</strong> Funds are pooled from a limited number of sophisticated investors, not the general public.</li>
+<li><strong>Diverse Asset Classes:</strong> Investment mandates extend beyond listed securities to include unlisted equities, debt, real estate, and more.</li>
+<li><strong>Longer Horizon:</strong> AIFs often have longer investment horizons and lock-in periods, reflecting the illiquid nature of their underlying assets.</li>
+<li><strong>Professional Management:</strong> Managed by expert fund managers who identify and execute investment strategies.</li>
+<li><strong>SEBI Regulation:</strong> All AIFs must be registered with the Securities and Exchange Board of India (SEBI) under the SEBI (Alternative Investment Funds) Regulations, 2012.</li>
+</ul>
+<h3>Who are AIFs for?</h3>
+<p>
+AIFs are primarily designed for sophisticated investors who possess a higher risk appetite and significant investable surplus. This includes:
+</p>
+<ul>
+<li><strong>High Net Worth Individuals (HNIs):</strong> Individuals with substantial wealth looking for diversification and potentially higher returns.</li>
+<li><strong>Institutional Investors:</strong> Such as pension funds, endowments, and insurance companies.</li>
+<li><strong>Family Offices:</strong> Entities managing investments for wealthy families.</li>
+<li><strong>Non-Resident Indians (NRIs):</strong> Seeking to invest in the Indian growth story through specialised vehicles.</li>
+</ul>
+<p>
+The minimum investment amount for an AIF is generally ₹1 crore. However, for employees or directors of the AIF or the manager, the minimum investment can be ₹25 lakhs. Investors in AIFs should understand the complex nature of these investments, including their illiquidity, higher fee structures, and the specific risks associated with their underlying assets.
+</p>
+<h2>SEBI&#x27;s Classification of AIFs</h2>
+<p>
+SEBI has categorised AIFs into three broad types, each with a distinct investment strategy and regulatory framework. This classification helps investors understand the risk profile and focus area of different funds.
+</p>
+<h3>Category I AIFs</h3>
+<p>
+Category I AIFs generally invest in start-ups, early-stage ventures, social ventures, SMEs (Small and Medium Enterprises), infrastructure, and other sectors which the government or regulators consider as economically or socially desirable. These funds often receive certain incentives from the government or other regulators.
+</p>
+<ul>
+<li><strong>Venture Capital Funds (VCFs):</strong> Invest primarily in unlisted equity or equity-linked instruments of start-ups, emerging, or early-stage companies.</li>
+<li><strong>Infrastructure Funds:</strong> Invest in infrastructure projects, companies, or special purpose vehicles (SPVs) engaged in infrastructure development.</li>
+<li><strong>SME Funds:</strong> Focus on investing in SMEs, aiming to provide growth capital.</li>
+<li><strong>Social Venture Funds:</strong> Invest in social enterprises that have a positive social impact alongside financial returns.</li>
+</ul>
+<h3>Category II AIFs</h3>
+<p>
+Category II AIFs are funds that do not fall under Category I or III and do not undertake leverage other than to meet day-to-day operational requirements. These funds primarily invest in equity and debt instruments of unlisted companies or in units of other AIFs. This is the broadest category and includes most private equity funds.
+</p>
+<ul>
+<li><strong>Private Equity Funds (PEFs):</strong> Invest in equity or equity-linked instruments of private companies, often with a view to acquire significant stakes or control.</li>
+<li><strong>Debt Funds:</strong> Invest primarily in debt instruments of listed or unlisted companies.</li>
+<li><strong>Funds of Funds (FoF):</strong> Invest in other AIFs, providing diversification across multiple underlying funds.</li>
+</ul>
+<h3>Category III AIFs</h3>
+<p>
+Category III AIFs employ diverse or complex trading strategies and may undertake leverage, including through investment in listed or unlisted derivatives. These funds are often aimed at generating short-term returns and can invest in a wide range of instruments, including listed and unlisted securities, as well as complex structured products.
+</p>
+<ul>
+<li><strong>Hedge Funds:</strong> Employ complex strategies like short-selling, arbitrage, and derivatives to generate returns, often irrespective of market direction.</li>
+<li><strong>Private Investment in Public Equity (PIPE) Funds:</strong> Invest in the equity of publicly traded companies through private placements.</li>
+<li><strong>Multi-strategy Funds:</strong> Utilise a combination of different investment strategies.</li>
+</ul>
+<h2>How AIFs Differ from Mutual Funds</h2>
+<p>
+While both AIFs and mutual funds are investment vehicles that pool money from multiple investors, their fundamental characteristics, target audience, and operational frameworks are vastly different.
+</p>
+<h3>Investment Scope and Strategy</h3>
+<p>
+<strong>Mutual Funds (MFs):</strong> Primarily invest in liquid, publicly traded securities like listed equities, government bonds, corporate debt, and money market instruments. Their strategies are generally straightforward, aiming to mirror or outperform specific market indices or generate income from debt. They are highly regulated in terms of asset allocation and diversification.
+<strong>Alternative Investment Funds (AIFs):</strong> Invest in a much broader and often illiquid range of assets, including unlisted equity, private debt, real estate, infrastructure, distressed assets, and complex derivatives. Their strategies can be highly specialised, allowing for greater flexibility and the pursuit of niche opportunities not accessible through public markets.
+</p>
+<h3>Regulation and Transparency</h3>
+<p>
+<strong>Mutual Funds:</strong> Are highly regulated by SEBI, with strict rules on portfolio disclosure, valuation, and expense ratios. They are required to publish daily Net Asset Values (NAVs) and provide detailed quarterly and annual reports, ensuring high transparency for retail investors.
+<strong>Alternative Investment Funds:</strong> While regulated by SEBI, AIFs operate with more flexibility. Their disclosure requirements are less stringent than mutual funds, particularly regarding daily NAVs or detailed portfolio holdings to individual investors. Transparency is primarily through the Private Placement Memorandum (PPM) and periodic reports to investors, which might not be as frequent or detailed as mutual fund disclosures.
+</p>
+<h3>Investor Base and Minimum Investment</h3>
+<p>
+<strong>Mutual Funds:</strong> Cater to a broad base of retail investors, with minimum investment amounts as low as ₹100 for Systematic Investment Plans (SIPs) or ₹500 for lump sum investments.
+<strong>Alternative Investment Funds:</strong> Are exclusively for sophisticated investors, including High Net Worth Individuals (HNIs), institutional investors, and family offices. The minimum investment is typically ₹1 crore (with an exception for employees/directors of the AIF or manager at ₹25 lakhs).
+</p>
+<h3>Liquidity and Exit Options</h3>
+<p>
+<strong>Mutual Funds:</strong> Offer high liquidity, allowing investors to redeem their units on most business days. Open-ended mutual funds provide easy entry and exit options.
+<strong>Alternative Investment Funds:</strong> Generally have low liquidity due to the nature of their underlying unlisted assets. They typically have long lock-in periods, often ranging from 5 to 10 years, and exit options are limited, usually tied to the fund&#x27;s lifecycle or specific redemption windows.
+</p>
+<h3>Fees and Costs</h3>
+<p>
+<strong>Mutual Funds:</strong> Charge an Expense Ratio (Total Expense Ratio - TER), which is a percentage of the Assets Under Management (AUM), regulated by SEBI. It covers management fees, administrative costs, and distribution expenses.
+<strong>Alternative Investment Funds:</strong> Have a higher and more complex fee structure. This typically includes a management fee (e.g., 1.5% to 2.5% of AUM annually) and a &quot;carried interest&quot; or performance fee (e.g., 15% to 20% of profits above a certain hurdle rate or preferred return).
+</p>
+<h2>Taxation of Alternative Investment Funds (AIFs)</h2>
+<p>
+The taxation of AIFs in India is a critical aspect for investors and depends heavily on the category of the AIF and the nature of the income generated. The Income Tax Act, 1961, provides specific provisions for the taxation of AIFs.
+</p>
+<h3>Pass-through vs. Fund-level Taxation</h3>
+<ul>
+<li><strong>Category I and Category II AIFs:</strong> These funds typically operate under a &quot;pass-through&quot; taxation regime. This means that the income earned by the AIF (such as capital gains, dividends, or interest) is not taxed at the fund level. Instead, it is considered to be directly earned by the investors in the same proportion as their investment. The income is taxed in the hands of the investors according to their individual tax slabs and the nature of the income. For instance, if the AIF earns short-term capital gains, it will be treated as short-term capital gains for the investor. This avoids double taxation.</li>
+<li><strong>Category III AIFs:</strong> Unlike Category I and II, Category III AIFs are generally taxed at the fund level. The fund itself is treated as a taxable entity. After the fund pays taxes on its income, the remaining profits are distributed to investors, and these distributions may also be subject to tax in the hands of the investors, depending on the nature of the distribution. This structure can lead to a form of double taxation, making the net returns for investors potentially lower after taxes compared to pass-through structures.</li>
+</ul>
+<h3>Specific Income Types</h3>
+<ul>
+<li><strong>Capital Gains:</strong> If the AIF generates capital gains from the sale of its investments, these are passed through to investors in Category I and II AIFs. Short-term capital gains (STCG) and long-term capital gains (LTCG) are taxed as per the applicable rates for the investor. For Category III AIFs, capital gains are taxed at the fund level.</li>
+<li><strong>Dividends and Interest:</strong> Income from dividends and interest earned by Category I and II AIFs is also passed through and taxed in the hands of the investors. For Category III AIFs, this income is taxed at the fund level.</li>
+<li><strong>Business Income:</strong> If an AIF generates income that is classified as business income, this is generally taxed at the fund level for all categories of AIFs.</li>
+</ul>
+<p>
+It is crucial for investors to understand the specific tax implications of the AIF category they choose, as this significantly impacts their net returns. Non-Resident Indian (NRI) investors also need to consider the impact of Double Taxation Avoidance Agreements (DTAAs) between India and their country of residence. Investors should consult with a tax advisor to understand their specific tax liabilities.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, a successful software architect in Bengaluru, with an annual CTC of ₹45 lakhs and an investable surplus of ₹3 crores.</strong> Rahul has already built a solid portfolio of mutual funds and direct equities but is looking to diversify into unlisted assets for potentially higher returns and long-term wealth creation. He decides to explore a Category II AIF focused on private equity.
+</p>
+<p>
+Rahul invests ₹1.5 crores in &quot;Growth Catalyst Fund,&quot; a SEBI-registered Category II AIF. The fund has a 7-year lock-in period and focuses on investing in high-growth Indian technology startups. The fee structure is a 2% annual management fee on committed capital and a 20% carried interest (performance fee) on profits above an 8% hurdle rate.
+</p>
+<p>
+After 7 years, let&#x27;s assume Growth Catalyst Fund delivered an average annualised return of 18% on Rahul&#x27;s invested capital.
+</p>
+<ol>
+<li><strong>Initial Investment:</strong> ₹1,50,00,000</li>
+<li><strong>Gross Return Calculation (without fees):</strong></li>
+<p>
+    <em>   Value after 7 years at 18% annualised return: ₹1,50,00,000 </em> (1 + 0.18)^7 = ₹4,78,60,000 (approximately)
+    *   Gross Profit: ₹4,78,60,000 - ₹1,50,00,000 = ₹3,28,60,000
+</p>
+</ol>
+<ol>
+<li><strong>Fee Calculation:</strong></li>
+<p>
+    <em>   <strong>Management Fee:</strong> 2% of ₹1.5 crores annually = ₹3,00,000 per year. Over 7 years = ₹3,00,000 </em> 7 = ₹21,00,000.
+    *   <strong>Hurdle Rate Calculation:</strong> 8% annualised return on ₹1.5 crores over 7 years.
+        <em>   Value at hurdle rate: ₹1,50,00,000 </em> (1 + 0.08)^7 = ₹2,57,07,000 (approximately)
+        *   Profit above hurdle: ₹3,28,60,000 (Gross Profit) - (₹2,57,07,000 - ₹1,50,00,000) = ₹3,28,60,000 - ₹1,07,07,000 = ₹2,21,53,000
+    *   <strong>Carried Interest:</strong> 20% of profit above hurdle = 20% of ₹2,21,53,000 = ₹44,30,600.
+</p>
+</ol>
+<ol>
+<li><strong>Total Fees Paid:</strong> ₹21,00,000 (Management Fee) + ₹44,30,600 (Carried Interest) = ₹65,30,600.</li>
+</ol>
+<ol>
+<li><strong>Net Profit for Rahul:</strong> ₹3,28,60,000 (Gross Profit) - ₹65,30,600 (Total Fees) = ₹2,63,29,400.</li>
+</ol>
+<ol>
+<li><strong>Final Value of Investment:</strong> ₹1,50,00,000 (Initial) + ₹2,63,29,400 (Net Profit) = ₹4,13,29,400.</li>
+</ol>
+<ol>
+<li><strong>Net Annualised Return:</strong> Approximately 16.2% (after fees).</li>
+</ol>
+<p>
+This example illustrates that even after substantial fees, AIFs can deliver attractive returns, but the fee structure is complex and significantly impacts the final outcome. The income generated (capital gains) would then be taxed in Rahul&#x27;s hands as per the pass-through taxation for Category II AIFs.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Assess Your Financial Profile:</strong> Honestly evaluate your current investable surplus, risk tolerance, and liquidity needs. AIFs require significant capital and a long-term outlook.</li>
+<li><strong>Review Your Existing Portfolio:</strong> Understand your current asset allocation and identify if there are any gaps that alternative investments could fill for diversification.</li>
+<li><strong>Research SEBI-Registered AIFs:</strong> If you meet the HNI criteria, begin exploring the types of AIFs registered with SEBI (sebi.gov.in) and their investment mandates.</li>
+<li><strong>Consult a Certified Financial Planner (CFP):</strong> Discuss with a qualified CFP whether AIFs align with your overall financial goals and risk profile. They can help you understand the suitability.</li>
+<li><strong>Understand the Private Placement Memorandum (PPM):</strong> For any AIF you consider, thoroughly read its PPM. This document contains crucial details about the fund&#x27;s strategy, risks, fees, and terms.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the minimum investment for an AIF?</h3>
+<p>
+The minimum investment for most Alternative Investment Funds (AIFs) is ₹1 crore. However, for employees or directors of the AIF or its manager, the minimum investment is ₹25 lakhs.
+</p>
+<h3>Are AIFs regulated by SEBI?</h3>
+<p>
+Yes, all Alternative Investment Funds operating in India must be registered with and regulated by the Securities and Exchange Board of India (SEBI) under the SEBI (Alternative Investment Funds) Regulations, 2012.
+</p>
+<h3>Can NRIs invest in AIFs?</h3>
+<p>
+Yes, Non-Resident Indians (NRIs) are permitted to invest in SEBI-registered AIFs, subject to compliance with FEMA (Foreign Exchange Management Act) regulations and specific terms of the fund.
+</p>
+<h3>What are the main risks of investing in AIFs?</h3>
+<p>
+Key risks include illiquidity (long lock-in periods), higher investment risk due to unlisted or complex assets, potential for capital loss, dependence on fund manager expertise, and complex fee structures.
+</p>
+<h3>How liquid are AIF investments?</h3>
+<p>
+AIF investments are generally illiquid. They typically involve long lock-in periods, often ranging from 5 to 10 years, and redemption options are limited, unlike mutual funds.
+</p>
+<h3>Are AIFs suitable for all investors?</h3>
+<p>
+No, AIFs are suitable only for sophisticated investors, such as High Net Worth Individuals (HNIs) and institutions, who have a high-risk appetite, a substantial investable surplus, and a long-term investment horizon.
+</p>
+<h3>What is a Private Placement Memorandum (PPM)?</h3>
+<p>
+A Private Placement Memorandum (PPM) is a detailed document provided by an AIF to prospective investors. It outlines the fund&#x27;s investment strategy, risks, fee structure, terms and conditions, and other essential information.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>SEBI: https://sebi.gov.in</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>

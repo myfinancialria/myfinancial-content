@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>REITs vs. REIT Mutual Funds: A Practical Guide for Indian Investors</title>
+<meta name="description" content="Real Estate Investment Trusts (REITs) allow direct investment in income-generating properties, offering rental income and potential capital appreciation. REIT.">
+<meta name="keywords" content="mutual, estate, direct, capital, returns, investment, invest, exposure">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-04-personal_finance-reits-vs-reit-mutual-funds-a-practical-guide-for-indian-investors/">
+<meta property="og:title" content="REITs vs. REIT Mutual Funds: A Practical Guide for Indian Investors">
+<meta property="og:description" content="Real Estate Investment Trusts (REITs) allow direct investment in income-generating properties, offering rental income and potential capital appreciation. REIT.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-04-personal_finance-reits-vs-reit-mutual-funds-a-practical-guide-for-indian-investors/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "REITs vs. REIT Mutual Funds: A Practical Guide for Indian Investors", "description": "Real Estate Investment Trusts (REITs) allow direct investment in income-generating properties, offering rental income and potential capital appreciation. REIT.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-04", "dateModified": "2026-08-04", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-04-personal_finance-reits-vs-reit-mutual-funds-a-practical-guide-for-indian-investors/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-08-04</div><h1>REITs vs. REIT Mutual Funds: A Practical Guide for Indian Investors</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Real Estate Investment Trusts (REITs) allow direct investment in income-generating properties, offering rental income and potential capital appreciation.</li>
+<li>REIT Mutual Funds invest in units of various REITs and sometimes real estate company equities, providing broader diversification and professional management.</li>
+<li>Taxation differs significantly, with REIT distributions taxed based on their nature (rent, interest, dividend), while REIT mutual funds follow standard mutual fund taxation.</li>
+<li>Direct REITs are traded on exchanges, requiring a demat account, whereas REIT mutual funds can be bought via SIPs or lumpsum through fund houses.</li>
+<li>Suitability depends on an investor&#x27;s risk appetite, investment horizon, and desire for direct real estate exposure versus diversified, managed exposure.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Investing in real estate has traditionally meant buying physical property, which requires significant capital and comes with management hassles. Real Estate Investment Trusts (REITs) offer a way to invest in large-scale, income-producing real estate like office buildings, shopping malls, or warehouses, without actually buying the properties yourself. Think of a REIT as a company that owns, operates, or finances these properties, and you buy a small share (called a unit) of that company, traded on the stock exchange. This allows you to earn a share of the rental income generated and potentially benefit from property value appreciation.
+</p>
+<p>
+On the other hand, a REIT Mutual Fund is a type of mutual fund that invests in units of multiple REITs. Some might also invest in shares of companies involved in real estate development or property management. So, instead of picking individual REITs, you invest in a fund that does the picking for you, offering diversification across various properties and professional management. It&#x27;s like buying a basket of different REITs, or even a mix of REITs and real estate company stocks, making it an indirect way to gain exposure to the real estate sector.
+</p>
+<h2>Structure and Investment Approach</h2>
+<p>
+REITs in India are structured as trusts and are regulated by SEBI. They are mandated to invest at least 80% of their assets in completed, revenue-generating properties, ensuring a steady income stream, primarily from rentals. The remaining 20% can be invested in under-construction properties, real estate company shares, government securities, or other permissible assets. Units of REITs are listed and traded on stock exchanges, much like company shares, allowing investors to buy and sell them during market hours. This offers liquidity, though it&#x27;s important to remember that the underlying assets are illiquid by nature. Investors directly own units of the REIT, giving them a proportional claim on the trust&#x27;s assets and income. REITs are legally required to distribute at least 90% of their net distributable cash flows to unitholders annually.
+</p>
+<p>
+REIT Mutual Funds, conversely, are open-ended mutual fund schemes. They do not directly own real estate properties. Instead, they invest predominantly in the units of various listed REITs. Some REIT mutual funds might also hold units of Infrastructure Investment Trusts (InvITs) or equity shares of companies engaged in the real estate sector, offering a broader investment universe. This &quot;fund of funds&quot; structure provides investors with diversification across multiple REITs and potentially other real estate-related assets, reducing the risk associated with a single property or REIT. Investment decisions are made by a professional fund manager, who researches and selects the underlying REITs or stocks. Investors buy units of the mutual fund, not direct units of the REITs themselves. This approach is suitable for those who prefer professional management and broader diversification without the need to research individual REITs.
+</p>
+<h3>Direct vs. Indirect Exposure</h3>
+<p>
+The primary structural difference lies in the nature of exposure. Investing in a direct REIT unit means you are directly exposed to the performance of the specific properties held by that REIT. You gain a direct share in the rental income and capital appreciation of those assets. With a REIT Mutual Fund, your exposure is indirect and diversified. The fund manager decides which REITs to invest in, and your returns are a function of the collective performance of the fund&#x27;s underlying holdings, net of fund management fees.
+</p>
+<h2>Taxation Rules</h2>
+<p>
+The taxation of returns from REITs and REIT Mutual Funds differs significantly, primarily due to their underlying structure and how income is distributed. Understanding these nuances is crucial for optimising your post-tax returns.
+</p>
+<h3>Taxation of Direct REITs</h3>
+<p>
+Income distributed by REITs to unitholders can comprise three components: rent, interest, and dividends. The tax treatment varies for each:
+</p>
+<ul>
+<li><strong>Rental Income:</strong> This portion is taxable in the hands of the unitholder as &quot;Income from Other Sources&quot; at their applicable slab rates. The REIT usually deducts Tax Deducted at Source (TDS) on this component, typically at 10% for residents if the income exceeds ₹2,500.</li>
+<li><strong>Interest Income:</strong> Similar to rental income, interest distributed by the REIT is also taxable at the unitholder&#x27;s slab rates. TDS is applicable here as well.</li>
+<li><strong>Dividend Income:</strong> As per current tax laws, dividends distributed by an Indian company (including SPVs held by REITs) are exempt from tax in the hands of the unitholders if the company has already paid Dividend Distribution Tax (DDT). However, if the SPV opts for a concessional tax regime, dividend income distributed by the SPV to the REIT, and subsequently by the REIT to the unitholder, may be taxable in the hands of the unitholder at applicable slab rates. Investors should check the specific tax treatment provided by each REIT.</li>
+</ul>
+<p>
+<strong>Capital Gains on Sale of REIT Units:</strong>
+</p>
+<ul>
+<li><strong>Short-Term Capital Gains (STCG):</strong> If REIT units are sold within 36 months of purchase, the gains are considered STCG and are taxed at the investor&#x27;s applicable income tax slab rate.</li>
+<li><strong>Long-Term Capital Gains (LTCG):</strong> If REIT units are sold after holding them for more than 36 months, the gains are considered LTCG and are taxed at 20% with indexation benefit.</li>
+</ul>
+<h3>Taxation of REIT Mutual Funds</h3>
+<p>
+REIT Mutual Funds are treated like other mutual funds for taxation purposes. Their tax treatment depends on whether they are classified as equity-oriented or debt-oriented. Given that they primarily invest in REIT units and potentially real estate company equities, they are typically treated as equity-oriented if more than 65% of their corpus is invested in equities. However, if their primary investment is in REIT units (which are not technically equity shares), they might be treated as debt-oriented. Investors should confirm the classification with the specific fund house.
+</p>
+<ul>
+<li><strong>Income Distribution (Dividends):</strong> If the fund distributes dividends, these are added to the investor&#x27;s income and taxed at their applicable slab rate.</li>
+<li><strong>Capital Gains on Sale of REIT Mutual Fund Units:</strong></li>
+<p>
+    *   <strong>Equity-Oriented Fund (if applicable):</strong>
+        *   STCG (units sold within 12 months): Taxed at 15%.
+        *   LTCG (units sold after 12 months): Taxed at 10% without indexation if gains exceed ₹1 lakh in a financial year. Gains up to ₹1 lakh are exempt.
+    *   <strong>Debt-Oriented Fund (if applicable):</strong>
+        *   STCG (units sold within 36 months): Taxed at the investor&#x27;s applicable income tax slab rate.
+        *   LTCG (units sold after 36 months): Taxed at 20% with indexation benefit.
+</p>
+</ul>
+<p>
+It is crucial for investors to consult their tax advisor for specific guidance, as tax laws can be complex and subject to change.
+</p>
+<h2>Returns Profile and Risk</h2>
+<p>
+Both REITs and REIT Mutual Funds aim to provide exposure to the real estate sector, but their returns profile and associated risks can differ based on their structure and investment strategy.
+</p>
+<h3>Returns from Direct REITs</h3>
+<p>
+REITs generate returns primarily from two sources:
+</p>
+<ol>
+<li><strong>Rental Income Distribution:</strong> As mandated by SEBI, REITs distribute at least 90% of their net distributable cash flows, largely derived from rental income of their properties. This provides a regular income stream, similar to dividends from stocks, making them attractive for income-seeking investors. The yield (income distributed as a percentage of unit price) can vary based on property performance and market conditions.</li>
+<li><strong>Capital Appreciation:</strong> The value of REIT units can appreciate if the underlying property values increase, or if the REIT expands its portfolio with new, profitable acquisitions. This capital appreciation contributes to the overall total return.</li>
+</ol>
+<p>
+<strong>Risks with Direct REITs:</strong>
+</p>
+<ul>
+<li><strong>Concentration Risk:</strong> Investing in a single REIT means your returns are tied to the performance of its specific portfolio of properties and tenants. A downturn in a particular property segment (e.g., commercial office spaces) or a major tenant default can significantly impact returns.</li>
+<li><strong>Interest Rate Risk:</strong> REITs are sensitive to interest rate changes. Higher interest rates can increase borrowing costs for REITs and make fixed-income investments more attractive, potentially reducing demand for REIT units.</li>
+<li><strong>Liquidity Risk:</strong> While REIT units are traded on exchanges, their liquidity might be lower compared to highly liquid large-cap stocks, especially for smaller REITs.</li>
+<li><strong>Market Risk:</strong> Like any listed security, REIT unit prices are subject to overall stock market volatility and investor sentiment.</li>
+</ul>
+<h3>Returns from REIT Mutual Funds</h3>
+<p>
+REIT Mutual Funds derive their returns from the performance of the underlying REIT units and other real estate-related securities they hold.
+</p>
+<ol>
+<li><strong>Diversified Income and Appreciation:</strong> By investing in multiple REITs, these funds offer diversified exposure to various properties and geographical locations, potentially smoothing out income streams and capital appreciation. If the fund also invests in real estate equities, it may benefit from the broader real estate development cycle.</li>
+<li><strong>Professional Management:</strong> Fund managers actively manage the portfolio, aiming to select REITs and other assets that offer the best risk-adjusted returns. This can potentially lead to better performance than an individual picking a single REIT.</li>
+</ol>
+<p>
+<strong>Risks with REIT Mutual Funds:</strong>
+</p>
+<ul>
+<li><strong>Underlying REIT Risks:</strong> The funds are still exposed to the risks inherent in the underlying REITs they invest in, such as property market downturns, interest rate sensitivity, and tenant risks.</li>
+<li><strong>Fund Management Risk:</strong> The performance of the fund depends on the expertise of the fund manager. Poor investment decisions can lead to underperformance.</li>
+<li><strong>Expense Ratio:</strong> REIT mutual funds charge an expense ratio, which is deducted from the fund&#x27;s assets and can eat into overall returns. Direct REITs do not have this additional layer of expense ratio.</li>
+<li><strong>Market Risk:</strong> The value of mutual fund units is subject to market fluctuations, similar to direct REITs.</li>
+</ul>
+<p>
+In essence, direct REITs offer potentially higher returns if you pick a winning REIT, but with higher concentration risk. REIT mutual funds offer diversification and professional management at the cost of an expense ratio, potentially leading to more stable, albeit possibly lower, returns compared to a highly successful individual REIT.
+</p>
+<h2>Suitability for Investors</h2>
+<p>
+Deciding between direct REITs and REIT mutual funds depends on your investment goals, risk tolerance, capital availability, and how much involvement you want in managing your investments.
+</p>
+<h3>When to Consider Direct REITs</h3>
+<p>
+Direct REITs are generally suitable for investors who:
+</p>
+<ul>
+<li><strong>Seek direct exposure to commercial real estate:</strong> You want to invest in specific properties or segments (e.g., data centres, warehousing) and understand the underlying assets.</li>
+<li><strong>Have a higher risk appetite:</strong> You are comfortable with the concentration risk associated with a single REIT and its specific property portfolio.</li>
+<li><strong>Possess sufficient capital:</strong> While REIT units can be bought in smaller quantities, building a diversified portfolio of multiple direct REITs would require a larger capital outlay than investing in a single REIT mutual fund.</li>
+<li><strong>Prefer lower ongoing costs (no expense ratio):</strong> You avoid the expense ratio charged by mutual funds.</li>
+<li><strong>Are comfortable with self-research and monitoring:</strong> You are willing to research individual REITs, understand their property portfolios, tenant profiles, and financial health.</li>
+<li><strong>Have a demat and trading account:</strong> As REITs are traded on stock exchanges, a demat account is essential.</li>
+</ul>
+<h3>When to Consider REIT Mutual Funds</h3>
+<p>
+REIT Mutual Funds are typically better suited for investors who:
+</p>
+<ul>
+<li><strong>Prefer diversification:</strong> You want exposure to the real estate sector but wish to spread risk across multiple REITs and potentially other real estate assets.</li>
+<li><strong>Have a lower risk appetite for concentrated bets:</strong> The diversified nature of a fund helps mitigate the specific risks of any single REIT.</li>
+<li><strong>Have limited capital:</strong> You can start investing with smaller amounts, even through Systematic Investment Plans (SIPs), making real estate exposure accessible.</li>
+<li><strong>Seek professional management:</strong> You prefer a fund manager to research, select, and monitor the underlying investments.</li>
+<li><strong>Value convenience and ease of investment:</strong> Investing through a mutual fund is often simpler, without the need for detailed individual REIT analysis.</li>
+<li><strong>Are new to real estate investing:</strong> It serves as a good entry point to understand the sector without taking on high individual asset risk.</li>
+</ul>
+<p>
+Ultimately, both avenues offer a way to participate in India&#x27;s growing real estate market. Your choice should align with your personal financial strategy and comfort level.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Meera, 42, a software architect in Gurugram, earning ₹35 lakhs CTC</strong>, who wants to diversify her portfolio with real estate exposure. She has ₹5 lakhs to invest and is evaluating her options.
+</p>
+<p>
+<strong>Option 1: Investing directly in a REIT (e.g., &quot;Office Space REIT A&quot;)</strong>
+</p>
+<p>
+Meera researches and decides to invest ₹5 lakhs in a prominent office space REIT, &quot;Office Space REIT A,&quot; whose units are currently trading at ₹350 per unit.
+</p>
+<ul>
+<li><strong>Units purchased:</strong> ₹5,00,000 / ₹350 = 1,428 units (approximately).</li>
+<li><strong>Annual Income Distribution:</strong> Let&#x27;s assume &quot;Office Space REIT A&quot; has a historical income distribution yield of 6% per annum.</li>
+<p>
+    *   Annual income: 6% of ₹5,00,000 = ₹30,000.
+    *   This income (rent, interest components) would be taxed at Meera&#x27;s slab rate (likely 30% or more, plus cess).
+    *   Approximate tax on income (assuming 30%): ₹9,000.
+    *   Net annual income: ₹21,000.
+</p>
+<li><strong>Capital Appreciation:</strong> After 3 years, Meera decides to sell her units. The unit price has appreciated to ₹450.</li>
+<p>
+    <em>   Sale value: 1,428 units </em> ₹450 = ₹6,42,600.
+    *   Purchase value: ₹5,00,000.
+    *   Long-Term Capital Gain (LTCG) (since held for &gt;36 months): ₹6,42,600 - ₹5,00,000 = ₹1,42,600.
+    <em>   Tax on LTCG (20% with indexation, let&#x27;s simplify without indexation for illustration): ₹1,42,600 </em> 20% = ₹28,520.
+    *   Net capital gain after tax: ₹1,14,080.
+</p>
+<li><strong>Total Net Returns (over 3 years):</strong> (₹21,000 x 3 years) + ₹1,14,080 = ₹63,000 + ₹1,14,080 = ₹1,77,080.</li>
+</ul>
+<p>
+<strong>Option 2: Investing in a REIT Mutual Fund (e.g., &quot;Diversified Realty Fund&quot;)</strong>
+</p>
+<p>
+Meera invests her ₹5 lakhs in &quot;Diversified Realty Fund,&quot; which invests across 5 different REITs and some real estate equities. The fund has an expense ratio of 0.80% per annum.
+</p>
+<ul>
+<li><strong>Investment:</strong> ₹5,00,000.</li>
+<li><strong>Annual Income (Fund&#x27;s NAV appreciation + distributions):</strong> Let&#x27;s assume the fund delivers a gross return (before expense ratio) of 7.5% per annum, reflecting diversified exposure.</li>
+<p>
+    *   Net return after expense ratio (7.5% - 0.80%): 6.7% per annum.
+</p>
+<li><strong>Capital Appreciation (assuming fund is debt-oriented for tax purposes):</strong></li>
+<p>
+    <em>   After 3 years, the value of her investment: ₹5,00,000 </em> (1 + 0.067)^3 = ₹5,00,000 * 1.214 = ₹6,07,000 (approximately).
+    *   LTCG (since held for &gt;36 months): ₹6,07,000 - ₹5,00,000 = ₹1,07,000.
+    <em>   Tax on LTCG (20% with indexation, simplifying without indexation): ₹1,07,000 </em> 20% = ₹21,400.
+    *   Net capital gain after tax: ₹85,600.
+</p>
+<li><strong>Total Net Returns (over 3 years):</strong> ₹85,600 (assuming income distributions were reinvested or taxed separately, making capital gain the primary return).</li>
+</ul>
+<p>
+<strong>Conclusion for Meera:</strong>
+</p>
+<ul>
+<li>Direct REIT offered a higher potential net return in this specific scenario, but with higher concentration risk (dependent on &quot;Office Space REIT A&quot; performance).</li>
+<li>REIT Mutual Fund offered diversification and professional management, potentially lower risk, but with an expense ratio impacting returns.</li>
+<li>The tax treatment for direct REIT income distributions was more complex than the mutual fund&#x27;s capital gains.</li>
+<li>Meera would need to weigh the potential for higher returns versus the benefits of diversification and professional management, considering her comfort with risk and tax implications.</li>
+</ul>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Assess your risk appetite:</strong> Determine if you&#x27;re comfortable with the concentration risk of a single REIT or prefer the diversification offered by a mutual fund.</li>
+<li><strong>Review your investment goals:</strong> Decide if your primary goal is regular income (potentially higher from direct REITs) or capital appreciation with diversified exposure.</li>
+<li><strong>Check your existing portfolio:</strong> See if you already have significant real estate exposure through other means and how a REIT or REIT mutual fund would fit into your overall asset allocation.</li>
+<li><strong>Research available options:</strong> Look at the listed REITs on Indian exchanges (e.g., on NSE/BSE websites) and various REIT mutual funds offered by AMCs (e.g., on AMFI India website).</li>
+<li><strong>Consult a financial advisor:</strong> Discuss your specific situation with a Certified Financial Planner to understand which option aligns best with your financial plan and tax situation.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the minimum investment for REITs and REIT mutual funds?</h3>
+<p>
+For direct REITs, the minimum investment was initially ₹50,000, later reduced to ₹10,000-₹15,000 per unit for some issues. For REIT mutual funds, you can start with as little as ₹500 via SIPs or ₹5,000 for lumpsum investments, similar to other mutual funds.
+</p>
+<h3>Are REITs and REIT mutual funds suitable for NRIs?</h3>
+<p>
+Yes, NRIs can invest in both Indian REITs and REIT mutual funds, subject to FEMA regulations. They typically need an NRO or NRE account and a demat account for direct REITs.
+</p>
+<h3>How liquid are these investments?</h3>
+<p>
+Direct REIT units are traded on stock exchanges, offering liquidity, though it can vary based on the specific REIT. REIT mutual fund units can be redeemed with the fund house, typically settled within a few business days.
+</p>
+<h3>Do REITs guarantee returns?</h3>
+<p>
+No, like any market-linked investment, REITs do not guarantee returns. Returns depend on property performance, rental income, market conditions, and capital appreciation.
+</p>
+<h3>What is the role of SEBI in regulating REITs?</h3>
+<p>
+SEBI regulates REITs in India, setting guidelines for their structure, investments, disclosures, and governance to protect investor interests.
+</p>
+<h3>Can I invest in global REITs from India?</h3>
+<p>
+Yes, some Indian mutual funds offer schemes that invest in global REITs, providing exposure to international real estate markets. These are typically fund-of-funds or feeder funds.
+</p>
+<h3>What is the difference between an InvIT and a REIT?</h3>
+<p>
+While both are trust structures, REITs invest in income-generating real estate assets, whereas InvITs invest in infrastructure assets like roads, power lines, and pipelines. Both are regulated by SEBI.
+</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://www.livemint.com/money/personal-finance/reits-vs-reit-mutual-funds-structure-taxation-rules-returns-and-suitability-for-investors-compared-11785772951957.html" rel="noopener" target="_blank">Livemint: REITs vs REIT mutual funds: Structure, taxation rules, returns and suitability for investors compared</a></li>
+<li><a href="https://incometax.gov.in" rel="noopener" target="_blank">Income Tax India: Income Tax Act, 1961</a></li>
+<li><a href="https://incometaxindia.gov.in" rel="noopener" target="_blank">CBDT notifications: Income Tax India</a></li>
+<li><a href="https://sebi.gov.in" rel="noopener" target="_blank">SEBI: Real Estate Investment Trusts (REITs) Regulations, 2014</a></li>
+<li><a href="https://amfiindia.com" rel="noopener" target="_blank">AMFI India: Association of Mutual Funds in India</a></li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# REITs vs. REIT Mutual Funds: A Practical Guide for Indian Investors
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Real Estate Investment Trusts (REITs) allow direct investment in income-generating properties, offering rental income and potential capital appreciation.</li>
+<li>REIT Mutual Funds invest in units of various REITs and sometimes real estate company equities, providing broader diversification and professional management.</li>
+<li>Taxation differs significantly, with REIT distributions taxed based on their nature (rent, interest, dividend), while REIT mutual funds follow standard mutual fund taxation.</li>
+<li>Direct REITs are traded on exchanges, requiring a demat account, whereas REIT mutual funds can be bought via SIPs or lumpsum through fund houses.</li>
+<li>Suitability depends on an investor&#x27;s risk appetite, investment horizon, and desire for direct real estate exposure versus diversified, managed exposure.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Investing in real estate has traditionally meant buying physical property, which requires significant capital and comes with management hassles. Real Estate Investment Trusts (REITs) offer a way to invest in large-scale, income-producing real estate like office buildings, shopping malls, or warehouses, without actually buying the properties yourself. Think of a REIT as a company that owns, operates, or finances these properties, and you buy a small share (called a unit) of that company, traded on the stock exchange. This allows you to earn a share of the rental income generated and potentially benefit from property value appreciation.
+</p>
+<p>
+On the other hand, a REIT Mutual Fund is a type of mutual fund that invests in units of multiple REITs. Some might also invest in shares of companies involved in real estate development or property management. So, instead of picking individual REITs, you invest in a fund that does the picking for you, offering diversification across various properties and professional management. It&#x27;s like buying a basket of different REITs, or even a mix of REITs and real estate company stocks, making it an indirect way to gain exposure to the real estate sector.
+</p>
+<h2>Structure and Investment Approach</h2>
+<p>
+REITs in India are structured as trusts and are regulated by SEBI. They are mandated to invest at least 80% of their assets in completed, revenue-generating properties, ensuring a steady income stream, primarily from rentals. The remaining 20% can be invested in under-construction properties, real estate company shares, government securities, or other permissible assets. Units of REITs are listed and traded on stock exchanges, much like company shares, allowing investors to buy and sell them during market hours. This offers liquidity, though it&#x27;s important to remember that the underlying assets are illiquid by nature. Investors directly own units of the REIT, giving them a proportional claim on the trust&#x27;s assets and income. REITs are legally required to distribute at least 90% of their net distributable cash flows to unitholders annually.
+</p>
+<p>
+REIT Mutual Funds, conversely, are open-ended mutual fund schemes. They do not directly own real estate properties. Instead, they invest predominantly in the units of various listed REITs. Some REIT mutual funds might also hold units of Infrastructure Investment Trusts (InvITs) or equity shares of companies engaged in the real estate sector, offering a broader investment universe. This &quot;fund of funds&quot; structure provides investors with diversification across multiple REITs and potentially other real estate-related assets, reducing the risk associated with a single property or REIT. Investment decisions are made by a professional fund manager, who researches and selects the underlying REITs or stocks. Investors buy units of the mutual fund, not direct units of the REITs themselves. This approach is suitable for those who prefer professional management and broader diversification without the need to research individual REITs.
+</p>
+<h3>Direct vs. Indirect Exposure</h3>
+<p>
+The primary structural difference lies in the nature of exposure. Investing in a direct REIT unit means you are directly exposed to the performance of the specific properties held by that REIT. You gain a direct share in the rental income and capital appreciation of those assets. With a REIT Mutual Fund, your exposure is indirect and diversified. The fund manager decides which REITs to invest in, and your returns are a function of the collective performance of the fund&#x27;s underlying holdings, net of fund management fees.
+</p>
+<h2>Taxation Rules</h2>
+<p>
+The taxation of returns from REITs and REIT Mutual Funds differs significantly, primarily due to their underlying structure and how income is distributed. Understanding these nuances is crucial for optimising your post-tax returns.
+</p>
+<h3>Taxation of Direct REITs</h3>
+<p>
+Income distributed by REITs to unitholders can comprise three components: rent, interest, and dividends. The tax treatment varies for each:
+</p>
+<ul>
+<li><strong>Rental Income:</strong> This portion is taxable in the hands of the unitholder as &quot;Income from Other Sources&quot; at their applicable slab rates. The REIT usually deducts Tax Deducted at Source (TDS) on this component.</li>
+<li><strong>Interest Income:</strong> Similar to rental income, interest distributed by the REIT is also taxable at the unitholder&#x27;s slab rates. TDS is applicable here as well.</li>
+<li><strong>Dividend Income:</strong> Dividends distributed by REITs are exempt from tax in the hands of the investor, provided the Special Purpose Vehicles (SPVs) under the REIT structure have already paid the applicable corporate tax. However, if the SPV opts for a concessional tax regime, dividend income distributed by the SPV to the REIT, and subsequently by the REIT to the unitholder, may be taxable in the hands of the unitholder at applicable slab rates.</li>
+</ul>
+<p>
+<strong>Capital Gains on Sale of REIT Units:</strong>
+</p>
+<ul>
+<li><strong>Short-Term Capital Gains (STCG):</strong> If REIT units are sold within 12 months of purchase, the gains are considered STCG and are taxed at 15% plus cess.</li>
+<li><strong>Long-Term Capital Gains (LTCG):</strong> If REIT units are sold after holding them for more than 12 months, the gains are considered LTCG and are taxed at 12.5% on gains above ₹1.25 lakh in a financial year, without indexation.</li>
+</ul>
+<h3>Taxation of REIT Mutual Funds</h3>
+<p>
+REIT Mutual Funds are treated like other mutual funds for taxation purposes. Their tax treatment depends on their classification. As of January 1, 2026, SEBI reclassified REITs as &quot;equity-related instruments&quot; for mutual funds, which can impact their tax treatment. However, many REIT funds may not meet the 65% equity allocation requirement to qualify as equity funds for tax purposes, often falling into an &quot;other&quot; mutual fund category.
+</p>
+<ul>
+<li><strong>Income Distribution (Dividends):</strong> If the fund distributes dividends, these are added to the investor&#x27;s income and taxed at their applicable slab rate.</li>
+<li><strong>Capital Gains on Sale of REIT Mutual Fund Units:</strong></li>
+<p>
+    *   <strong>Short-Term Capital Gains (STCG):</strong> If units are sold within 24 months (for funds typically classified as &#x27;other&#x27; or debt-oriented), gains are taxed at the investor&#x27;s applicable income tax slab rate.
+    *   <strong>Long-Term Capital Gains (LTCG):</strong> On units held for more than 24 months, long-term gains attract a flat 12.5% tax rate, without indexation benefit. There is no ₹1.25 lakh annual LTCG exemption for these funds.
+</p>
+</ul>
+<p>
+It is crucial for investors to consult their tax advisor for specific guidance, as tax laws can be complex and subject to change.
+</p>
+<h2>Returns Profile and Risk</h2>
+<p>
+Both REITs and REIT Mutual Funds aim to provide exposure to the real estate sector, but their returns profile and associated risks can differ based on their structure and investment strategy.
+</p>
+<h3>Returns from Direct REITs</h3>
+<p>
+REITs generate returns primarily from two sources:
+</p>
+<ol>
+<li><strong>Rental Income Distribution:</strong> As mandated by SEBI, REITs distribute at least 90% of their net distributable cash flows, largely derived from rental income of their properties. This provides a regular income stream, similar to dividends from stocks, making them attractive for income-seeking investors. Established REITs have delivered distribution yields of around 6-7% before tax.</li>
+<li><strong>Capital Appreciation:</strong> The value of REIT units can appreciate if the underlying property values increase, or if the REIT expands its portfolio with new, profitable acquisitions. This capital appreciation contributes to the overall total return. Total returns, including price appreciation, have been in the mid-to-high teens for established REITs.</li>
+</ol>
+<p>
+<strong>Risks with Direct REITs:</strong>
+</p>
+<ul>
+<li><strong>Concentration Risk:</strong> Investing in a single REIT means your returns are tied to the performance of its specific portfolio of properties and tenants.</li>
+<li><strong>Interest Rate Risk:</strong> REITs are sensitive to interest rate changes. Higher interest rates can increase borrowing costs for REITs and make fixed-income investments more attractive, potentially reducing demand for REIT units.</li>
+<li><strong>Liquidity Risk:</strong> While REIT units are traded on exchanges, their liquidity might be lower compared to highly liquid large-cap stocks, especially for smaller REITs.</li>
+<li><strong>Market Risk:</strong> Like any listed security, REIT unit prices are subject to overall stock market volatility and investor sentiment.</li>
+</ul>
+<h3>Returns from REIT Mutual Funds</h3>
+<p>
+REIT Mutual Funds derive their returns from the performance of the underlying REIT units and other real estate-related securities they hold.
+</p>
+<ol>
+<li><strong>Diversified Income and Appreciation:</strong> By investing in multiple REITs, these funds offer diversified exposure to various properties and geographical locations, potentially smoothing out income streams and capital appreciation. If the fund also invests in real estate equities, it may benefit from the broader real estate development cycle. The Nifty REITs &amp; Realty Total Return Index has generated an annualised return of 19.1% in the past three years.</li>
+<li><strong>Professional Management:</strong> Fund managers actively manage the portfolio, aiming to select REITs and other assets that offer the best risk-adjusted returns.</li>
+<p>
+<strong>Risks with REIT Mutual Funds:</strong>
+</p>
+</ol>
+<ul>
+<li><strong>Underlying REIT Risks:</strong> The funds are still exposed to the risks inherent in the underlying REITs they invest in, such as property market downturns, interest rate sensitivity, and tenant risks.</li>
+<li><strong>Fund Management Risk:</strong> The performance of the fund depends on the expertise of the fund manager. Poor investment decisions can lead to underperformance.</li>
+<li><strong>Expense Ratio:</strong> REIT mutual funds charge an expense ratio, which is deducted from the fund&#x27;s assets and can eat into overall returns.</li>
+<li><strong>Market Risk:</strong> The value of mutual fund units is subject to market fluctuations, similar to direct REITs.</li>
+</ul>
+<p>
+In essence, direct REITs offer potentially higher returns if you pick a winning REIT, but with higher concentration risk. REIT mutual funds offer diversification and professional management at the cost of an expense ratio, potentially leading to more stable, albeit possibly lower, returns compared to a highly successful individual REIT.
+</p>
+<h2>Suitability for Investors</h2>
+<p>
+Deciding between direct REITs and REIT mutual funds depends on your investment goals, risk tolerance, capital availability, and how much involvement you want in managing your investments.
+</p>
+<h3>When to Consider Direct REITs</h3>
+<p>
+Direct REITs are generally suitable for investors who:
+</p>
+<ul>
+<li><strong>Seek direct exposure to commercial real estate:</strong> You want to invest in specific properties or segments (e.g., data centres, warehousing) and understand the underlying assets.</li>
+<li><strong>Have a higher risk appetite:</strong> You are comfortable with the concentration risk associated with a single REIT and its specific property portfolio.</li>
+<li><strong>Possess sufficient capital:</strong> While REIT units can be bought in smaller quantities (minimum investment was reduced to ₹10,000-₹15,000 for some issues), building a diversified portfolio of multiple direct REITs would require a larger capital outlay than investing in a single REIT mutual fund.</li>
+<li><strong>Prefer lower ongoing costs (no expense ratio):</strong> You avoid the expense ratio charged by mutual funds.</li>
+<li><strong>Are comfortable with self-research and monitoring:</strong> You are willing to research individual REITs, understand their property portfolios, tenant profiles, and financial health.</li>
+<li><strong>Have a demat and trading account:</strong> As REITs are traded on stock exchanges, a demat account is essential.</li>
+</ul>
+<h3>When to Consider REIT Mutual Funds</h3>
+<p>
+REIT Mutual Funds are typically better suited for investors who:
+</p>
+<ul>
+<li><strong>Prefer diversification:</strong> You want exposure to the real estate sector but wish to spread risk across multiple REITs and potentially other real estate assets.</li>
+<li><strong>Have a lower risk appetite for concentrated bets:</strong> The diversified nature of a fund helps mitigate the specific risks of any single REIT.</li>
+<li><strong>Have limited capital:</strong> You can start investing with smaller amounts, even through Systematic Investment Plans (SIPs), making real estate exposure accessible.</li>
+<li><strong>Seek professional management:</strong> You prefer a fund manager to research, select, and monitor the underlying investments.</li>
+<li><strong>Value convenience and ease of investment:</strong> Investing through a mutual fund is often simpler, without the need for detailed individual REIT analysis.</li>
+<li><strong>Are new to real estate investing:</strong> It serves as a good entry point to understand the sector without taking on high individual asset risk.</li>
+</ul>
+<p>
+Ultimately, both avenues offer a way to participate in India&#x27;s growing real estate market. Your choice should align with your personal financial strategy and comfort level.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Meera, 42, a software architect in Gurugram, earning ₹35 lakhs CTC</strong>, who wants to diversify her portfolio with real estate exposure. She has ₹5 lakhs to invest and is evaluating her options.
+</p>
+<p>
+<strong>Option 1: Investing directly in a REIT (e.g., &quot;Office Space REIT A&quot;)</strong>
+</p>
+<p>
+Meera researches and decides to invest ₹5 lakhs in a prominent office space REIT, &quot;Office Space REIT A,&quot; whose units are currently trading at ₹350 per unit.
+</p>
+<ul>
+<li><strong>Units purchased:</strong> ₹5,00,000 / ₹350 = 1,428 units (approximately).</li>
+<li><strong>Annual Income Distribution:</strong> Let&#x27;s assume &quot;Office Space REIT A&quot; has a historical income distribution yield of 6% per annum.</li>
+<p>
+    *   Annual income: 6% of ₹5,00,000 = ₹30,000.
+    *   This income (rent, interest components) would be taxed at Meera&#x27;s slab rate (likely 30% or more, plus cess).
+    *   Approximate tax on income (assuming 30%): ₹9,000.
+    *   Net annual income: ₹21,000.
+</p>
+<li><strong>Capital Appreciation:</strong> After 3 years, Meera decides to sell her units. The unit price has appreciated to ₹450.</li>
+<p>
+    <em>   Sale value: 1,428 units </em> ₹450 = ₹6,42,600.
+    *   Purchase value: ₹5,00,000.
+    *   Long-Term Capital Gain (LTCG) (since held for &gt;12 months): ₹6,42,600 - ₹5,00,000 = ₹1,42,600.
+    <em>   Tax on LTCG (12.5% on gains above ₹1.25 lakh, simplifying without exact exemption calculation for illustration): (₹1,42,600 - ₹1,25,000) </em> 12.5% = ₹17,600 * 12.5% = ₹2,200. (If gain is below ₹1.25L, it would be exempt).
+    *   Net capital gain after tax: ₹1,42,600 - ₹2,200 = ₹1,40,400.
+</p>
+<li><strong>Total Net Returns (over 3 years):</strong> (₹21,000 x 3 years) + ₹1,40,400 = ₹63,000 + ₹1,40,400 = ₹2,03,400.</li>
+</ul>
+<p>
+<strong>Option 2: Investing in a REIT Mutual Fund (e.g., &quot;Diversified Realty Fund&quot;)</strong>
+</p>
+<p>
+Meera invests her ₹5 lakhs in &quot;Diversified Realty Fund,&quot; which invests across 5 different REITs and some real estate equities. The fund has an expense ratio of 0.80% per annum.
+</p>
+<ul>
+<li><strong>Investment:</strong> ₹5,00,000.</li>
+<li><strong>Annual Income (Fund&#x27;s NAV appreciation + distributions):</strong> Let&#x27;s assume the fund delivers a gross return (before expense ratio) of 7.5% per annum, reflecting diversified exposure.</li>
+<p>
+    *   Net return after expense ratio (7.5% - 0.80%): 6.7% per annum.
+</p>
+<li><strong>Capital Appreciation (assuming fund is &#x27;other&#x27; for tax purposes):</strong></li>
+<p>
+    <em>   After 3 years, the value of her investment: ₹5,00,000 </em> (1 + 0.067)^3 = ₹5,00,000 * 1.214 = ₹6,07,000 (approximately).
+    *   LTCG (since held for &gt;24 months): ₹6,07,000 - ₹5,00,000 = ₹1,07,000.
+    <em>   Tax on LTCG (12.5% without indexation, no ₹1.25 lakh exemption): ₹1,07,000 </em> 12.5% = ₹13,375.
+    *   Net capital gain after tax: ₹1,07,000 - ₹13,375 = ₹93,625.
+</p>
+<li><strong>Total Net Returns (over 3 years):</strong> ₹93,625 (assuming income distributions were reinvested or taxed separately, making capital gain the primary return).</li>
+</ul>
+<p>
+<strong>Conclusion for Meera:</strong>
+</p>
+<ul>
+<li>Direct REIT offered a higher potential net return in this specific scenario, but with higher concentration risk (dependent on &quot;Office Space REIT A&quot; performance).</li>
+<li>REIT Mutual Fund offered diversification and professional management, potentially lower risk, but with an expense ratio impacting returns.</li>
+<li>The tax treatment for direct REIT income distributions was more complex than the mutual fund&#x27;s capital gains, though the LTCG tax rate for direct REITs (above exemption) is similar.</li>
+<li>Meera would need to weigh the potential for higher returns versus the benefits of diversification and professional management, considering her comfort with risk and tax implications.</li>
+</ul>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Assess your risk appetite:</strong> Determine if you&#x27;re comfortable with the concentration risk of a single REIT or prefer the diversification offered by a mutual fund.</li>
+<li><strong>Review your investment goals:</strong> Decide if your primary goal is regular income (potentially higher from direct REITs) or capital appreciation with diversified exposure.</li>
+<li><strong>Check your existing portfolio:</strong> See if you already have significant real estate exposure through other means and how a REIT or REIT mutual fund would fit into your overall asset allocation.</li>
+<li><strong>Research available options:</strong> Look at the listed REITs on Indian exchanges (e.g., on NSE/BSE websites) and various REIT mutual funds offered by AMCs (e.g., on AMFI India website).</li>
+<li><strong>Consult a financial advisor:</strong> Discuss your specific situation with a Certified Financial Planner to understand which option aligns best with your financial plan and tax situation.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the minimum investment for REITs and REIT mutual funds?</h3>
+<p>
+For direct REITs, the minimum investment was initially ₹50,000, later reduced to ₹10,000-₹15,000 per unit for some issues. For REIT mutual funds, you can start with as little as ₹500 via SIPs or ₹5,000 for lumpsum investments, similar to other mutual funds.
+</p>
+<h3>Are REITs and REIT mutual funds suitable for NRIs?</h3>
+<p>
+Yes, NRIs can invest in both Indian REITs and REIT mutual funds, subject to FEMA regulations. They typically need an NRO or NRE account and a demat account for direct REITs.
+</p>
+<h3>How liquid are these investments?</h3>
+<p>
+Direct REIT units are traded on stock exchanges, offering liquidity, though it can vary based on the specific REIT. REIT mutual fund units can be redeemed with the fund house, typically settled within a few business days.
+</p>
+<h3>Do REITs guarantee returns?</h3>
+<p>
+No, like any market-linked investment, REITs do not guarantee returns. Returns depend on property performance, rental income, market conditions, and capital appreciation.
+</p>
+<h3>What is the role of SEBI in regulating REITs?</h3>
+<p>
+SEBI regulates REITs in India, setting guidelines for their structure, investments, disclosures, and governance to protect investor interests.
+</p>
+<h3>Can I invest in global REITs from India?</h3>
+<p>
+Yes, some Indian mutual funds offer schemes that invest in global REITs, providing exposure to international real estate markets. These are typically fund-of-funds or feeder funds.
+</p>
+<h3>What is the difference between an InvIT and a REIT?</h3>
+<p>
+While both are trust structures, REITs invest in income-generating real estate assets, whereas InvITs invest in infrastructure assets like roads, power lines, and pipelines. Both are regulated by SEBI.
+</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://www.livemint.com/money/personal-finance/reits-vs-reit-mutual-funds-structure-taxation-rules-returns-and-suitability-for-investors-compared-11785772951957.html" rel="noopener" target="_blank">Livemint: REITs vs REIT mutual funds: Structure, taxation rules, returns and suitability for investors compared</a></li>
+<li><a href="https://incometax.gov.in" rel="noopener" target="_blank">Income Tax India: Income Tax Act, 1961</a></li>
+<li><a href="https://sebi.gov.in" rel="noopener" target="_blank">SEBI: Real Estate Investment Trusts (REITs) Regulations, 2014</a></li>
+<li><a href="https://amfiindia.com" rel="noopener" target="_blank">AMFI India: Association of Mutual Funds in India</a></li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
