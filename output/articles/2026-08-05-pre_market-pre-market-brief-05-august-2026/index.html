@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Pre-Market Brief — 05 August 2026</title>
+<meta name="description" content="Global markets ended on a strong positive note, with US indices rallying and Asian markets, especially Japan&#x27;s Nikkei, seeing significant gains. GIFT Nifty is.">
+<meta name="keywords" content="markets, trading, dividend, global, positive, stocks, contracts, shares">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-05-pre_market-pre-market-brief-05-august-2026/">
+<meta property="og:title" content="Pre-Market Brief — 05 August 2026">
+<meta property="og:description" content="Global markets ended on a strong positive note, with US indices rallying and Asian markets, especially Japan&#x27;s Nikkei, seeing significant gains. GIFT Nifty is.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-05-pre_market-pre-market-brief-05-august-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Pre-Market Brief \u2014 05 August 2026", "description": "Global markets ended on a strong positive note, with US indices rallying and Asian markets, especially Japan's Nikkei, seeing significant gains. GIFT Nifty is.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-05", "dateModified": "2026-08-05", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-05-pre_market-pre-market-brief-05-august-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/" class="active">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Pre-Market · 2026-08-05</div><h1>Pre-Market Brief — 05 August 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Global markets ended on a strong positive note, with US indices rallying and Asian markets, especially Japan&#x27;s Nikkei, seeing significant gains.</li>
+<li>GIFT Nifty is indicating a slightly negative start for the Indian market, pointing to a potential gap-down.</li>
+<li>Foreign Institutional Investors (FIIs) were net buyers yesterday and have shown consistent buying over the last five sessions, while Domestic Institutional Investors (DIIs) were net sellers yesterday.</li>
+<li>The Reserve Bank of India (RBI) maintained the repo rate at 5.25% in its latest policy meeting, while revising FY27 growth projections upwards and inflation downwards.</li>
+<li>Nifty&#x27;s key level to watch is 24600, which has significant Call and Put Open Interest, suggesting it could act as a crucial pivot for the day.</li>
+<li>The sharp decline in crude oil prices and the RBI&#x27;s policy stance will be key factors influencing market sentiment today.</li>
+</ul>
+</div>
+<h2>How global markets traded — and what it means for India</h2>
+<p>
+Global markets displayed a strong positive momentum overnight, largely driven by a rally in AI-related stocks in the US and robust corporate earnings. The Dow Jones, Nasdaq, and S&amp;P 500 all closed significantly higher, with gains exceeding 1.7%. This positive sentiment extended to Asian markets this morning, with Japan&#x27;s Nikkei surging over 3% and China&#x27;s Shanghai Composite also posting a healthy gain.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>% Change</th></tr></thead><tbody>
+<tr><td>Dow Jones</td><td>54085.88</td><td>+1.71%</td></tr>
+<tr><td>Nasdaq</td><td>26584.99</td><td>+2.59%</td></tr>
+<tr><td>S&amp;P 500</td><td>7736.52</td><td>+1.79%</td></tr>
+<tr><td>FTSE 100</td><td>10879.40</td><td>+0.20%</td></tr>
+<tr><td>Nikkei 225</td><td>66174.84</td><td>+3.47%</td></tr>
+<tr><td>Hang Seng</td><td>25864.40</td><td>+0.04%</td></tr>
+<tr><td>Shanghai</td><td>3875.39</td><td>+1.39%</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The strong positive closes in the US and the significant rally in Asian markets, particularly Japan, set a generally bullish tone for the global equity landscape. This positive sentiment could provide a tailwind for the Indian markets at open, despite the slightly negative indication from GIFT Nifty.
+</p>
+<h2>Currency, commodities and yields</h2>
+<p>
+The Indian Rupee strengthened against the US Dollar, with USD/INR trading at 95.06, down 0.28%. This comes as the Dollar Index saw a marginal decline of 0.04% to 99.85. Crude oil prices witnessed a sharp decline, with Brent crude falling 5.68% to $79.01 and WTI crude dropping 6.35% to $75.24. Gold and Silver prices, often considered safe-haven assets, saw significant gains, with Gold up 4.02% to $4195.80 and Silver up 5.92% to $61.08. The US 10-Year Treasury Yield also moved lower, declining 1.26% to 4.63%.
+</p>
+<p>
+<strong>Interpretation:</strong> A stronger Rupee (USD/INR down) is generally positive for India as it reduces import costs and can attract FII flows. The sharp fall in crude oil prices is a significant positive for India, potentially easing inflationary pressures and benefiting oil marketing companies (OMCs), paint, and aviation sectors. The rise in gold and silver suggests some underlying caution or safe-haven buying globally. A lower US 10-Year Yield typically makes emerging markets like India more attractive for foreign capital, potentially supporting FII inflows.
+</p>
+<h2>GIFT Nifty — what it&#x27;s signalling</h2>
+<p>
+The GIFT Nifty is currently trading at 24707.50, down 0.19%.
+</p>
+<p>
+<strong>Interpretation:</strong> This indicates a potential slight gap-down opening for the Nifty 50 today, suggesting a cautious start despite the overall positive global cues.
+</p>
+<h2>FII/DII flows — who&#x27;s driving the tape</h2>
+<p>
+Foreign Institutional Investors (FIIs) were net buyers in the Indian equity market yesterday, pumping in ₹2,446 crore. Domestic Institutional Investors (DIIs), however, were net sellers, offloading equities worth ₹936 crore. Over the last five trading sessions, FIIs have been consistent net buyers, indicating a sustained positive sentiment towards Indian equities.
+</p>
+<table><thead><tr><th>Date</th><th>FII Net (₹ crore)</th><th>DII Net (₹ crore)</th></tr></thead><tbody>
+<tr><td>2026-08-04</td><td>+2,446</td><td>-936</td></tr>
+<tr><td>2026-08-03</td><td>+922</td><td>+1,571</td></tr>
+<tr><td>2026-07-31</td><td>+277</td><td>+2,260</td></tr>
+<tr><td>2026-07-30</td><td>+3,624</td><td>-1,864</td></tr>
+<tr><td>2026-07-29</td><td>+2,982</td><td>+998</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> FIIs have been significant drivers of the recent market rally, maintaining a net buying stance over the past five sessions. This sustained foreign capital inflow is a strong supportive factor for the market, even as DIIs showed some profit-booking yesterday. HSBC also noted that India could attract up to $25 billion in foreign equity inflows if global emerging-market funds restore allocations to neutral, citing improving earnings and resilient domestic demand.
+</p>
+<h2>Key levels to watch — Nifty, Bank Nifty &amp; Sensex (technical)</h2>
+<h3>NIFTY 50 (prev close 24646.95)</h3>
+<table><thead><tr><th>Level Type</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>24628.92</td></tr>
+<tr><td>CPR Top</td><td>24637.93</td></tr>
+<tr><td>CPR Bottom</td><td>24619.9</td></tr>
+<tr><td>R1</td><td>24695.63</td></tr>
+<tr><td>R2</td><td>24744.32</td></tr>
+<tr><td>S1</td><td>24580.23</td></tr>
+<tr><td>S2</td><td>24513.52</td></tr>
+<tr><td>Swing High</td><td>24774.3</td></tr>
+<tr><td>Swing Low</td><td>23606.3</td></tr>
+<tr><td>20-DMA</td><td>24197.31</td></tr>
+<tr><td>50-DMA</td><td>23956.49</td></tr>
+</tbody></table>
+<h3>BANK NIFTY (prev close 57855.2)</h3>
+<table><thead><tr><th>Level Type</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>57793.65</td></tr>
+<tr><td>CPR Top</td><td>57824.43</td></tr>
+<tr><td>CPR Bottom</td><td>57762.88</td></tr>
+<tr><td>R1</td><td>57993.4</td></tr>
+<tr><td>R2</td><td>58131.6</td></tr>
+<tr><td>S1</td><td>57655.45</td></tr>
+<tr><td>S2</td><td>57455.7</td></tr>
+<tr><td>Swing High</td><td>58596.85</td></tr>
+<tr><td>Swing Low</td><td>56023.6</td></tr>
+<tr><td>20-DMA</td><td>57520.88</td></tr>
+<tr><td>50-DMA</td><td>56859.74</td></tr>
+</tbody></table>
+<h3>SENSEX (prev close 78861.32)</h3>
+<table><thead><tr><th>Level Type</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>78842.18</td></tr>
+<tr><td>CPR Top</td><td>78851.75</td></tr>
+<tr><td>CPR Bottom</td><td>78832.61</td></tr>
+<tr><td>R1</td><td>79074.52</td></tr>
+<tr><td>R2</td><td>79287.72</td></tr>
+<tr><td>S1</td><td>78628.98</td></tr>
+<tr><td>S2</td><td>78396.64</td></tr>
+<tr><td>Swing High</td><td>79143.15</td></tr>
+<tr><td>Swing Low</td><td>75474.43</td></tr>
+<tr><td>20-DMA</td><td>77454.98</td></tr>
+<tr><td>50-DMA</td><td>76571.98</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The CPR for all three indices (Nifty, Bank Nifty, Sensex) is relatively narrow (width 0.07% to 0.11%), which often suggests that a trending day could be on the cards rather than a sideways, range-bound session. For Nifty, a break above R1 (24695) or R2 (24744) could signal further upward momentum, while a break below S1 (24580) or S2 (24513) could indicate weakness. The 20-DMA and 50-DMA for all indices are well below the current levels, indicating a strong short-to-medium term uptrend.
+</p>
+<h2>Option-chain signals (OI) — where support &amp; resistance sit</h2>
+<h3>NIFTY</h3>
+<ul>
+<li>Highest CALL OI (resistance): 25000 (9,189,245 contracts), 24600 (9,121,710 contracts), 24700 (8,507,590 contracts)</li>
+<li>Highest PUT OI (support): 24600 (9,427,535 contracts), 24000 (7,550,660 contracts), 24500 (7,168,330 contracts)</li>
+<li>PCR: 0.8</li>
+</ul>
+<h3>BANK NIFTY</h3>
+<ul>
+<li>Highest CALL OI (resistance): 58000 (2,328,420 contracts), 59000 (1,233,240 contracts), 58500 (680,010 contracts)</li>
+<li>Highest PUT OI (support): 58000 (1,613,130 contracts), 57000 (948,990 contracts), 57500 (429,090 contracts)</li>
+<li>PCR: 0.72</li>
+</ul>
+<h3>SENSEX</h3>
+<ul>
+<li>Highest CALL OI (resistance): 79000 (3,426,020 contracts), 78800 (2,739,760 contracts), 80000 (2,568,760 contracts)</li>
+<li>Highest PUT OI (support): 78500 (2,222,740 contracts), 78000 (2,048,020 contracts), 78700 (1,799,440 contracts)</li>
+<li>PCR: 0.71</li>
+</ul>
+<p>
+<strong>Interpretation:</strong> For Nifty, the 24600 strike has significant Call and Put Open Interest, suggesting it will be a crucial battleground today. High Call OI at 25000 and 24700 indicates that option sellers believe the market might find a ceiling around these levels. Conversely, high Put OI at 24600 and 24500 suggests that option buyers are defending these levels as potential floors. A PCR (Put-Call Ratio) below 1 (0.8 for Nifty, 0.72 for Bank Nifty, 0.71 for Sensex) generally leans towards a cautious or slightly bearish sentiment, as more Call options are being written than Put options, indicating expectations of limited upside or potential downside. Combining with technical levels, Nifty&#x27;s 24600-24700 zone will be key to respect today. For Bank Nifty, 58000 acts as a strong resistance, while for Sensex, 79000 is the immediate hurdle.
+</p>
+<h2>Companies reporting results today</h2>
+<p>
+No Nifty 500 / large-cap results scheduled today.
+</p>
+<h2>Corporate actions today</h2>
+<p>
+A number of companies have their shares trading ex-date today for various corporate actions:
+</p>
+<ul>
+<li><strong>BRIGADE</strong>: Trading ex-dividend for ₹2 per share. This means the stock price will typically adjust downwards by the dividend amount on the ex-date.</li>
+<li><strong>UDS</strong>: Trading ex-interim dividend for Re 1 per share.</li>
+<li><strong>VERTIS</strong>: Trading ex-distribution for ₹3.25 per unit, comprising interest, return of capital, dividend, and other income.</li>
+<li><strong>TVSINVIT</strong>: Trading ex-distribution for ₹1.55 per unit, comprising interest and other income.</li>
+<li><strong>HYUNDAI</strong>: Trading ex-dividend for ₹21 per share.</li>
+<li><strong>ANUHPHR</strong>: Trading ex-dividend for ₹1.50 per share.</li>
+<li><strong>GOODYEAR</strong>: Trading ex-dividend for ₹26.50 per share.</li>
+<li><strong>TEMBO</strong>: Trading ex-face value split (sub-division) from ₹10 per share to Re 1 per share. This increases the number of shares and reduces the per-share price proportionally.</li>
+<li><strong>OAL</strong>: Trading ex-dividend for Re 0.50 per share.</li>
+<li><strong>MATRIMONY</strong>: Trading ex-dividend for ₹5 per share.</li>
+<li><strong>TDPOWERSYS</strong>: Trading ex-dividend for ₹1.10 per share.</li>
+<li><strong>ADFFOODS</strong>: Trading ex-dividend for Re 0.60 per share.</li>
+<li><strong>GANDHITUBE</strong>: Trading ex-dividend for ₹15 per share.</li>
+<li><strong>BERGEPAINT</strong>: Trading ex-dividend for ₹4 per share.</li>
+<li><strong>BAYERCROP</strong>: Trading ex-dividend for ₹60 per share.</li>
+<li><strong>AJANTPHARM</strong>: Trading ex-interim dividend for ₹32 per share.</li>
+<li><strong>IRB</strong>: Trading ex-interim dividend for Re 0.05 per share.</li>
+<li><strong>SOMANYCERA</strong>: Trading ex-dividend for ₹2 per share.</li>
+<li><strong>SHREYANIND</strong>: Trading ex-dividend for ₹1.50 per share.</li>
+<li><strong>MUNJALSHOW</strong>: Trading ex-dividend for ₹4.50 per share.</li>
+</ul>
+<h2>Stock &amp; sector news that matters</h2>
+<ul>
+<li><strong>RBI Monetary Policy: Repo Rate Unchanged, Growth/Inflation Revised</strong></li>
+<p>
+    The RBI&#x27;s Monetary Policy Committee (MPC) decided to keep the policy repo rate unchanged at 5.25% and maintained a &#x27;neutral&#x27; stance in its August 2026 policy meeting. The central bank revised its FY27 GDP growth forecast upwards to 6.7% and lowered its inflation forecast to 5% for FY27.
+    <strong>Why it matters:</strong> The unchanged repo rate provides stability and continuity for borrowing costs, which is generally positive for economic activity. The upward revision in growth projections signals confidence in domestic economic resilience, while the downward revision in inflation could ease concerns about future rate hikes. This overall dovish-neutral stance is supportive for equity markets.
+</p>
+</ul>
+<ul>
+<li><strong>HSBC Predicts $25 Billion FII Comeback for India</strong></li>
+<p>
+    HSBC analysts suggest India could attract up to $25 billion in foreign equity inflows if global emerging-market funds increase their allocations to neutral. This potential influx is attributed to improving earnings, resilient domestic demand, and a favourable policy environment.
+    <strong>Why it matters:</strong> This news provides a strong fundamental tailwind for the Indian market, reinforcing the positive FII flow trend observed recently. It indicates that global investors see significant upside potential in India, which could lead to sustained buying interest across various sectors.
+</p>
+</ul>
+<ul>
+<li><strong>Deepak Nitrite Shares Jump 4% on Strong Q1FY27 Results</strong></li>
+<p>
+    Deepak Nitrite reported a more than threefold jump in its June-quarter net profit (209% YoY) and a 36% rise in revenue. The company also announced a ₹2,500 crore capital expenditure plan.
+    <strong>Why it matters:</strong> This strong performance and significant capex plan are very positive for Deepak Nitrite, indicating robust operational growth and future expansion. The stock is likely to see continued investor interest and could impact sentiment for other specialty chemical companies.
+</p>
+</ul>
+<ul>
+<li><strong>Ola Electric Mobility Shares Rally 7% on Battery Storage MoU</strong></li>
+<p>
+    Ola Electric shares surged after the company signed an MoU with Axis Energy to deploy up to 20 GWh of battery energy storage systems by 2032. This is a major tie-up for Ola&#x27;s battery manufacturing plans.
+    <strong>Why it matters:</strong> This partnership is a significant development for Ola Electric, highlighting its expansion into the battery energy storage segment. It could boost investor confidence in the company&#x27;s long-term growth prospects and potentially impact other players in the EV and renewable energy ecosystem.
+</p>
+</ul>
+<ul>
+<li><strong>Bharti Airtel Shares Rise 4% Post Q1 Results; Brokerages Bullish</strong></li>
+<p>
+    Bharti Airtel reported a 37% year-on-year jump in June-quarter net profit and an 18% increase in revenue. Brokerages like Jefferies and CLSA maintained bullish views with positive target prices.
+    <strong>Why it matters:</strong> Strong earnings from a telecom major like Bharti Airtel are positive for the sector. Brokerage upgrades and positive outlooks can drive further buying in the stock and potentially uplift other telecom players.
+</p>
+</ul>
+<ul>
+<li><strong>Rupee Strengthens Past 95 to One-Month High</strong></li>
+<p>
+    The Indian Rupee hit a one-month high, sailing past 95 against the US Dollar, driven by lower oil prices and a weaker dollar. Forward premiums also dropped ahead of the RBI&#x27;s policy decision.
+    <strong>Why it matters:</strong> A stronger Rupee is beneficial for India&#x27;s import bill, particularly for crude oil, and can help in managing inflation. It also makes Indian assets more attractive to foreign investors.
+</p>
+</ul>
+<h2>Events &amp; data to watch — and how markets usually react</h2>
+<ul>
+<li><strong>RBI Monetary Policy Outcome:</strong> The RBI has already announced its policy, keeping the repo rate unchanged and revising growth/inflation forecasts. Markets typically react positively to stability in interest rates and optimistic growth outlooks, especially when accompanied by lower inflation projections. However, the initial reaction might be tempered by profit-booking or global cues.</li>
+<li><strong>Crude Oil Price Movement:</strong> The sharp decline in Brent and WTI crude prices is a significant positive. Any further volatility in global crude prices will be closely watched, as sustained lower prices are beneficial for India&#x27;s economy and corporate earnings, particularly for sectors like OMCs, paints, and airlines.</li>
+<li><strong>Global Market Cues:</strong> The strong performance of US and Asian markets overnight will provide a positive backdrop. However, any fresh developments or data releases from major global economies could influence sentiment.</li>
+<li><strong>FII/DII Flow Trends:</strong> While FIIs have been net buyers, any significant change in their stance or DII activity could influence market direction.</li>
+</ul>
+<h2>What to watch in today&#x27;s session</h2>
+<ol>
+<li><strong>Nifty&#x27;s reaction to 24600:</strong> This level is crucial, with significant Call and Put OI. A sustained move above or below this could dictate the day&#x27;s trend.</li>
+<li><strong>Crude Oil Prices:</strong> Monitor for any rebound in crude oil prices after yesterday&#x27;s sharp fall, as this could impact sentiment for oil-sensitive sectors.</li>
+<li><strong>FII Flows:</strong> Continue to watch FII activity for sustained buying or any signs of profit booking, which could influence overall market direction.</li>
+<li><strong>Corporate Actions:</strong> Stocks going ex-dividend or undergoing splits today, such as Brigade, Hyundai, Goodyear, Tembo, and Ajanta Pharma, might see price adjustments and trading interest.</li>
+<li><strong>Sectoral Performance:</strong> Keep an eye on sectors that benefit from lower crude prices (OMCs, aviation, paints) and those that could see FII interest (banks, IT).</li>
+<li><strong>Global Cues:</strong> Any fresh news or data from international markets, especially related to AI stocks or central bank commentary, could influence investor sentiment.</li>
+</ol>
+<h2>Bottom line</h2>
+<p>
+The Indian market is poised for a cautious start, indicated by GIFT Nifty, despite strong positive cues from global equity markets and a significant drop in crude oil prices. The RBI&#x27;s decision to maintain the repo rate and its optimistic growth outlook provide a stable domestic backdrop. FIIs have been consistent buyers, offering strong support. The key for Nifty today will be its ability to hold above or break decisively from the 24600 level, which is a significant pivot point based on option chain data. Investors should remain vigilant to global market movements and crude oil price volatility.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>[ET Markets] Global Market: Japan&#x27;s Nikkei jumps over 3% as AI stocks rally, upbeat earnings lift sentiment. https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-japans-nikkei-jumps-over-3-as-ai-stocks-rally-upbeat-earnings-lift-sentiment/articleshow/132893039.cms</li>
+<li>[ET Markets] Global Market: Oracle&#x27;s AI spending spree pushes credit rating to brink of junk status. https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/global-market-oracles-ai-spending-spree-pushes-credit-rating-to-brink-of-junk-status/articleshow/132892290.cms</li>
+<li>[ET Markets] Deepak Nitrite shares jump 4% after Q1FY27 profit jumps 209%, revenue rises 36% YoY. https://economictimes.indiatimes.com/markets/stocks/news/deepak-nitrite-shares-surge-4-after-q1fy27-profit-jumps-209-revenue-rises-36-yoy/articleshow/132891677.cms</li>
+<li>[ET Markets] Ola Electric Mobility shares rally over 7%. What&#x27;s boosting investor sentiment?. https://economictimes.indiatimes.com/markets/stocks/news/ola-electric-mobility-shares-rally-over-7-whats-boosting-investor-sentiment/articleshow/132891392.cms</li>
+<li>[ET Markets] Rupee sails past 95 to one-month high, premiums drop before RBI decision. https://economictimes.indiatimes.com/markets/forex/rupee-sails-past-95-to-one-month-high-premiums-drop-before-rbi-decision/articleshow/132890285.cms</li>
+<li>[ET Markets] $25 billion FII comeback? HSBC explains why foreign money may return to India. https://economictimes.indiatimes.com/markets/stocks/news/25-billion-fii-comeback-hsbc-explains-why-foreign-money-may-return-to-india/articleshow/132889999.cms</li>
+<li>[ET Markets] Nykaa shares dip 3% despite multifold jump in Q1 profit; analysts weigh in. https://economictimes.indiatimes.com/markets/stocks/news/nykaa-shares-dip-3-despite-multifold-jump-in-q1-profit-analysts-weigh-in/articleshow/132889186.cms</li>
+<li>[ET Markets] Bharti Airtel shares jump 4% after Q1 results. Here’s what Jefferies, CLSA, others are saying. https://economictimes.indiatimes.com/markets/stocks/news/bharti-airtel-shares-jump-4-after-q1-results-heres-what-jefferies-clsa-others-are-saying/articleshow/132889091.cms</li>
+<li>[ET Markets] Why is market rising today? Sensex jumps over 400 pts, Nifty above 24,600. 8 factors behind D-St rebound. https://economictimes.indiatimes.com/markets/stocks/news/why-is-market-rising-today-sensex-jumps-over-400-pts-nifty-above-24600-8-factors-behind-d-st-rebound/articleshow/132888578.cms</li>
+<li>[ET Markets] Kalyan Jewellers slips 3% as Q1 margin pressure overshadows 32% jump in net profit. https://economictimes.indiatimes.com/markets/stocks/news/kalyan-jewellers-shares-in-focus-after-q1-profit-jumps-32-yoy-to-rs-349-crore-margins-under-pressure/articleshow/132888509.cms</li>
+<li>[ET Markets] H.R. Hygiene Products shares to list today on BSE SME. Here’s what GMP suggests. https://economictimes.indiatimes.com/markets/stocks/news/h-r-hygiene-products-shares-to-list-today-on-bse-sme-heres-what-gmp-suggests/articleshow/132887915.cms</li>
+<li>[ET Markets] Canara Bank, Bank of Baroda among 7 bank stocks with up to 26% upside potential. Own any?. https://economictimes.indiatimes.com/markets/stocks/news/canara-bank-bank-of-baroda-among-7-bank-stocks-with-up-to-26-upside-potential-own-any/slideshow/132887658.cms</li>
+<li>[Livemint Markets] RBI Monetary Policy: Sanjay Malhotra-led MPC raises FY27 growth projections to 6.7% despite Middle East crisis. https://www.livemint.com/market/stock-market-news/rbi-monetary-policy-sanjay-malhotra-led-mpc-raises-fy27-growth-projections-to-6-7-despite-middle-east-crisis-11785906516392.html</li>
+<li>[Livemint Markets] RBI MPC Meeting 2026: Central bank revises inflation downwards to 5% for FY27. https://www.livemint.com/market/stock-market-news/rbi-mpc-meeting-2026-central-bank-revises-inflation-downwards-to-5-for-fy27-11785904671159.html</li>
+<li>[Livemint Markets] RBI MPC meeting: Repo rate maintained at 5.25%; key highlights from August policy meeting. https://www.livemint.com/market/stock-market-news/rbi-mpc-meeting-repo-rate-maintained-at-5-25-key-highlights-from-august-2026-policy-meeting-11785899937147.html</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
