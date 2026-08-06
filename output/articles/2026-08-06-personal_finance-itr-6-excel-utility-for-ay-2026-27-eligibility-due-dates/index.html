@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>ITR-6 Excel Utility for AY 2026-27: Eligibility &amp; Due Dates</title>
+<meta name="description" content="The Income Tax Department has released the Excel utility for filing ITR-6 for Assessment Year (AY) 2026-27. ITR-6 is specifically designed for companies that .">
+<meta name="keywords" content="companies, filing, utility, financial, company, statements, department, assessment">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-06-personal_finance-itr-6-excel-utility-for-ay-2026-27-eligibility-due-dates/">
+<meta property="og:title" content="ITR-6 Excel Utility for AY 2026-27: Eligibility &amp; Due Dates">
+<meta property="og:description" content="The Income Tax Department has released the Excel utility for filing ITR-6 for Assessment Year (AY) 2026-27. ITR-6 is specifically designed for companies that .">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-06-personal_finance-itr-6-excel-utility-for-ay-2026-27-eligibility-due-dates/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ITR-6 Excel Utility for AY 2026-27: Eligibility & Due Dates", "description": "The Income Tax Department has released the Excel utility for filing ITR-6 for Assessment Year (AY) 2026-27. ITR-6 is specifically designed for companies that .", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-06", "dateModified": "2026-08-06", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-06-personal_finance-itr-6-excel-utility-for-ay-2026-27-eligibility-due-dates/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-08-06</div><h1>ITR-6 Excel Utility for AY 2026-27: Eligibility &amp; Due Dates</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The Income Tax Department has released the Excel utility for filing ITR-6 for Assessment Year (AY) 2026-27.</li>
+<li>ITR-6 is specifically designed for companies that are not claiming any exemption under Section 11 of the Income Tax Act, 1961.</li>
+<li>This utility simplifies the process for corporate taxpayers to prepare and submit their income tax returns electronically.</li>
+<li>Key due dates for filing ITR-6 for AY 2026-27 generally fall in October, with variations for companies requiring a tax audit.</li>
+<li>Timely filing is crucial to avoid penalties and ensure compliance with income tax regulations.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+For many businesses in India, filing income tax returns is an annual exercise. When we talk about &quot;ITR-6,&quot; we&#x27;re referring to a specific form used by companies to declare their income to the tax authorities. Unlike individuals or Hindu Undivided Families (HUFs), companies have a distinct tax structure and reporting requirements. The &quot;Excel utility&quot; is simply a downloadable software tool provided by the Income Tax Department that helps these companies fill out their ITR-6 form accurately and efficiently on their computer before uploading it to the e-Filing portal.
+</p>
+<p>
+The &quot;AY 2026-27&quot; refers to the Assessment Year, which is the year in which the income earned during the previous financial year (2025-26) is assessed for tax. So, if a company earned profits between April 1, 2025, and March 31, 2026, they would use the ITR-6 form for AY 2026-27 to report that income. A crucial point is that ITR-6 is for companies <em>not</em> claiming exemption under Section 11, which typically applies to charitable or religious trusts and institutions. For most commercial companies, this is the relevant form. The release of this utility means companies can now begin preparing their returns for the upcoming filing season.
+</p>
+<h2>Understanding ITR-6: Who Needs to File?</h2>
+<p>
+ITR-6 is a specific income tax return form exclusively for companies. It&#x27;s important to differentiate this from other ITR forms like ITR-1 (Sahaj) or ITR-4 (Sugam), which are meant for individuals, Hindu Undivided Families (HUFs), or LLPs with specific income criteria. If you operate a private limited company, a public limited company, or any other corporate entity registered under the Companies Act, you will likely need to file ITR-6.
+</p>
+<h3>Companies vs. Individuals/HUF/LLP</h3>
+<p>
+The Indian income tax system categorises taxpayers based on their legal structure. Companies are treated as separate legal entities and are subject to corporate tax rates. Unlike individuals who might use ITR-1, ITR-2, ITR-3, or ITR-4, companies are mandated to use ITR-6. Even dormant companies or those with no taxable income must file ITR-6 to maintain compliance. This ensures that the financial activities and tax liabilities of corporate entities are properly reported to the Income Tax Department.
+</p>
+<h3>The Section 11 Exemption</h3>
+<p>
+A key aspect of ITR-6 eligibility is the exclusion of companies claiming exemption under Section 11 of the Income Tax Act, 1961. Section 11 provides exemptions to income derived from property held under trust for charitable or religious purposes. Therefore, if your entity is a company registered under the Companies Act, but it operates as a charitable or religious trust and claims income exemption under Section 11, then ITR-6 is not the correct form. Such organisations typically file ITR-7. For all other companies, including manufacturing, service, or trading companies, ITR-6 is the applicable form. This distinction is critical to avoid filing errors and potential notices from the tax department.
+</p>
+<h3>Types of Companies Filing ITR-6</h3>
+<p>
+ITR-6 covers a broad spectrum of companies. This includes both domestic companies and foreign companies that have a permanent establishment in India and are liable to pay tax in India. Whether your company is a start-up, a small and medium enterprise (SME), or a large corporation, if it&#x27;s registered under the Companies Act and doesn&#x27;t claim Section 11 exemption, ITR-6 is your go-to form. The form requires detailed financial information, including profit and loss accounts, balance sheets, and other relevant statements, providing a comprehensive view of the company&#x27;s financial health and tax obligations.
+</p>
+<h2>Key Details of the ITR-6 Excel Utility</h2>
+<p>
+The Income Tax Department consistently strives to make tax filing easier for taxpayers by releasing various utilities. The ITR-6 Excel utility for AY 2026-27 is one such tool, designed to streamline the preparation of corporate tax returns. The utility is now available on the official e-Filing portal of the Income Tax Department.
+</p>
+<h3>What the Utility Offers</h3>
+<p>
+The Excel utility is essentially a spreadsheet-based application that allows companies to input their financial data, calculate their tax liability, and generate an XML file for uploading to the e-Filing portal. It is pre-programmed with the latest tax laws and rules applicable for AY 2026-27, reducing the chances of manual calculation errors. Key features often include:
+</p>
+<ul>
+<li><strong>Data Entry Fields:</strong> Structured sections for entering details like company information, profit and loss statement, balance sheet, capital gains, deductions, and tax payments.</li>
+<li><strong>Automated Calculations:</strong> The utility automatically calculates total income, tax payable, interest, and penalties based on the data entered.</li>
+<li><strong>Validation Checks:</strong> Built-in validation rules help identify common errors or omissions before submission, prompting the user to correct them.</li>
+<li><strong>XML Generation:</strong> Once all data is entered and verified, the utility generates an XML file, which is the format required for uploading the return online.</li>
+</ul>
+<h3>How to Access and Use It</h3>
+<p>
+To access the ITR-6 Excel utility, taxpayers need to visit the official Income Tax e-Filing portal (incometax.gov.in). Under the &#x27;Downloads&#x27; section, they can find the relevant Assessment Year (AY 2026-27) and select the ITR-6 Excel utility. After downloading, the utility can be opened using Microsoft Excel. Users then need to meticulously fill in all the required financial details from their books of accounts. It is advisable to have all financial statements, audit reports, and other supporting documents ready before starting the process. After filling, it&#x27;s crucial to validate the data within the utility itself to catch any errors.
+</p>
+<h3>Digital Signature Requirement</h3>
+<p>
+For companies, e-filing of income tax returns is mandatory and must be done using a Digital Signature Certificate (DSC). The ITR-6 form, after being prepared using the Excel utility, must be signed digitally before uploading. A valid Class 2 or Class 3 DSC is typically required. It is imperative for companies to ensure their DSC is active and registered with the Income Tax Department&#x27;s e-Filing portal well in advance of the due date. Without a valid DSC, the return cannot be successfully submitted online.
+</p>
+<h2>Important Due Dates for AY 2026-27</h2>
+<p>
+Meeting the income tax return filing deadlines is not just a matter of compliance; it also helps avoid penalties and ensures smooth business operations. For companies filing ITR-6 for Assessment Year 2026-27 (Financial Year 2025-26), there are specific due dates to keep in mind, depending on whether a tax audit is required.
+</p>
+<h3>General Due Dates for Companies</h3>
+<p>
+For most companies that are not required to get their accounts audited under the Income Tax Act or any other law, the general due date for filing ITR-6 for AY 2026-27 is <strong>31st October 2026</strong>. This applies to companies whose transactions do not trigger the tax audit provisions. It&#x27;s important to remember that this deadline is for filing the return itself, not just for preparing the data.
+</p>
+<h3>Due Dates for Tax Audit Cases</h3>
+<p>
+Companies that are required to get their accounts audited under Section 44AB of the Income Tax Act, or under any other law, have a slightly later due date. For such companies, the due date for filing ITR-6 for AY 2026-27 is <strong>31st October 2026</strong>. Additionally, the due date for submitting the tax audit report itself is <strong>30th September 2026</strong>. It&#x27;s crucial for companies falling under this category to coordinate with their auditors well in advance to ensure the audit is completed and the report is submitted by the respective deadlines.
+</p>
+<h3>Consequences of Late Filing</h3>
+<p>
+Failing to file ITR-6 by the prescribed due dates can lead to several adverse consequences:
+</p>
+<ul>
+<li><strong>Late Filing Fee:</strong> Under Section 234F of the Income Tax Act, a late filing fee is levied. This fee can be ₹5,000 if the return is filed after the due date but on or before 31st December of the assessment year. If filed after 31st December, the fee increases to ₹10,000. However, for small taxpayers whose total income does not exceed ₹5 lakhs, the maximum late fee is capped at ₹1,000.</li>
+<li><strong>Interest on Unpaid Tax:</strong> If there is any unpaid tax liability, interest under Section 234A will be charged at 1% per month or part thereof from the original due date until the date of filing the return.</li>
+<li><strong>Loss Carry Forward Restrictions:</strong> Companies may lose the ability to carry forward certain losses (other than unabsorbed depreciation) to future assessment years if the return is not filed by the due date.</li>
+<li><strong>Penalties and Prosecution:</strong> In more severe cases of non-compliance or intentional delay, the Income Tax Department can initiate penalty proceedings or even prosecution.</li>
+</ul>
+<h2>Documents Required for Filing ITR-6</h2>
+<p>
+Filing ITR-6 accurately and efficiently requires a comprehensive collection of financial and legal documents. Having these ready before starting the process will significantly streamline the filing experience and minimise errors.
+</p>
+<h3>Financial Statements</h3>
+<p>
+The core of any company&#x27;s tax return lies in its financial statements. For ITR-6, you will need:
+</p>
+<ul>
+<li><strong>Audited Financial Statements:</strong> This includes the Balance Sheet as of March 31, 2026, and the Profit &amp; Loss Account for the financial year 2025-26. These statements must be prepared as per the Companies Act and, if applicable, audited as per the Income Tax Act.</li>
+<li><strong>Trial Balance:</strong> A detailed trial balance is essential for reconciling accounts and ensuring accuracy.</li>
+<li><strong>Cash Flow Statement:</strong> For companies meeting certain thresholds, a cash flow statement is also a mandatory part of the financial reports.</li>
+</ul>
+<h3>Audit Reports</h3>
+<p>
+If your company&#x27;s turnover exceeds the prescribed limits (e.g., ₹1 crore for most businesses, or ₹10 crores for businesses where cash transactions are limited to 5% of total transactions) or if you fall under specific sections requiring an audit, then the following audit reports are crucial:
+</p>
+<ul>
+<li><strong>Tax Audit Report (Form 3CD):</strong> This report, prepared and certified by a Chartered Accountant, provides a detailed analysis of the company&#x27;s financial records from an income tax perspective. It includes information on various compliance aspects and adjustments required under the Income Tax Act.</li>
+<li><strong>Other Audit Reports:</strong> If your company is subject to audits under other specific laws (e.g., GST audit, internal audit), relevant reports should be on hand for reference, though Form 3CD is specifically for income tax purposes.</li>
+</ul>
+<h3>Other Supporting Documents</h3>
+<p>
+Beyond the primary financial and audit reports, several other documents are necessary for accurate ITR-6 filing:
+</p>
+<ul>
+<li><strong>Bank Statements:</strong> All bank statements for the financial year 2025-26, including details of all transactions, interest earned, and bank charges.</li>
+<li><strong>TDS Certificates (Form 16A, 16B, 16C, 16D):</strong> Certificates for Tax Deducted at Source (TDS) received by the company from its clients or customers.</li>
+<li><strong>Advance Tax Challans:</strong> Proof of payment for any advance tax paid during the financial year.</li>
+<li><strong>Self-Assessment Tax Challans:</strong> If any self-assessment tax was paid, the challan details are required.</li>
+<li><strong>Details of Investments:</strong> Information on any investments made or sold during the year, including capital gains/losses.</li>
+<li><strong>Details of Loans and Advances:</strong> Information about loans taken and given, including interest paid and received.</li>
+<li><strong>Fixed Asset Register:</strong> Details of additions, deletions, and depreciation of fixed assets.</li>
+<li><strong>GST Returns:</strong> GSTR-3B and GSTR-1 filings for reconciliation purposes, if applicable.</li>
+<li><strong>Master Data of the Company:</strong> Basic details like PAN, TAN, CIN, registration date, and registered address.</li>
+<li><strong>Digital Signature Certificate (DSC) details:</strong> Ensure the DSC is active and linked to the company&#x27;s PAN on the e-Filing portal.</li>
+</ul>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Zenith Tech Solutions Pvt. Ltd., Bengaluru</strong>, a software development company. The company, founded by Rahul, 38, has a turnover of ₹18 crores for the Financial Year 2025-26. Zenith Tech Solutions is a domestic company and does not claim any exemption under Section 11. Therefore, it is required to file ITR-6 for AY 2026-27.
+</p>
+<p>
+For FY 2025-26, Zenith Tech Solutions reported a net profit before tax of ₹2.5 crores. The company is opting for the beneficial corporate tax rate of 22% (plus surcharge and cess) under Section 115BAA, as it meets the conditions for this lower rate.
+</p>
+<p>
+<strong>Step-by-step calculation:</strong>
+</p>
+<ol>
+<li><strong>Net Profit Before Tax (PBT):</strong> ₹2,50,00,000</li>
+<li><strong>Corporate Tax Rate (under Section 115BAA):</strong> 22%</li>
+<li><strong>Tax on PBT:</strong> 22% of ₹2,50,00,000 = ₹55,00,000</li>
+</ol>
+<ol>
+<li><strong>Surcharge:</strong> Since the total income exceeds ₹1 crore but is less than ₹10 crores, a surcharge of 7% on the income tax is applicable.</li>
+<p>
+    *   Surcharge: 7% of ₹55,00,000 = ₹3,85,000
+</p>
+</ol>
+<ol>
+<li><strong>Health and Education Cess:</strong> A cess of 4% on (Income Tax + Surcharge) is applicable.</li>
+<p>
+    *   Total (Income Tax + Surcharge): ₹55,00,000 + ₹3,85,000 = ₹58,85,000
+    *   Cess: 4% of ₹58,85,000 = ₹2,35,400
+</p>
+</ol>
+<ol>
+<li><strong>Total Tax Liability:</strong> ₹55,00,000 (Income Tax) + ₹3,85,000 (Surcharge) + ₹2,35,400 (Cess) = <strong>₹61,20,400</strong></li>
+</ol>
+<p>
+Zenith Tech Solutions had already paid advance tax of ₹58,00,000 during FY 2025-26.
+</p>
+<ul>
+<li><strong>Advance Tax Paid:</strong> ₹58,00,000</li>
+<li><strong>Balance Tax Payable:</strong> ₹61,20,400 - ₹58,00,000 = ₹3,20,400</li>
+</ul>
+<p>
+Rahul and his team will now use the ITR-6 Excel utility to input these figures, along with detailed financial statements, ensure all calculations are correct, and then generate the XML file. They will then pay the balance tax of ₹3,20,400 as self-assessment tax before uploading the ITR-6 using their company&#x27;s Digital Signature Certificate by the due date of 31st October 2026 (assuming no tax audit requirement for this specific year, or if the audit is completed by September 30th).
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Download the ITR-6 Utility:</strong> Visit the official Income Tax e-Filing portal (incometax.gov.in) and download the ITR-6 Excel utility for AY 2026-27.</li>
+<li><strong>Gather Financial Documents:</strong> Start compiling all necessary financial statements, including the balance sheet, profit &amp; loss account, and bank statements for FY 2025-26.</li>
+<li><strong>Verify DSC Status:</strong> Check the validity and registration status of your company&#x27;s Digital Signature Certificate (DSC) on the e-Filing portal. Renew it if it&#x27;s expired or nearing expiry.</li>
+<li><strong>Consult Your CA:</strong> Schedule a preliminary discussion with your Chartered Accountant to understand any new provisions for AY 2026-27 and to plan for the tax audit (if applicable).</li>
+<li><strong>Review Advance Tax Payments:</strong> Reconcile your advance tax payments made during FY 2025-26 with your actual tax liability to estimate any balance tax payable.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Who is ITR-6 for?</h3>
+<p>
+ITR-6 is exclusively for companies registered under the Companies Act, that are not claiming exemption under Section 11 of the Income Tax Act, 1961.
+</p>
+<h3>What is Section 11 exemption?</h3>
+<p>
+Section 11 provides income tax exemptions for income derived from property held under trust for charitable or religious purposes. Entities claiming this exemption do not file ITR-6.
+</p>
+<h3>Can individuals use ITR-6?</h3>
+<p>
+No, individuals cannot use ITR-6. It is specifically designed for companies. Individuals file ITR-1, ITR-2, ITR-3, or ITR-4 depending on their income sources and eligibility.
+</p>
+<h3>What is the AY 2026-27?</h3>
+<p>
+AY 2026-27 stands for Assessment Year 2026-27. This is the year in which the income earned during the Financial Year 2025-26 (April 1, 2025, to March 31, 2026) is assessed for tax.
+</p>
+<h3>Is it mandatory to use the Excel utility?</h3>
+<p>
+The Income Tax Department provides various utilities (Excel, Java) for different ITR forms. While the Excel utility is a popular option, the department also offers other methods like online filing or using third-party software.
+</p>
+<h3>What if I file ITR-6 late?</h3>
+<p>
+Late filing of ITR-6 can result in a late filing fee of up to ₹10,000 under Section 234F, interest under Section 234A on unpaid tax, and loss of ability to carry forward certain losses.
+</p>
+<h3>Where can I download the utility?</h3>
+<p>
+The ITR-6 Excel utility for AY 2026-27 can be downloaded from the official Income Tax e-Filing portal (incometax.gov.in) under the &#x27;Downloads&#x27; section.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/itr6-excel-utility-for-ay-2026-27-released-eligibility-due-dates-key-documents-explained-11785929997234.html</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# ITR-6 Excel Utility for AY 2026-27: Eligibility &amp; Due Dates
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The Income Tax Department has released the Excel utility for filing ITR-6 for Assessment Year (AY) 2026-27.</li>
+<li>ITR-6 is specifically designed for companies that are not claiming any exemption under Section 11 of the Income Tax Act, 1961.</li>
+<li>This utility simplifies the process for corporate taxpayers to prepare and submit their income tax returns electronically.</li>
+<li>Key due dates for filing ITR-6 for AY 2026-27 generally fall in October, with variations for companies requiring a tax audit or transfer pricing audit.</li>
+<li>Timely filing is crucial to avoid penalties and ensure compliance with income tax regulations.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+For many businesses in India, filing income tax returns is an annual exercise. When we talk about &quot;ITR-6,&quot; we&#x27;re referring to a specific form used by companies to declare their income to the tax authorities. Unlike individuals or Hindu Undivided Families (HUFs), companies have a distinct tax structure and reporting requirements. The &quot;Excel utility&quot; is simply a downloadable software tool provided by the Income Tax Department that helps these companies fill out their ITR-6 form accurately and efficiently on their computer before uploading it to the e-Filing portal.
+</p>
+<p>
+The &quot;AY 2026-27&quot; refers to the Assessment Year, which is the year in which the income earned during the previous financial year (2025-26) is assessed for tax. So, if a company earned profits between April 1, 2025, and March 31, 2026, they would use the ITR-6 form for AY 2026-27 to report that income. A crucial point is that ITR-6 is for companies <em>not</em> claiming exemption under Section 11, which typically applies to charitable or religious trusts and institutions. For most commercial companies, this is the relevant form. The release of this utility means companies can now begin preparing their returns for the upcoming filing season.
+</p>
+<h2>Understanding ITR-6: Who Needs to File?</h2>
+<p>
+ITR-6 is a specific income tax return form exclusively for companies. It&#x27;s important to differentiate this from other ITR forms like ITR-1 (Sahaj) or ITR-4 (Sugam), which are meant for individuals, Hindu Undivided Families (HUFs), or LLPs with specific income criteria. If you operate a private limited company, a public limited company, or any other corporate entity registered under the Companies Act, you will likely need to file ITR-6.
+</p>
+<h3>Companies vs. Individuals/HUF/LLP</h3>
+<p>
+The Indian income tax system categorises taxpayers based on their legal structure. Companies are treated as separate legal entities and are subject to corporate tax rates. Unlike individuals who might use ITR-1, ITR-2, ITR-3, or ITR-4, companies are mandated to use ITR-6. Even dormant companies or those with no taxable income must file ITR-6 to maintain compliance. This ensures that the financial activities and tax liabilities of corporate entities are properly reported to the Income Tax Department.
+</p>
+<h3>The Section 11 Exemption</h3>
+<p>
+A key aspect of ITR-6 eligibility is the exclusion of companies claiming exemption under Section 11 of the Income Tax Act, 1961. Section 11 provides exemptions to income derived from property held under trust for charitable or religious purposes. Therefore, if your entity is a company registered under the Companies Act, but it operates as a charitable or religious trust and claims income exemption under Section 11, then ITR-6 is not the correct form. Such organisations typically file ITR-7. For all other companies, including manufacturing, service, or trading companies, ITR-6 is the applicable form. This distinction is critical to avoid filing errors and potential notices from the tax department.
+</p>
+<h3>Types of Companies Filing ITR-6</h3>
+<p>
+ITR-6 covers a broad spectrum of companies. This includes both Indian companies and body corporates incorporated outside India that are liable to pay tax in India. Whether your company is a start-up, a small and medium enterprise (SME), or a large corporation, if it&#x27;s registered under the Companies Act and doesn&#x27;t claim Section 11 exemption, ITR-6 is your go-to form. The form requires detailed financial information, including profit and loss accounts, balance sheets, and other relevant statements, providing a comprehensive view of the company&#x27;s financial health and tax obligations.
+</p>
+<h2>Key Details of the ITR-6 Excel Utility</h2>
+<p>
+The Income Tax Department consistently strives to make tax filing easier for taxpayers by releasing various utilities. The ITR-6 Excel utility for AY 2026-27 is one such tool, designed to streamline the preparation of corporate tax returns. The utility is now available on the official e-Filing portal of the Income Tax Department.
+</p>
+<h3>What the Utility Offers</h3>
+<p>
+The Excel utility is essentially a spreadsheet-based application that allows companies to input their financial data, calculate their tax liability, and generate an XML file for uploading to the e-Filing portal. It is pre-programmed with the latest tax laws and rules applicable for AY 2026-27, reducing the chances of manual calculation errors. Key features often include:
+</p>
+<ul>
+<li><strong>Data Entry Fields:</strong> Structured sections for entering details like company information, profit and loss statement, balance sheet, capital gains, deductions, and tax payments.</li>
+<li><strong>Automated Calculations:</strong> The utility automatically calculates total income, tax payable, interest, and penalties based on the data entered.</li>
+<li><strong>Validation Checks:</strong> Built-in validation rules help identify common errors or omissions before submission, prompting the user to correct them.</li>
+<li><strong>XML Generation:</strong> Once all data is entered and verified, the utility generates an XML file, which is the format required for uploading the return online.</li>
+</ul>
+<h3>How to Access and Use It</h3>
+<p>
+To access the ITR-6 Excel utility, taxpayers need to visit the official Income Tax e-Filing portal (incometax.gov.in). Under the &#x27;Downloads&#x27; section, they can find the relevant Assessment Year (AY 2026-27) and select the ITR-6 Excel utility. After downloading, the utility can be opened using Microsoft Excel. Users then need to meticulously fill in all the required financial details from their books of accounts. It is advisable to have all financial statements, audit reports, and other supporting documents ready before starting the process. After filling, it&#x27;s crucial to validate the data within the utility itself to catch any errors.
+</p>
+<h3>Digital Signature Requirement</h3>
+<p>
+For companies, e-filing of income tax returns is mandatory and must be done using a Digital Signature Certificate (DSC). The ITR-6 form, after being prepared using the Excel utility, must be signed digitally before uploading. A valid Class 2 or Class 3 DSC is typically required. It is imperative for companies to ensure their DSC is active and registered with the Income Tax Department&#x27;s e-Filing portal well in advance of the due date. Without a valid DSC, the return cannot be successfully submitted online.
+</p>
+<h2>Important Due Dates for AY 2026-27</h2>
+<p>
+Meeting the income tax return filing deadlines is not just a matter of compliance; it also helps avoid penalties and ensures smooth business operations. For companies filing ITR-6 for Assessment Year 2026-27 (Financial Year 2025-26), there are specific due dates to keep in mind, depending on whether a tax audit is required.
+</p>
+<h3>General Due Dates for Companies</h3>
+<p>
+For most companies whose accounts are subject to audit under the Income Tax Act or any other law, the standard due date for filing ITR-6 for AY 2026-27 is <strong>31st October 2026</strong>. This applies to companies whose transactions trigger the tax audit provisions. It&#x27;s important to remember that this deadline is for filing the return itself, not just for preparing the data.
+</p>
+<h3>Due Dates for Tax Audit Cases</h3>
+<p>
+Companies that are required to get their accounts audited under Section 44AB of the Income Tax Act, or under any other law, have a due date of <strong>31st October 2026</strong> for filing ITR-6 for AY 2026-27. Additionally, if the company is required to furnish a transfer pricing report under Section 92E, the due date for filing the return is extended to <strong>30th November 2026</strong>. It&#x27;s crucial for companies falling under this category to coordinate with their auditors well in advance to ensure the audit is completed and the report is submitted by the respective deadlines.
+</p>
+<h3>Consequences of Late Filing</h3>
+<p>
+Failing to file ITR-6 by the prescribed due dates can lead to several adverse consequences:
+</p>
+<ul>
+<li><strong>Late Filing Fee:</strong> Under Section 234F of the Income Tax Act, a late filing fee is levied. This fee can be ₹5,000 if the return is filed after the due date but on or before 31st December of the assessment year. If filed after 31st December, the fee increases to ₹10,000. However, for small taxpayers whose total income does not exceed ₹5 lakhs, the maximum late fee is capped at ₹1,000.</li>
+<li><strong>Interest on Unpaid Tax:</strong> If there is any unpaid tax liability, interest under Section 234A will be charged at 1% per month or part thereof from the original due date until the date of filing the return.</li>
+<li><strong>Loss Carry Forward Restrictions:</strong> Companies may lose the ability to carry forward certain losses (other than unabsorbed depreciation) to future assessment years if the return is not filed by the due date.</li>
+<li><strong>Penalties and Prosecution:</strong> In more severe cases of non-compliance or intentional delay, the Income Tax Department can initiate penalty proceedings or even prosecution.</li>
+</ul>
+<h2>Documents Required for Filing ITR-6</h2>
+<p>
+Filing ITR-6 accurately and efficiently requires a comprehensive collection of financial and legal documents. Having these ready before starting the process will significantly streamline the filing experience and minimise errors.
+</p>
+<h3>Financial Statements</h3>
+<p>
+The core of any company&#x27;s tax return lies in its financial statements. For ITR-6, you will need:
+</p>
+<ul>
+<li><strong>Audited Financial Statements:</strong> This includes the Balance Sheet as of March 31, 2026, and the Profit &amp; Loss Account for the financial year 2025-26. These statements must be prepared as per the Companies Act and, if applicable, audited as per the Income Tax Act.</li>
+<li><strong>Trial Balance:</strong> A detailed trial balance is essential for reconciling accounts and ensuring accuracy.</li>
+<li><strong>Cash Flow Statement:</strong> For companies meeting certain thresholds, a cash flow statement is also a mandatory part of the financial reports.</li>
+</ul>
+<h3>Audit Reports</h3>
+<p>
+If your company&#x27;s turnover exceeds the prescribed limits (e.g., ₹1 crore for most businesses, or ₹10 crores for businesses where cash transactions are limited to 5% of total transactions) or if you fall under specific sections requiring an audit, then the following audit reports are crucial:
+</p>
+<ul>
+<li><strong>Tax Audit Report (Form 3CD):</strong> This report, prepared and certified by a Chartered Accountant, provides a detailed analysis of the company&#x27;s financial records from an income tax perspective. It includes information on various compliance aspects and adjustments required under the Income Tax Act.</li>
+<li><strong>Other Audit Reports:</strong> If your company is subject to audits under other specific laws (e.g., GST audit, internal audit), relevant reports should be on hand for reference, though Form 3CD is specifically for income tax purposes. Companies covered under Section 115JB (Minimum Alternate Tax) may also need Form 29B.</li>
+</ul>
+<h3>Other Supporting Documents</h3>
+<p>
+Beyond the primary financial and audit reports, several other documents are necessary for accurate ITR-6 filing:
+</p>
+<ul>
+<li><strong>Bank Statements:</strong> All bank statements for the financial year 2025-26, including details of all transactions, interest earned, and bank charges.</li>
+<li><strong>TDS Certificates (Form 16A):</strong> Certificates for Tax Deducted at Source (TDS) received by the company from its clients or customers.</li>
+<li><strong>Advance Tax Challans:</strong> Proof of payment for any advance tax paid during the financial year.</li>
+<li><strong>Self-Assessment Tax Challans:</strong> If any self-assessment tax was paid, the challan details are required.</li>
+<li><strong>Form 26AS and Annual Information Statement (AIS):</strong> These help verify TDS, TCS, refunds, and other financial information.</li>
+<li><strong>Details of Investments:</strong> Information on any investments made or sold during the year, including capital gains/losses.</li>
+<li><strong>Fixed Asset Register:</strong> Details of additions, deletions, and depreciation of fixed assets.</li>
+<li><strong>GST Returns:</strong> GSTR-3B and GSTR-1 filings for reconciliation purposes, if applicable.</li>
+<li><strong>Master Data of the Company:</strong> Basic details like PAN, TAN, CIN, registration date, and registered address.</li>
+<li><strong>Board Resolution:</strong> Authorising filing and DSC holder.</li>
+</ul>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Zenith Tech Solutions Pvt. Ltd., Bengaluru</strong>, a software development company. The company, founded by Rahul, 38, has a turnover of ₹18 crores for the Financial Year 2025-26. Zenith Tech Solutions is a domestic company and does not claim any exemption under Section 11. Therefore, it is required to file ITR-6 for AY 2026-27.
+</p>
+<p>
+For FY 2025-26, Zenith Tech Solutions reported a net profit before tax of ₹2.5 crores. The company is opting for the beneficial corporate tax rate of 22% (plus surcharge and cess) under Section 115BAA, as it meets the conditions for this lower rate.
+</p>
+<p>
+<strong>Step-by-step calculation:</strong>
+</p>
+<ol>
+<li><strong>Net Profit Before Tax (PBT):</strong> ₹2,50,00,000</li>
+<li><strong>Corporate Tax Rate (under Section 115BAA):</strong> 22%</li>
+<li><strong>Tax on PBT:</strong> 22% of ₹2,50,00,000 = ₹55,00,000</li>
+</ol>
+<ol>
+<li><strong>Surcharge:</strong> Since the total income exceeds ₹1 crore but is less than ₹10 crores, a surcharge of 7% on the income tax is applicable. (Note: Under Section 115BAA, the surcharge is a flat 10% irrespective of income, but for other domestic companies, it varies. For this example, we&#x27;ll use the general 7% for income between ₹1 crore and ₹10 crores for illustrative purposes outside 115BAA&#x27;s specific surcharge rule, or assume 115BAA is chosen but the 7% surcharge applies as per general rules for this income slab if it were not 115BAA. For 115BAA, it&#x27;s a flat 10% surcharge, making the effective rate ~25.168%). Let&#x27;s re-calculate for Section 115BAA&#x27;s flat 10% surcharge.</li>
+<p>
+    *   Surcharge: 10% of ₹55,00,000 = ₹5,50,000
+</p>
+</ol>
+<ol>
+<li><strong>Health and Education Cess:</strong> A cess of 4% on (Income Tax + Surcharge) is applicable.</li>
+<p>
+    *   Total (Income Tax + Surcharge): ₹55,00,000 + ₹5,50,000 = ₹60,50,000
+    *   Cess: 4% of ₹60,50,000 = ₹2,42,000
+</p>
+</ol>
+<ol>
+<li><strong>Total Tax Liability:</strong> ₹55,00,000 (Income Tax) + ₹5,50,000 (Surcharge) + ₹2,42,000 (Cess) = <strong>₹62,92,000</strong></li>
+</ol>
+<p>
+Zenith Tech Solutions had already paid advance tax of ₹60,00,000 during FY 2025-26.
+</p>
+<ul>
+<li><strong>Advance Tax Paid:</strong> ₹60,00,000</li>
+<li><strong>Balance Tax Payable:</strong> ₹62,92,000 - ₹60,00,000 = ₹2,92,000</li>
+</ul>
+<p>
+Rahul and his team will now use the ITR-6 Excel utility to input these figures, along with detailed financial statements, ensure all calculations are correct, and then generate the XML file. They will then pay the balance tax of ₹2,92,000 as self-assessment tax before uploading the ITR-6 using their company&#x27;s Digital Signature Certificate by the due date of 31st October 2026 (assuming they are subject to tax audit, which is likely given their turnover, or the general due date for other cases).
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Download the ITR-6 Utility:</strong> Visit the official Income Tax e-Filing portal (incometax.gov.in) and download the ITR-6 Excel utility for AY 2026-27.</li>
+<li><strong>Gather Financial Documents:</strong> Start compiling all necessary financial statements, including the balance sheet, profit &amp; loss account, and bank statements for FY 2025-26.</li>
+<li><strong>Verify DSC Status:</strong> Check the validity and registration status of your company&#x27;s Digital Signature Certificate (DSC) on the e-Filing portal. Renew it if it&#x27;s expired or nearing expiry.</li>
+<li><strong>Consult Your CA:</strong> Schedule a preliminary discussion with your Chartered Accountant to understand any new provisions for AY 2026-27 and to plan for the tax audit (if applicable).</li>
+<li><strong>Review Advance Tax Payments:</strong> Reconcile your advance tax payments made during FY 2025-26 with your actual tax liability to estimate any balance tax payable.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Who is ITR-6 for?</h3>
+<p>
+ITR-6 is exclusively for companies registered under the Companies Act, that are not claiming exemption under Section 11 of the Income Tax Act, 1961.
+</p>
+<h3>What is Section 11 exemption?</h3>
+<p>
+Section 11 provides income tax exemptions for income derived from property held under trust for charitable or religious purposes. Entities claiming this exemption do not file ITR-6.
+</p>
+<h3>Can individuals use ITR-6?</h3>
+<p>
+No, individuals cannot use ITR-6. It is specifically designed for companies. Individuals file ITR-1, ITR-2, ITR-3, or ITR-4 depending on their income sources and eligibility.
+</p>
+<h3>What is the AY 2026-27?</h3>
+<p>
+AY 2026-27 stands for Assessment Year 2026-27. This is the year in which the income earned during the Financial Year 2025-26 (April 1, 2025, to March 31, 2026) is assessed for tax.
+</p>
+<h3>Is it mandatory to use the Excel utility?</h3>
+<p>
+The Income Tax Department provides various utilities (Excel, Java) for different ITR forms. While the Excel utility is a popular option, the department also offers other methods like online filing or using third-party software.
+</p>
+<h3>What if I file ITR-6 late?</h3>
+<p>
+Late filing of ITR-6 can result in a late filing fee of up to ₹10,000 under Section 234F, interest under Section 234A on unpaid tax, and loss of ability to carry forward certain losses.
+</p>
+<h3>Where can I download the utility?</h3>
+<p>
+The ITR-6 Excel utility for AY 2026-27 can be downloaded from the official Income Tax e-Filing portal (incometax.gov.in) under the &#x27;Downloads&#x27; section.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/itr6-excel-utility-for-ay-2026-27-released-eligibility-due-dates-key-documents-explained-11785929997234.html</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
