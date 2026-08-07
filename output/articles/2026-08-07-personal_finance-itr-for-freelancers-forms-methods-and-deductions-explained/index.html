@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>ITR for Freelancers: Forms, Methods, and Deductions Explained</title>
+<meta name="description" content="Freelancers not requiring an audit must file their Income Tax Return (ITR) by August 31st for the previous financial year. Choosing between ITR-3 and ITR-4 de.">
+<meta name="keywords" content="receipts, expenses, freelancers, presumptive, deductions, taxation, foreign, business">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-07-personal_finance-itr-for-freelancers-forms-methods-and-deductions-explained/">
+<meta property="og:title" content="ITR for Freelancers: Forms, Methods, and Deductions Explained">
+<meta property="og:description" content="Freelancers not requiring an audit must file their Income Tax Return (ITR) by August 31st for the previous financial year. Choosing between ITR-3 and ITR-4 de.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-07-personal_finance-itr-for-freelancers-forms-methods-and-deductions-explained/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ITR for Freelancers: Forms, Methods, and Deductions Explained", "description": "Freelancers not requiring an audit must file their Income Tax Return (ITR) by August 31st for the previous financial year. Choosing between ITR-3 and ITR-4 de.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-07", "dateModified": "2026-08-07", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-07-personal_finance-itr-for-freelancers-forms-methods-and-deductions-explained/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-08-07</div><h1>ITR for Freelancers: Forms, Methods, and Deductions Explained</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Freelancers not requiring an audit must file their Income Tax Return (ITR) by August 31st for the previous financial year.</li>
+<li>Choosing between ITR-3 and ITR-4 depends on your gross receipts and whether you opt for presumptive taxation.</li>
+<li>Presumptive taxation under Section 44ADA simplifies tax filing by assuming 50% of gross receipts as profit.</li>
+<li>Properly documenting all income and expenses, including foreign receipts, is crucial for accurate tax calculation and compliance.</li>
+<li>Leverage available deductions under sections like 80C, 80D, and specific business expenses to reduce your taxable income.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+If you&#x27;re a freelancer, a consultant, or run a small professional practice in India, you operate as an independent professional rather than a salaried employee. This means you&#x27;re responsible for calculating and paying your own taxes, and filing an Income Tax Return (ITR) is a mandatory annual exercise. The deadline for filing your ITR for the financial year (FY) 2025-26 (Assessment Year 2026-27) is August 31, 2026, provided your accounts do not need to be audited.
+</p>
+<p>
+Understanding which ITR form to use, how to report your income, and what deductions you can claim can significantly impact your tax liability. This guide aims to demystify these aspects, helping you navigate the process smoothly and ensure compliance with tax regulations.
+</p>
+<h2>Choosing the Right ITR Form for Freelancers</h2>
+<p>
+Selecting the correct ITR form is the first crucial step for any freelancer. The choice primarily depends on your income structure and whether you opt for presumptive taxation.
+</p>
+<h3>ITR-3: For Professionals with Regular Business Income or Higher Turnover</h3>
+<p>
+ITR-3 is applicable to individuals and Hindu Undivided Families (HUFs) who have income from a &quot;profession&quot; and do not opt for the presumptive taxation scheme under Section 44ADA. This form is typically used by freelancers whose gross receipts exceed ₹50 lakhs in a financial year, or those who wish to declare a profit lower than 50% of their gross receipts (in which case an audit under Section 44AB becomes mandatory). If you maintain detailed books of accounts and wish to claim all actual expenses incurred, ITR-3 is the appropriate choice. It allows for a more granular reporting of income and expenses, depreciation, and other business-related details.
+</p>
+<h3>ITR-4 (Sugam): For Professionals Opting for Presumptive Taxation</h3>
+<p>
+ITR-4, also known as Sugam, is a simplified form designed for individuals, HUFs, and firms (other than LLPs) whose total income includes business income and income from a profession, and who opt for the presumptive taxation scheme under Section 44AD, Section 44ADA, or Section 44AE. For freelancers and professionals, Section 44ADA is particularly relevant. This scheme allows professionals whose gross receipts do not exceed ₹50 lakhs in a financial year to declare 50% of their gross receipts as their taxable income. If you choose this scheme, you are not required to maintain detailed books of accounts. This significantly simplifies the compliance process, making ITR-4 a popular choice for many independent professionals.
+</p>
+<h2>Understanding Income Reporting and Tax Methods</h2>
+<p>
+Freelancers have two primary methods for reporting their income: regular business income (requiring detailed accounting) or presumptive taxation.
+</p>
+<h3>Presumptive Taxation under Section 44ADA</h3>
+<p>
+As mentioned, Section 44ADA is a boon for many small and medium-sized professionals. If your gross receipts from a profession do not exceed ₹50 lakhs in a financial year, you can opt for this scheme. Under Section 44ADA, you declare 50% of your gross receipts as your taxable income. For example, if your gross receipts are ₹40 lakhs, your taxable professional income would be ₹20 lakhs (50% of ₹40 lakhs). You are then taxed on this ₹20 lakhs as per the applicable slab rates. Opting for this scheme exempts you from maintaining detailed books of accounts, provided you declare income at the prescribed rate. However, if you declare income lower than 50% of your gross receipts and your total income exceeds the basic exemption limit, you must maintain books of accounts and get them audited.
+</p>
+<h3>Regular Business Income and Advance Tax</h3>
+<p>
+If you don&#x27;t opt for presumptive taxation (e.g., your gross receipts exceed ₹50 lakhs, or you wish to claim actual expenses that result in a profit margin lower than 50%), you must maintain proper books of accounts. Your taxable income will be calculated by deducting all eligible business expenses from your gross professional receipts.
+</p>
+<p>
+Freelancers are also subject to advance tax. If your estimated tax liability for the financial year is ₹10,000 or more, you are required to pay advance tax in four instalments throughout the year. These instalments are due by June 15th (15% of total tax), September 15th (45% of total tax), December 15th (75% of total tax), and March 15th (100% of total tax). Missing these deadlines or underpaying can lead to interest under Section 234B and 234C.
+</p>
+<h2>Key Deductions and Allowances for Freelancers</h2>
+<p>
+While freelancers don&#x27;t get the standard deductions available to salaried employees, they can claim a wide array of business expenses and personal deductions to reduce their taxable income.
+</p>
+<h3>Business Expenses</h3>
+<p>
+Any expenditure incurred &quot;wholly and exclusively&quot; for the purpose of your profession can be claimed as a deduction. This includes, but is not limited to:
+</p>
+<ul>
+<li><strong>Rent for office space:</strong> If you work from a dedicated office or a portion of your home is used exclusively for professional purposes.</li>
+<li><strong>Utility bills:</strong> Proportionate electricity, internet, and phone bills.</li>
+<li><strong>Professional fees:</strong> Payments made to other professionals for services related to your work (e.g., legal advice, accounting).</li>
+<li><strong>Travel expenses:</strong> For client meetings, conferences, or work-related trips.</li>
+<li><strong>Depreciation:</strong> On assets like computers, furniture, and vehicles used for your profession.</li>
+<li><strong>Software and subscriptions:</strong> Tools essential for your work.</li>
+<li><strong>Marketing and advertising expenses:</strong> For promoting your services.</li>
+<li><strong>Printing and stationery:</strong> For professional use.</li>
+<li><strong>Books and periodicals:</strong> Related to your profession.</li>
+</ul>
+<p>
+It is crucial to maintain proper records, invoices, and receipts for all such expenses.
+</p>
+<h3>Personal Deductions under Chapter VI-A</h3>
+<p>
+Freelancers can also avail of various personal tax deductions, similar to salaried individuals:
+</p>
+<ul>
+<li><strong>Section 80C:</strong> Investments in PPF, ELSS mutual funds, life insurance premiums, home loan principal repayment, NPS contributions (up to ₹1.5 lakhs).</li>
+<li><strong>Section 80CCD(1B):</strong> Additional deduction for NPS contributions up to ₹50,000.</li>
+<li><strong>Section 80D:</strong> Health insurance premiums for self, family, and parents.</li>
+<li><strong>Section 80E:</strong> Interest paid on education loans.</li>
+<li><strong>Section 80G:</strong> Donations to specified charitable institutions.</li>
+<li><strong>Section 80TTA/80TTB:</strong> Interest income from savings accounts (up to ₹10,000 for individuals, ₹50,000 for senior citizens).</li>
+</ul>
+<h2>Navigating Foreign Income and Documentation</h2>
+<p>
+Many Indian freelancers work with international clients, making foreign income reporting a critical aspect of their ITR.
+</p>
+<h3>Reporting Foreign Income</h3>
+<p>
+If you receive payments from foreign clients, this income is taxable in India, provided you are a Resident and Ordinarily Resident (ROR) as per income tax rules. You must report this income under &quot;Profits and Gains from Business or Profession.&quot; It&#x27;s essential to convert the foreign currency income into Indian Rupees using the RBI reference rate or the telegraphic transfer buying rate on the date of receipt or as per consistent accounting practice.
+</p>
+<h3>Foreign Inward Remittance Certificate (FIRC)</h3>
+<p>
+For foreign currency receipts, banks issue a Foreign Inward Remittance Certificate (FIRC). This document serves as proof that you have received payment from abroad. While not always explicitly required for ITR filing, it is a crucial record for your own documentation and can be requested by the Income Tax Department during scrutiny. Ensure you obtain FIRCs for all significant foreign remittances.
+</p>
+<h3>Importance of Record-Keeping</h3>
+<p>
+Regardless of whether you choose presumptive taxation or regular accounting, meticulous record-keeping is paramount. This includes:
+</p>
+<ul>
+<li><strong>Invoices and receipts:</strong> For all income and expenses.</li>
+<li><strong>Bank statements:</strong> Reconcile your professional income and expenses with your bank statements.</li>
+<li><strong>Contracts with clients:</strong> Especially for large projects or long-term engagements.</li>
+<li><strong>TDS certificates (Form 16A):</strong> If any client has deducted TDS on your payments.</li>
+<li><strong>FIRC copies:</strong> For foreign income.</li>
+</ul>
+<p>
+Good documentation not only helps in accurate filing but also serves as crucial evidence if your return is selected for scrutiny by the Income Tax Department.
+</p>
+<h2>A real example</h2>
+<p>
+Priya, 32, a freelance graphic designer based in Delhi, earned ₹45 lakhs in gross receipts during FY 2025-26. She primarily works with Indian and a few international clients. Her major expenses include:
+</p>
+<ul>
+<li>Rent for her home office: ₹1.80 lakhs</li>
+<li>Internet and electricity (proportionate): ₹60,000</li>
+<li>Software subscriptions: ₹40,000</li>
+<li>New laptop (depreciation @ 40%): ₹30,000 (cost ₹75,000)</li>
+<li>Professional books/courses: ₹20,000</li>
+<li>Health insurance (self &amp; parents): ₹45,000 (Sec 80D)</li>
+<li>ELSS investment: ₹1.00 lakh (Sec 80C)</li>
+</ul>
+<p>
+Let&#x27;s calculate her tax liability using both methods:
+</p>
+<p>
+<strong>Method 1: Presumptive Taxation (Section 44ADA) using ITR-4</strong>
+</p>
+<ol>
+<li><strong>Gross Receipts:</strong> ₹45,00,000 (within ₹50 lakh limit)</li>
+<li><strong>Presumptive Income (50% of Gross Receipts):</strong> ₹45,00,000 * 50% = ₹22,50,000</li>
+<li><strong>Less: Deductions under Chapter VI-A:</strong></li>
+<p>
+    *   Section 80C: ₹1,00,000
+    *   Section 80D: ₹45,000
+    *   <strong>Total Chapter VI-A Deductions:</strong> ₹1,45,000
+</p>
+<li><strong>Total Taxable Income:</strong> ₹22,50,000 - ₹1,45,000 = ₹21,05,000</li>
+</ol>
+<ul>
+<li><strong>Tax Calculation (New Tax Regime - assuming she opts for it for simplicity):</strong></li>
+<p>
+    *   Up to ₹7,00,000: ₹0 (due to rebate)
+    <em>   ₹7,00,001 to ₹10,00,000 (3,00,000 </em> 10%): ₹30,000
+    <em>   ₹10,00,001 to ₹13,00,000 (3,00,000 </em> 15%): ₹45,000
+    <em>   ₹13,00,001 to ₹16,00,000 (3,00,000 </em> 20%): ₹60,000
+    <em>   Above ₹16,00,000 (₹21,05,000 - ₹16,00,000 = ₹5,05,000 </em> 30%): ₹1,51,500
+    *   <strong>Total Tax:</strong> ₹30,000 + ₹45,000 + ₹60,000 + ₹1,51,500 = ₹2,86,500
+    <em>   <strong>Add: Health &amp; Education Cess (4%):</strong> ₹2,86,500 </em> 4% = ₹11,460
+    *   <strong>Total Tax Payable:</strong> ₹2,86,500 + ₹11,460 = ₹2,97,960
+</p>
+</ul>
+<p>
+<strong>Method 2: Regular Business Income (ITR-3)</strong>
+</p>
+<ol>
+<li><strong>Gross Receipts:</strong> ₹45,00,000</li>
+<li><strong>Less: Business Expenses:</strong></li>
+<p>
+    *   Rent: ₹1,80,000
+    *   Internet/Electricity: ₹60,000
+    *   Software: ₹40,000
+    *   Depreciation (laptop): ₹30,000
+    *   Books/Courses: ₹20,000
+    *   <strong>Total Business Expenses:</strong> ₹3,30,000
+</p>
+<li><strong>Net Professional Income:</strong> ₹45,00,000 - ₹3,30,000 = ₹41,70,000</li>
+<li><strong>Less: Deductions under Chapter VI-A:</strong></li>
+<p>
+    *   Section 80C: ₹1,00,000
+    *   Section 80D: ₹45,000
+    *   <strong>Total Chapter VI-A Deductions:</strong> ₹1,45,000
+</p>
+<li><strong>Total Taxable Income:</strong> ₹41,70,000 - ₹1,45,000 = ₹40,25,000</li>
+</ol>
+<ul>
+<li><strong>Tax Calculation (New Tax Regime):</strong></li>
+<p>
+    *   Up to ₹7,00,000: ₹0
+    *   ₹7,00,001 to ₹10,00,000: ₹30,000
+    *   ₹10,00,001 to ₹13,00,000: ₹45,000
+    *   ₹13,00,001 to ₹16,00,000: ₹60,000
+    <em>   Above ₹16,00,000 (₹40,25,000 - ₹16,00,000 = ₹24,25,000 </em> 30%): ₹7,27,500
+    *   <strong>Total Tax:</strong> ₹30,000 + ₹45,000 + ₹60,000 + ₹7,27,500 = ₹8,62,500
+    <em>   <strong>Add: Health &amp; Education Cess (4%):</strong> ₹8,62,500 </em> 4% = ₹34,500
+    *   <strong>Total Tax Payable:</strong> ₹8,62,500 + ₹34,500 = ₹8,97,000
+</p>
+</ul>
+<p>
+In Priya&#x27;s case, opting for presumptive taxation under Section 44ADA with ITR-4 significantly reduces her tax liability from ₹8,97,000 to ₹2,97,960. This illustrates why understanding these options is crucial for freelancers.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Gather all income proofs:</strong> Consolidate all bank statements, payment receipts, invoices, and Form 16A (if applicable) for the financial year 2025-26 to accurately calculate your gross receipts.</li>
+<li><strong>Compile expense records:</strong> Collect all bills, invoices, and digital records for professional expenses you incurred. If opting for presumptive taxation, this is less critical for filing but good for your own financial tracking.</li>
+<li><strong>Reconcile foreign income:</strong> If you have international clients, ensure you have records of all foreign remittances and, if available, Foreign Inward Remittance Certificates (FIRCs).</li>
+<li><strong>Review Chapter VI-A deductions:</strong> List out all your eligible investments (e.g., ELSS, PPF), insurance premiums, and other expenditures that qualify for deductions under sections like 80C, 80D, etc.</li>
+<li><strong>Consult a professional (if unsure):</strong> If your income structure is complex or you are unsure about choosing between ITR-3 and ITR-4, consider speaking with a Certified Financial Planner or a Chartered Accountant.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Who needs to file ITR by August 31st?</h3>
+<p>
+Freelancers and self-employed individuals whose accounts do not require an audit must file their ITR by August 31st for the previous financial year.
+</p>
+<h3>Which ITR form should a freelancer use?</h3>
+<p>
+Most freelancers will use either ITR-3 or ITR-4. ITR-4 is for those opting for presumptive taxation (gross receipts up to ₹50 lakhs), while ITR-3 is for others, including those with higher gross receipts or who declare lower profits and need to maintain detailed books.
+</p>
+<h3>What is presumptive taxation under Section 44ADA?</h3>
+<p>
+Section 44ADA allows eligible professionals with gross receipts up to ₹50 lakhs to declare 50% of their gross receipts as their taxable income, simplifying tax computation and exempting them from maintaining detailed books of accounts.
+</p>
+<h3>Can freelancers claim business expenses?</h3>
+<p>
+Yes, freelancers can claim all expenses incurred &quot;wholly and exclusively&quot; for their profession, such as office rent, utility bills, software subscriptions, travel, and depreciation on professional assets, if they do not opt for presumptive taxation.
+</p>
+<h3>Do I need to pay advance tax as a freelancer?</h3>
+<p>
+If your estimated tax liability for the financial year is ₹10,000 or more, you are required to pay advance tax in four instalments throughout the year.
+</p>
+<h3>How should I report foreign income?</h3>
+<p>
+Foreign income received by a Resident and Ordinarily Resident freelancer is taxable in India and must be reported under &quot;Profits and Gains from Business or Profession,&quot; converted to INR using prescribed exchange rates.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Money: Freelancers need to file ITR by 31 August: Forms, income reporting rules, tax methods and deductions explained [https://www.livemint.com/money/personal-finance/freelancers-need-to-file-itr-by-31-august-forms-income-reporting-rules-tax-methods-and-deductions-explained-11786018910636.html]</li>
+<li>Income Tax India: [https://incometax.gov.in]</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
