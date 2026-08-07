@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Market Wrap — 07 August 2026</title>
+<meta name="description" content="Indian benchmark indices, Nifty 50 and Bank Nifty, ended the day in negative territory. Midcap 100 showed resilience, closing with modest gains, while Smallca.">
+<meta name="keywords" content="profit, sector, stocks, markets, economictimes, indiatimes, articleshow, earnings">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-07-post_market-market-wrap-07-august-2026/">
+<meta property="og:title" content="Market Wrap — 07 August 2026">
+<meta property="og:description" content="Indian benchmark indices, Nifty 50 and Bank Nifty, ended the day in negative territory. Midcap 100 showed resilience, closing with modest gains, while Smallca.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-07-post_market-market-wrap-07-august-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Market Wrap \u2014 07 August 2026", "description": "Indian benchmark indices, Nifty 50 and Bank Nifty, ended the day in negative territory. Midcap 100 showed resilience, closing with modest gains, while Smallca.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-07", "dateModified": "2026-08-07", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-07-post_market-market-wrap-07-august-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/" class="active">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Market Wrap · 2026-08-07</div><h1>Market Wrap — 07 August 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Indian benchmark indices, Nifty 50 and Bank Nifty, ended the day in negative territory.</li>
+<li>Midcap 100 showed resilience, closing with modest gains, while Smallcap 100 was marginally down.</li>
+<li>FIIs were net sellers in the cash market, while DIIs provided buying support.</li>
+<li>The Automobile and IT sectors were the top performers, while Banking and Realty lagged.</li>
+<li>Sapphire Foods India Ltd. emerged as the top Nifty 500 gainer, while Jyoti CNC Automation Ltd. was the biggest loser.</li>
+<li>Concerns over a potential peace deal in the Middle East and financial sector weaknesses influenced market sentiment.</li>
+<li>F&amp;O build-up data for today is unavailable and will be populated from the next session.</li>
+</ul>
+</div>
+<h2>How the market behaved today</h2>
+<p>
+Indian equities witnessed a day of cautious trading, with frontline indices Nifty 50 and Bank Nifty closing lower. The Nifty 50 ended at 24570.65, down 0.27%, after trading in a narrow range. The Bank Nifty also saw declines, closing at 57746.45, down 0.55%. In contrast, the broader market showed a mixed trend, with the Nifty Midcap 100 posting gains, while the Nifty Smallcap 100 ended slightly in the red.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>Change</th><th>High</th><th>Low</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>24570.65</td><td>-0.27%</td><td>24630.40</td><td>24522.75</td></tr>
+<tr><td>Bank Nifty</td><td>57746.45</td><td>-0.55%</td><td>57994.45</td><td>57686.55</td></tr>
+<tr><td>Midcap 100</td><td>63463.55</td><td>+0.22%</td><td>63596.65</td><td>63181.50</td></tr>
+<tr><td>Smallcap 100</td><td>19867.80</td><td>-0.05%</td><td>19927.90</td><td>19804.30</td></tr>
+</tbody></table>
+<p>
+India VIX remained flat at 12.16 (+0.00%), indicating stable volatility in the market.
+</p>
+<h2>What moved the market — the factors</h2>
+<p>
+The Indian market today was largely influenced by a combination of factors, including foreign institutional investor (FII) outflows and concerns stemming from global geopolitical developments. FIIs turned net sellers in the cash market, offloading shares worth ₹943 crore, which contributed to the negative sentiment in large-cap indices. Domestic institutional investors (DIIs), however, provided strong support, pumping in ₹2,883 crore, helping to cushion the fall and providing buoyancy to the midcap segment.
+</p>
+<p>
+Concerns over a potential peace deal in the Middle East and perceived weaknesses in the financial sector also weighed on investor sentiment. This was evident in the underperformance of the Banking sector, which was the top sectoral loser. Heavyweight stock Bajaj Finance Ltd. saw a significant decline of 5.84%, impacting the broader financial services space. Conversely, the Automobile and IT sectors showed strength, with stocks like Tata Technologies Ltd. and Samvardhana Motherson International Ltd. among the top gainers, indicating some sector-specific buying interest.
+</p>
+<h2>Sectors — winners and losers</h2>
+<p>
+The market saw a clear divergence in sectoral performance today, with Auto and IT leading the gains, while Banking and Realty faced selling pressure.
+</p>
+<p>
+<strong>Top 3 Gainer Sectors:</strong>
+</p>
+<ul>
+<li>AUTO: +1.84% - The sector witnessed strong buying interest, with several auto and auto component stocks performing well.</li>
+<li>IT: +1.42% - Technology stocks showed resilience and attracted fresh buying.</li>
+<li>PSU BANK: +0.65% - Public sector banks managed to eke out gains despite broader weakness in the financial space.</li>
+</ul>
+<p>
+<strong>Top 3 Loser Sectors:</strong>
+</p>
+<ul>
+<li>BANK: -0.55% - Private sector banks faced selling pressure, contributing to the overall decline in the Bank Nifty.</li>
+<li>REALTY: -0.10% - Despite positive news on residential real estate demand, the sector ended marginally lower.</li>
+<li>PHARMA: -0.09% - The pharmaceutical sector also closed with slight losses.</li>
+</ul>
+<h2>Stocks that moved the market</h2>
+<h3>Top 5 gainers (Nifty 500)</h3>
+<ul>
+<li>Sapphire Foods India Ltd. (SAPPHIRE, Consumer Services): close ₹224.22, +12.26%</li>
+<li>Siemens Energy India Ltd. (ENRIN, Capital Goods): close ₹3648.80, +12.19%</li>
+<li>Tata Technologies Ltd. (TATATECH, Information Technology): close ₹872.80, +8.89%</li>
+<li>Devyani International Ltd. (DEVYANI, Consumer Services): close ₹134.73, +8.78%</li>
+<li>Samvardhana Motherson International Ltd. (MOTHERSON, Automobile and Auto Components): close ₹168.50, +8.71%</li>
+</ul>
+<h3>Top 5 losers (Nifty 500)</h3>
+<ul>
+<li>Jyoti CNC Automation Ltd. (JYOTICNC, Capital Goods): close ₹784.30, -9.33%</li>
+<li>Crompton Greaves Consumer Electricals Ltd. (CROMPTON, Consumer Durables): close ₹249.95, -7.43%</li>
+<li>EIH Ltd. (EIHOTEL, Consumer Services): close ₹306.55, -5.87%</li>
+<li>Bajaj Finance Ltd. (BAJFINANCE, Financial Services): close ₹1078.00, -5.84% - The stock was among the top losers, contributing to the weakness in the financial sector.</li>
+<li>eClerx Services Ltd. (ECLERX, Services): close ₹1769.10, -5.52%</li>
+</ul>
+<h2>News that moved stocks</h2>
+<p>
+<strong>Earnings Season Highlights:</strong>
+</p>
+<ul>
+<li><strong>Titan Q1 Profit Soars 63% YoY to ₹1,777 crore</strong></li>
+<p>
+  Consumer discretionary major Titan Ltd reported robust 63% year-on-year growth in consolidated net profit for the first quarter, driven by a 40% surge in total income.
+</p>
+<li><strong>Lupin Q1 PAT Rises 16% at ₹1,417 crore</strong></li>
+<p>
+  Lupin Ltd announced a 16% increase in profit after tax for the first quarter, showcasing considerable growth in consolidated total revenue.
+</p>
+<li><strong>Premier Energies Q1 Result: Profit Jumps 53% to ₹472 crore</strong></li>
+<p>
+  Premier Energies reported significant profit growth of over 53% in the latest quarter, attributed to strong demand across key business sectors.
+</p>
+<li><strong>Arvind SmartSpaces Q1 Results: Profit Zooms 8-fold to ₹97 crore</strong></li>
+<p>
+  Arvind SmartSpaces achieved an eight-fold rise in net profit in the June quarter, with total income surging and sales bookings more than doubling.
+</p>
+<li><strong>Bectors Food Q1 Results: Profit Rises 25.5% to ₹38.76 crore</strong></li>
+<p>
+  Mrs Bectors Food Specialities reported a notable 25.53% increase in net profit for the June quarter, with operating revenue growing by 16%.
+</p>
+<li><strong>Vikram Solar Q1 Net Profit Declines 85% to ₹20 crore</strong></li>
+<p>
+  Vikram Solar experienced a sharp 85% drop in profits for the June quarter, primarily due to increased expenses, despite a positive trend in revenue from operations.
+</p>
+<li><strong>JK Tyre &amp; Industries Q1 Results: Net Profit Tumbles 73% at ₹44.09 crore</strong></li>
+<p>
+  JK Tyre &amp; Industries reported a significant 73% decline in profits for the first quarter of FY27, mainly due to soaring raw material prices linked to the West Asia crisis.
+</p>
+</ul>
+<p>
+<strong>Banking &amp; Finance Sector Developments:</strong>
+</p>
+<ul>
+<li><strong>ICICI Bank, Axis Bank Tap Dollar Debt Again in Less Than Two Months</strong></li>
+<p>
+  ICICI Bank and Axis Bank are returning to the U.S. dollar debt market, each aiming to raise $300 million through upcoming bond issues. This indicates continued demand for foreign currency funding by Indian banks.
+</p>
+</ul>
+<p>
+<strong>Real Estate Market Insights:</strong>
+</p>
+<ul>
+<li><strong>RBI&#x27;s Rate Pause Sustains Steady Momentum in Residential Real Estate</strong></li>
+<p>
+  India&#x27;s residential property sector remains robust, driven by consistent demand and infrastructure advancements, further bolstered by the Reserve Bank of India&#x27;s decision to hold the repo rate steady.
+</p>
+<li><strong>Mumbai Luxury Home Sales Hit Record ₹18,512 crore in H1, Growth Likely to Moderate</strong></li>
+<p>
+  Mumbai&#x27;s luxury housing market recorded its highest-ever half-yearly sales in H1 2026, reaching ₹18,512 crore, though growth is expected to moderate in the coming quarters.
+</p>
+</ul>
+<p>
+<strong>Corporate &amp; IPO News:</strong>
+</p>
+<ul>
+<li><strong>Fossil Group is Said to Invite Banks for India Unit IPO</strong></li>
+<p>
+  Fossil Group Inc. is reportedly exploring an initial public offering for its India business, potentially raising up to $300 million by selling a stake of up to 25%.
+</p>
+</ul>
+<p>
+<strong>Global &amp; Thematic News:</strong>
+</p>
+<ul>
+<li><strong>Trump Could Net Big Tax Windfall in Crypto Bill Divestiture Plan: Reports</strong></li>
+<p>
+  A bipartisan cryptocurrency legislation proposal could offer President Trump a tax advantage by allowing the deferral of capital gains taxes on his digital asset portfolio.
+</p>
+<li><strong>What Does the AI Trade Bubble Burst Mean for the Indian Stock Market?</strong></li>
+<p>
+  Experts suggest that a potential pause in crowded AI positioning across global markets could benefit the Indian stock market through a contra-AI trade.
+</p>
+</ul>
+<h2>F&amp;O build-up — where traders are positioning</h2>
+<p>
+OI build-up needs the previous session&#x27;s OI — it will populate from the next run. Data unavailable for today.
+</p>
+<h2>Market breadth</h2>
+<p>
+The market breadth was slightly negative today, with 233 advances against 262 declines out of a total of 495 stocks traded, indicating that more stocks ended lower than higher.
+</p>
+<h2>FII / DII flows</h2>
+<p>
+Foreign Institutional Investors (FIIs) were net sellers in the Indian equity market today, while Domestic Institutional Investors (DIIs) continued to provide strong buying support.
+</p>
+<table><thead><tr><th>Investor Type</th><th>Net Flow (₹ crore)</th></tr></thead><tbody>
+<tr><td>FII</td><td>-943</td></tr>
+<tr><td>DII</td><td>+2,883</td></tr>
+</tbody></table>
+<p>
+Looking at the 5-day history, FIIs have been net sellers on two of the last five trading sessions, including today, indicating a cautious stance. However, DIIs have consistently been net buyers, providing a crucial counter-balance to FII outflows and supporting the domestic market.
+</p>
+<h2>Event breakdown — what happened today and how it hit the market</h2>
+<p>
+Today&#x27;s session was primarily driven by a combination of FII outflows and global cues, particularly concerns surrounding a potential peace deal in the Middle East and weaknesses observed in the financial sector. The news of the &quot;West Asia crisis&quot; also impacted corporate earnings, as seen in JK Tyre &amp; Industries reporting a significant profit decline due to soaring raw material prices. The Banking sector, in particular, felt the pressure, with Bank Nifty closing down and heavyweight Bajaj Finance Ltd. being a top loser. On the other hand, the RBI&#x27;s decision to hold the repo rate steady continued to underpin the residential real estate sector, as evidenced by strong luxury home sales in Mumbai.
+</p>
+<h2>Setup for tomorrow</h2>
+<p>
+Looking ahead, global cues will continue to play a significant role. The US 10-year yield saw an increase, while crude oil prices (Brent and WTI) were down. Gold and Silver saw notable gains. The USD/INR closed slightly higher. Investors will monitor these global indicators for direction. Domestically, the ongoing earnings season will continue to provide stock-specific action. Key levels for Nifty 50 and Bank Nifty will be watched closely, with any further FII selling potentially putting pressure on large caps, while DII buying could continue to support mid and small-cap segments.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>https://economictimes.indiatimes.com/markets/cryptocurrency/crypto-news/trump-could-net-big-tax-windfall-in-crypto-bill-divestiture-plan-reports/articleshow/133032164.cms</li>
+<li>https://economictimes.indiatimes.com/markets/ipos/fpos/fossil-group-is-said-to-invite-banks-for-india-unit-ipo/articleshow/133031984.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/vikram-solar-q1-net-profit-declines-85-pc-to-rs-20-cr/articleshow/133032114.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/lupin-q1-pat-rises-16-pc-at-rs-1417-cr/articleshow/133031974.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/premier-energies-q1-result-profit-jumps-53-to-rs-472-crore/articleshow/133031911.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/jk-tyre-industries-q1-results-net-profit-tumbles-73-at-rs-44-09-crore/articleshow/133031885.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/arvind-smartspaces-q1-results-profit-zooms-8-fold-to-rs-97-crore/articleshow/133031836.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/bectors-food-q1-results-profit-rises-25-5-to-rs-38-76-crore/articleshow/133031671.cms</li>
+<li>https://economictimes.indiatimes.com/markets/digital-real-estate/realty-news/rbis-rate-pause-sustains-steady-momentum-in-residential-real-estate/articleshow/133031598.cms</li>
+<li>https://economictimes.indiatimes.com/markets/digital-real-estate/realty-news/mumbai-luxury-home-sales-hit-record-rs-18512-crore-in-h1-growth-likely-to-moderate-report/articleshow/133031547.cms</li>
+<li>https://economictimes.indiatimes.com/markets/bonds/icici-bank-axis-bank-tap-dollar-debt-again-in-less-than-two-months-report/articleshow/133031429.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/titan-q1-results-profit-soars-63-yoy-to-rs-1777-crore-total-income-surges-40/articleshow/133031183.cms</li>
+<li>https://www.livemint.com/market/stock-market-news/titan-q1-results-net-profit-jumps-63-to-rs-1-777-crore-on-steady-jewellery-demand-revenue-rises-40-11786099305471.html</li>
+<li>https://www.livemint.com/market/stock-market-news/top-gainers-losers-on-7-august-bajaj-finance-navin-fluorine-trent-tata-capital-swiggy-among-top-losers-11786097361207.html</li>
+<li>https://www.livemint.com/market/stock-market-news/alphabet-meta-platforms-to-sk-hynix-what-does-the-ai-trade-bubble-burst-mean-for-the-indian-stock-market-11786090522971.html</li>
+<li>NSE: https://www.nseindia.com/</li>
+<li>RBI: https://www.rbi.org.in/</li>
+<li>SEBI: https://www.sebi.gov.in/</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
