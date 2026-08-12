@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>NRI Selling Joint Property: Capital Gains Tax Explained</title>
+<meta name="description" content="When an NRI and a resident jointly sell a property in India, each co-owner is taxed on their proportionate share of the capital gain. The capital gains tax tr.">
+<meta name="keywords" content="capital, property, resident, exemptions, consideration, residential, repatriation, exemption">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-12-personal_finance-nri-selling-joint-property-capital-gains-tax-explained/">
+<meta property="og:title" content="NRI Selling Joint Property: Capital Gains Tax Explained">
+<meta property="og:description" content="When an NRI and a resident jointly sell a property in India, each co-owner is taxed on their proportionate share of the capital gain. The capital gains tax tr.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-12-personal_finance-nri-selling-joint-property-capital-gains-tax-explained/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NRI Selling Joint Property: Capital Gains Tax Explained", "description": "When an NRI and a resident jointly sell a property in India, each co-owner is taxed on their proportionate share of the capital gain. The capital gains tax tr.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-12", "dateModified": "2026-08-12", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-12-personal_finance-nri-selling-joint-property-capital-gains-tax-explained/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-08-12</div><h1>NRI Selling Joint Property: Capital Gains Tax Explained</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>When an NRI and a resident jointly sell a property in India, each co-owner is taxed on their proportionate share of the capital gain.</li>
+<li>The capital gains tax treatment, including applicable rates and TDS provisions, differs significantly for NRIs compared to residents.</li>
+<li>NRIs face a higher Tax Deducted at Source (TDS) on the sale proceeds, typically 20% for long-term capital gains and 30% for short-term.</li>
+<li>Each co-owner, whether resident or NRI, can independently claim capital gains exemptions (like Section 54, 54F, 54EC) on their respective share of the gain.</li>
+<li>Proper documentation and understanding of repatriation rules are crucial for NRIs to transfer sale proceeds outside India.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Selling a property you own in India can be complex, and it gets even more so when you&#x27;re an Non-Resident Indian (NRI) and the property is jointly owned with someone living in India. The key thing to understand is that the taxman treats each owner separately based on their residency status and their share in the property.
+</p>
+<p>
+So, even if you and your resident sibling sell the same house, your capital gains (the profit from the sale) will be calculated and taxed differently. As an NRI, you&#x27;ll likely see a portion of your sale proceeds deducted as tax at source, and you&#x27;ll have specific rules to follow if you want to send the money abroad. Your resident co-owner, on the other hand, will follow the standard tax rules for residents and can claim available exemptions independently, even if you, as an NRI, choose not to or cannot.
+</p>
+<h2>Understanding Capital Gains on Property Sale</h2>
+<p>
+When you sell an immovable property in India, the profit you make is termed &#x27;capital gain&#x27; and is subject to income tax. The taxation depends on whether it&#x27;s a Short-Term Capital Gain (STCG) or a Long-Term Capital Gain (LTCG).
+</p>
+<h3>Short-Term vs. Long-Term Capital Gains</h3>
+<p>
+If you sell the property within 24 months of acquiring it, the gain is considered STCG. This gain is added to your total income and taxed at your applicable income tax slab rates. If you sell the property after holding it for more than 24 months, the gain is classified as LTCG. LTCG from property sales is taxed at a flat rate of 20% (plus surcharge and cess, if applicable).
+</p>
+<h3>Indexation Benefit for Long-Term Capital Gains</h3>
+<p>
+For LTCG, sellers can avail of the indexation benefit. This allows you to adjust the purchase price and the cost of any improvements for inflation using the Cost Inflation Index (CII) provided by the Income Tax Department. This significantly reduces your taxable capital gain, as it accounts for the erosion of money&#x27;s value over time. For instance, if you bought a property for ₹50 lakhs in 2010 and sold it for ₹1.5 crore in 2024, the indexed cost of acquisition would be much higher than ₹50 lakhs, leading to a lower taxable gain.
+</p>
+<h2>Special Considerations for NRIs Selling Property</h2>
+<p>
+NRIs selling property in India face specific tax implications, primarily related to Tax Deducted at Source (TDS) and repatriation of funds.
+</p>
+<h3>Higher TDS for NRIs</h3>
+<p>
+When an NRI sells immovable property in India, the buyer is mandated to deduct TDS from the sale consideration. For LTCG, the TDS rate is generally 20% (plus surcharge and cess). For STCG, the TDS rate is 30% (plus surcharge and cess). This is significantly higher than the 1% TDS applicable to residents for property sales exceeding ₹50 lakhs. The buyer must deposit this TDS with the government and issue Form 16A to the NRI seller.
+</p>
+<h3>Repatriation of Sale Proceeds</h3>
+<p>
+NRIs can repatriate the sale proceeds of immovable property outside India, subject to certain conditions under the Foreign Exchange Management Act (FEMA). Generally, the amount repatriated cannot exceed the foreign exchange brought into India for the acquisition of the property or the amount of capital gains earned, provided all taxes due in India have been paid. For repatriation, the NRI typically needs to obtain a certificate from a Chartered Accountant (Form 15CB) and submit Form 15CA to the authorised dealer bank. This ensures that all tax liabilities are settled before funds are moved out of the country.
+</p>
+<h2>Joint Ownership and Individual Tax Treatment</h2>
+<p>
+When a property is jointly owned, each co-owner is treated as a separate taxpayer for their respective share of the property. This holds true regardless of their residency status.
+</p>
+<h3>Proportionate Ownership and Tax Liability</h3>
+<p>
+Each co-owner is responsible for declaring capital gains based on their ownership share. For example, if two individuals own a property equally (50-50), each will calculate their capital gain on 50% of the sale consideration, after deducting 50% of the indexed cost of acquisition and any improvement costs. Their tax liability will then be determined based on their individual income and residency status.
+</p>
+<h3>Independent Claiming of Exemptions</h3>
+<p>
+A crucial aspect of joint ownership is that each co-owner can independently claim available capital gains exemptions. This means if a resident co-owner wishes to reinvest their share of the capital gain into a new residential property (under Section 54) or specified bonds (under Section 54EC), they can do so for their portion of the gain, irrespective of what the NRI co-owner decides or is eligible for. The NRI co-owner can also claim these exemptions on their share if they meet the conditions.
+</p>
+<h2>Capital Gains Exemptions: Sections 54, 54F, and 54EC</h2>
+<p>
+The Income Tax Act offers several exemptions to reduce or eliminate capital gains tax liability, provided certain conditions are met.
+</p>
+<h3>Section 54: Reinvestment in Residential Property</h3>
+<p>
+This exemption is available if you sell a residential house property (LTCG) and invest the net consideration or capital gain into purchasing or constructing another residential house in India. The new property must be bought one year before or two years after the sale, or constructed within three years after the sale. The exemption is limited to the amount of capital gain or the cost of the new house, whichever is lower. Both residents and NRIs can claim this, provided the new property is also in India.
+</p>
+<h3>Section 54F: Reinvestment in Residential Property from Other Capital Assets</h3>
+<p>
+If you sell any long-term capital asset <em>other than</em> a residential house (e.g., a plot of land) and invest the <em>net sale consideration</em> into purchasing or constructing a residential house in India, you can claim exemption under Section 54F. The conditions regarding the timeline for buying/constructing the new property are similar to Section 54. This exemption is also available to both residents and NRIs.
+</p>
+<h3>Section 54EC: Investment in Specified Bonds</h3>
+<p>
+To claim exemption under Section 54EC, you must invest the LTCG (from any long-term capital asset) in specified bonds within six months from the date of transfer. These bonds include those issued by NHAI or REC, and they have a lock-in period of five years. The maximum investment allowed under this section is ₹50 lakhs in a financial year. This is a popular option for those who do not wish to buy another property immediately.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Priya, 42, an NRI based in Dubai, and her sister Meena, 39, a resident of Chennai.</strong> They jointly own a flat in Bengaluru, purchased in April 2010 for ₹60 lakhs (each contributing ₹30 lakhs). They decide to sell it in July 2024 for ₹2 crore.
+</p>
+<p>
+<strong>Details:</strong>
+</p>
+<ul>
+<li>Purchase Price (April 2010): ₹60,00,000</li>
+<li>Sale Price (July 2024): ₹2,00,00,000</li>
+<li>Ownership Share: Priya 50%, Meena 50%</li>
+<li>Cost Inflation Index (CII): FY 2010-11 = 167; FY 2024-25 = 363 (assumed for calculation, actual will vary)</li>
+</ul>
+<p>
+<strong>1. Calculate Indexed Cost of Acquisition:</strong>
+</p>
+<ul>
+<li>CII for year of sale / CII for year of purchase * Actual Cost</li>
+<li>Indexed Cost = (363 / 167) * ₹60,00,000 = ₹1,30,29,940 (approx)</li>
+</ul>
+<p>
+<strong>2. Calculate Total Long-Term Capital Gain (LTCG):</strong>
+</p>
+<ul>
+<li>LTCG = Sale Price - Indexed Cost</li>
+<li>LTCG = ₹2,00,00,000 - ₹1,30,29,940 = ₹69,70,060</li>
+</ul>
+<p>
+<strong>3. Individual Capital Gains:</strong>
+</p>
+<ul>
+<li>Priya&#x27;s Share (50%): ₹69,70,060 / 2 = ₹34,85,030</li>
+<li>Meena&#x27;s Share (50%): ₹69,70,060 / 2 = ₹34,85,030</li>
+</ul>
+<p>
+<strong>4. Tax Implications for Priya (NRI):</strong>
+</p>
+<ul>
+<li><strong>TDS:</strong> The buyer will deduct 20% TDS (plus surcharge and cess) on Priya&#x27;s share of the sale consideration (₹1 crore). This means ₹20 lakhs (20% of ₹1 crore) will be deducted at source.</li>
+<li><strong>Tax on LTCG:</strong> Priya&#x27;s LTCG is ₹34,85,030. Tax at 20% = ₹6,97,006.</li>
+<li>Priya needs to file an income tax return in India to claim a refund for the excess TDS deducted (₹20 lakhs - ₹6,97,006 = ₹13,02,994).</li>
+<li><strong>Repatriation:</strong> To repatriate her net sale proceeds (after tax and any other deductions), Priya will need a CA certificate (Form 15CB) and submit Form 15CA to her bank.</li>
+<li><strong>Exemption:</strong> Priya can choose to invest her ₹34,85,030 gain in Section 54EC bonds (up to ₹50 lakhs) within six months to save tax, or buy a new residential property in India under Section 54.</li>
+</ul>
+<p>
+<strong>5. Tax Implications for Meena (Resident):</strong>
+</p>
+<ul>
+<li><strong>TDS:</strong> No TDS applicable for Meena if her share of the sale consideration is below ₹50 lakhs. However, if the total sale consideration exceeds ₹50 lakhs, the buyer would deduct 1% TDS on her share of the sale consideration (i.e., 1% of ₹1 crore = ₹1 lakh).</li>
+<li><strong>Tax on LTCG:</strong> Meena&#x27;s LTCG is ₹34,85,030. Tax at 20% = ₹6,97,006.</li>
+<li><strong>Exemption:</strong> Meena decides to buy a new flat in Chennai for ₹80 lakhs within two years of the sale. Since her capital gain is ₹34,85,030 and she invested more than this amount, her entire capital gain of ₹34,85,030 is exempt under Section 54. She will have no tax liability on this gain.</li>
+</ul>
+<p>
+This example clearly shows how Priya, as an NRI, faces higher upfront TDS and specific repatriation requirements, while Meena, the resident, can independently claim exemptions to reduce her tax burden.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Gather Property Documents:</strong> Collect all relevant papers, including purchase deeds, previous sale deeds, and any documents related to property improvements. This is crucial for calculating the cost of acquisition and improvements accurately.</li>
+<li><strong>Consult a Tax Advisor:</strong> Engage a Certified Financial Planner or a Chartered Accountant experienced in NRI taxation. They can help you understand your specific tax liability, TDS implications, and guide you through the process of claiming exemptions and repatriation.</li>
+<li><strong>Understand Your Ownership Share:</strong> Clearly determine your proportionate share in the jointly owned property as per the sale deed. This will dictate your individual capital gain calculation.</li>
+<li><strong>Review Exemption Options:</strong> Discuss with your co-owner and advisor about potential reinvestment options (e.g., Section 54, 54F, 54EC) for your respective capital gains. Understand the timelines and conditions for each.</li>
+<li><strong>Inform the Buyer about NRI Status:</strong> Ensure the buyer is fully aware of the NRI status of one or more sellers. This is critical for them to correctly deduct TDS and comply with their obligations.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the TDS rate for an NRI selling property?</h3>
+<p>
+For NRIs, the TDS rate on long-term capital gains from property sale is typically 20% (plus surcharge and cess). For short-term capital gains, it&#x27;s 30% (plus surcharge and cess).
+</p>
+<h3>Can an NRI claim capital gains exemptions like Section 54 or 54EC?</h3>
+<p>
+Yes, an NRI can claim exemptions under sections like 54 (reinvestment in residential property) or 54EC (investment in specified bonds) on their share of capital gains, provided they meet all the stipulated conditions.
+</p>
+<h3>How is capital gain calculated for jointly owned property?</h3>
+<p>
+Each co-owner calculates capital gain based on their proportionate share of the sale consideration, after deducting their share of the indexed cost of acquisition and improvement.
+</p>
+<h3>What documents are needed for an NRI to repatriate funds from property sale?</h3>
+<p>
+An NRI typically needs a certificate from a Chartered Accountant in Form 15CB and must submit Form 15CA to the authorised dealer bank for repatriation of funds.
+</p>
+<h3>Does the resident co-owner also face higher TDS if one co-owner is an NRI?</h3>
+<p>
+No, the TDS provisions apply individually. The resident co-owner will be subject to TDS rules applicable to residents (1% if sale consideration exceeds ₹50 lakhs), while the NRI co-owner faces the higher NRI-specific TDS rates on their share.
+</p>
+<h3>Can an NRI claim indexation benefit on long-term capital gains?</h3>
+<p>
+Yes, NRIs are eligible for the indexation benefit to adjust the cost of acquisition for inflation when calculating long-term capital gains from property sales.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+<li>RBI: https://rbi.org.in</li>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/selling-jointly-owned-property-by-nri-how-will-capital-gains-be-taxed-11786339467733.html</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
