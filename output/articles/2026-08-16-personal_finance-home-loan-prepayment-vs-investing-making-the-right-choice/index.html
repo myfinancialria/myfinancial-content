@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Home Loan Prepayment vs Investing: Making the Right Choice</title>
+<meta name="description" content="Deciding between home loan prepayment and investing surplus funds involves comparing your loan&#x27;s interest rate with potential investment returns. Consider the.">
+<meta name="keywords" content="interest, returns, prepayment, investing, financial, investment, tenure, higher">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-16-personal_finance-home-loan-prepayment-vs-investing-making-the-right-choice/">
+<meta property="og:title" content="Home Loan Prepayment vs Investing: Making the Right Choice">
+<meta property="og:description" content="Deciding between home loan prepayment and investing surplus funds involves comparing your loan&#x27;s interest rate with potential investment returns. Consider the.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-16-personal_finance-home-loan-prepayment-vs-investing-making-the-right-choice/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Home Loan Prepayment vs Investing: Making the Right Choice", "description": "Deciding between home loan prepayment and investing surplus funds involves comparing your loan's interest rate with potential investment returns. Consider the.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-16", "dateModified": "2026-08-16", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-16-personal_finance-home-loan-prepayment-vs-investing-making-the-right-choice/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-08-16</div><h1>Home Loan Prepayment vs Investing: Making the Right Choice</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Deciding between home loan prepayment and investing surplus funds involves comparing your loan&#x27;s interest rate with potential investment returns.</li>
+<li>Consider the tax benefits available on your home loan, which can significantly reduce its effective cost.</li>
+<li>Your personal risk appetite and financial goals should heavily influence whether you prioritise debt reduction or wealth creation.</li>
+<li>Ensure you have a robust emergency fund before considering either prepayment or significant new investments.</li>
+<li>The decision often boils down to a blend of mathematical advantage, liquidity needs, and personal peace of mind.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you have some extra money, perhaps from a bonus, an increment, or just careful saving, a common dilemma for many Indians is whether to use it to pay off their home loan faster or to invest it. Both options have their merits, and the &quot;right&quot; choice isn&#x27;t universal; it depends entirely on your personal financial situation and goals.
+</p>
+<p>
+Prepaying your home loan means you reduce your outstanding principal amount. This directly translates to paying less interest over the remaining tenure of the loan and often shortens the loan duration significantly. On the other hand, investing that surplus money means putting it into avenues like mutual funds, stocks, or fixed deposits, with the aim of earning returns that are higher than the interest rate you are paying on your home loan. The core of this decision lies in understanding which option offers you a better financial advantage, considering factors like interest rates, tax implications, and your comfort with risk.
+</p>
+<h2>Understanding Your Home Loan&#x27;s True Cost</h2>
+<p>
+Your home loan is likely one of the largest financial commitments you&#x27;ll make. Understanding its true cost is the first step in deciding whether to prepay or invest.
+</p>
+<h3>Interest Rate Dynamics: Fixed vs. Floating</h3>
+<p>
+Most home loans in India are either fixed-rate or floating-rate.
+</p>
+<ul>
+<li><strong>Fixed-rate loans</strong> offer predictability. Your EMI remains constant throughout the loan tenure, insulating you from interest rate fluctuations. Prepayment in this scenario is purely a mathematical decision based on comparing the fixed rate with potential investment returns.</li>
+<li><strong>Floating-rate loans</strong> are linked to an external benchmark (like the RBI&#x27;s repo rate) or an internal benchmark (like the bank&#x27;s MCLR). When the benchmark rate increases, your loan&#x27;s interest rate typically rises, leading to either higher EMIs or an extended loan tenure. In a rising interest rate environment, prepaying a floating-rate loan becomes particularly attractive as it immediately reduces your interest burden and mitigates the impact of future rate hikes. Conversely, when rates are falling, the incentive to prepay might reduce as your effective interest cost comes down. The Reserve Bank of India (RBI) provides guidelines for floating interest rate reset mechanisms to ensure transparency for borrowers.</li>
+</ul>
+<h3>Tax Benefits on Home Loans</h3>
+<p>
+The Indian Income Tax Act offers significant tax benefits on home loans, which effectively reduce the net interest cost you bear.
+</p>
+<ul>
+<li><strong>Section 24(b):</strong> You can claim a deduction of up to ₹2 lakhs on the interest paid on your home loan for a self-occupied property. For a rented property, the entire interest paid can be claimed as a deduction, though there are limits on the net loss from house property that can be set off against other income in a financial year.</li>
+<li><strong>Section 80C:</strong> The principal amount repaid on your home loan, along with stamp duty and registration charges, qualifies for a deduction under Section 80C, up to a maximum limit of ₹1.5 lakhs in a financial year.</li>
+</ul>
+<p>
+These deductions lower your taxable income, meaning the actual interest rate you pay on your home loan, post-tax, is lower than the nominal rate. For instance, if you&#x27;re in the 30% tax bracket and pay 8.5% interest, your effective interest rate could be significantly lower after factoring in the Section 24(b) benefit. It&#x27;s crucial to calculate this effective post-tax interest rate to make an informed comparison with potential investment returns.
+</p>
+<h2>The Potential of Investing Surplus Funds</h2>
+<p>
+If your effective post-tax home loan interest rate is, say, 6%, and you believe you can consistently earn more than 6% after tax from investments, then investing your surplus funds might be the more financially astute choice.
+</p>
+<h3>Equity vs. Debt Investments</h3>
+<p>
+The choice of investment avenue largely depends on your risk appetite and investment horizon.
+</p>
+<ul>
+<li><strong>Equity Investments (Stocks, Equity Mutual Funds):</strong> These offer the potential for higher returns over the long term but come with higher volatility. Historically, equity markets in India have delivered inflation-beating returns, making them attractive for long-term wealth creation. However, there&#x27;s no guarantee of returns, and capital can be at risk. SEBI regulates the Indian securities market, including mutual funds, to protect investor interests.</li>
+<li><strong>Debt Investments (Fixed Deposits, Debt Mutual Funds, Bonds):</strong> These are generally less volatile and offer more stable, albeit typically lower, returns compared to equities. Fixed deposits are popular for their safety and predictable returns, while debt mutual funds offer diversification and professional management. The returns from these instruments are often closer to your home loan interest rate, and sometimes, after tax, might even be lower.</li>
+</ul>
+<h3>Post-Tax Returns &amp; Inflation</h3>
+<p>
+When comparing investment returns with your home loan interest, always consider the <em>post-tax</em> returns from your investments. For example, if a fixed deposit offers 7% interest, but your post-tax return is only 4.9% (assuming a 30% tax bracket), then it might not be as attractive as it initially seems, especially if your effective home loan rate is higher.
+</p>
+<p>
+Furthermore, inflation erodes the purchasing power of money over time. A good investment should ideally beat both your post-tax loan interest rate and the prevailing inflation rate to truly create wealth. The Ministry of Finance regularly releases economic data, including inflation figures, which are crucial for such analyses.
+</p>
+<h2>Key Factors to Consider for Your Decision</h2>
+<p>
+Beyond the pure numbers, several personal factors play a significant role in making the right choice.
+</p>
+<h3>Risk Appetite and Financial Goals</h3>
+<p>
+Your comfort level with risk is paramount.
+</p>
+<ul>
+<li><strong>Conservative investors</strong> might prefer the guaranteed return of home loan prepayment (which is equivalent to saving interest at your loan rate) over the uncertain returns of market-linked investments. The peace of mind from being debt-free can be a powerful motivator.</li>
+<li><strong>Aggressive investors</strong> with a higher risk tolerance and a long-term horizon might lean towards investing in equities, aiming for substantial wealth creation that far outpaces their loan interest.</li>
+<p>
+Your financial goals also dictate the approach. If your primary goal is to become debt-free quickly, prepayment aligns perfectly. If it&#x27;s to build a large retirement corpus or fund a child&#x27;s education, investing might be more suitable.
+</p>
+</ul>
+<h3>Liquidity Needs and Emergency Fund</h3>
+<p>
+Never use your emergency fund for either prepayment or investments. An emergency fund, typically covering 6-12 months of essential expenses, should be kept in highly liquid and safe instruments.
+</p>
+<ul>
+<li><strong>Prepaying your home loan</strong> locks up your funds. While it frees up future cash flow by reducing EMIs, the principal amount paid towards the loan is not easily accessible in case of an unforeseen need.</li>
+<li><strong>Investing</strong> offers varying degrees of liquidity. Stocks and open-ended mutual funds are generally liquid, though market conditions can affect the value you realise. Fixed deposits have withdrawal penalties if broken prematurely. Assess your potential liquidity needs before committing funds.</li>
+</ul>
+<h3>Behavioural Aspects</h3>
+<p>
+Financial decisions aren&#x27;t always purely rational; emotions and psychology play a part.
+</p>
+<ul>
+<li><strong>Peace of mind:</strong> For many, the psychological comfort of being debt-free, especially from a large liability like a home loan, is invaluable. It reduces stress and provides a sense of financial freedom.</li>
+<li><strong>Discipline for investing:</strong> If you choose to invest, you need the discipline to invest consistently, stay invested through market ups and downs, and not withdraw funds prematurely. If you lack this discipline, the potential higher returns from investing might never materialise. Prepayment, in contrast, is a one-time or periodic action with immediate, tangible benefits.</li>
+</ul>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, a Marketing Manager in Bengaluru, with a ₹28L CTC</strong>. He has a home loan of ₹60 lakhs, taken at 8.75% p.a. floating interest, with 18 years (216 months) remaining tenure. His current EMI is approximately ₹55,000. Rahul received an annual bonus of ₹5 lakhs and is evaluating whether to prepay his home loan or invest it.
+</p>
+<p>
+<strong>Scenario 1: Home Loan Prepayment</strong>
+</p>
+<p>
+Rahul decides to prepay ₹5 lakhs of his home loan.
+</p>
+<ul>
+<li><strong>Original Loan:</strong> ₹60 lakhs, 8.75% p.a., 216 months.</li>
+<li><strong>Prepayment:</strong> ₹5 lakhs.</li>
+<li><strong>New Principal:</strong> ₹55 lakhs.</li>
+</ul>
+<p>
+Using a home loan prepayment calculator, a ₹5 lakh prepayment on a ₹60 lakh loan at 8.75% with 18 years remaining would:
+</p>
+<ul>
+<li><strong>Reduce the loan tenure by approximately 30-36 months (2.5 to 3 years).</strong></li>
+<li><strong>Save him approximately ₹10.5 lakhs to ₹12 lakhs in total interest over the remaining reduced tenure.</strong> (Exact figures vary slightly based on specific calculator algorithms and rounding, but this range is indicative).</li>
+<li>His EMI would remain ₹55,000, but he would pay it for a shorter period. Alternatively, he could choose to reduce his EMI while keeping the tenure same, which would lead to smaller interest savings.</li>
+</ul>
+<p>
+<strong>Scenario 2: Investing the ₹5 lakhs</strong>
+</p>
+<p>
+Rahul invests the ₹5 lakhs in an equity-oriented mutual fund, expecting an average annual return of 12% p.a. post-tax over the next 18 years.
+</p>
+<ul>
+<li><strong>Investment Amount:</strong> ₹5 lakhs</li>
+<li><strong>Expected Annual Return:</strong> 12% p.a.</li>
+<li><strong>Investment Period:</strong> 18 years</li>
+</ul>
+<p>
+Using a compound interest calculator:
+</p>
+<ul>
+<li>Future Value = P * (1 + r)^n</li>
+<li>Future Value = ₹5,00,000 * (1 + 0.12)^18</li>
+<li>Future Value ≈ ₹5,00,000 * 7.6969 ≈ <strong>₹38.48 lakhs</strong></li>
+</ul>
+<p>
+<strong>Comparison:</strong>
+</p>
+<ul>
+<li><strong>Prepayment:</strong> Saves roughly ₹10.5-₹12 lakhs in interest and reduces debt burden and tenure. Provides peace of mind.</li>
+<li><strong>Investing:</strong> Potentially grows ₹5 lakhs to ₹38.48 lakhs over 18 years. This is a significant wealth creation opportunity, far exceeding the interest saved.</li>
+</ul>
+<p>
+<strong>Rahul&#x27;s Decision:</strong>
+</p>
+<p>
+If Rahul is comfortable with the market risk associated with equity investments and has a long-term horizon, investing the ₹5 lakhs could lead to significantly higher wealth creation (₹38.48 lakhs vs. ₹10.5-₹12 lakhs saved). However, if market volatility makes him anxious, or if becoming debt-free quickly is his priority, prepayment offers a guaranteed &quot;return&quot; in the form of saved interest and reduced tenure, along with psychological comfort. Given his relatively high CTC and potential for future earnings, he might choose to invest, especially if his effective home loan interest rate after tax benefits is lower than his expected investment returns.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your home loan statement:</strong> Get a clear picture of your outstanding principal, current interest rate, and remaining tenure. Understand if your loan is fixed or floating.</li>
+<li><strong>Calculate your effective interest rate:</strong> Factor in the tax benefits you receive under Section 24(b) and Section 80C to determine the actual post-tax interest cost of your home loan. You can refer to the Income Tax India website for detailed guidelines.</li>
+<li><strong>Assess your emergency fund:</strong> Ensure you have at least 6-12 months of living expenses readily available in a liquid, safe account before considering any surplus for prepayment or investments.</li>
+<li><strong>Research potential investment returns:</strong> Look at historical returns of different asset classes (equity, debt) and understand the associated risks. Compare these potential post-tax returns with your home loan&#x27;s effective interest rate.</li>
+<li><strong>Define your financial goals:</strong> Clearly articulate whether your priority is early debt freedom, aggressive wealth creation, or a balanced approach. This will guide your decision.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Is there a penalty for home loan prepayment?</h3>
+<p>
+No, as per RBI guidelines, banks cannot charge prepayment penalties on floating-rate home loans given to individuals. For fixed-rate loans, some banks might still levy a charge, so it&#x27;s best to check your loan agreement.
+</p>
+<h3>Does prepayment affect my tax benefits?</h3>
+<p>
+Prepaying your loan reduces the outstanding principal, which in turn reduces the total interest you pay over time. This means the amount available for deduction under Section 24(b) (interest) will decrease in subsequent years. The Section 80C benefit for principal repayment remains available for the actual principal paid in that financial year, up to the ₹1.5 lakh limit.
+</p>
+<h3>What if interest rates are rising?</h3>
+<p>
+In a rising interest rate environment, prepaying a floating-rate home loan becomes more attractive. It helps mitigate the impact of higher EMIs or extended tenure and provides a guaranteed &quot;return&quot; equivalent to the high interest rate you are avoiding.
+</p>
+<h3>Should I clear other debts before my home loan?</h3>
+<p>
+Generally, yes. High-interest unsecured debts like personal loans or credit card outstanding balances typically carry much higher interest rates than home loans. It&#x27;s usually financially prudent to clear these more expensive debts first before tackling your home loan or making new investments.
+</p>
+<h3>How often can I prepay my home loan?</h3>
+<p>
+Most banks allow flexible prepayment options. You can usually make partial prepayments as and when you have surplus funds, without any restrictions on frequency for floating-rate loans to individuals. Check your specific bank&#x27;s terms.
+</p>
+<h3>Is it always better to invest if returns are higher?</h3>
+<p>
+Not necessarily. While mathematically investing might appear superior if expected returns are higher, factors like your risk tolerance, the need for liquidity, and the psychological comfort of being debt-free can influence the decision. A guaranteed saving (prepayment) is different from a potential, market-linked return (investing).
+</p>
+<h3>What role does inflation play?</h3>
+<p>
+Inflation erodes the purchasing power of money. While your home loan principal remains constant in nominal terms, its real value decreases over time due to inflation. This can sometimes make the debt feel &quot;lighter&quot; over a very long tenure. However, investment returns must also beat inflation to genuinely create wealth.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Reserve Bank of India (RBI): https://rbi.org.in</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>Securities and Exchange Board of India (SEBI): https://sebi.gov.in</li>
+<li>Ministry of Finance: https://finmin.nic.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
