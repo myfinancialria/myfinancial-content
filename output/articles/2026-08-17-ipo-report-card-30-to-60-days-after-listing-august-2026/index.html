@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>IPO Report Card: 30 to 60 Days After Listing — August 2026</title>
+<meta name="description" content="This month, we look at 29 companies that listed between 32 and 59 days ago. 18 companies are currently trading above their original IPO (Initial Public Offeri.">
+<meta name="keywords" content="listing, shares, current, mainboard, trading, company, closing, listed">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-17-ipo-report-card-30-to-60-days-after-listing-august-2026/">
+<meta property="og:title" content="IPO Report Card: 30 to 60 Days After Listing — August 2026">
+<meta property="og:description" content="This month, we look at 29 companies that listed between 32 and 59 days ago. 18 companies are currently trading above their original IPO (Initial Public Offeri.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-17-ipo-report-card-30-to-60-days-after-listing-august-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "IPO Report Card: 30 to 60 Days After Listing \u2014 August 2026", "description": "This month, we look at 29 companies that listed between 32 and 59 days ago. 18 companies are currently trading above their original IPO (Initial Public Offeri.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-17", "dateModified": "2026-08-17", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-17-ipo-report-card-30-to-60-days-after-listing-august-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/" class="active">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">IPO Watch · 2026-08-17</div><h1>IPO Report Card: 30 to 60 Days After Listing — August 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>This month, we look at 29 companies that listed between 32 and 59 days ago.</li>
+<li>18 companies are currently trading above their original IPO (Initial Public Offering) price.</li>
+<li>11 companies are currently trading below their original IPO price.</li>
+<li>The highest return versus the IPO price is +146.3% (Teja Engineering Industries Ltd.).</li>
+<li>The lowest return versus the IPO price is -68.22% (Liotech Industries Ltd.).</li>
+</ul>
+</div>
+<h2>Why look 30 to 60 days after listing?</h2>
+<p>
+When a company first offers its shares to the public through an IPO (Initial Public Offering), there&#x27;s often a lot of excitement. The &quot;listing day&quot; (the first day shares are traded on the stock exchange) can see prices jump significantly, creating a &quot;listing gain&quot; (the percentage increase from the IPO price to the closing price on the first day). This initial surge is often driven by high demand and market buzz.
+</p>
+<p>
+However, this first-day excitement can sometimes be misleading. Many factors, like the initial allocation to large investors (called &quot;anchor investors&quot;) who have a &quot;lock-in period&quot; (a time when they cannot sell their shares), can influence the listing price. After about a month or two, this initial frenzy tends to settle down, and the lock-in periods for some investors might end. Looking at the share price 30 to 60 days after listing gives us a calmer, more realistic picture of how the market is valuing the company&#x27;s shares once the initial hype has faded. It helps us see if the listing-day gains have held, grown, or reversed.
+</p>
+<h2>The scorecard</h2>
+<p>
+Here&#x27;s how the recent batch of IPOs has performed after the initial dust settled:
+</p>
+<table><thead><tr><th>Company Name</th><th>Type</th><th>IPO price (₹)</th><th>Listing close (₹)</th><th>Listing gain (%)</th><th>Price now (₹)</th><th>Change vs IPO price (%)</th><th>Days since listing</th></tr></thead><tbody>
+<tr><td>Laser Power &amp; Infra Ltd.</td><td>Mainboard</td><td>214.0</td><td>262.42</td><td>22.63</td><td>302.9</td><td>41.36</td><td>32</td></tr>
+<tr><td>Happy Steels Ltd.</td><td>SME</td><td>66.0</td><td>68.5</td><td>3.79</td><td>63.5</td><td>-3.79</td><td>32</td></tr>
+<tr><td>Devson Catalyst Ltd.</td><td>SME</td><td>118.0</td><td>205.95</td><td>74.53</td><td>248.7</td><td>110.76</td><td>32</td></tr>
+<tr><td>Kusumgar Ltd.</td><td>Mainboard</td><td>419.0</td><td>602.8</td><td>43.87</td><td>601.85</td><td>43.83</td><td>33</td></tr>
+<tr><td>IC Electricals Co.Ltd.</td><td>SME</td><td>99.0</td><td>174.3</td><td>76.06</td><td>134.2</td><td>35.56</td><td>38</td></tr>
+<tr><td>Knack Packaging Ltd.</td><td>Mainboard</td><td>170.0</td><td>182.98</td><td>7.64</td><td>208.02</td><td>22.0</td><td>40</td></tr>
+<tr><td>Teja Engineering Industries Ltd.</td><td>SME</td><td>220.0</td><td>438.9</td><td>99.5</td><td>541.85</td><td>146.3</td><td>41</td></tr>
+<tr><td>Atharva Polyplast Ltd.</td><td>SME</td><td>60.0</td><td>72.45</td><td>20.75</td><td>73.2</td><td>22.0</td><td>41</td></tr>
+<tr><td>Seemax Resources Ltd.</td><td>SME</td><td>141.0</td><td>107.2</td><td>-23.97</td><td>62.99</td><td>-55.33</td><td>41</td></tr>
+<tr><td>Sampark India Logistics Ltd.</td><td>SME</td><td>84.0</td><td>93.45</td><td>11.25</td><td>87.0</td><td>3.57</td><td>41</td></tr>
+<tr><td>Vinit Mobile Ltd.</td><td>SME</td><td>158.0</td><td>147.25</td><td>-6.8</td><td>67.5</td><td>-57.28</td><td>41</td></tr>
+<tr><td>Kratikal Tech Ltd.</td><td>SME</td><td>135.0</td><td>182.4</td><td>35.11</td><td>157.4</td><td>16.59</td><td>41</td></tr>
+<tr><td>Adon Agro Commodities Ltd.</td><td>SME</td><td>70.0</td><td>82.16</td><td>17.37</td><td>84.9</td><td>21.29</td><td>42</td></tr>
+<tr><td>Aastha Spintex Ltd.</td><td>Mainboard</td><td>136.0</td><td>136.49</td><td>0.36</td><td>74.31</td><td>-45.32</td><td>42</td></tr>
+<tr><td>Crazy Snacks Ltd.</td><td>SME</td><td>42.0</td><td>45.67</td><td>8.74</td><td>60.15</td><td>43.21</td><td>45</td></tr>
+<tr><td>CSM Technologies Ltd.</td><td>Mainboard</td><td>113.0</td><td>107.35</td><td>-5.0</td><td>100.71</td><td>-10.97</td><td>46</td></tr>
+<tr><td>Riyaasat Lifestyle Ltd.</td><td>SME</td><td>106.0</td><td>80.6</td><td>-23.96</td><td>55.0</td><td>-48.11</td><td>47</td></tr>
+<tr><td>Waterways Leisure Tourism Ltd.</td><td>Mainboard</td><td>808.0</td><td>668.1</td><td>-17.31</td><td>837.85</td><td>3.66</td><td>47</td></tr>
+<tr><td>Advit Jewels Ltd.</td><td>Mainboard</td><td>138.0</td><td>179.46</td><td>30.04</td><td>177.79</td><td>28.77</td><td>47</td></tr>
+<tr><td>Jivial Industries Ltd.</td><td>SME</td><td>196.0</td><td>161.7</td><td>-17.5</td><td>80.62</td><td>-58.87</td><td>47</td></tr>
+<tr><td>Shreedhar Spinners Ltd.</td><td>SME</td><td>53.0</td><td>57.1</td><td>7.74</td><td>117.45</td><td>121.6</td><td>47</td></tr>
+<tr><td>Turtlemint Fintech Solutions Ltd.</td><td>Mainboard</td><td>152.0</td><td>135.37</td><td>-10.94</td><td>137.44</td><td>-9.67</td><td>49</td></tr>
+<tr><td>Anubhav Plast Ltd.</td><td>SME</td><td>80.0</td><td>76.0</td><td>-5.0</td><td>50.0</td><td>-37.5</td><td>49</td></tr>
+<tr><td>Avience Biomedicals Ltd.</td><td>SME</td><td>208.0</td><td>414.95</td><td>99.5</td><td>247.3</td><td>18.89</td><td>53</td></tr>
+<tr><td>Leapfrog Engineering Services Ltd.</td><td>SME</td><td>23.0</td><td>23.1</td><td>0.43</td><td>21.9</td><td>-4.78</td><td>54</td></tr>
+<tr><td>Liotech Industries Ltd.</td><td>SME</td><td>321.0</td><td>244.15</td><td>-23.94</td><td>102.0</td><td>-68.22</td><td>54</td></tr>
+<tr><td>Diksha Polymers Ltd.</td><td>SME</td><td>112.0</td><td>120.2</td><td>7.32</td><td>140.0</td><td>25.0</td><td>54</td></tr>
+<tr><td>Clay Craft India Ltd.</td><td>SME</td><td>203.0</td><td>221.55</td><td>9.14</td><td>161.6</td><td>-20.39</td><td>54</td></tr>
+<tr><td>Horizon Reclaim (India) Ltd.</td><td>SME</td><td>103.0</td><td>147.3</td><td>43.01</td><td>123.7</td><td>20.1</td><td>59</td></tr>
+</tbody></table>
+<p>
+Out of these 29 companies, 18 are currently trading above their IPO price, while 11 are below. The returns compared to the IPO price range from a high of +146.3% for Teja Engineering Industries Ltd. to a low of -68.22% for Liotech Industries Ltd. Some companies that had strong listing gains have seen their prices moderate, while others that listed flat or below their IPO price have either recovered or dropped further.
+</p>
+<h2>Reading each listing (what the numbers say)</h2>
+<h3>Laser Power &amp; Infra Ltd.</h3>
+<p>
+This Mainboard IPO had an issue price of ₹214. It closed its first trading day at ₹262.42, a listing gain of 22.63%. Today, its shares trade at ₹302.9, which is 41.36% above its IPO price. This means if you were allotted shares at ₹214, their value has increased by 41.36% since the IPO.
+</p>
+<h3>Happy Steels Ltd.</h3>
+<p>
+This SME IPO was priced at ₹66. On its listing day, it closed at ₹68.5, showing a modest listing gain of 3.79%. Currently, its shares are trading at ₹63.5, which is -3.79% below its IPO price. This means shares allotted at ₹66 are now trading at a lower value than their original IPO price.
+</p>
+<h3>Devson Catalyst Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹118. It saw a strong listing, closing at ₹205.95, a 74.53% gain. Its current price is ₹248.7, representing a 110.76% return compared to its IPO price. This indicates that the value of shares allotted at ₹118 has more than doubled.
+</p>
+<h3>Kusumgar Ltd.</h3>
+<p>
+This Mainboard IPO was offered at ₹419. It listed with a significant gain, closing at ₹602.8 (43.87% up). Its current price is ₹601.85, which is 43.83% above its IPO price. The shares have largely held their listing day gains.
+</p>
+<h3>IC Electricals Co.Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹99. It had a strong listing, closing at ₹174.3 (76.06% gain). Its current price is ₹134.2, which is 35.56% above its IPO price. While still above the IPO price, it has seen some moderation from its listing day high.
+</p>
+<h3>Knack Packaging Ltd.</h3>
+<p>
+This Mainboard IPO was priced at ₹170. It closed its listing day at ₹182.98, a 7.64% gain. Today, its shares trade at ₹208.02, which is 22.0% above its IPO price. This shows that the shares have gained further value since their listing day.
+</p>
+<h3>Teja Engineering Industries Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹220. It saw a nearly double listing, closing at ₹438.9 (99.5% gain). Its current price is ₹541.85, representing a 146.3% return compared to its IPO price. This means the value of shares allotted at ₹220 has significantly increased since the IPO.
+</p>
+<h3>Atharva Polyplast Ltd.</h3>
+<p>
+This SME IPO was priced at ₹60. It closed its listing day at ₹72.45, a 20.75% gain. Its current price is ₹73.2, which is 22.0% above its IPO price. The shares have maintained their positive momentum.
+</p>
+<h3>Seemax Resources Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹141. It listed below its issue price, closing at ₹107.2 (-23.97% loss). Its current price is ₹62.99, which is -55.33% below its IPO price. This means shares allotted at ₹141 are now trading at significantly less than half their original IPO price.
+</p>
+<h3>Sampark India Logistics Ltd.</h3>
+<p>
+This SME IPO was priced at ₹84. It closed its listing day at ₹93.45, an 11.25% gain. Its current price is ₹87.0, which is 3.57% above its IPO price. The shares are still above the IPO price, but have come down from their listing day close.
+</p>
+<h3>Vinit Mobile Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹158. It listed below its issue price, closing at ₹147.25 (-6.8% loss). Its current price is ₹67.5, which is -57.28% below its IPO price. This indicates a significant drop in value for shares allotted at ₹158.
+</p>
+<h3>Kratikal Tech Ltd.</h3>
+<p>
+This SME IPO was priced at ₹135. It closed its listing day at ₹182.4, a 35.11% gain. Its current price is ₹157.4, which is 16.59% above its IPO price. While still above the IPO price, it has seen some reduction from its listing day close.
+</p>
+<h3>Adon Agro Commodities Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹70. It closed its listing day at ₹82.16, a 17.37% gain. Its current price is ₹84.9, which is 21.29% above its IPO price. The shares have continued to show positive movement.
+</p>
+<h3>Aastha Spintex Ltd.</h3>
+<p>
+This Mainboard IPO was priced at ₹136. It listed almost flat, closing at ₹136.49 (0.36% gain). Its current price is ₹74.31, which is -45.32% below its IPO price. This means shares allotted at ₹136 are now trading at significantly less than their original IPO price.
+</p>
+<h3>Crazy Snacks Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹42. It closed its listing day at ₹45.67, an 8.74% gain. Its current price is ₹60.15, which is 43.21% above its IPO price. The shares have shown significant growth since listing day.
+</p>
+<h3>CSM Technologies Ltd.</h3>
+<p>
+This Mainboard IPO was priced at ₹113. It listed below its issue price, closing at ₹107.35 (-5.0% loss). Its current price is ₹100.71, which is -10.97% below its IPO price. This means shares allotted at ₹113 are now trading at a lower value than their original IPO price.
+</p>
+<h3>Riyaasat Lifestyle Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹106. It listed below its issue price, closing at ₹80.6 (-23.96% loss). Its current price is ₹55.0, which is -48.11% below its IPO price. This indicates a substantial drop in value for shares allotted at ₹106.
+</p>
+<h3>Waterways Leisure Tourism Ltd.</h3>
+<p>
+This Mainboard IPO was priced at ₹808. It listed below its issue price, closing at ₹668.1 (-17.31% loss). Its current price is ₹837.85, which is 3.66% above its IPO price. This means the shares have recovered from their listing day drop and are now trading slightly above the IPO price.
+</p>
+<h3>Advit Jewels Ltd.</h3>
+<p>
+A Mainboard IPO with an issue price of ₹138. It closed its listing day at ₹179.46, a 30.04% gain. Its current price is ₹177.79, which is 28.77% above its IPO price. The shares have largely held their listing day gains.
+</p>
+<h3>Jivial Industries Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹196. It listed below its issue price, closing at ₹161.7 (-17.5% loss). Its current price is ₹80.62, which is -58.87% below its IPO price. This indicates a significant drop in value for shares allotted at ₹196.
+</p>
+<h3>Shreedhar Spinners Ltd.</h3>
+<p>
+This SME IPO was priced at ₹53. It closed its listing day at ₹57.1, a 7.74% gain. Its current price is ₹117.45, which is 121.6% above its IPO price. This means the value of shares allotted at ₹53 has more than doubled since the IPO.
+</p>
+<h3>Turtlemint Fintech Solutions Ltd.</h3>
+<p>
+A Mainboard IPO with an issue price of ₹152. It listed below its issue price, closing at ₹135.37 (-10.94% loss). Its current price is ₹137.44, which is -9.67% below its IPO price. The shares are still trading below their IPO price, but have recovered slightly from their listing day close.
+</p>
+<h3>Anubhav Plast Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹80. It listed below its issue price, closing at ₹76.0 (-5.0% loss). Its current price is ₹50.0, which is -37.5% below its IPO price. This indicates a further drop in value for shares allotted at ₹80.
+</p>
+<h3>Avience Biomedicals Ltd.</h3>
+<p>
+This SME IPO was priced at ₹208. It saw a nearly double listing, closing at ₹414.95 (99.5% gain). Its current price is ₹247.3, which is 18.89% above its IPO price. While still above the IPO price, it has seen a significant moderation from its listing day high.
+</p>
+<h3>Leapfrog Engineering Services Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹23. It listed almost flat, closing at ₹23.1 (0.43% gain). Its current price is ₹21.9, which is -4.78% below its IPO price. This means shares allotted at ₹23 are now trading at a lower value than their original IPO price.
+</p>
+<h3>Liotech Industries Ltd.</h3>
+<p>
+This SME IPO was priced at ₹321. It listed below its issue price, closing at ₹244.15 (-23.94% loss). Its current price is ₹102.0, which is -68.22% below its IPO price. This indicates a substantial drop in value for shares allotted at ₹321.
+</p>
+<h3>Diksha Polymers Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹112. It closed its listing day at ₹120.2, a 7.32% gain. Its current price is ₹140.0, which is 25.0% above its IPO price. The shares have gained further value since their listing day.
+</p>
+<h3>Clay Craft India Ltd.</h3>
+<p>
+This SME IPO was priced at ₹203. It closed its listing day at ₹221.55, a 9.14% gain. Its current price is ₹161.6, which is -20.39% below its IPO price. This means shares allotted at ₹203 are now trading at a lower value than their original IPO price, despite a positive listing.
+</p>
+<h3>Horizon Reclaim (India) Ltd.</h3>
+<p>
+An SME IPO with an issue price of ₹103. It closed its listing day at ₹147.3, a 43.01% gain. Its current price is ₹123.7, which is 20.1% above its IPO price. While still above the IPO price, it has seen some moderation from its listing day close.
+</p>
+<h2>Why do IPOs pop or drop on listing?</h2>
+<p>
+Think of a popular new snack stall opening at a school fete. If many students want to buy the snack (high &quot;demand&quot;) but there are only a limited number of servings (low &quot;supply&quot;), the stall might sell out quickly, and some eager students might even offer a little extra to get their hands on it.
+</p>
+<p>
+Similarly, with an IPO, if a company is seen as very promising and many investors want to buy its shares, the &quot;subscription levels&quot; (how many times the IPO shares were oversubscribed by investors) will be high. This creates strong demand. If the company&#x27;s &quot;pricing&quot; (the IPO price per share) was set at a level that the market feels is reasonable or even a bit low, and the overall &quot;market mood&quot; (how optimistic investors are about the stock market in general) is positive, the share price can &quot;pop&quot; or increase significantly on listing day.
+</p>
+<p>
+However, if there isn&#x27;t much interest in the company, or if the IPO price is considered too high, or if the market mood is negative, there might be less demand than supply. In such cases, the share price might &quot;drop&quot; below its &quot;issue price&quot; (the price at which the company offered its shares in the IPO) on listing day. &quot;Anchor investors&quot; are large institutional investors who subscribe to a portion of the IPO before it opens to the public, usually with a &quot;lock-in period&quot; (a restriction on selling their shares for a certain number of days, often 30 days). Their participation can signal confidence, but once their lock-in ends, their selling activity can also influence the price.
+</p>
+<h2>Why the first-day price is not the whole story</h2>
+<p>
+The listing day price is just a snapshot of the market&#x27;s initial reaction. It&#x27;s often influenced by short-term trading and speculative interest. The stock market is dynamic, and prices are subject to &quot;volatility&quot; (quick and often unpredictable changes).
+</p>
+<p>
+A stock might list with a huge gain, but if the company&#x27;s actual performance doesn&#x27;t meet expectations, or if the &quot;broader market&quot; (the overall stock market) turns negative, that gain can quickly disappear or even turn into a loss. Conversely, a stock might list flat or even below its issue price, but if the company performs well over time, or if market conditions improve, its price can rise significantly later. The first-day price is like the opening score in a cricket match – it sets the stage, but the final result can be very different.
+</p>
+<h2>A simple way to think about it</h2>
+<p>
+Imagine a new restaurant opening in your neighbourhood. On its first day, there&#x27;s a lot of buzz, maybe a special offer, and everyone rushes to try it. The queues are long, and it seems incredibly popular. But after a month or two, the initial excitement settles. The restaurant&#x27;s true popularity will then depend on the quality of its food, service, and how it compares to other options. The price of its dishes will reflect this long-term value, not just the opening day hype. Similarly, an IPO&#x27;s listing day is like the restaurant&#x27;s grand opening, while the price 30-60 days later is closer to its regular business.
+</p>
+<h2>Things people get confused about</h2>
+<h3>Myth → Fact: A big listing gain means it&#x27;s a great company.</h3>
+<p>
+<strong>Fact:</strong> A big listing gain simply means there was high demand for the shares on the first day of trading. It doesn&#x27;t guarantee the company&#x27;s long-term success or that its share price will continue to rise. Company performance, industry trends, and market conditions all play a role in the long run.
+</p>
+<h3>Myth → Fact: If an IPO lists below its issue price, it&#x27;s a bad investment forever.</h3>
+<p>
+<strong>Fact:</strong> Listing below the issue price can be disappointing, but it&#x27;s not a permanent verdict. Market sentiment or specific factors on listing day might have caused the drop. A company&#x27;s fundamentals (its business strength, profits, growth prospects) can improve over time, leading to a recovery in its share price.
+</p>
+<h3>Myth → Fact: All IPOs are the same.</h3>
+<p>
+<strong>Fact:</strong> There are primarily two types: Mainboard IPOs (for larger, more established companies listed on NSE/BSE) and SME IPOs (for Small and Medium Enterprises listed on dedicated SME platforms). SME IPOs often have different trading rules, lower liquidity (fewer buyers and sellers), and higher investment lot sizes compared to Mainboard IPOs.
+</p>
+<h2>FAQ</h2>
+<h3>What is an IPO?</h3>
+<p>
+An IPO (Initial Public Offering) is when a private company first offers its shares to the public to raise money, becoming a publicly traded company.
+</p>
+<h3>What is a Mainboard IPO?</h3>
+<p>
+A Mainboard IPO is for larger companies that list their shares on the main exchanges like the National Stock Exchange (NSE) or Bombay Stock Exchange (BSE).
+</p>
+<h3>What is an SME IPO?</h3>
+<p>
+An SME IPO is for Small and Medium Enterprises that list their shares on separate platforms like NSE Emerge or BSE SME, designed for smaller companies.
+</p>
+<h3>What does &quot;issue price&quot; mean?</h3>
+<p>
+The &quot;issue price&quot; is the fixed price per share at which a company offers its shares to investors during the IPO.
+</p>
+<h3>What is &quot;listing day&quot;?</h3>
+<p>
+&quot;Listing day&quot; is the first day that a company&#x27;s shares start trading on the stock exchange after its IPO.
+</p>
+<h2>Sources</h2>
+<p>
+IPO prices, listing-day prices and current market prices from chittorgarh.com.
+</p>
+<p>
+<em>This is an educational explainer, not investment advice. Past performance is not indicative of future results. myfinancial is not a SEBI-registered adviser.</em>
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
