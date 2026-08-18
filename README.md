@@ -77,6 +77,8 @@ A daily content pipeline for myfinancial.in. Every morning it:
 | File | Purpose |
 |---|---|
 | `scrape_sources.py` | Pull latest articles from RSS feeds + Google News |
+| `fact_check.py` | Verify 5-8 claims per article via Gemini + Google Search grounding |
+| `correct.py` | Auto-rewrite the claims fact-check flagged, then re-verify |
 | `pick_topic.py` | Score + cluster articles, pick today's topic |
 | `write_article.py` | Claude generates the article with SEO+AEO frontmatter |
 | `publish.py` | Render Markdown → HTML, build sitemap, robots.txt, **IPO Watch tab** |
@@ -111,6 +113,22 @@ Both reports are **strictly educational** — the prompt forbids any buy/sell/su
 gh secret set GEMINI_API_KEY -R myfinancialria/myfinancial-content
 ```
 
+**Multiple keys (recommended — doubles the free daily quota):**
+
+`llm.py` rotates through a comma-separated pool, moving to the next key on a
+per-day 429 or an auth error, then falling back to `GEMINI_FALLBACK_MODEL`
+once every key is exhausted on the primary model. Grounded fact-checking and
+correction each cost a call per article, so the pool matters.
+
+```bash
+# comma-separated, no spaces — order = the order they're tried
+printf '%s' "KEY_ONE,KEY_TWO" | gh secret set GEMINI_API_KEYS -R myfinancialria/myfinancial-content
+```
+
+`GEMINI_API_KEYS` takes precedence; `GEMINI_API_KEY` stays as the single-key
+fallback. Get additional keys from https://aistudio.google.com/app/apikey
+(a key is per Google Cloud project, so a second key needs a second project).
+
 To switch providers later, set repo variable `LLM_PROVIDER` to `gemini` / `groq` / `anthropic`.
 
 ### 2. Slack — dedicated channel for content
@@ -142,6 +160,51 @@ GEMINI_API_KEY=YOUR_KEY ~/fyers-bot/.venv/bin/python write_article.py
 # Preview locally:
 open output/index.html
 ```
+
+## Fact-check + auto-correction
+
+Every generated article goes through two grounded Gemini passes before publish:
+
+1. **`fact_check.py`** extracts 5-8 checkable claims and verifies each against
+   live regulator sources (RBI, SEBI, Income Tax Dept, AMFI, EPFO, IRDAI,
+   PFRDA, MoF). Writes `data/fact_check[_CATEGORY].json` with a per-claim
+   status (`verified` / `unsure` / `likely_wrong`) and an overall verdict
+   (`ship` / `review` / `rewrite`).
+2. **`correct.py`** takes the flagged claims plus the sources the checker
+   found and asks Gemini for **surgical find/replace edits** — not a rewrite.
+   `likely_wrong` claims get the correct fact (or the fabricated specific is
+   deleted); `unsure` claims get attributed, softened, or dropped — never
+   replaced with an invented figure. It then re-runs the check so
+   `publish.py` shows the post-correction verdict.
+
+Safety properties:
+
+- An edit is applied **only if its `find` string matches the article
+  verbatim**, so a hallucinated anchor is skipped, not force-fitted.
+- Frontmatter is split off and restored untouched.
+- Nothing flagged, no usable edit, or a failed API call ⇒ the article is left
+  exactly as written. The step never blocks the pipeline.
+- What changed is recorded in `corrections` in the article's meta JSON
+  (`applied`, `skipped`, per-edit `why` + `source`, `verdict_before` /
+  `verdict_after`).
+
+Tuning via env:
+
+| Var | Default | Effect |
+|---|---|---|
+| `CORRECT_UNSURE` | `1` | `0` = only repair `likely_wrong`, leave `unsure` alone |
+| `CORRECT_RECHECK` | `1` | `0` = skip re-verification (saves one grounded call) |
+
+```bash
+# fix one category by hand
+CATEGORY=explainer GEMINI_API_KEYS=... python fact_check.py
+CATEGORY=explainer GEMINI_API_KEYS=... python correct.py
+```
+
+> **Note:** the `sources/*` sub-pipelines (news, daily-fno-pulse,
+> business-mavericks, market-pulse) call Gemini inline rather than through
+> `llm.py`, so they read only `GEMINI_API_KEY` and are not fact-checked or
+> corrected. Migrating them to `llm.py` would put them on the key pool too.
 
 ## SEO + AEO design choices
 

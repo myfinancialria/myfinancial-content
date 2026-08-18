@@ -81,7 +81,7 @@ jobs:
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
         run: python linkedin_poster.py || echo "linkedin posters failed, continuing"
 
-      - name: Fact-check each article
+      - name: Fact-check + auto-correct each article
         env:
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -95,6 +95,7 @@ jobs:
         run: |
           for cat in result_analysis macro personal_finance; do
             CATEGORY=$cat python fact_check.py || echo "fact-check failed for $cat"
+            CATEGORY=$cat python correct.py    || echo "correction failed for $cat"
           done
 
       - name: Slack alerts (per-category rewrite/review)

@@ -56,7 +56,7 @@ jobs:
             CATEGORY=$cat python generate_image.py || echo "image failed for $cat"
           done
 
-      - name: Fact-check each report
+      - name: Fact-check + auto-correct each report
         continue-on-error: true
         env:
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
@@ -67,6 +67,7 @@ jobs:
         run: |
           for cat in ipo_upcoming ipo_listing; do
             CATEGORY=$cat python fact_check.py || echo "fact-check failed for $cat"
+            CATEGORY=$cat python correct.py    || echo "correction failed for $cat"
           done
 
       - name: Build unified site (includes IPO Watch tab)
