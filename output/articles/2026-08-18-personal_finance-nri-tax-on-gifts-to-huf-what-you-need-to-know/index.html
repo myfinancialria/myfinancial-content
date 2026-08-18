@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>NRI Tax on Gifts to HUF: What You Need to Know</title>
+<meta name="description" content="Gifting money from your NRO bank account to a Hindu Undivided Family (HUF) does not create any tax liability for you, the Non-Resident Indian (NRI) giver. Ind.">
+<meta name="keywords" content="account, received, recipient, relative, gifting, financial, sharma, indian">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-18-personal_finance-nri-tax-on-gifts-to-huf-what-you-need-to-know/">
+<meta property="og:title" content="NRI Tax on Gifts to HUF: What You Need to Know">
+<meta property="og:description" content="Gifting money from your NRO bank account to a Hindu Undivided Family (HUF) does not create any tax liability for you, the Non-Resident Indian (NRI) giver. Ind.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-18-personal_finance-nri-tax-on-gifts-to-huf-what-you-need-to-know/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "NRI Tax on Gifts to HUF: What You Need to Know", "description": "Gifting money from your NRO bank account to a Hindu Undivided Family (HUF) does not create any tax liability for you, the Non-Resident Indian (NRI) giver. Ind.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-18", "dateModified": "2026-08-18", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-18-personal_finance-nri-tax-on-gifts-to-huf-what-you-need-to-know/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-08-18</div><h1>NRI Tax on Gifts to HUF: What You Need to Know</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Gifting money from your NRO bank account to a Hindu Undivided Family (HUF) does not create any tax liability for you, the Non-Resident Indian (NRI) giver.</li>
+<li>Indian tax law does not levy gift tax on the person making the gift of money.</li>
+<li>The tax implications arise for the recipient HUF under Section 56(2)(x) of the Income Tax Act, 1961.</li>
+<li>If the aggregate value of gifts received by the HUF from non-relatives exceeds ₹50,000 in a financial year, the entire amount becomes taxable in the hands of the HUF.</li>
+<li>Gifts received by an HUF from its &#x27;members&#x27; are exempt from tax, as they are considered &#x27;relatives&#x27; for this purpose.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you, as an NRI, decide to give money to a Hindu Undivided Family (HUF) in India, say your father&#x27;s or your own, the act of giving that money itself doesn&#x27;t make you liable for any income tax in India. The Indian tax system focuses on the recipient of a gift, not the giver, when it comes to cash gifts.
+</p>
+<p>
+However, the HUF receiving the money might face tax implications. The tax rules state that if an HUF receives money as a gift, and the total value of such gifts from people who are not considered &#x27;relatives&#x27; of the HUF exceeds ₹50,000 in a financial year, then the entire amount received over and above this threshold becomes taxable as &quot;Income from Other Sources&quot; for the HUF. The key here is understanding who qualifies as a &#x27;relative&#x27; for an HUF in the eyes of the tax department, as gifts from relatives are typically exempt.
+</p>
+<h2>Understanding Gifts under Indian Tax Law</h2>
+<p>
+The concept of &#x27;gift&#x27; in Indian tax law, specifically under Section 56(2)(x) of the Income Tax Act, 1961, is crucial for understanding its tax implications. This section deals with &quot;Income from Other Sources&quot; and covers gifts received by individuals and HUFs.
+</p>
+<h3>What constitutes a &quot;gift&quot;?</h3>
+<p>
+Under the Income Tax Act, a &quot;gift&quot; can refer to:
+</p>
+<ul>
+<li><strong>Any sum of money</strong> received without consideration, if the aggregate value of such sum exceeds ₹50,000.</li>
+<li><strong>Any movable property</strong> (like shares, jewellery, drawings, paintings, sculptures, archaeological collections, any work of art, or bullion) received without consideration, if the fair market value of such property exceeds ₹50,000. If received for inadequate consideration, the difference between the fair market value and the consideration paid is considered a gift.</li>
+<li><strong>Any immovable property</strong> (like land or building) received without consideration, if the stamp duty value of such property exceeds ₹50,000. If received for inadequate consideration, the difference between the stamp duty value and the consideration paid is considered a gift.</li>
+</ul>
+<p>
+For the purpose of this article, we are primarily concerned with gifts of money. It&#x27;s important to note that the taxability arises in the hands of the recipient, not the person making the gift. The Livemint article confirms this for an NRI gifting from an NRO account, stating &quot;a gift of money is not taxable in the hands of the person making the gift.&quot;
+</p>
+<h3>Who is exempt from gift tax?</h3>
+<p>
+Even if the gift value exceeds the ₹50,000 threshold, certain gifts are specifically exempt from tax. These include gifts received:
+</p>
+<ul>
+<li>From any &#x27;relative&#x27;.</li>
+<li>On the occasion of the marriage of the individual.</li>
+<li>Under a will or by way of inheritance.</li>
+<li>In contemplation of death of the payer or donor.</li>
+<li>From any local authority.</li>
+<li>From any fund, foundation, university, other educational institution, hospital, medical institution, or any trust or institution referred to in Section 10(23C).</li>
+<li>From any trust or institution registered under Section 12A or 12AA.</li>
+</ul>
+<p>
+The definition of &#x27;relative&#x27; is paramount here, especially when an HUF is the recipient.
+</p>
+<h2>The Hindu Undivided Family (HUF) as a Recipient</h2>
+<p>
+A Hindu Undivided Family (HUF) is a unique entity under Indian tax law, allowing a family to pool assets and be taxed as a single unit, separate from its individual members.
+</p>
+<h3>What is an HUF?</h3>
+<p>
+An HUF is a family consisting of all persons lineally descended from a common ancestor and includes their wives and unmarried daughters. It is governed by Hindu law. An HUF can be formed by a declaration and by pooling ancestral or self-acquired property into a common fund. It has its own PAN (Permanent Account Number) and can earn income, hold assets, and file tax returns independently.
+</p>
+<h3>Tax implications for gifts received by an HUF</h3>
+<p>
+When an HUF receives a gift of money, the provisions of Section 56(2)(x) apply. If the aggregate sum of money received as a gift by the HUF from non-relatives during a financial year exceeds ₹50,000, the entire amount exceeding this threshold is taxable as &quot;Income from Other Sources&quot; for the HUF.
+</p>
+<p>
+For instance, if an HUF receives ₹75,000 as a gift from a non-relative, the entire ₹75,000 becomes taxable in the hands of the HUF, not just the amount above ₹50,000. This is a common misconception; the threshold is for exemption, not for taxing the excess.
+</p>
+<h3>Who is a &#x27;relative&#x27; for an HUF?</h3>
+<p>
+This is a critical point for determining the taxability of gifts to an HUF. For the purpose of gifts received by an HUF, the Income Tax Act considers any &#x27;member&#x27; of the HUF as a &#x27;relative&#x27;. This means that gifts received by an HUF from any of its members (e.g., Karta, co-parceners) are exempt from tax, regardless of the amount.
+</p>
+<p>
+However, if the gift is from someone who is not a member of that specific HUF (e.g., a friend of the Karta, or even a distant relative who is not part of that HUF&#x27;s lineal descent), then the ₹50,000 threshold and subsequent taxability apply. It&#x27;s important to differentiate between an individual&#x27;s relatives and an HUF&#x27;s members.
+</p>
+<h2>NRI Specifics: Gifting from NRO Accounts</h2>
+<p>
+For Non-Resident Indians (NRIs), the source of funds for gifting and the nature of their bank accounts are important considerations, though they don&#x27;t change the fundamental taxability for the recipient HUF.
+</p>
+<h3>NRO vs. NRE accounts for gifting</h3>
+<p>
+NRIs typically hold two types of accounts in India:
+</p>
+<ul>
+<li><strong>Non-Resident Ordinary (NRO) Account:</strong> This account is used to manage income earned in India, such as rent, dividends, and pension. Funds in an NRO account are generally repatriable (transferable outside India) only up to a certain limit per financial year, subject to tax clearance. Gifts from an NRO account are common as they represent funds already held in India. The Livemint article specifically mentions gifting from an NRO account.</li>
+<li><strong>Non-Resident External (NRE) Account:</strong> This account is used to deposit foreign earnings into India. The principal and interest earned on NRE accounts are fully repatriable and are exempt from tax in India.</li>
+</ul>
+<p>
+When an NRI gifts money to an HUF in India, typically this would be done from their NRO account, as these are funds already within India&#x27;s financial system. Gifting from an NRE account would involve transferring foreign currency into an Indian resident account, which is also permissible.
+</p>
+<h3>Repatriation rules for gifts</h3>
+<p>
+While the act of gifting money from an NRO account to an HUF does not create tax liability for the NRI giver, it&#x27;s important for NRIs to be aware of the overall foreign exchange regulations. The gift amount itself, once transferred to an Indian resident&#x27;s account (like an HUF&#x27;s account), becomes resident funds. The NRI&#x27;s ability to repatriate funds from their NRO account is governed by RBI guidelines, which generally allow repatriation of up to USD 1 million per financial year from NRO accounts, subject to applicable taxes. This is more about the NRI&#x27;s overall financial management than the specific tax on the gift itself.
+</p>
+<h2>Compliance and Documentation</h2>
+<p>
+Proper documentation is key to avoid future disputes and ensure compliance with tax regulations, especially for gifts.
+</p>
+<h3>Importance of a gift deed</h3>
+<p>
+A gift deed is a legal document that formally transfers ownership of a gift from the donor to the recipient. While not strictly mandatory for cash gifts in all scenarios, it is highly recommended, especially for larger amounts or when gifting to an HUF. A well-drafted gift deed should include:
+</p>
+<ul>
+<li>Names and addresses of the donor (NRI) and the recipient (HUF).</li>
+<li>Details of the gift (amount, date of transfer).</li>
+<li>Relationship between the donor and recipient.</li>
+<li>A declaration that the gift is made out of natural love and affection and without any coercion.</li>
+<li>Signatures of both parties and witnesses.</li>
+<li>It helps establish the genuineness of the transaction and can serve as crucial evidence if the tax department questions the nature of the funds.</li>
+</ul>
+<h3>Maintaining records</h3>
+<p>
+Both the NRI donor and the HUF recipient should maintain meticulous records of the gift transaction. This includes:
+</p>
+<ul>
+<li>Bank statements showing the transfer of funds.</li>
+<li>The executed gift deed.</li>
+<li>Any communication related to the gift.</li>
+<li>For the HUF, these records are vital for filing its income tax return and substantiating the source of funds, especially if the gift is from a &#x27;relative&#x27; and thus tax-exempt.</li>
+</ul>
+<h2>A real example</h2>
+<p>
+<strong>Rajesh, 42, an NRI based in Dubai, earning ₹60 lakhs annually, wants to gift money to his father&#x27;s HUF in Chennai.</strong>
+</p>
+<p>
+Rajesh&#x27;s father, Mr. Sharma, is the Karta of the &#x27;Sharma HUF&#x27;. Rajesh is a co-parcener and thus a member of the Sharma HUF.
+</p>
+<p>
+<strong>Scenario 1: Gift from Rajesh (a member of the HUF)</strong>
+In October 2026, Rajesh transfers ₹10 lakhs from his NRO account to the Sharma HUF&#x27;s bank account.
+</p>
+<ul>
+<li><strong>Rajesh&#x27;s Tax Liability (Giver):</strong> Zero. As per Indian tax law, the act of gifting money does not create tax liability for the giver.</li>
+<li><strong>Sharma HUF&#x27;s Tax Liability (Recipient):</strong> Zero. Since Rajesh is a member of the Sharma HUF, he is considered a &#x27;relative&#x27; for the purpose of gift tax exemption. Gifts received by an HUF from its members are fully exempt from tax, regardless of the amount. The ₹10 lakhs will not be taxable in the hands of the Sharma HUF.</li>
+</ul>
+<p>
+<strong>Scenario 2: Gift from Rajesh&#x27;s close friend, Amit (not a member of the HUF)</strong>
+Assume Amit, a close friend of Rajesh and not a member of the Sharma HUF, decides to gift ₹1.5 lakhs to the Sharma HUF in December 2026.
+</p>
+<ul>
+<li><strong>Amit&#x27;s Tax Liability (Giver):</strong> Zero.</li>
+<li><strong>Sharma HUF&#x27;s Tax Liability (Recipient):</strong> The HUF receives ₹1.5 lakhs from a non-relative. Since this amount exceeds the ₹50,000 threshold for gifts from non-relatives, the <em>entire</em> ₹1.5 lakhs will be taxable as &quot;Income from Other Sources&quot; in the hands of the Sharma HUF for the financial year 2026-27. The HUF will need to declare this income in its tax return and pay tax according to its applicable slab rates.</li>
+</ul>
+<p>
+This example highlights the crucial distinction between gifts from HUF members and non-members when assessing taxability for the HUF.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Confirm HUF Member Status:</strong> If you are an NRI planning to gift to an HUF, verify your status as a &#x27;member&#x27; of that specific HUF. This is critical for determining the HUF&#x27;s tax liability on the gift.</li>
+<li><strong>Draft a Gift Deed:</strong> Prepare a formal gift deed for any significant monetary gift. Ensure it clearly states the donor, recipient (HUF), amount, date, and relationship. This serves as vital documentation for both parties.</li>
+<li><strong>Review HUF&#x27;s Existing Gift Records:</strong> If you are involved with an HUF, check if it has received any other gifts from non-members in the current financial year. This will help assess if the ₹50,000 threshold has been, or will be, crossed.</li>
+<li><strong>Consult a Chartered Accountant (CA):</strong> Before making a substantial gift, especially if there&#x27;s any ambiguity about the HUF&#x27;s structure or the donor-recipient relationship, consult a CA specializing in HUF taxation. They can provide tailored advice.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Is the NRI taxed on giving the gift to an HUF?</h3>
+<p>
+No, the Non-Resident Indian (NRI) making the gift of money is not subject to any income tax liability in India on the act of giving the gift. The tax implications, if any, arise for the recipient HUF.
+</p>
+<h3>Is a gift deed mandatory when gifting money to an HUF?</h3>
+<p>
+While not strictly mandatory for cash gifts, it is highly recommended to execute a gift deed. It provides legal proof of the transaction, establishes the genuineness of the gift, and can prevent future disputes or scrutiny from tax authorities.
+</p>
+<h3>Can an NRI gift immovable property to an HUF?</h3>
+<p>
+Yes, an NRI can gift immovable property to an HUF. However, the tax implications for the HUF would then be based on the stamp duty value of the property, and specific regulations regarding transfer of immovable property to/from NRIs would apply.
+</p>
+<h3>What is the tax threshold for gifts received by an HUF?</h3>
+<p>
+If an HUF receives gifts of money from non-relatives, and the aggregate value of such gifts exceeds ₹50,000 in a financial year, the entire amount received (not just the excess) becomes taxable as &quot;Income from Other Sources&quot; for the HUF.
+</p>
+<h3>Who is considered a &#x27;relative&#x27; for HUF gift tax purposes?</h3>
+<p>
+For an HUF, any &#x27;member&#x27; of that specific HUF is considered a &#x27;relative&#x27;. Gifts received by the HUF from its members are exempt from tax, irrespective of the amount.
+</p>
+<h3>Can an NRI gift from their NRE account to an HUF?</h3>
+<p>
+Yes, an NRI can gift from their NRE account to an HUF. Funds from NRE accounts are freely repatriable and tax-exempt in the hands of the NRI, but the taxability for the HUF recipient remains the same as per Section 56(2)(x).
+</p>
+<h3>What records should an HUF maintain for gifts received?</h3>
+<p>
+An HUF should maintain a copy of the gift deed, bank statements showing the receipt of funds, and any other relevant correspondence. These documents are crucial for substantiating the nature and source of the funds during tax assessments.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/nri-tax-money-gifted-to-huf-form-41-corrections-nro-bank-account-11786943251642.html</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>Reserve Bank of India (RBI): https://rbi.org.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>

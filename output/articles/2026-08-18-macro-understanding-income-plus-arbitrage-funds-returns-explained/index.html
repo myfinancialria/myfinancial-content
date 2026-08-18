@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Understanding Income Plus Arbitrage Funds: Returns Explained</title>
+<meta name="description" content="Income plus arbitrage funds combine equity arbitrage strategies with investments in debt instruments. They aim to generate relatively stable, low-volatility r.">
+<meta name="keywords" content="arbitrage, equity, market, returns, return, interest, component, taxation">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-18-macro-understanding-income-plus-arbitrage-funds-returns-explained/">
+<meta property="og:title" content="Understanding Income Plus Arbitrage Funds: Returns Explained">
+<meta property="og:description" content="Income plus arbitrage funds combine equity arbitrage strategies with investments in debt instruments. They aim to generate relatively stable, low-volatility r.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-18-macro-understanding-income-plus-arbitrage-funds-returns-explained/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Understanding Income Plus Arbitrage Funds: Returns Explained", "description": "Income plus arbitrage funds combine equity arbitrage strategies with investments in debt instruments. They aim to generate relatively stable, low-volatility r.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-18", "dateModified": "2026-08-18", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-18-macro-understanding-income-plus-arbitrage-funds-returns-explained/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/" class="active">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Macro &amp; Markets · 2026-08-18</div><h1>Understanding Income Plus Arbitrage Funds: Returns Explained</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Income plus arbitrage funds combine equity arbitrage strategies with investments in debt instruments.</li>
+<li>They aim to generate relatively stable, low-volatility returns by capitalising on price differences in markets.</li>
+<li>These funds experienced significant inflows of nearly ₹21,000 crore in 2025, followed by withdrawals of about ₹2,000 crore in early 2026.</li>
+<li>Their taxation is typically favourable, often treated like equity funds if they maintain over 65% equity exposure.</li>
+<li>They can be a suitable option for investors seeking moderate returns with lower risk than pure equity funds.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Income plus arbitrage funds are a type of mutual fund that employs a dual strategy to generate returns. The &quot;arbitrage&quot; part involves simultaneously buying and selling the same asset in different markets to profit from temporary price discrepancies. For instance, buying a share in the cash market and selling its future contract at a higher price. This strategy is designed to be market-neutral, meaning it aims to profit regardless of whether the overall market goes up or down, thereby reducing risk.
+</p>
+<p>
+The &quot;income&quot; component refers to the portion of the fund&#x27;s corpus that is invested in debt instruments, such as government securities, corporate bonds, and money market instruments. This debt allocation provides a steady income stream and adds stability to the fund&#x27;s overall returns. The combination of these two strategies allows these funds to offer potentially better post-tax returns than traditional debt funds, with lower volatility compared to pure equity funds. While they attracted substantial investor interest in 2025, recent data shows some investors have started to withdraw funds in 2026, indicating a shift in sentiment or portfolio reallocation.
+</p>
+<h2>How Income Plus Arbitrage Funds Work</h2>
+<p>
+Income plus arbitrage funds operate on a carefully balanced strategy, blending market-neutral equity arbitrage with stable debt investments. This hybrid approach is designed to deliver consistent, albeit moderate, returns with reduced exposure to market volatility.
+</p>
+<h3>The Arbitrage Component</h3>
+<p>
+The core of an arbitrage fund lies in exploiting price differentials. Fund managers identify instances where the same security, typically a stock, trades at different prices in two different segments of the market – primarily the cash market (where shares are bought and sold for immediate delivery) and the futures market (where contracts to buy or sell shares at a future date are traded). The strategy involves simultaneously buying the stock in the cash market and selling its corresponding futures contract at a higher price, or vice-versa. For example, if Reliance Industries shares are trading at ₹2,500 in the cash market and its one-month futures contract is trading at ₹2,520, the fund manager would buy shares in the cash market and sell an equivalent quantity in the futures market. This locks in a profit of ₹20 per share (minus transaction costs) regardless of how the stock&#x27;s price moves in the interim. This strategy aims to be risk-averse as the profit is largely predetermined.
+</p>
+<h3>The Debt/Income Component</h3>
+<p>
+While the arbitrage component focuses on short-term, market-neutral gains, the remaining portion of the fund&#x27;s assets is strategically deployed in debt instruments. This &quot;income&quot; part invests in a diversified portfolio of fixed-income securities. These can include short-term government securities, corporate bonds, commercial papers, and certificates of deposit. The objective here is to generate a stable income stream and provide liquidity. The debt component also helps in managing the fund&#x27;s overall risk profile, acting as a cushion during periods when arbitrage opportunities might be scarce or less lucrative.
+</p>
+<h3>Blending for Stability</h3>
+<p>
+The combination of these two strategies creates a unique risk-return profile. The arbitrage portion provides a relatively predictable return, largely insulated from broad market movements. The debt portion contributes a steady yield and capital preservation. By blending these, income plus arbitrage funds aim to offer returns that are typically higher than pure liquid or ultra-short-term debt funds, with significantly lower volatility than diversified equity funds. They are often categorised as equity-oriented funds for taxation purposes if they maintain a minimum of 65% exposure to equity and equity-related instruments, which the arbitrage positions help achieve.
+</p>
+<h2>Understanding Returns and Risks</h2>
+<p>
+While income plus arbitrage funds offer a compelling proposition for certain investor profiles, it&#x27;s crucial to understand their return potential and inherent risks.
+</p>
+<h3>Return Potential</h3>
+<p>
+The returns from income plus arbitrage funds are generally modest and can vary based on market conditions. The arbitrage component&#x27;s returns are primarily driven by the spread between the cash and futures prices, which tends to narrow during periods of high market liquidity or when interest rates are low. Historically, these funds have aimed to deliver returns in the range of 6-8% annually, often comparable to or slightly better than traditional fixed deposits or short-term debt funds, especially on a post-tax basis. The debt component&#x27;s returns are influenced by prevailing interest rates and the credit quality of the underlying instruments. In a rising interest rate environment, the debt portion might offer higher yields, while falling rates could compress returns.
+</p>
+<h3>Key Risks</h3>
+<p>
+Despite their low-risk perception, income plus arbitrage funds are not entirely risk-free.
+</p>
+<ul>
+<li><strong>Limited Arbitrage Opportunities:</strong> The availability and profitability of arbitrage opportunities can fluctuate. In highly efficient markets or during periods of low volatility, the spreads between cash and futures prices might be very thin, reducing the potential for significant gains.</li>
+<li><strong>Interest Rate Risk:</strong> The debt portion of the fund is exposed to interest rate risk. If interest rates rise, the value of existing bonds in the portfolio may fall, impacting the net asset value (NAV) of the fund. Conversely, falling interest rates can benefit the debt component.</li>
+<li><strong>Credit Risk:</strong> While fund managers typically invest in high-quality debt instruments, there is always a residual credit risk, albeit low, associated with the issuer&#x27;s ability to repay.</li>
+<li><strong>Liquidity Risk:</strong> In extreme market conditions, there might be temporary liquidity issues in either the equity or debt markets, affecting the fund&#x27;s ability to execute trades efficiently.</li>
+</ul>
+<h3>Volatility</h3>
+<p>
+One of the primary attractions of these funds is their relatively low volatility compared to pure equity funds. Since the arbitrage strategy is market-neutral, it largely insulates the fund from broad market swings. The debt component further stabilises the portfolio. However, they are not immune to all market movements. Minor fluctuations in NAV can occur due to changes in interest rates impacting the debt portion, or temporary widening/narrowing of arbitrage spreads. Investors should expect a smoother NAV trajectory than equity funds but acknowledge that some degree of fluctuation is inherent.
+</p>
+<h2>Taxation Aspects</h2>
+<p>
+Understanding the tax implications of income plus arbitrage funds is crucial for evaluating their true post-tax returns. The taxation largely depends on the fund&#x27;s equity exposure.
+</p>
+<h3>Equity-Oriented vs. Debt-Oriented Classification</h3>
+<p>
+According to the Income Tax Act, a mutual fund is classified as equity-oriented if it invests at least 65% of its corpus in equity and equity-related instruments. Arbitrage funds typically maintain this minimum 65% equity exposure to qualify for equity taxation benefits. This is achieved by holding cash market positions and offsetting futures positions. If a fund&#x27;s equity exposure falls below 65%, it will be taxed as a debt fund. Investors should always check the fund&#x27;s portfolio disclosure and its stated investment objective to confirm its classification.
+</p>
+<h3>Short-Term Capital Gains (STCG)</h3>
+<p>
+For funds classified as equity-oriented:
+</p>
+<ul>
+<li>If units are sold within one year of purchase, the gains are considered Short-Term Capital Gains (STCG).</li>
+<li>STCG from equity-oriented funds is taxed at a flat rate of 15% (plus cess).</li>
+</ul>
+<p>
+For funds classified as debt-oriented (if any income plus arbitrage fund were to fall into this category, which is rare for the arbitrage component):
+</p>
+<ul>
+<li>If units are sold within three years of purchase, the gains are added to the investor&#x27;s total income and taxed according to their applicable income tax slab rate.</li>
+</ul>
+<h3>Long-Term Capital Gains (LTCG)</h3>
+<p>
+For funds classified as equity-oriented:
+</p>
+<ul>
+<li>If units are sold after one year of purchase, the gains are considered Long-Term Capital Gains (LTCG).</li>
+<li>LTCG from equity-oriented funds is exempt up to ₹1 lakh in a financial year. Gains exceeding ₹1 lakh are taxed at a rate of 10% (plus cess) without indexation benefit. This makes them particularly attractive for investors seeking tax-efficient returns over the long term compared to debt funds.</li>
+</ul>
+<p>
+For funds classified as debt-oriented:
+</p>
+<ul>
+<li>If units are sold after three years of purchase, the gains are considered LTCG.</li>
+<li>LTCG from debt funds is taxed at a rate of 20% with the benefit of indexation. However, it&#x27;s important to note that for debt mutual funds purchased on or after April 1, 2023, the benefit of indexation for long-term capital gains has been removed, and any gains are now taxed at the investor&#x27;s income tax slab rate. This change further highlights the tax advantage of equity-oriented arbitrage funds for long-term holdings.</li>
+</ul>
+<p>
+The favourable equity taxation makes income plus arbitrage funds an appealing option for investors in higher tax brackets looking for relatively stable, post-tax returns.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, earning ₹28L CTC, based in Bengaluru</strong>, who is in the 30% income tax bracket. Rahul wants to invest ₹7 lakhs for a period of 18 months, aiming for stable returns with lower risk than direct equity, and better post-tax efficiency than a traditional fixed deposit. He decides to invest in an income plus arbitrage fund.
+</p>
+<p>
+<strong>Investment Details:</strong>
+</p>
+<ul>
+<li>Investment Amount: ₹7,00,000</li>
+<li>Investment Horizon: 18 months (1.5 years)</li>
+<li>Assumed Annual Return: 7% (pre-tax)</li>
+</ul>
+<p>
+<strong>Calculation:</strong>
+</p>
+<ol>
+<li><strong>Total Value after 1.5 years:</strong></li>
+<p>
+    *   Annual return: 7%
+    <em>   Return for 1.5 years: 7% </em> 1.5 = 10.5%
+    <em>   Absolute gain: ₹7,00,000 </em> 10.5% = ₹73,500
+    *   Total value: ₹7,00,000 + ₹73,500 = ₹7,73,500
+</p>
+</ol>
+<ol>
+<li><strong>Taxation:</strong></li>
+<p>
+    Since Rahul held the investment for 18 months (more than 1 year), the gains are considered Long-Term Capital Gains (LTCG). As income plus arbitrage funds typically maintain over 65% equity exposure, they are taxed like equity funds.
+    *   LTCG exemption limit: ₹1,00,000 per financial year.
+    *   Rahul&#x27;s gain is ₹73,500, which is less than the ₹1,00,000 exemption limit.
+</p>
+</ol>
+<ol>
+<li><strong>Post-Tax Return:</strong></li>
+<p>
+    *   Since the entire gain of ₹73,500 falls within the ₹1 lakh LTCG exemption for equity-oriented funds, Rahul pays ₹0 in capital gains tax.
+    *   His post-tax gain is ₹73,500.
+    <em>   Effective post-tax return: (₹73,500 / ₹7,00,000) </em> 100 = 10.5% over 1.5 years, or an annualised return of 7%.
+</p>
+</ol>
+<p>
+<strong>Comparison with a Fixed Deposit (FD):</strong>
+If Rahul had invested ₹7 lakhs in an FD yielding 7% for 18 months, his interest income would be ₹73,500. However, this interest would be added to his income and taxed at his slab rate of 30%.
+</p>
+<ul>
+<li>Tax on FD interest: ₹73,500 * 30% = ₹22,050</li>
+<li>Post-tax gain from FD: ₹73,500 - ₹22,050 = ₹51,450</li>
+<li>Effective post-tax return from FD: (₹51,450 / ₹7,00,000) * 100 = 7.35% over 1.5 years, or an annualised return of 4.9%.</li>
+</ul>
+<p>
+In this scenario, the income plus arbitrage fund provides a significantly higher post-tax return compared to a traditional fixed deposit for Rahul, primarily due to its favourable equity taxation status.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Assess Your Risk Appetite:</strong> Re-evaluate your personal risk tolerance. Income plus arbitrage funds offer lower volatility than pure equity, but they are not risk-free. Ensure this aligns with your comfort level.</li>
+<li><strong>Review Fund Objectives and Holdings:</strong> Research specific income plus arbitrage funds available. Check their investment objective, asset allocation (especially the equity and debt split), and historical performance.</li>
+<li><strong>Verify Equity Classification for Taxation:</strong> Confirm that the fund consistently maintains over 65% equity exposure to qualify for equity taxation benefits. This information is usually available in the fund&#x27;s Scheme Information Document (SID) or factsheet.</li>
+<li><strong>Compare Expense Ratios:</strong> Look at the expense ratio of different funds. A lower expense ratio generally means more of your returns are retained.</li>
+<li><strong>Consult a Certified Financial Planner (CFP):</strong> Discuss with a CFP how income plus arbitrage funds fit into your overall financial plan and specific goals, considering your tax bracket and investment horizon.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is an arbitrage opportunity?</h3>
+<p>
+An arbitrage opportunity arises when the same asset is simultaneously trading at different prices in different markets. Fund managers exploit this by buying in the cheaper market and selling in the more expensive market to lock in a risk-free profit.
+</p>
+<h3>How are income plus arbitrage funds taxed?</h3>
+<p>
+These funds are typically taxed as equity-oriented funds if they maintain at least 65% equity exposure. Short-term capital gains (within 1 year) are taxed at 15%, while long-term capital gains (after 1 year) are exempt up to ₹1 lakh per financial year, with gains above this taxed at 10%.
+</p>
+<h3>Are income plus arbitrage funds risk-free?</h3>
+<p>
+No, they are not entirely risk-free. While the arbitrage component aims for market-neutral returns, the debt component carries interest rate and credit risk. Opportunities for arbitrage can also fluctuate, impacting returns.
+</p>
+<h3>What is the typical return expectation from these funds?</h3>
+<p>
+Returns are generally modest, often in the range of 6-8% annually, aiming to be slightly higher than traditional debt instruments on a post-tax basis, but lower than diversified equity funds.
+</p>
+<h3>How do they differ from pure debt funds?</h3>
+<p>
+Pure debt funds invest solely in fixed-income securities and are primarily exposed to interest rate and credit risk. Income plus arbitrage funds combine debt investments with an equity arbitrage strategy, aiming for better tax efficiency and a different risk-return profile.
+</p>
+<h3>Can Non-Resident Indians (NRIs) invest in these funds?</h3>
+<p>
+Yes, NRIs can generally invest in income plus arbitrage funds through their NRE or NRO accounts, subject to prevailing regulations. However, their taxation might differ based on their country of residence and DTAA (Double Taxation Avoidance Agreement) provisions.
+</p>
+<h3>What is the ideal investment horizon for these funds?</h3>
+<p>
+While suitable for short to medium-term goals (1-3 years) due to their low volatility, their tax efficiency (LTCG benefits) makes them particularly attractive for investment horizons exceeding one year.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+<li>AMFI India: https://amfiindia.com</li>
+<li>SEBI: https://sebi.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# Understanding Income Plus Arbitrage Funds: Returns Explained
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Income plus arbitrage funds combine equity arbitrage strategies with investments in debt instruments.</li>
+<li>They aim to generate relatively stable, low-volatility returns by capitalising on price differences in markets.</li>
+<li>These funds experienced significant inflows of nearly ₹21,000 crore in 2025, followed by withdrawals of about ₹2,000 crore in early 2026.</li>
+<li>Their taxation can vary; some are treated like equity funds, while specific &quot;Income Plus Arbitrage Fund of Funds&quot; have a distinct tax treatment.</li>
+<li>They can be a suitable option for investors seeking moderate, tax-efficient returns with lower risk than pure equity funds for specific holding periods.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Income plus arbitrage funds are a type of mutual fund that employs a dual strategy to generate returns. The &quot;arbitrage&quot; part involves simultaneously buying and selling the same asset in different markets to profit from temporary price discrepancies. For instance, buying a share in the cash market and selling its future contract at a higher price. This strategy is designed to be market-neutral, meaning it aims to profit regardless of whether the overall market goes up or down, thereby reducing risk.
+</p>
+<p>
+The &quot;income&quot; component refers to the portion of the fund&#x27;s corpus that is invested in debt instruments, such as government securities, corporate bonds, and money market instruments. This debt allocation provides a steady income stream and adds stability to the fund&#x27;s overall returns. The combination of these two strategies allows these funds to offer potentially better post-tax returns than traditional debt funds, with lower volatility compared to pure equity funds. While they attracted substantial investor interest in 2025, recent data shows some investors have started to withdraw funds in 2026, indicating a shift in sentiment or portfolio reallocation.
+</p>
+<h2>How Income Plus Arbitrage Funds Work</h2>
+<p>
+Income plus arbitrage funds operate on a carefully balanced strategy, blending market-neutral equity arbitrage with stable debt investments. This hybrid approach is designed to deliver consistent, albeit moderate, returns with reduced exposure to market volatility.
+</p>
+<h3>The Arbitrage Component</h3>
+<p>
+The core of an arbitrage fund lies in exploiting price differentials. Fund managers identify instances where the same security, typically a stock, trades at different prices in two different segments of the market – primarily the cash market (where shares are bought and sold for immediate delivery) and the futures market (where contracts to buy or sell shares at a future date are traded). The strategy involves simultaneously buying the stock in the cash market and selling its corresponding futures contract at a higher price, or vice-versa. For example, if Reliance Industries shares are trading at ₹2,500 in the cash market and its one-month futures contract is trading at ₹2,520, the fund manager would buy shares in the cash market and sell an equivalent quantity in the futures market. This locks in a profit of ₹20 per share (minus transaction costs) regardless of how the stock&#x27;s price moves in the interim. This strategy aims to be risk-averse as the profit is largely predetermined.
+</p>
+<h3>The Debt/Income Component</h3>
+<p>
+While the arbitrage component focuses on short-term, market-neutral gains, the remaining portion of the fund&#x27;s assets is strategically deployed in debt instruments. This &quot;income&quot; part invests in a diversified portfolio of fixed-income securities. These can include short-term government securities, corporate bonds, commercial papers, and certificates of deposit. The objective here is to generate a stable income stream and provide liquidity. The debt component also helps in managing the fund&#x27;s overall risk profile, acting as a cushion during periods when arbitrage opportunities might be scarce or less lucrative.
+</p>
+<h3>Blending for Stability</h3>
+<p>
+The combination of these two strategies creates a unique risk-return profile. The arbitrage portion provides a relatively predictable return, largely insulated from broad market movements. The debt portion contributes a steady yield and capital preservation. By blending these, income plus arbitrage funds aim to offer returns that are typically higher than pure liquid or ultra-short-term debt funds, with significantly lower volatility than diversified equity funds. Their classification for taxation purposes depends on their equity exposure, which we will discuss next.
+</p>
+<h2>Understanding Returns and Risks</h2>
+<p>
+While income plus arbitrage funds offer a compelling proposition for certain investor profiles, it&#x27;s crucial to understand their return potential and inherent risks.
+</p>
+<h3>Return Potential</h3>
+<p>
+The returns from income plus arbitrage funds are generally modest and can vary based on market conditions. The arbitrage component&#x27;s returns are primarily driven by the spread between the cash and futures prices, which tends to narrow during periods of high market liquidity or when interest rates are low. Historically, these funds have aimed to deliver returns in the range of 6-8% annually, often comparable to or slightly better than traditional fixed deposits or short-term debt funds, especially on a post-tax basis. The debt component&#x27;s returns are influenced by prevailing interest rates and the credit quality of the underlying instruments. In a rising interest rate environment, the debt portion might offer higher yields, while falling rates could compress returns.
+</p>
+<h3>Key Risks</h3>
+<p>
+Despite their low-risk perception, income plus arbitrage funds are not entirely risk-free.
+</p>
+<ul>
+<li><strong>Limited Arbitrage Opportunities:</strong> The availability and profitability of arbitrage opportunities can fluctuate. In highly efficient markets or during periods of low volatility, the spreads between cash and futures prices might be very thin, reducing the potential for significant gains.</li>
+<li><strong>Interest Rate Risk:</strong> The debt portion of the fund is exposed to interest rate risk. If interest rates rise, the value of existing bonds in the portfolio may fall, impacting the net asset value (NAV) of the fund. Conversely, falling interest rates can benefit the debt component.</li>
+<li><strong>Credit Risk:</strong> While fund managers typically invest in high-quality debt instruments, there is always a residual credit risk, albeit low, associated with the issuer&#x27;s ability to repay.</li>
+<li><strong>Liquidity Risk:</strong> In extreme market conditions, there might be temporary liquidity issues in either the equity or debt markets, affecting the fund&#x27;s ability to execute trades efficiently.</li>
+</ul>
+<h3>Volatility</h3>
+<p>
+One of the primary attractions of these funds is their relatively low volatility compared to pure equity funds. Since the arbitrage strategy is market-neutral, it largely insulates the fund from broad market swings. The debt component further stabilises the portfolio. However, they are not immune to all market movements. Minor fluctuations in NAV can occur due to changes in interest rates impacting the debt portion, or temporary widening/narrowing of arbitrage spreads. Investors should expect a smoother NAV trajectory than equity funds but acknowledge that some degree of fluctuation is inherent.
+</p>
+<h2>Taxation Aspects</h2>
+<p>
+Understanding the tax implications of income plus arbitrage funds is crucial for evaluating their true post-tax returns. The taxation largely depends on the fund&#x27;s equity exposure and specific fund structure.
+</p>
+<h3>Classification for Tax Purposes</h3>
+<p>
+Mutual funds are broadly classified for tax purposes based on their equity exposure.
+</p>
+<ul>
+<li><strong>Equity-Oriented Funds:</strong> Funds that invest at least 65% of their corpus in equity and equity-related instruments are treated as equity-oriented. Many pure arbitrage funds maintain this threshold through their hedged positions.</li>
+<li><strong>Debt-Oriented Funds:</strong> Funds with less than 35% equity exposure are treated as debt funds.</li>
+<li><strong>Hybrid Funds / Income Plus Arbitrage FOFs:</strong> Some &quot;Income Plus Arbitrage Fund of Funds (FOFs)&quot; specifically state that they invest a maximum of 65% in underlying debt schemes and the balance in arbitrage schemes, resulting in an equity allocation (via arbitrage) between 35% to 65%. These funds have a distinct tax treatment.</li>
+</ul>
+<h3>Tax Treatment for Equity-Oriented Arbitrage Funds (if &gt;65% equity)</h3>
+<p>
+For arbitrage funds that consistently maintain over 65% equity exposure:
+</p>
+<ul>
+<li><strong>Short-Term Capital Gains (STCG):</strong> If units are sold within one year of purchase, gains are taxed at a flat rate of 15% (plus cess).</li>
+<li><strong>Long-Term Capital Gains (LTCG):</strong> If units are sold after one year of purchase, gains are considered LTCG. As per Budget 2024 (effective July 23, 2024), LTCG from equity-oriented funds is exempt up to ₹1.25 lakh in a financial year. Gains exceeding ₹1.25 lakh are taxed at a rate of 12.5% (plus cess) without indexation benefit.</li>
+</ul>
+<h3>Tax Treatment for Income Plus Arbitrage FOFs (e.g., 35-65% equity)</h3>
+<p>
+For specific Income Plus Arbitrage FOFs that fall into the 35-65% equity allocation bracket, the tax treatment is as follows:
+</p>
+<ul>
+<li><strong>Short-Term Capital Gains (STCG):</strong> If units are held for a period of up to 24 months (2 years), the gains are added to the investor&#x27;s total income and taxed according to their applicable income tax slab rate.</li>
+<li><strong>Long-Term Capital Gains (LTCG):</strong> If units are held for a period greater than 24 months (2 years), the gains are taxed at a flat rate of 12.5% (plus cess). This is a specific provision for such hybrid structures and offers a tax advantage over traditional debt funds for longer holding periods.</li>
+</ul>
+<h3>Impact of Recent Debt Fund Tax Changes</h3>
+<p>
+It&#x27;s important to note that for debt mutual funds purchased on or after April 1, 2023, the benefit of indexation for long-term capital gains has been removed. Any gains from such debt funds, irrespective of the holding period, are now taxed at the investor&#x27;s income tax slab rate. This change has made the tax-efficient nature of equity-oriented arbitrage funds and the specific LTCG rate for Income Plus Arbitrage FOFs even more appealing for investors in higher tax brackets, especially when compared to direct debt investments or pure debt mutual funds for longer durations.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Priya, 42, earning ₹22L CTC, based in Chennai</strong>, who is in the 30% income tax bracket. Priya wants to invest ₹7 lakhs for a period of 18 months, aiming for stable returns with lower risk than direct equity, and better post-tax efficiency than a traditional fixed deposit. She decides to invest in an Income Plus Arbitrage Fund, which is structured as an FOF with 35-65% equity exposure.
+</p>
+<p>
+<strong>Investment Details:</strong>
+</p>
+<ul>
+<li>Investment Amount: ₹7,00,000</li>
+<li>Investment Horizon: 18 months (1.5 years)</li>
+<li>Assumed Annual Return: 7% (pre-tax)</li>
+</ul>
+<p>
+<strong>Calculation:</strong>
+</p>
+<ol>
+<li><strong>Total Value after 1.5 years:</strong></li>
+<p>
+    *   Annual return: 7%
+    <em>   Return for 1.5 years: 7% </em> 1.5 = 10.5%
+    <em>   Absolute gain: ₹7,00,000 </em> 10.5% = ₹73,500
+    *   Total value: ₹7,00,000 + ₹73,500 = ₹7,73,500
+</p>
+</ol>
+<ol>
+<li><strong>Taxation:</strong></li>
+<p>
+    Since Priya held the investment for 18 months, which is less than 24 months (2 years), the gains are considered Short-Term Capital Gains (STCG) for this specific type of Income Plus Arbitrage FOF. These gains will be added to her total income and taxed at her applicable slab rate of 30%.
+    *   Taxable gain: ₹73,500
+    <em>   Tax on gain: ₹73,500 </em> 30% = ₹22,050
+</p>
+</ol>
+<ol>
+<li><strong>Post-Tax Return:</strong></li>
+<p>
+    *   Post-tax gain: ₹73,500 - ₹22,050 = ₹51,450
+    <em>   Effective post-tax return: (₹51,450 / ₹7,00,000) </em> 100 = 7.35% over 1.5 years, or an annualised return of 4.9%.
+</p>
+</ol>
+<p>
+<strong>Comparison with a Fixed Deposit (FD):</strong>
+If Priya had invested ₹7 lakhs in an FD yielding 7% for 18 months, her interest income would be ₹73,500. This interest would also be added to her income and taxed at her slab rate of 30%.
+</p>
+<ul>
+<li>Tax on FD interest: ₹73,500 * 30% = ₹22,050</li>
+<li>Post-tax gain from FD: ₹73,500 - ₹22,050 = ₹51,450</li>
+<li>Effective post-tax return from FD: (₹51,450 / ₹7,00,000) * 100 = 7.35% over 1.5 years, or an annualised return of 4.9%.</li>
+</ul>
+<p>
+In this specific scenario, for a holding period of 18 months, the Income Plus Arbitrage FOF offers similar post-tax returns to a fixed deposit because the gains are taxed at the slab rate. However, had Priya held the investment for over 24 months, the LTCG would have been taxed at a flat 12.5%, providing a significant tax advantage over an FD for investors in higher tax brackets. This highlights the importance of understanding the specific fund structure and holding period for optimal tax efficiency.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Assess Your Risk Appetite:</strong> Re-evaluate your personal risk tolerance. Income plus arbitrage funds offer lower volatility than pure equity, but they are not risk-free. Ensure this aligns with your comfort level.</li>
+<li><strong>Review Fund Objectives and Holdings:</strong> Research specific income plus arbitrage funds available. Check their investment objective, asset allocation (especially the equity and debt split), and historical performance.</li>
+<li><strong>Understand Tax Classification and Holding Period:</strong> Crucially, determine if the fund is classified as equity-oriented (&gt;65% equity) or as a specific hybrid fund (e.g., 35-65% equity). Understand the exact holding period required for favourable long-term capital gains taxation.</li>
+<li><strong>Compare Expense Ratios:</strong> Look at the expense ratio of different funds. A lower expense ratio generally means more of your returns are retained.</li>
+<li><strong>Consult a Certified Financial Planner (CFP):</strong> Discuss with a CFP how income plus arbitrage funds fit into your overall financial plan and specific goals, considering your tax bracket and investment horizon.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is an arbitrage opportunity?</h3>
+<p>
+An arbitrage opportunity arises when the same asset is simultaneously trading at different prices in different markets. Fund managers exploit this by buying in the cheaper market and selling in the more expensive market to lock in a risk-free profit.
+</p>
+<h3>How are income plus arbitrage funds taxed?</h3>
+<p>
+Taxation depends on the fund&#x27;s equity exposure. If &gt;65% equity, they are taxed like equity funds (LTCG 12.5% over ₹1.25L after 1 year). If structured as an FOF with 35-65% equity, LTCG is 12.5% after 2 years; otherwise, gains are taxed at slab rates.
+</p>
+<h3>Are income plus arbitrage funds risk-free?</h3>
+<p>
+No, they are not entirely risk-free. While the arbitrage component aims for market-neutral returns, the debt component carries interest rate and credit risk. Opportunities for arbitrage can also fluctuate, impacting returns.
+</p>
+<h3>What is the typical return expectation from these funds?</h3>
+<p>
+Returns are generally modest, often in the range of 6-8% annually, aiming to be slightly higher than traditional debt instruments on a post-tax basis, but lower than diversified equity funds.
+</p>
+<h3>How do they differ from pure debt funds?</h3>
+<p>
+Pure debt funds invest solely in fixed-income securities and are primarily exposed to interest rate and credit risk. Income plus arbitrage funds combine debt investments with an equity arbitrage strategy, aiming for better tax efficiency and a different risk-return profile.
+</p>
+<h3>Can Non-Resident Indians (NRIs) invest in these funds?</h3>
+<p>
+Yes, NRIs can generally invest in income plus arbitrage funds through their NRE or NRO accounts, subject to prevailing regulations. However, their taxation might differ based on their country of residence and DTAA (Double Taxation Avoidance Agreement) provisions.
+</p>
+<h3>What is the ideal investment horizon for these funds?</h3>
+<p>
+For funds with specific 12.5% LTCG after 2 years, an investment horizon exceeding 24 months is ideal for tax efficiency. For equity-oriented arbitrage funds, over 12 months is beneficial for LTCG treatment.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+<li>AMFI India: https://amfiindia.com</li>
+<li>SEBI: https://sebi.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
