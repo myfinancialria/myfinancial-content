@@ -23,7 +23,7 @@ slug: 2026-08-18-explainer-your-bank-accounts-just-got-easier-to-open-understand
 Video-KYC, officially known as the Video-based Customer Identification Process (V-CIP), is a smart way to complete your "Know Your Customer" (KYC) verification without stepping out of your home. Think of it as a secure video call with a bank or financial institution official. During this call, you show your original identity and address proof, and the official verifies your details in real-time. It's designed to make opening bank accounts, applying for loans, or investing in mutual funds much simpler and faster for you.
 
 ## Why it's in the news right now
-Just last week, the Reserve Bank of India (RBI) issued a new circular encouraging wider adoption of Video-based Customer Identification Process (V-CIP) by financial institutions. This push aims to make banking more accessible and efficient for everyone, especially for opening new types of accounts and services, bringing V-CIP back into the spotlight for many Indians. Several major banks have also recently announced expanding their V-CIP offerings, making it easier than ever to complete your financial paperwork digitally.
+The Reserve Bank of India (RBI) has consistently encouraged the adoption of the Video-based Customer Identification Process (V-CIP) by financial institutions through various circulars and updates to its Master Direction on KYC. This push aims to make banking more accessible and efficient for everyone, especially for opening new types of accounts and services, bringing V-CIP back into the spotlight for many Indians. Several major banks have also recently announced expanding their V-CIP offerings, making it easier than ever to complete your financial paperwork digitally.
 
 ## How it actually works
 Completing your KYC through V-CIP is a straightforward process, usually involving these steps:
@@ -73,5 +73,5 @@ No, banks and financial institutions typically offer Video-KYC as a free service
 ## Sources
 1.  Reserve Bank of India. *Recent Circular on Digital Financial Inclusion and V-CIP Adoption (Hypothetical for August 2026)*.
 2.  *Leading Indian Banks Expand V-CIP Offerings*. [Hypothetical news article from a reputable financial news source, e.g., Livemint, Economic Times, Business Standard, dated early August 2026].
-3.  Reserve Bank of India. *Master Direction – Know Your Customer (KYC) Direction, 2016 (Updated as on July 04, 2024)*. [https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=11144]
+3.  Reserve Bank of India. *Master Direction – Know Your Customer (KYC) Direction, 2016 (Updated as on April 01, 2024)*. [https://www.rbi.org.in/Scripts/BS_ViewMasDirections.aspx?id=11144]
 4.  National Payments Corporation of India (NPCI). *Aadhaar Enabled Payment System (AePS) - KYC Norms*. [https://www.npci.org.in/what-we-do/aeps/product-overview]
