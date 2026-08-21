@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Claiming HRA and Home Loan Deduction: When It&#x27;s Allowed</title>
+<meta name="description" content="You can claim both House Rent Allowance (HRA) exemption and home loan interest deduction under specific conditions. The primary condition is that your owned p.">
+<meta name="keywords" content="property, interest, deduction, exemption, rented, occupied, accommodation, benefits">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-21-personal_finance-claiming-hra-and-home-loan-deduction-when-its-allowed/">
+<meta property="og:title" content="Claiming HRA and Home Loan Deduction: When It&#x27;s Allowed">
+<meta property="og:description" content="You can claim both House Rent Allowance (HRA) exemption and home loan interest deduction under specific conditions. The primary condition is that your owned p.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-21-personal_finance-claiming-hra-and-home-loan-deduction-when-its-allowed/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claiming HRA and Home Loan Deduction: When It's Allowed", "description": "You can claim both House Rent Allowance (HRA) exemption and home loan interest deduction under specific conditions. The primary condition is that your owned p.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-21", "dateModified": "2026-08-21", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-21-personal_finance-claiming-hra-and-home-loan-deduction-when-its-allowed/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-08-21</div><h1>Claiming HRA and Home Loan Deduction: When It&#x27;s Allowed</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>You can claim both House Rent Allowance (HRA) exemption and home loan interest deduction under specific conditions.</li>
+<li>The primary condition is that your owned property and rented accommodation cannot be in the same city and self-occupied.</li>
+<li>If you own a house in one city but work and rent in another, both benefits are generally permissible.</li>
+<li>Even in the same city, if your owned house is rented out to a third party, you can claim both.</li>
+<li>Proper documentation of rent receipts, rental agreement, and home loan statements is crucial to avoid tax notices.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+As a salaried or self-employed individual in India, you might be paying rent while also servicing a home loan. Naturally, you&#x27;d want to maximise your tax savings. The Income Tax Act allows for two significant deductions related to housing: House Rent Allowance (HRA) exemption under Section 10(13A) for rent paid, and deduction for home loan interest under Section 24(b) for interest paid on a housing loan.
+</p>
+<p>
+While it might seem intuitive that you can only claim one, the law provides specific scenarios where you can claim both simultaneously. This is typically allowed when there&#x27;s a genuine reason for you to live in rented accommodation despite owning a house. For instance, if your owned house is in a different city from your workplace, or if you&#x27;ve rented out your owned property, you can often claim both benefits, provided all other conditions are met. Understanding these nuances is key to optimising your tax liability without running into issues with the tax department.
+</p>
+<h2>Understanding HRA Exemption and Home Loan Interest Deduction</h2>
+<p>
+Before diving into claiming both, let&#x27;s quickly review each benefit individually.
+</p>
+<h3>House Rent Allowance (HRA) Exemption</h3>
+<p>
+HRA is a component of your salary that employers provide to cover housing costs. You can claim an exemption on HRA under Section 10(13A) of the Income Tax Act. The exemption is the least of the following three:
+</p>
+<ol>
+<li>Actual HRA received from your employer.</li>
+<li>50% of your basic salary + Dearness Allowance (DA) if you live in a metro city (Mumbai, Delhi, Kolkata, Chennai) or 40% for non-metro cities.</li>
+<li>Actual rent paid minus 10% of your basic salary + DA.</li>
+</ol>
+<p>
+To claim HRA exemption, you must actually pay rent for the accommodation you occupy. You cannot claim HRA if you live in a house owned by you, or if you live with parents and don&#x27;t pay them rent (unless you can prove a genuine landlord-tenant relationship with proper rent receipts).
+</p>
+<h3>Home Loan Interest Deduction</h3>
+<p>
+Under Section 24(b) of the Income Tax Act, you can deduct the interest paid on a home loan. The maximum deduction allowed is:
+</p>
+<ul>
+<li>₹2 lakhs per financial year for a self-occupied property.</li>
+<li>There is no upper limit for a property that is rented out, but the loss from house property that can be set off against other income is capped at ₹2 lakhs per year. Any unadjusted loss can be carried forward for up to eight assessment years.</li>
+</ul>
+<p>
+This deduction is available from the financial year in which the construction of the property is completed and the loan is taken for acquisition or construction.
+</p>
+<h2>When You Can Claim Both HRA and Home Loan Interest Deduction</h2>
+<p>
+The Income Tax Act allows taxpayers to claim both HRA exemption and home loan interest deduction under specific, legitimate circumstances. The core principle is that there must be a genuine reason for you to live in rented accommodation while also owning a house.
+</p>
+<h3>Scenario 1: Owned Property in a Different City</h3>
+<p>
+This is the most common and straightforward scenario. If you own a house in one city (say, your hometown or an investment property in Pune) but your employment requires you to live in a rented house in another city (like Bengaluru or Mumbai), you can claim both benefits. In this case, your owned property can be either self-occupied by your family or left vacant, or even rented out to a third party. The key is that you are genuinely residing in a rented property for work reasons in a different city.
+</p>
+<h3>Scenario 2: Owned Property Rented Out in the Same City</h3>
+<p>
+You might own a house in the same city where you work, but choose to rent it out to a third party. If you then live in a separate rented accommodation in the same city, you can claim both HRA exemption and the full interest deduction on your home loan (subject to the ₹2 lakh loss set-off limit). The rationale here is that you are not benefiting from living in your own property and are genuinely incurring rent expenses. It&#x27;s crucial that the rental arrangement for your owned property is legitimate and documented.
+</p>
+<h3>Scenario 3: Owned Property Not Occupied Due to Genuine Reasons</h3>
+<p>
+Even if your owned property is in the same city as your rented accommodation, you might be able to claim both benefits if there&#x27;s a genuine, justifiable reason for not occupying your own house. Examples include:
+</p>
+<ul>
+<li>Your owned house is too small for your family&#x27;s needs, forcing you to rent a larger place.</li>
+<li>Your owned house is far from your workplace, and commuting is impractical, leading you to rent closer to work.</li>
+<li>The property is under construction or renovation, making it uninhabitable.</li>
+</ul>
+<p>
+In such cases, you must be able to demonstrate to the tax authorities that there was a compelling reason to rent a separate property instead of living in your own. Maintaining records and being prepared to explain the situation is vital.
+</p>
+<h2>When Claiming Both is Not Permissible</h2>
+<p>
+Claiming both HRA exemption and home loan interest deduction is generally <em>not</em> allowed in situations where there isn&#x27;t a clear distinction or genuine need for separate accommodation.
+</p>
+<h3>Self-Occupied Owned Property in the Same City</h3>
+<p>
+The most common scenario where you cannot claim both is when you own a house in the same city where you work and you <em>could</em> occupy that house, but choose to live in rented accommodation instead, without a compelling reason. If your owned property is suitable for your occupation and you are simply renting another place for convenience, the tax department may disallow one or both claims. The underlying assumption is that you cannot claim HRA for rent paid if you are simultaneously benefiting from your own property in the same location.
+</p>
+<h3>Lack of Genuine Transaction</h3>
+<p>
+If the rental arrangement is not genuine, for example, paying rent to a spouse or parents without a proper landlord-tenant relationship, or if the rent paid is significantly inflated, the tax authorities might scrutinise and disallow the HRA exemption. Similarly, if the home loan is not genuinely for the acquisition or construction of the property, the interest deduction could be questioned. Any attempt to artificially create a scenario to claim both benefits without legitimate grounds can lead to tax notices and penalties.
+</p>
+<h2>Documentation and Avoiding Tax Notices</h2>
+<p>
+Proper documentation is paramount when claiming both HRA and home loan interest deduction. The Income Tax Department relies heavily on evidence to validate your claims.
+</p>
+<h3>Essential Documents for HRA</h3>
+<ul>
+<li><strong>Rent Receipts:</strong> These are crucial. Ensure they are dated, signed by the landlord, include the landlord&#x27;s PAN if the annual rent exceeds ₹1 lakh, and clearly state the amount, period, and property address.</li>
+<li><strong>Rental Agreement:</strong> A legally valid rental agreement outlining the terms and conditions, rent amount, and period of tenancy.</li>
+<li><strong>Landlord&#x27;s PAN:</strong> Mandatory if annual rent exceeds ₹1 lakh. If the landlord does not have a PAN, a declaration to that effect might be required.</li>
+</ul>
+<h3>Essential Documents for Home Loan Interest</h3>
+<ul>
+<li><strong>Home Loan Interest Certificate:</strong> Issued by your bank or financial institution, detailing the principal and interest components paid during the financial year.</li>
+<li><strong>Property Documents:</strong> Proof of ownership (sale deed, property tax receipts).</li>
+<li><strong>Loan Sanction Letter:</strong> Details of the home loan taken.</li>
+</ul>
+<h3>Avoiding Tax Notices</h3>
+<ul>
+<li><strong>Maintain Records:</strong> Keep all rent receipts, rental agreements, bank statements, and home loan certificates for at least 8 years.</li>
+<li><strong>Consistency:</strong> Ensure consistency in your claims across different tax filings and with your employer&#x27;s records.</li>
+<li><strong>Genuine Reasons:</strong> If claiming both in the same city, be prepared to provide clear, justifiable reasons for not occupying your own house.</li>
+<li><strong>Transparency:</strong> Do not inflate rent amounts or fabricate rental agreements. The Income Tax Department has sophisticated tools to detect discrepancies. Mismatches in rent paid versus property location or loan details are red flags.</li>
+</ul>
+<h2>A real example</h2>
+<p>
+Rahul, 38, ₹28L CTC, Bengaluru
+</p>
+<p>
+Rahul works for a tech company in Bengaluru and earns a CTC of ₹28 lakhs per annum. His basic salary is ₹12 lakhs, and HRA component is ₹3.6 lakhs (30% of basic). He pays a monthly rent of ₹30,000 for an apartment in Indiranagar, Bengaluru.
+</p>
+<p>
+Rahul also owns a house in his hometown, Mysuru, which he purchased with a home loan. He pays ₹25,000 per month as EMI, of which ₹20,000 is towards interest and ₹5,000 towards principal. The house in Mysuru is currently occupied by his parents.
+</p>
+<p>
+Let&#x27;s calculate his tax benefits:
+</p>
+<p>
+<strong>1. HRA Exemption Calculation:</strong>
+</p>
+<ul>
+<li>Actual HRA received: ₹3,60,000 (₹30,000 x 12)</li>
+<li>Rent paid minus 10% of basic salary: (₹30,000 x 12) - (10% of ₹12,00,000) = ₹3,60,000 - ₹1,20,000 = ₹2,40,000</li>
+<li>40% of basic salary (Mysuru is not a metro, but Bengaluru is, so we&#x27;ll consider Rahul&#x27;s residence city for HRA calculation): 50% of ₹12,00,000 = ₹6,00,000 (assuming Bengaluru is metro for HRA calculation, if non-metro, it would be 40%.)</li>
+<p>
+    <em>   </em>Correction<em>: Rahul lives in Bengaluru (metro), so 50% of basic. ₹12,00,000 </em> 50% = ₹6,00,000.
+</p>
+</ul>
+<p>
+The least of the three is ₹2,40,000.
+<strong>Rahul can claim HRA exemption of ₹2,40,000.</strong>
+</p>
+<p>
+<strong>2. Home Loan Interest Deduction Calculation:</strong>
+Rahul&#x27;s house in Mysuru is self-occupied by his parents (which for tax purposes is considered self-occupied by Rahul if he owns it and they reside there without a rental agreement).
+</p>
+<ul>
+<li>Total interest paid in the year: ₹20,000 x 12 = ₹2,40,000.</li>
+<li>Maximum deduction allowed for a self-occupied property: ₹2,00,000 under Section 24(b).</li>
+</ul>
+<p>
+<strong>Rahul can claim home loan interest deduction of ₹2,00,000.</strong>
+</p>
+<p>
+Since Rahul&#x27;s owned property is in a different city (Mysuru) from his rented accommodation (Bengaluru) where he works, he is legitimately able to claim both the HRA exemption and the home loan interest deduction.
+</p>
+<p>
+<strong>Total Tax Benefits:</strong> ₹2,40,000 (HRA) + ₹2,00,000 (Home Loan Interest) = <strong>₹4,40,000</strong>.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your current housing situation:</strong> Determine if your owned property is in a different city, rented out, or genuinely cannot be occupied by you if it&#x27;s in the same city as your rented home.</li>
+<li><strong>Gather documentation:</strong> Collect all rent receipts for the current financial year. Ensure they are valid, signed, and include your landlord&#x27;s PAN if annual rent exceeds ₹1 lakh. Also, get your latest home loan interest certificate from your bank.</li>
+<li><strong>Consult your employer&#x27;s HR/payroll team:</strong> Inform them about your claims for HRA and home loan interest deduction to ensure correct TDS calculations from your salary. Provide them with the necessary proofs.</li>
+<li><strong>Keep digital and physical copies:</strong> Scan and save all your housing-related documents (rent agreements, receipts, loan certificates) in a secure digital folder, and keep physical copies organised.</li>
+<li><strong>Seek professional advice if complex:</strong> If your situation is unique or particularly complex, consider consulting a Certified Financial Planner or a tax advisor to ensure you are claiming all eligible benefits correctly and compliantly.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Can I claim HRA if I pay rent to my parents?</h3>
+<p>
+Yes, you can, provided there&#x27;s a genuine landlord-tenant relationship, you actually pay rent, and your parents declare this rental income in their tax returns. Ensure you have proper rent receipts and a rental agreement.
+</p>
+<h3>What if my owned house is vacant? Can I still claim both?</h3>
+<p>
+Yes, if your owned house is vacant (not self-occupied) and you are living in rented accommodation, you can claim both HRA exemption and home loan interest deduction. If you own more than two house properties, any property beyond the two self-occupied ones is considered &#x27;deemed to be let out&#x27; for tax purposes, even if vacant. If you own only one or two houses and they are vacant, they can still be treated as self-occupied, and the interest deduction can be claimed.
+</p>
+<h3>Is there a limit to the total amount I can claim for both HRA and home loan interest?</h3>
+<p>
+While there isn&#x27;t a combined overall limit, each deduction has its own specific limits. HRA exemption is based on actual HRA received, rent paid, and salary percentage, while home loan interest for self-occupied property is capped at ₹2 lakhs. For let-out properties, the interest deduction isn&#x27;t capped, but the loss from house property that can be set off against other income is limited to ₹2 lakhs per year.
+</p>
+<h3>Do I need to declare my owned property details to my employer for HRA exemption?</h3>
+<p>
+Generally, no. Your employer primarily needs rent receipts for HRA. However, for home loan interest deduction, you typically submit the interest certificate to your employer for TDS adjustment. It&#x27;s your responsibility to ensure you meet the conditions for claiming both benefits.
+</p>
+<h3>What if I own multiple properties?</h3>
+<p>
+If you own multiple properties, only one can be treated as self-occupied. The others are deemed to be let out for tax purposes, even if they are vacant. You can claim home loan interest deduction on all properties, but the loss from house property that can be set off against other income is capped at ₹2 lakhs per year. HRA exemption rules remain the same for your rented accommodation.
+</p>
+<h3>Can NRIs claim HRA and home loan benefits?</h3>
+<p>
+NRIs can claim home loan interest deduction if they have taken a loan for a property in India, subject to the same conditions as residents. However, HRA exemption is typically for salaried individuals receiving HRA in India for rent paid in India. If an NRI is earning salary income in India and receiving HRA, they can claim it.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
