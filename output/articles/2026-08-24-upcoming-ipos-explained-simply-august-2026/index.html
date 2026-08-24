@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Upcoming IPOs, Explained Simply — August 2026</title>
+<meta name="description" content="Tempsens Instruments (India) Limited and Augmont Enterprises Limited IPOs are closing soon. Skyways Air Services Limited, Symbiotec Pharmalab Limited, and Hy-.">
+<meta name="keywords" content="shares, august, company, announced, limited, investors, detail, listing">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-24-upcoming-ipos-explained-simply-august-2026/">
+<meta property="og:title" content="Upcoming IPOs, Explained Simply — August 2026">
+<meta property="og:description" content="Tempsens Instruments (India) Limited and Augmont Enterprises Limited IPOs are closing soon. Skyways Air Services Limited, Symbiotec Pharmalab Limited, and Hy-.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-24-upcoming-ipos-explained-simply-august-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Upcoming IPOs, Explained Simply \u2014 August 2026", "description": "Tempsens Instruments (India) Limited and Augmont Enterprises Limited IPOs are closing soon. Skyways Air Services Limited, Symbiotec Pharmalab Limited, and Hy-.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-24", "dateModified": "2026-08-24", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-24-upcoming-ipos-explained-simply-august-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/" class="active">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">IPO Watch · 2026-08-24</div><h1>Upcoming IPOs, Explained Simply — August 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Tempsens Instruments (India) Limited and Augmont Enterprises Limited IPOs are closing soon.</li>
+<li>Skyways Air Services Limited, Symbiotec Pharmalab Limited, and Hy-Tech Engineers Limited IPOs open today.</li>
+<li>Two SME IPOs, Madhur Knit Crafts Limited and ABH Healthcare Limited, also open today.</li>
+<li>Sumax Engineering Limited&#x27;s SME IPO is set to open tomorrow.</li>
+<li>This article will help you understand what an IPO is, how to read its key numbers, and the step-by-step process of applying.</li>
+</ul>
+</div>
+<h2>First, what is an IPO — in one minute?</h2>
+<p>
+Imagine a popular local chai shop that wants to open more branches across the city. To do this, they need a lot of money. One way to get this money is to sell a small piece of their business to the public. This act of a private company selling its shares to the public for the very first time is called an <strong>Initial Public Offering (IPO)</strong>.
+</p>
+<p>
+When a company launches an IPO, it&#x27;s entering the <strong>primary market</strong> — this is where new shares are sold directly by the company. Once these shares are bought in the IPO, they then get <strong>listed</strong> on a stock exchange like NSE or BSE. After listing, these shares can be bought and sold by investors among themselves in the <strong>secondary market</strong> (the regular stock market you hear about daily).
+</p>
+<h2>The IPOs on the calendar right now</h2>
+<p>
+Let&#x27;s look at the IPOs that are currently open or opening soon, and what their key details mean.
+</p>
+<h3>Tempsens Instruments (India) Limited</h3>
+<p>
+This company&#x27;s name suggests it is involved in instruments, likely for temperature sensing or similar industrial applications.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹285 to ₹300 per share. This is the range within which you can bid for the shares.</li>
+<li><strong>Lot Size:</strong> Not yet announced. This is the minimum number of shares you must apply for.</li>
+<li><strong>Issue Size:</strong> 1,51,81,667 shares. This is the total number of shares the company is offering to the public.</li>
+<li><strong>Open Date:</strong> August 20, 2026</li>
+<li><strong>Close Date:</strong> August 24, 2026 (Today)</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹285 to ₹300</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>1,51,81,667 shares</td></tr>
+<tr><td>Open Date</td><td>August 20, 2026</td></tr>
+<tr><td>Close Date</td><td>August 24, 2026</td></tr>
+</tbody></table>
+<h3>Augmont Enterprises Limited</h3>
+<p>
+Based on its name, this company might be involved in the gold, jewellery, or financial services sector, possibly related to commodities.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹750 to ₹788 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 77,15,999 shares.</li>
+<li><strong>Open Date:</strong> August 21, 2026</li>
+<li><strong>Close Date:</strong> August 25, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹750 to ₹788</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>77,15,999 shares</td></tr>
+<tr><td>Open Date</td><td>August 21, 2026</td></tr>
+<tr><td>Close Date</td><td>August 25, 2026</td></tr>
+</tbody></table>
+<h3>Skyways Air Services Limited</h3>
+<p>
+This name suggests the company is in the logistics or air cargo services sector.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹131 to ₹138 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 2,95,83,600 shares.</li>
+<li><strong>Open Date:</strong> August 24, 2026 (Today)</li>
+<li><strong>Close Date:</strong> August 27, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹131 to ₹138</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>2,95,83,600 shares</td></tr>
+<tr><td>Open Date</td><td>August 24, 2026</td></tr>
+<tr><td>Close Date</td><td>August 27, 2026</td></tr>
+</tbody></table>
+<h3>Symbiotec Pharmalab Limited</h3>
+<p>
+This company&#x27;s name indicates it operates in the pharmaceutical or biotechnology sector.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹938 to ₹988 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 1,31,24,929 shares.</li>
+<li><strong>Open Date:</strong> August 24, 2026 (Today)</li>
+<li><strong>Close Date:</strong> August 27, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹938 to ₹988</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>1,31,24,929 shares</td></tr>
+<tr><td>Open Date</td><td>August 24, 2026</td></tr>
+<tr><td>Close Date</td><td>August 27, 2026</td></tr>
+</tbody></table>
+<h3>Hy-Tech Engineers Limited</h3>
+<p>
+This company&#x27;s name suggests it is involved in engineering or technology-related services or products.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹50 to ₹53 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 1,81,45,406 shares.</li>
+<li><strong>Open Date:</strong> August 24, 2026 (Today)</li>
+<li><strong>Close Date:</strong> August 27, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹50 to ₹53</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>1,81,45,406 shares</td></tr>
+<tr><td>Open Date</td><td>August 24, 2026</td></tr>
+<tr><td>Close Date</td><td>August 27, 2026</td></tr>
+</tbody></table>
+<h3>Madhur Knit Crafts Limited (SME IPO)</h3>
+<p>
+This company&#x27;s name suggests it is in the textile or apparel manufacturing sector, specifically knitwear.
+</p>
+<ul>
+<li><strong>Price Band:</strong> Not yet announced.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> Not yet announced.</li>
+<li><strong>Open Date:</strong> August 24, 2026 (Today)</li>
+<li><strong>Close Date:</strong> August 27, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>Not yet announced</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>Not yet announced</td></tr>
+<tr><td>Open Date</td><td>August 24, 2026</td></tr>
+<tr><td>Close Date</td><td>August 27, 2026</td></tr>
+</tbody></table>
+<h3>ABH Healthcare Limited (SME IPO)</h3>
+<p>
+This company&#x27;s name indicates it operates in the healthcare sector.
+</p>
+<ul>
+<li><strong>Price Band:</strong> Not yet announced.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> Not yet announced.</li>
+<li><strong>Open Date:</strong> August 24, 2026 (Today)</li>
+<li><strong>Close Date:</strong> August 27, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>Not yet announced</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>Not yet announced</td></tr>
+<tr><td>Open Date</td><td>August 24, 2026</td></tr>
+<tr><td>Close Date</td><td>August 27, 2026</td></tr>
+</tbody></table>
+<h3>Sumax Engineering Limited (Forthcoming SME IPO)</h3>
+<p>
+This company&#x27;s name suggests it is in the engineering sector.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹95 to ₹101 per share.</li>
+<li><strong>Lot Size:</strong> 1,200 shares.</li>
+<li><strong>Issue Size:</strong> 52,87,200 shares.</li>
+<li><strong>Open Date:</strong> August 25, 2026</li>
+<li><strong>Close Date:</strong> August 28, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹95 to ₹101</td></tr>
+<tr><td>Lot Size</td><td>1,200 shares</td></tr>
+<tr><td>Issue Size</td><td>52,87,200 shares</td></tr>
+<tr><td>Open Date</td><td>August 25, 2026</td></tr>
+<tr><td>Close Date</td><td>August 28, 2026</td></tr>
+</tbody></table>
+<h2>How to actually read an IPO (the 6 things on every IPO)</h2>
+<p>
+When you look at an IPO, you&#x27;ll see a few standard pieces of information. Understanding these helps you know what&#x27;s on offer:
+</p>
+<ol>
+<li><strong>Price Band:</strong> This is the range of prices at which the company is willing to sell its shares. For example, if it&#x27;s ₹285 to ₹300, you can bid at any price within this range. Most retail investors bid at the <strong>cut-off price</strong>, which is usually the highest price in the band (₹300 in this example).</li>
+<li><strong>Lot Size:</strong> You cannot buy just one share in an IPO. Shares are sold in fixed bundles called &quot;lots.&quot; If the lot size is 1,200 shares, you must apply for at least 1,200 shares, or multiples of 1,200 shares.</li>
+<li><strong>Minimum Investment:</strong> This is simply the lowest price in the price band multiplied by the lot size. If the lot size is 1,200 shares and the lowest price is ₹95, your minimum investment would be ₹95 x 1,200 = ₹1,14,000. This amount is blocked in your bank account when you apply.</li>
+<li><strong>Issue Size:</strong> This refers to the total number of shares the company is offering to the public. Sometimes it&#x27;s also expressed as the total value of shares being offered (number of shares * upper price band). For example, 1,51,81,667 shares at ₹300 per share means an issue size of approximately ₹455.45 crores.</li>
+<li><strong>Fresh Issue vs. Offer-for-Sale (OFS):</strong></li>
+<p>
+    *   <strong>Fresh Issue:</strong> When a company issues new shares, and the money raised goes directly to the company. This money is typically used for business expansion, paying off debt, or other corporate purposes.
+    *   <strong>Offer-for-Sale (OFS):</strong> When existing shareholders (like promoters or early investors) sell some of their shares. The money from an OFS goes to these selling shareholders, not to the company itself. An IPO can be a mix of both.
+</p>
+<li><strong>RHP/DRHP (Red Herring Prospectus / Draft Red Herring Prospectus):</strong> This is the detailed legal document filed with SEBI (Securities and Exchange Board of India). It contains all the information about the company, its business, financials, risks, management, and how the IPO proceeds will be used. Think of it as the company&#x27;s detailed report card and business plan for potential investors.</li>
+</ol>
+<h2>The IPO process, step by step</h2>
+<p>
+Applying for an IPO involves a few key stages:
+</p>
+<ol>
+<li><strong>DRHP Filing:</strong> The company first files its Draft Red Herring Prospectus (DRHP) with SEBI for approval. This document outlines all the details of the proposed IPO.</li>
+<li><strong>SEBI Approval &amp; RHP:</strong> Once SEBI gives its nod, the company releases the final Red Herring Prospectus (RHP) and announces the <strong>price band</strong> and <strong>issue dates</strong>.</li>
+<li><strong>Bidding Period:</strong> This is when you can apply for the IPO. The bidding window is usually open for three working days. During this time, different types of investors bid for shares:</li>
+<p>
+    *   <strong>Retail Individual Investors (RIIs):</strong> Ordinary investors like you and me, who can apply for shares worth up to ₹2 lakhs.
+    *   <strong>High Net-worth Individuals (HNIs) / Non-Institutional Investors (NIIs):</strong> Individuals or entities who apply for shares worth more than ₹2 lakhs.
+    *   <strong>Qualified Institutional Buyers (QIBs):</strong> Large institutions like mutual funds, foreign institutional investors, and insurance companies.
+</p>
+<li><strong>Allotment:</strong> After the bidding closes, if the IPO is oversubscribed (meaning more applications than shares available), shares are allotted through a lottery system for retail investors. If you applied for one lot, you might get one lot, or you might get nothing.</li>
+<li><strong>Refund/Debit:</strong> If you are allotted shares, the money for those shares is debited from your bank account. If you are not allotted any shares, the blocked amount is released back to your account.</li>
+<li><strong>Listing:</strong> The shares are then listed on the stock exchanges (NSE and BSE) on a specific date, usually within a week or two after the IPO closes. Once listed, you can buy or sell these shares in the secondary market.</li>
+</ol>
+<h2>A simple way to think about it</h2>
+<p>
+Imagine your child&#x27;s school is holding a fete. They want to set up a new science lab, but they need funds. So, they decide to sell &quot;shares&quot; in the fete&#x27;s main stall – say, the snack stall. Each &quot;share&quot; costs a fixed amount, and by buying one, you become a small part-owner of the snack stall&#x27;s profits for the day. The money you pay goes directly to the school for the science lab. This is very similar to an IPO: you buy a small part of a company, and your money helps the company grow.
+</p>
+<h2>Things people get confused about</h2>
+<p>
+Here are some common misunderstandings about IPOs:
+</p>
+<ul>
+<li><strong>Myth:</strong> Listing gain is guaranteed in every IPO.</li>
+<p>
+    *   <strong>Fact:</strong> While many IPOs do list at a higher price than their issue price, this is not guaranteed. Shares can also list at a discount, meaning below the IPO price. The market decides the listing price based on demand and other factors.
+</p>
+<li><strong>Myth:</strong> You must apply for every IPO to make money.</li>
+<p>
+    *   <strong>Fact:</strong> Not every IPO is suitable for every investor. It&#x27;s important to understand the company, its business, and its financials before considering an application. There are many investment opportunities beyond IPOs.
+</p>
+<li><strong>Myth:</strong> If an IPO is &quot;oversubscribed&quot; many times, it means it&#x27;s a good investment.</li>
+<p>
+    *   <strong>Fact:</strong> High subscription numbers show high demand for the IPO, but demand does not always equal long-term investment quality. Many factors influence a company&#x27;s performance after listing.
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>How do I even apply for an IPO?</h3>
+<p>
+You can apply for an IPO through your bank&#x27;s net banking portal using the ASBA (Application Supported by Blocked Amount) facility, or through your stockbroker&#x27;s platform. You will need a demat account and a trading account.
+</p>
+<h3>What is a lot size?</h3>
+<p>
+A lot size is the minimum number of shares you must apply for in an IPO. You cannot apply for fewer shares than the specified lot size, and you must apply in multiples of that lot size.
+</p>
+<h3>What is the difference between Mainboard and SME IPOs?</h3>
+<p>
+Mainboard IPOs are for larger, more established companies that list on the main exchanges (NSE and BSE). SME (Small and Medium Enterprises) IPOs are for smaller companies and are listed on dedicated SME platforms of the exchanges (like NSE Emerge or BSE SME). SME IPOs often have higher lot sizes and different regulatory requirements.
+</p>
+<h3>Can I sell my shares on the first day of listing?</h3>
+<p>
+Yes, if you are allotted shares in an IPO, you can sell them on the very first day they are listed on the stock exchange.
+</p>
+<h3>What happens if I don&#x27;t get an allotment?</h3>
+<p>
+If you don&#x27;t receive any shares in the allotment process, the money that was blocked in your bank account for the IPO application will be unblocked and released back to you.
+</p>
+<h2>Sources</h2>
+<p>
+NSE upcoming/current issues data
+</p>
+<p>
+<em>This is an educational explainer, not investment advice. myfinancial is not a SEBI-registered adviser.</em>
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
