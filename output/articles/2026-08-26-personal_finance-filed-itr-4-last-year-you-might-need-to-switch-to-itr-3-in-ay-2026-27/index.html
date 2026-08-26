@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Filed ITR-4 last year? You might need to switch to ITR-3 in AY 2026-27</title>
+<meta name="description" content="Filing ITR-4 for Assessment Year (AY) 2025-26 does not automatically qualify you for ITR-4 in AY 2026-27. Changes in your income sources or business activitie.">
+<meta name="keywords" content="business, presumptive, capital, filing, taxation, financial, receipts, sources">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-26-personal_finance-filed-itr-4-last-year-you-might-need-to-switch-to-itr-3-in-ay-2026-27/">
+<meta property="og:title" content="Filed ITR-4 last year? You might need to switch to ITR-3 in AY 2026-27">
+<meta property="og:description" content="Filing ITR-4 for Assessment Year (AY) 2025-26 does not automatically qualify you for ITR-4 in AY 2026-27. Changes in your income sources or business activitie.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-26-personal_finance-filed-itr-4-last-year-you-might-need-to-switch-to-itr-3-in-ay-2026-27/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Filed ITR-4 last year? You might need to switch to ITR-3 in AY 2026-27", "description": "Filing ITR-4 for Assessment Year (AY) 2025-26 does not automatically qualify you for ITR-4 in AY 2026-27. Changes in your income sources or business activitie.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-26", "dateModified": "2026-08-26", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-26-personal_finance-filed-itr-4-last-year-you-might-need-to-switch-to-itr-3-in-ay-2026-27/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-08-26</div><h1>Filed ITR-4 last year? You might need to switch to ITR-3 in AY 2026-27</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Filing ITR-4 for Assessment Year (AY) 2025-26 does not automatically qualify you for ITR-4 in AY 2026-27.</li>
+<li>Changes in your income sources or business activities can necessitate a switch to a different ITR form.</li>
+<li>ITR-4 is typically for individuals and HUFs opting for presumptive taxation under Sections 44AD, 44ADA, or 44AE.</li>
+<li>ITR-3 is for individuals and HUFs with income from a business or profession not opting for presumptive taxation, or those with capital gains, multiple house properties, or directorships.</li>
+<li>Always review your financial situation and the specific eligibility criteria for each ITR form before filing your return.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+For many salaried individuals and those with straightforward income, filing their Income Tax Return (ITR) is a relatively simple process, often involving ITR-1 or ITR-2. However, for self-employed professionals, small business owners, and those with more complex financial arrangements, the choice of ITR form can be crucial and can change from year to year. Specifically, if you filed ITR-4 last year, for Assessment Year 2025-26 (which covers income earned in Financial Year 2024-25), you might find that your financial circumstances for the current Assessment Year 2026-27 (covering income earned in Financial Year 2025-26) no longer make you eligible for ITR-4.
+</p>
+<p>
+ITR-4, known as Sugam, is designed for individuals, Hindu Undivided Families (HUFs), and firms (other than Limited Liability Partnerships) whose total income includes income from business and profession computed under the presumptive taxation scheme, and whose total income does not exceed ₹50 lakh. This form simplifies tax filing for eligible small businesses and professionals by allowing them to declare income at a prescribed rate, rather than maintaining detailed books of accounts.
+</p>
+<p>
+On the other hand, ITR-3 is a more comprehensive form meant for individuals and HUFs who have income from profits and gains of business or profession, and are not eligible for presumptive taxation. This includes those whose turnover exceeds the presumptive taxation limits, or who have other complex income sources like capital gains from shares or property, income from multiple house properties, or who are directors in a company. The key takeaway is that your income profile can evolve, and with it, your ITR form eligibility.
+</p>
+<h2>ITR-4 Eligibility and the Presumptive Taxation Scheme</h2>
+<p>
+ITR-4, or Sugam, is specifically tailored for certain categories of taxpayers who opt for the presumptive taxation scheme under the Income Tax Act, 1961. This scheme is a simplified way of computing business or professional income without maintaining detailed books of accounts.
+</p>
+<h3>Who can file ITR-4?</h3>
+<p>
+ITR-4 can be filed by individuals, Hindu Undivided Families (HUFs), and firms (other than Limited Liability Partnerships) who meet the following criteria:
+</p>
+<ul>
+<li><strong>Total Income up to ₹50 Lakhs:</strong> Their total income from all sources does not exceed ₹50 lakhs in the financial year.</li>
+<li><strong>Presumptive Business Income:</strong> They have income from business and profession computed under the presumptive taxation schemes of Section 44AD, Section 44ADA, or Section 44AE of the Income Tax Act.</li>
+<p>
+    *   <strong>Section 44AD:</strong> For small businesses with a turnover of up to ₹2 crores. They can declare profit at 6% of digital receipts or 8% of cash receipts.
+    *   <strong>Section 44ADA:</strong> For specified professionals (e.g., doctors, lawyers, architects, engineers) with gross receipts up to ₹50 lakhs. They can declare profit at 50% of their gross receipts.
+    *   <strong>Section 44AE:</strong> For those engaged in the business of plying, hiring, or leasing goods carriages, owning not more than 10 goods vehicles at any time during the previous year.
+</p>
+<li><strong>Other Income:</strong> They may also have income from salary/pension (up to ₹50 lakhs), one house property (excluding cases where loss is brought forward or carried forward), and other sources (excluding winnings from lottery or horse races, and income taxable at special rates).</li>
+<li><strong>No Capital Gains:</strong> Taxpayers filing ITR-4 cannot have any income from capital gains (short-term or long-term).</li>
+<li><strong>No Foreign Income/Assets:</strong> They should not have any foreign income or foreign assets.</li>
+<li><strong>No Directorship:</strong> They should not be a director in any company.</li>
+<li><strong>No Unlisted Equity Shares:</strong> They should not have invested in unlisted equity shares at any time during the financial year.</li>
+</ul>
+<p>
+The presumptive taxation scheme under ITR-4 is a boon for small taxpayers as it significantly reduces their compliance burden. However, its strict eligibility conditions mean that any deviation from these can render a taxpayer ineligible for ITR-4.
+</p>
+<h2>ITR-3 Eligibility and Complex Income Scenarios</h2>
+<p>
+ITR-3 is a more detailed and comprehensive form compared to ITR-4, designed for individuals and Hindu Undivided Families (HUFs) with income from profits and gains of business or profession who do not opt for the presumptive taxation scheme, or whose income profile is more complex.
+</p>
+<h3>Who must file ITR-3?</h3>
+<p>
+You must file ITR-3 if you are an individual or HUF and have income from:
+</p>
+<ul>
+<li><strong>Business or Profession:</strong> Income derived from a business or profession that does not fall under the presumptive taxation scheme, or where the taxpayer has opted out of the presumptive scheme, or whose turnover exceeds the presumptive limits (e.g., ₹2 crores for Section 44AD). This includes maintaining regular books of accounts and getting them audited if required.</li>
+<li><strong>Capital Gains:</strong> Any income from the sale of capital assets like shares, mutual funds, property, or other assets, resulting in short-term or long-term capital gains.</li>
+<li><strong>Multiple House Properties:</strong> Income from more than one house property.</li>
+<li><strong>Directorship in a Company:</strong> If you are a director in any company, irrespective of your income source.</li>
+<li><strong>Investment in Unlisted Equity Shares:</strong> If you have invested in unlisted equity shares at any time during the financial year.</li>
+<li><strong>Foreign Income or Assets:</strong> If you have any income from sources outside India or hold any assets located abroad.</li>
+<li><strong>Speculative Business Income:</strong> Income from speculative business activities like futures and options (F&amp;O) trading.</li>
+</ul>
+<p>
+Essentially, ITR-3 is the default form for individuals and HUFs engaged in business or profession when their financial affairs are beyond the simplified scope of ITR-4. It requires detailed reporting of financial statements, balance sheets, and profit &amp; loss accounts, which necessitates proper bookkeeping.
+</p>
+<h2>Key Triggers for Switching from ITR-4 to ITR-3</h2>
+<p>
+Several changes in your financial activities or income profile can make you ineligible for ITR-4 and require you to switch to ITR-3 for the upcoming Assessment Year 2026-27. It&#x27;s crucial to identify these triggers well in advance to avoid last-minute complications.
+</p>
+<h3>Exceeding Presumptive Turnover Limits</h3>
+<p>
+If your gross receipts from business under Section 44AD exceed ₹2 crores, you can no longer opt for presumptive taxation and must file ITR-3. Similarly, for professionals under Section 44ADA, if your gross receipts exceed ₹50 lakhs, you will need to switch to ITR-3 and maintain proper books of accounts.
+</p>
+<h3>Declaring Lower Profits than Prescribed</h3>
+<p>
+If you were eligible for presumptive taxation but wish to declare profits lower than the prescribed rates (e.g., less than 6% for digital receipts or 8% for cash receipts under Section 44AD, or less than 50% for professionals under Section 44ADA), you must switch to ITR-3. In such cases, you are also required to maintain books of accounts and get them audited if your total income exceeds the basic exemption limit.
+</p>
+<h3>New Income from Capital Gains</h3>
+<p>
+A common trigger for switching is the acquisition of capital gains. If you sell any property, shares, mutual funds, gold, or other capital assets and realise a profit, this income is categorised as capital gains. Since ITR-4 does not support reporting capital gains, you will need to file ITR-3. This is particularly relevant for individuals who start investing in the stock market or real estate.
+</p>
+<h3>Becoming a Director in a Company</h3>
+<p>
+If you become a director in any company, whether private or public, during the financial year, you automatically become ineligible to file ITR-4. This is a specific condition for ITR-4 eligibility, and you will need to file ITR-3, regardless of your other income sources or the nature of your directorship.
+</p>
+<h3>Investing in Unlisted Equity Shares</h3>
+<p>
+Similarly, if you purchase or hold any unlisted equity shares during the financial year, you cannot file ITR-4. This also mandates a switch to ITR-3.
+</p>
+<h3>Income from Multiple House Properties</h3>
+<p>
+While ITR-4 allows for income from one house property, if you have income from more than one house property (e.g., rental income from two different properties), you will need to file ITR-3.
+</p>
+<h3>Speculative Income (e.g., F&amp;O Trading)</h3>
+<p>
+If you engage in speculative business activities, such as trading in futures and options (F&amp;O) in the stock market, the income or loss from such activities is considered business income. This type of income requires filing ITR-3, as it falls outside the scope of simplified presumptive taxation under ITR-4.
+</p>
+<h3>Foreign Assets or Income</h3>
+<p>
+If you acquire any foreign assets or earn income from sources outside India, you are generally required to file ITR-3 (or ITR-2 in some cases if there is no business income). ITR-4 is not designed for reporting foreign income or assets.
+</p>
+<p>
+Understanding these triggers is vital for accurate tax compliance and to avoid penalties for filing the incorrect ITR form.
+</p>
+<h2>Consequences of Filing the Wrong ITR Form</h2>
+<p>
+Filing the incorrect Income Tax Return (ITR) form can lead to several complications and potential penalties from the Income Tax Department. It&#x27;s not just about choosing the right form; it&#x27;s about ensuring your declaration is accurate and compliant with the law.
+</p>
+<h3>Return Deemed Defective</h3>
+<p>
+If you file an ITR form that you are not eligible for, the Income Tax Department may treat your return as &quot;defective&quot; under Section 139(9) of the Income Tax Act. You will receive a notice from the department asking you to rectify the defect within a specified period, usually 15 days. If you fail to rectify the defect within the given timeframe, your return may be treated as invalid, meaning it will be considered as if you never filed your return at all.
+</p>
+<h3>Penalties and Interest</h3>
+<p>
+Filing an invalid return is akin to not filing a return, which can attract penalties. For late filing of returns, a penalty of up to ₹5,000 may be levied under Section 234F. Additionally, if there is any under-reporting of income due to filing the wrong form and incorrect computation, penalties under Section 270A could be imposed, which can be 50% or even 200% of the tax payable on the under-reported income. Interest under Sections 234A, 234B, and 234C may also be applicable on any unpaid or short-paid tax.
+</p>
+<h3>Loss of Benefits</h3>
+<p>
+Filing a defective or invalid return can lead to the loss of various tax benefits. For instance, you might not be able to carry forward losses to future years, which could significantly impact your tax liability in subsequent assessment years. Deductions or exemptions claimed might also be disallowed.
+</p>
+<h3>Delays in Processing and Refunds</h3>
+<p>
+An incorrect ITR form will inevitably lead to delays in the processing of your return. If you are eligible for a tax refund, this delay will postpone its receipt. The Income Tax Department will need to verify the correct form and potentially ask for clarifications, slowing down the entire process.
+</p>
+<h3>Increased Scrutiny</h3>
+<p>
+Filing the wrong form might flag your return for increased scrutiny by the Income Tax Department. This could lead to a detailed assessment of your financial transactions and income sources, which can be time-consuming and stressful.
+</p>
+<p>
+Therefore, it is always advisable to carefully assess your eligibility for each ITR form based on your income sources and financial activities for the entire financial year before proceeding with filing. When in doubt, consulting a Certified Financial Planner or a tax professional is a prudent step.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Sunil, 42, a freelance marketing consultant based in Pune, earning ₹35 lakhs per year.</strong>
+</p>
+<p>
+For Assessment Year 2025-26 (FY 2024-25), Sunil had gross receipts of ₹35 lakhs from his consulting business. He opted for the presumptive taxation scheme under Section 44ADA, declaring 50% of his gross receipts, i.e., ₹17.5 lakhs, as his professional income. He had no other complex income sources, no capital gains, and was not a director in any company. Therefore, he correctly filed <strong>ITR-4</strong>.
+</p>
+<p>
+Now, let&#x27;s look at his situation for <strong>Assessment Year 2026-27 (FY 2025-26)</strong>:
+</p>
+<p>
+During FY 2025-26, Sunil&#x27;s consulting business continued to thrive, with gross receipts reaching ₹40 lakhs. However, he also decided to diversify his investments.
+</p>
+<ol>
+<li><strong>Stock Market Trading:</strong> He started actively trading in the stock market, primarily in futures and options (F&amp;O). Over the year, his F&amp;O trading resulted in a net profit of ₹8 lakhs. This income is classified as speculative business income.</li>
+<li><strong>Sale of Property:</strong> He sold a plot of land he had inherited five years ago, realising a long-term capital gain of ₹15 lakhs.</li>
+<li><strong>Directorship:</strong> In November 2025, he was invited to join the board of a small tech startup as a non-executive director, receiving a sitting fee of ₹1 lakh.</li>
+</ol>
+<p>
+<strong>Analysis for AY 2026-27:</strong>
+</p>
+<ul>
+<li><strong>Presumptive Taxation (Section 44ADA):</strong> Sunil&#x27;s consulting receipts are ₹40 lakhs, still within the ₹50 lakh limit for Section 44ADA. He could potentially declare ₹20 lakhs (50% of ₹40 lakhs) as professional income.</li>
+<li><strong>F&amp;O Trading Income:</strong> The ₹8 lakhs profit from F&amp;O trading is speculative business income. This type of income <strong>cannot be reported in ITR-4</strong>. It requires detailed reporting of business income, typically in ITR-3.</li>
+<li><strong>Long-Term Capital Gain:</strong> The ₹15 lakhs long-term capital gain from the sale of land <strong>cannot be reported in ITR-4</strong>. ITR-3 is required for reporting capital gains.</li>
+<li><strong>Directorship:</strong> Becoming a director in a company, even as a non-executive director, automatically makes Sunil <strong>ineligible for ITR-4</strong>. This is a specific exclusion for ITR-4 filers.</li>
+</ul>
+<p>
+Due to these new income sources and his directorship, Sunil&#x27;s financial profile for AY 2026-27 has become significantly more complex than the previous year. He is no longer eligible for the simplified ITR-4 form.
+</p>
+<p>
+<strong>Conclusion:</strong> For Assessment Year 2026-27, Sunil <strong>must switch from ITR-4 to ITR-3</strong> to accurately report his F&amp;O income, capital gains, and acknowledge his directorship. Filing ITR-4 would result in a defective return and potential penalties. He will need to maintain proper books of accounts for his F&amp;O trading and report all these income heads meticulously in ITR-3.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review Last Year&#x27;s ITR-4:</strong> Pull out your ITR-4 filed for AY 2025-26. Understand the income sources and conditions that made you eligible for it.</li>
+<li><strong>List All Income Sources for FY 2025-26:</strong> Make a comprehensive list of every type of income you earned between April 1, 2025, and March 31, 2026. Include salary, business/professional receipts, rental income, interest income, capital gains (if any), and any other income.</li>
+<li><strong>Check for ITR-4 Ineligibility Triggers:</strong> Compare your current income profile with the ITR-4 exclusion criteria. Specifically, check if you have any capital gains, income from F&amp;O trading, became a director in a company, or invested in unlisted equity shares.</li>
+<li><strong>Estimate Business Turnover/Receipts:</strong> If you are a business or professional, estimate your gross receipts or turnover for FY 2025-26. If it exceeds the presumptive taxation limits (₹2 crores for business, ₹50 lakhs for professionals), you&#x27;ll likely need ITR-3.</li>
+<li><strong>Consult a Professional (if unsure):</strong> If your income sources have changed significantly, or if you are unsure about your eligibility, reach out to a Certified Financial Planner or a tax consultant for guidance.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is presumptive taxation?</h3>
+<p>
+Presumptive taxation is a simplified scheme under the Income Tax Act where eligible small businesses and professionals can declare their income at a prescribed rate (e.g., 6%, 8%, or 50% of turnover/receipts) without maintaining detailed books of accounts.
+</p>
+<h3>Can I file ITR-3 if I have only salary income?</h3>
+<p>
+No, ITR-3 is specifically for individuals and HUFs with income from business or profession. If you only have salary income, you would typically file ITR-1 (Sahaj) or ITR-2, depending on other income sources like capital gains or multiple house properties.
+</p>
+<h3>What happens if my business turnover crosses ₹2 crores but I still file ITR-4?</h3>
+<p>
+If your business turnover exceeds ₹2 crores, you are no longer eligible for presumptive taxation under Section 44AD and cannot file ITR-4. Filing ITR-4 in such a scenario would make your return defective and could lead to penalties and interest.
+</p>
+<h3>Is it mandatory to maintain books of accounts if I switch to ITR-3?</h3>
+<p>
+Yes, if you file ITR-3 because you are not opting for presumptive taxation or are otherwise ineligible for ITR-4, you are generally required to maintain proper books of accounts as per Section 44AA of the Income Tax Act. These books may also need to be audited under Section 44AB if your turnover exceeds specified limits.
+</p>
+<h3>Can Non-Resident Indians (NRIs) file ITR-4 or ITR-3?</h3>
+<p>
+NRIs are generally not eligible to file ITR-4 (Sugam). They typically need to file ITR-2 if they have only salary, house property, capital gains, or other income. If an NRI has income from a business or profession in India, they would need to file ITR-3.
+</p>
+<h3>What if I filed ITR-4 but later realise I had capital gains?</h3>
+<p>
+If you realise after filing ITR-4 that you had income from capital gains, your filed return is defective. You should file a revised return using ITR-3, provided the deadline for revised returns has not passed. Failure to do so can lead to penalties.
+</p>
+<h3>What is the deadline for filing ITR for AY 2026-27?</h3>
+<p>
+For most individual taxpayers, the deadline for filing ITR for Assessment Year 2026-27 (income earned in FY 2025-26) is typically July 31, 2026. However, this date can vary for businesses requiring an audit or certain other categories of taxpayers.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/filed-itr-4-last-year-you-might-need-to-switch-to-itr-3-in-ay-2026-27-heres-why-11787657774417.html</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# Filed ITR-4 last year? You might need to switch to ITR-3 in AY 2026-27
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Filing ITR-4 for Assessment Year (AY) 2025-26 does not automatically qualify you for ITR-4 in AY 2026-27.</li>
+<li>Changes in your income sources or business activities can necessitate a switch to a different ITR form.</li>
+<li>ITR-4 is typically for individuals and HUFs opting for presumptive taxation under Sections 44AD, 44ADA, or 44AE.</li>
+<li>ITR-3 is for individuals and HUFs with income from a business or profession not opting for presumptive taxation, or those with capital gains, multiple house properties, or directorships.</li>
+<li>Always review your financial situation and the specific eligibility criteria for each ITR form before filing your return.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+For many salaried individuals and those with straightforward income, filing their Income Tax Return (ITR) is a relatively simple process, often involving ITR-1 or ITR-2. However, for self-employed professionals, small business owners, and those with more complex financial arrangements, the choice of ITR form can be crucial and can change from year to year. Specifically, if you filed ITR-4 last year, for Assessment Year 2025-26 (which covers income earned in Financial Year 2024-25), you might find that your financial circumstances for the current Assessment Year 2026-27 (covering income earned in Financial Year 2025-26) no longer make you eligible for ITR-4.
+</p>
+<p>
+ITR-4, known as Sugam, is designed for individuals, Hindu Undivided Families (HUFs), and firms (other than Limited Liability Partnerships) whose total income includes income from business and profession computed under the presumptive taxation scheme, and whose total income does not exceed ₹50 lakh. This form simplifies tax filing for eligible small businesses and professionals by allowing them to declare income at a prescribed rate, rather than maintaining detailed books of accounts.
+</p>
+<p>
+On the other hand, ITR-3 is a more comprehensive form meant for individuals and HUFs who have income from profits and gains of business or profession, and are not eligible for presumptive taxation. This includes those whose turnover exceeds the presumptive taxation limits, or who have other complex income sources like capital gains from shares or property, income from multiple house properties, or who are directors in a company. The key takeaway is that your income profile can evolve, and with it, your ITR form eligibility.
+</p>
+<h2>ITR-4 Eligibility and the Presumptive Taxation Scheme</h2>
+<p>
+ITR-4, or Sugam, is specifically tailored for certain categories of taxpayers who opt for the presumptive taxation scheme under the Income Tax Act, 1961. This scheme is a simplified way of computing business or professional income without maintaining detailed books of accounts.
+</p>
+<h3>Who can file ITR-4?</h3>
+<p>
+ITR-4 can be filed by individuals, Hindu Undivided Families (HUFs), and firms (other than Limited Liability Partnerships) who meet the following criteria:
+</p>
+<ul>
+<li><strong>Total Income up to ₹50 Lakhs:</strong> Their total income from all sources does not exceed ₹50 lakhs in the financial year.</li>
+<li><strong>Presumptive Business Income:</strong> They have income from business and profession computed under the presumptive taxation schemes of Section 44AD, Section 44ADA, or Section 44AE of the Income Tax Act.</li>
+<p>
+    *   <strong>Section 44AD:</strong> For small businesses with a turnover of up to ₹2 crores. They can declare profit at 6% of digital receipts or 8% of cash receipts. This limit can be ₹3 crores if cash receipts do not exceed 5% of total turnover.
+    *   <strong>Section 44ADA:</strong> For specified professionals (e.g., doctors, lawyers, architects, engineers, accountants, technical consultants, interior decorators) with gross receipts up to ₹50 lakhs. They can declare profit at 50% of their gross receipts. This limit can be ₹75 lakhs if cash receipts do not exceed 5% of total receipts.
+    *   <strong>Section 44AE:</strong> For those engaged in the business of plying, hiring, or leasing goods carriages, owning not more than 10 goods vehicles at any time during the previous year.
+</p>
+<li><strong>Other Income:</strong> They may also have income from salary/pension, one house property (excluding cases where loss is brought forward or carried forward), and other sources (excluding winnings from lottery or horse races, and income taxable at special rates). Agricultural income up to ₹5,000 is also permissible.</li>
+<li><strong>No Capital Gains:</strong> Taxpayers filing ITR-4 cannot have any income from capital gains (short-term or long-term), with a specific exception for LTCG under Section 112A up to ₹1.25 lakh if no losses are carried forward.</li>
+<li><strong>No Foreign Income/Assets:</strong> They should not have any foreign income or foreign assets.</li>
+<li><strong>No Directorship:</strong> They should not be a director in any company.</li>
+<li><strong>No Unlisted Equity Shares:</strong> They should not have invested in unlisted equity shares at any time during the financial year.</li>
+</ul>
+<p>
+The presumptive taxation scheme under ITR-4 is a boon for small taxpayers as it significantly reduces their compliance burden. However, its strict eligibility conditions mean that any deviation from these can render a taxpayer ineligible for ITR-4.
+</p>
+<h2>ITR-3 Eligibility and Complex Income Scenarios</h2>
+<p>
+ITR-3 is a more detailed and comprehensive form compared to ITR-4, designed for individuals and Hindu Undivided Families (HUFs) with income from profits and gains of business or profession who do not opt for the presumptive taxation scheme, or whose income profile is more complex.
+</p>
+<h3>Who must file ITR-3?</h3>
+<p>
+You must file ITR-3 if you are an individual or HUF and have income from:
+</p>
+<ul>
+<li><strong>Business or Profession:</strong> Income derived from a business or profession that does not fall under the presumptive taxation scheme, or where the taxpayer has opted out of the presumptive scheme, or whose turnover exceeds the presumptive limits (e.g., ₹2 crores for Section 44AD). This includes maintaining regular books of accounts and getting them audited if required.</li>
+<li><strong>Capital Gains:</strong> Any income from the sale of capital assets like shares, mutual funds, property, or other assets, resulting in short-term or long-term capital gains.</li>
+<li><strong>Multiple House Properties:</strong> Income from more than one house property.</li>
+<li><strong>Directorship in a Company:</strong> If you are a director in any company, irrespective of your income source.</li>
+<li><strong>Investment in Unlisted Equity Shares:</strong> If you have invested in unlisted equity shares at any time during the financial year.</li>
+<li><strong>Foreign Income or Assets:</strong> If you have any income from sources outside India or hold any assets located abroad.</li>
+<li><strong>Speculative Business Income:</strong> Income from speculative business activities like futures and options (F&amp;O) trading.</li>
+</ul>
+<p>
+Essentially, ITR-3 is the default form for individuals and HUFs engaged in business or profession when their financial affairs are beyond the simplified scope of ITR-4. It requires detailed reporting of financial statements, balance sheets, and profit &amp; loss accounts, which necessitates proper bookkeeping.
+</p>
+<h2>Key Triggers for Switching from ITR-4 to ITR-3</h2>
+<p>
+Several changes in your financial activities or income profile can make you ineligible for ITR-4 and require you to switch to ITR-3 for the upcoming Assessment Year 2026-27. It&#x27;s crucial to identify these triggers well in advance to avoid last-minute complications.
+</p>
+<h3>Exceeding Presumptive Turnover Limits</h3>
+<p>
+If your gross receipts from business under Section 44AD exceed ₹2 crores (or ₹3 crores if cash receipts are below 5%), you can no longer opt for presumptive taxation and must file ITR-3. Similarly, for professionals under Section 44ADA, if your gross receipts exceed ₹50 lakhs (or ₹75 lakhs if cash receipts are below 5%), you will need to switch to ITR-3 and maintain proper books of accounts.
+</p>
+<h3>Declaring Lower Profits than Prescribed</h3>
+<p>
+If you were eligible for presumptive taxation but wish to declare profits lower than the prescribed rates (e.g., less than 6% for digital receipts or 8% for cash receipts under Section 44AD, or less than 50% for professionals under Section 44ADA), you must switch to ITR-3. In such cases, you are also required to maintain books of accounts and get them audited if your total income exceeds the basic exemption limit.
+</p>
+<h3>New Income from Capital Gains</h3>
+<p>
+A common trigger for switching is the acquisition of capital gains. If you sell any property, shares, mutual funds, gold, or other capital assets and realise a profit, this income is categorised as capital gains. Since ITR-4 does not support reporting capital gains (with minor exceptions), you will need to file ITR-3. This is particularly relevant for individuals who start investing in the stock market or real estate.
+</p>
+<h3>Becoming a Director in a Company</h3>
+<p>
+If you become a director in any company, whether private or public, during the financial year, you automatically become ineligible to file ITR-4. This is a specific condition for ITR-4 eligibility, and you will need to file ITR-3, regardless of your other income sources or the nature of your directorship.
+</p>
+<h3>Investing in Unlisted Equity Shares</h3>
+<p>
+Similarly, if you purchase or hold any unlisted equity shares during the financial year, you cannot file ITR-4. This also mandates a switch to ITR-3.
+</p>
+<h3>Income from Multiple House Properties</h3>
+<p>
+While ITR-4 allows for income from one house property, if you have income from more than one house property (e.g., rental income from two different properties), you will need to file ITR-3.
+</p>
+<h3>Speculative Income (e.g., F&amp;O Trading)</h3>
+<p>
+If you engage in speculative business activities, such as trading in futures and options (F&amp;O) in the stock market, the income or loss from such activities is considered business income. This type of income requires filing ITR-3, as it falls outside the scope of simplified presumptive taxation under ITR-4.
+</p>
+<h3>Foreign Assets or Income</h3>
+<p>
+If you acquire any foreign assets or earn income from sources outside India, you are generally required to file ITR-3 (or ITR-2 in some cases if there is no business income). ITR-4 is not designed for reporting foreign income or assets.
+</p>
+<p>
+Understanding these triggers is vital for accurate tax compliance and to avoid penalties for filing the incorrect ITR form.
+</p>
+<h2>Consequences of Filing the Wrong ITR Form</h2>
+<p>
+Filing the incorrect Income Tax Return (ITR) form can lead to several complications and potential penalties from the Income Tax Department. It&#x27;s not just about choosing the right form; it&#x27;s about ensuring your declaration is accurate and compliant with the law.
+</p>
+<h3>Return Deemed Defective</h3>
+<p>
+If you file an ITR form that you are not eligible for, the Income Tax Department may treat your return as &quot;defective&quot; under Section 139(9) of the Income Tax Act. You will receive a notice from the department asking you to rectify the defect within a specified period, usually 15 days. If you fail to rectify the defect within the given timeframe, your return may be treated as invalid, meaning it will be considered as if you never filed your return at all.
+</p>
+<h3>Penalties and Interest</h3>
+<p>
+Filing an invalid return is akin to not filing a return, which can attract penalties. For late filing of returns, a penalty of up to ₹5,000 may be levied under Section 234F (₹1,000 if income is ≤ ₹5 lakh). Additionally, if there is any under-reporting of income due to filing the wrong form and incorrect computation, penalties under Section 270A could be imposed, which can be 50% or even 200% of the tax payable on the under-reported income. Interest under Sections 234A, 234B, and 234C may also be applicable on any unpaid or short-paid tax.
+</p>
+<h3>Loss of Benefits</h3>
+<p>
+Filing a defective or invalid return can lead to the loss of various tax benefits. For instance, you might not be able to carry forward losses to future years, which could significantly impact your tax liability in subsequent assessment years. Deductions or exemptions claimed might also be disallowed.
+</p>
+<h3>Delays in Processing and Refunds</h3>
+<p>
+An incorrect ITR form will inevitably lead to delays in the processing of your return. If you are eligible for a tax refund, this delay will postpone its receipt. The Income Tax Department will need to verify the correct form and potentially ask for clarifications, slowing down the entire process.
+</p>
+<h3>Increased Scrutiny</h3>
+<p>
+Filing the wrong form might flag your return for increased scrutiny by the Income Tax Department. This could lead to a detailed assessment of your financial transactions and income sources, which can be time-consuming and stressful.
+</p>
+<p>
+Therefore, it is always advisable to carefully assess your eligibility for each ITR form based on your income sources and financial activities for the entire financial year before proceeding with filing. When in doubt, consulting a Certified Financial Planner or a tax professional is a prudent step.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Sunil, 42, a freelance marketing consultant based in Pune, earning ₹35 lakhs per year.</strong>
+</p>
+<p>
+For Assessment Year 2025-26 (FY 2024-25), Sunil had gross receipts of ₹35 lakhs from his consulting business. He opted for the presumptive taxation scheme under Section 44ADA, declaring 50% of his gross receipts, i.e., ₹17.5 lakhs, as his professional income. He had no other complex income sources, no capital gains, and was not a director in any company. Therefore, he correctly filed <strong>ITR-4</strong>.
+</p>
+<p>
+Now, let&#x27;s look at his situation for <strong>Assessment Year 2026-27 (FY 2025-26)</strong>:
+</p>
+<p>
+During FY 2025-26, Sunil&#x27;s consulting business continued to thrive, with gross receipts reaching ₹40 lakhs. However, he also decided to diversify his investments.
+</p>
+<ol>
+<li><strong>Stock Market Trading:</strong> He started actively trading in the stock market, primarily in futures and options (F&amp;O). Over the year, his F&amp;O trading resulted in a net profit of ₹8 lakhs. This income is classified as speculative business income.</li>
+<li><strong>Sale of Property:</strong> He sold a plot of land he had inherited five years ago, realising a long-term capital gain of ₹15 lakhs.</li>
+<li><strong>Directorship:</strong> In November 2025, he was invited to join the board of a small tech startup as a non-executive director, receiving a sitting fee of ₹1 lakh.</li>
+</ol>
+<p>
+<strong>Analysis for AY 2026-27:</strong>
+</p>
+<ul>
+<li><strong>Presumptive Taxation (Section 44ADA):</strong> Sunil&#x27;s consulting receipts are ₹40 lakhs, still within the ₹50 lakh limit for Section 44ADA. He could potentially declare ₹20 lakhs (50% of ₹40 lakhs) as professional income.</li>
+<li><strong>F&amp;O Trading Income:</strong> The ₹8 lakhs profit from F&amp;O trading is speculative business income. This type of income <strong>cannot be reported in ITR-4</strong>. It requires detailed reporting of business income, typically in ITR-3.</li>
+<li><strong>Long-Term Capital Gain:</strong> The ₹15 lakhs long-term capital gain from the sale of land <strong>cannot be reported in ITR-4</strong>. ITR-3 is required for reporting capital gains.</li>
+<li><strong>Directorship:</strong> Becoming a director in a company, even as a non-executive director, automatically makes Sunil <strong>ineligible for ITR-4</strong>. This is a specific exclusion for ITR-4 filers.</li>
+</ul>
+<p>
+Due to these new income sources and his directorship, Sunil&#x27;s financial profile for AY 2026-27 has become significantly more complex than the previous year. He is no longer eligible for the simplified ITR-4 form.
+</p>
+<p>
+<strong>Conclusion:</strong> For Assessment Year 2026-27, Sunil <strong>must switch from ITR-4 to ITR-3</strong> to accurately report his F&amp;O income, capital gains, and acknowledge his directorship. Filing ITR-4 would result in a defective return and potential penalties. He will need to maintain proper books of accounts for his F&amp;O trading and report all these income heads meticulously in ITR-3.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review Last Year&#x27;s ITR-4:</strong> Pull out your ITR-4 filed for AY 2025-26. Understand the income sources and conditions that made you eligible for it.</li>
+<li><strong>List All Income Sources for FY 2025-26:</strong> Make a comprehensive list of every type of income you earned between April 1, 2025, and March 31, 2026. Include salary, business/professional receipts, rental income, interest income, capital gains (if any), and any other income.</li>
+<li><strong>Check for ITR-4 Ineligibility Triggers:</strong> Compare your current income profile with the ITR-4 exclusion criteria. Specifically, check if you have any capital gains, income from F&amp;O trading, became a director in a company, or invested in unlisted equity shares.</li>
+<li><strong>Estimate Business Turnover/Receipts:</strong> If you are a business or professional, estimate your gross receipts or turnover for FY 2025-26. If it exceeds the presumptive taxation limits (₹2 crores for business, ₹50 lakhs for professionals), you&#x27;ll likely need ITR-3.</li>
+<li><strong>Consult a Professional (if unsure):</strong> If your income sources have changed significantly, or if you are unsure about your eligibility, reach out to a Certified Financial Planner or a tax consultant for guidance.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is presumptive taxation?</h3>
+<p>
+Presumptive taxation is a simplified scheme under the Income Tax Act where eligible small businesses and professionals can declare their income at a prescribed rate (e.g., 6%, 8%, or 50% of turnover/receipts) without maintaining detailed books of accounts.
+</p>
+<h3>Can I file ITR-3 if I have only salary income?</h3>
+<p>
+No, ITR-3 is specifically for individuals and HUFs with income from business or profession. If you only have salary income, you would typically file ITR-1 (Sahaj) or ITR-2, depending on other income sources like capital gains or multiple house properties.
+</p>
+<h3>What happens if my business turnover crosses ₹2 crores but I still file ITR-4?</h3>
+<p>
+If your business turnover exceeds ₹2 crores, you are no longer eligible for presumptive taxation under Section 44AD and cannot file ITR-4. Filing ITR-4 in such a scenario would make your return defective and could lead to penalties and interest.
+</p>
+<h3>Is it mandatory to maintain books of accounts if I switch to ITR-3?</h3>
+<p>
+Yes, if you file ITR-3 because you are not opting for presumptive taxation or are otherwise ineligible for ITR-4, you are generally required to maintain proper books of accounts as per Section 44AA of the Income Tax Act. These books may also need to be audited under Section 44AB if your turnover exceeds specified limits.
+</p>
+<h3>Can Non-Resident Indians (NRIs) file ITR-4 or ITR-3?</h3>
+<p>
+NRIs are generally not eligible to file ITR-4 (Sugam). If an NRI has income from a business or profession in India, they would need to file ITR-3. Otherwise, they typically file ITR-2.
+</p>
+<h3>What if I filed ITR-4 but later realise I had capital gains?</h3>
+<p>
+If you realise after filing ITR-4 that you had income from capital gains, your filed return is defective. You should file a revised return using ITR-3, provided the deadline for revised returns has not passed. Failure to do so can lead to penalties.
+</p>
+<h3>What is the deadline for filing ITR for AY 2026-27?</h3>
+<p>
+For most individual taxpayers, the deadline for filing ITR for Assessment Year 2026-27 (income earned in FY 2025-26) is typically July 31, 2026. However, this date can vary for businesses requiring an audit (e.g., October 31, 2026) or certain other categories of taxpayers.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/filed-itr-4-last-year-you-might-need-to-switch-to-itr-3-in-ay-2026-27-heres-why-11787657774417.html</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
