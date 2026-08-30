@@ -12,9 +12,9 @@ slug: 2026-08-29-result_analysis-nvidias-stellar-earnings-fuel-ai-stock-and-taiw
 # Nvidia's Stellar Earnings Fuel AI Stock and Taiwan Index Rally
 
 **TL;DR**
--   Nvidia reported blockbuster quarterly results, with revenue more than doubling to $96.2 billion, significantly exceeding market expectations.
--   The strong performance was primarily driven by its Data Centre segment, which saw a 117% year-on-year jump in revenue to $89 billion, powered by AI demand.
--   Nvidia's optimistic revenue guidance of $108 billion for the next quarter further boosted investor confidence in the sustained AI boom.
+-   Nvidia reported blockbuster quarterly results, with revenue reaching $57.0 billion, significantly exceeding market expectations.
+-   The strong performance was primarily driven by its Data Centre segment, which saw a 66% year-on-year jump in revenue to $51.2 billion, powered by AI demand.
+-   Nvidia's optimistic revenue guidance of $65.0 billion for the next quarter further boosted investor confidence in the sustained AI boom.
 -   This ignited a rally in global AI-linked stocks and the Taiwan Stock Exchange (TAIEX), which rose 0.8% to 46,349.
 -   Taiwan Semiconductor Manufacturing Company (TSMC), a crucial Nvidia supplier, saw its shares rise, underscoring its indispensable role in the AI supply chain.
 
@@ -26,13 +26,13 @@ This positive news had a ripple effect across global markets. Investors, seeing 
 
 ## Nvidia's Blockbuster Performance Outshines Estimates
 
-Nvidia, a global leader in graphics processing units (GPUs) and AI computing, delivered a stellar financial performance for its July fiscal quarter. The company reported revenue that more than doubled to an impressive $96.2 billion, significantly surpassing analyst expectations. This robust top-line growth was accompanied by an adjusted profit of $2.22 per share, further underscoring the company's profitability amidst surging demand.
+Nvidia, a global leader in graphics processing units (GPUs) and AI computing, delivered a stellar financial performance for its July fiscal quarter. The company reported revenue of an impressive $57.0 billion, significantly surpassing analyst expectations. This robust top-line growth was accompanied by an adjusted profit of $2.22 per share, further underscoring the company's profitability amidst surging demand.
 
-The positive momentum is expected to continue, with Nvidia issuing an upbeat revenue guidance of approximately $108.0 billion for the subsequent quarter. This forecast comfortably exceeded market consensus, signalling management's strong confidence in sustained demand for its cutting-edge AI technologies. The strong earnings and optimistic outlook helped alleviate some concerns that had recently emerged regarding the sustainability of the AI stock rally.
+The positive momentum is expected to continue, with Nvidia issuing an upbeat revenue guidance of approximately $65.0 billion for the subsequent quarter. This forecast comfortably exceeded market consensus, signalling management's strong confidence in sustained demand for its cutting-edge AI technologies. The strong earnings and optimistic outlook helped alleviate some concerns that had recently emerged regarding the sustainability of the AI stock rally.
 
 ## The Data Centre: Powering the AI Revolution
 
-The primary engine behind Nvidia's exceptional growth was its Data Centre segment. This crucial division recorded an astonishing $89 billion in revenue, marking a substantial 117% increase year-on-year. This surge highlights the massive investment by cloud service providers, enterprises, and consumer internet companies in building and expanding infrastructure for AI training, inferencing, and large language models.
+The primary engine behind Nvidia's exceptional growth was its Data Centre segment. This crucial division recorded an astonishing $51.2 billion in revenue, marking a substantial 66% increase year-on-year. This surge highlights the massive investment by cloud service providers, enterprises, and consumer internet companies in building and expanding infrastructure for AI training, inferencing, and large language models.
 
 Nvidia's advanced GPUs are indispensable for these complex computational tasks, making the company a foundational pillar of the ongoing AI revolution. Beyond data centres, the edge computing segment also contributed positively, with revenue rising 27% year-on-year to $7.2 billion. This indicates a broader adoption of AI capabilities beyond centralised cloud environments, extending to devices and localised systems.
 
