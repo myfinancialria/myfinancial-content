@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Upcoming IPOs, Explained Simply — August 2026</title>
+<meta name="description" content="This week sees several Initial Public Offerings (IPOs) open, including Lumino Industries, Priority Jewels, ESDS Software, and Purple Style Labs. Forthcoming I.">
+<meta name="keywords" content="shares, company, announced, investors, public, september, august, limited">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-31-upcoming-ipos-explained-simply-august-2026/">
+<meta property="og:title" content="Upcoming IPOs, Explained Simply — August 2026">
+<meta property="og:description" content="This week sees several Initial Public Offerings (IPOs) open, including Lumino Industries, Priority Jewels, ESDS Software, and Purple Style Labs. Forthcoming I.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-08-31-upcoming-ipos-explained-simply-august-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Upcoming IPOs, Explained Simply \u2014 August 2026", "description": "This week sees several Initial Public Offerings (IPOs) open, including Lumino Industries, Priority Jewels, ESDS Software, and Purple Style Labs. Forthcoming I.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-31", "dateModified": "2026-08-31", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-08-31-upcoming-ipos-explained-simply-august-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/" class="active">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">IPO Watch · 2026-08-31</div><h1>Upcoming IPOs, Explained Simply — August 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>This week sees several Initial Public Offerings (IPOs) open, including Lumino Industries, Priority Jewels, ESDS Software, and Purple Style Labs.</li>
+<li>Forthcoming IPOs include Deepa Jewellers and Rays of Belief.</li>
+<li>We explain what an IPO is, how to read key numbers like price band and issue size, and the step-by-step process of applying.</li>
+<li>Understand the difference between Mainboard and SME IPOs and what each term means for you.</li>
+</ul>
+</div>
+<h2>First, what is an IPO — in one minute?</h2>
+<p>
+Imagine a popular local shop that has been doing very well. Now, the owners want to expand, maybe open new branches or buy new equipment. To get the money for this, they decide to sell a small part of their ownership to the public. This act of a private company selling its shares for the first time to the public is called an <strong>Initial Public Offering (IPO)</strong>.
+</p>
+<p>
+When a company does an IPO, it&#x27;s raising money from the <strong>primary market</strong> (where new shares are sold directly by the company). Once these shares are sold, they then get <strong>listed</strong> (start trading) on stock exchanges like the NSE or BSE, where people can buy and sell them among themselves.
+</p>
+<h2>The IPOs on the calendar right now</h2>
+<p>
+Let&#x27;s look at some of the IPOs that are currently open for bidding or are about to open, and understand what their numbers mean.
+</p>
+<h3>Lumino Industries Limited</h3>
+<p>
+This company&#x27;s specific business sector is not specified in the data.
+</p>
+<ul>
+<li><strong>Price Band (the fixed range within which you can bid):</strong> ₹78 to ₹82 per share. This means you can bid for shares at any price within this range.</li>
+<li><strong>Lot Size (the minimum number of shares you must apply for):</strong> Not yet announced.</li>
+<li><strong>Issue Size (the total number of shares the company is offering to the public):</strong> 6,32,05,127 shares. At the upper price band of ₹82, this would mean the company aims to raise approximately ₹518.28 crores.</li>
+<li><strong>Open Date (when bidding starts):</strong> August 27, 2026</li>
+<li><strong>Close Date (when bidding ends):</strong> August 31, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹78 to ₹82</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>Fresh issue of 6.10 crore shares and OFS of 2.43 crore shares (totaling ₹700 crores)</td></tr>
+<tr><td>Open Date</td><td>2026-08-27</td></tr>
+<tr><td>Close Date</td><td>2026-08-31</td></tr>
+</tbody></table>
+<h3>Priority Jewels Limited</h3>
+<p>
+As the name suggests, this company is likely in the jewellery sector.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹190 to ₹200 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 32,02,500 shares. At the upper price band of ₹200, this would mean the company aims to raise approximately ₹64.05 crores.</li>
+<li><strong>Open Date:</strong> August 28, 2026</li>
+<li><strong>Close Date:</strong> September 1, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹190 to ₹200</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>45,75,000 shares</td></tr>
+<tr><td>Open Date</td><td>2026-08-28</td></tr>
+<tr><td>Close Date</td><td>2026-09-01</td></tr>
+</tbody></table>
+<h3>ESDS Software Solution Limited</h3>
+<p>
+This company is in the software solutions sector.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹408 to ₹429 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 1,23,52,942 shares. At the upper price band of ₹429, this would mean the company aims to raise approximately ₹530.00 crores.</li>
+<li><strong>Open Date:</strong> August 28, 2026</li>
+<li><strong>Close Date:</strong> September 1, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹408 to ₹429</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>1,67,83,217 shares</td></tr>
+<tr><td>Open Date</td><td>2026-08-28</td></tr>
+<tr><td>Close Date</td><td>2026-09-01</td></tr>
+</tbody></table>
+<h3>Purple Style Labs Limited</h3>
+<p>
+This company appears to be in the fashion or lifestyle sector.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹546 to ₹575 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 68,49,816 shares. At the upper price band of ₹575, this would mean the company aims to raise approximately ₹393.86 crores.</li>
+<li><strong>Open Date:</strong> August 31, 2026</li>
+<li><strong>Close Date:</strong> September 2, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹546 to ₹575</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>1,18,26,087 shares</td></tr>
+<tr><td>Open Date</td><td>2026-08-31</td></tr>
+<tr><td>Close Date</td><td>2026-09-02</td></tr>
+</tbody></table>
+<h3>Ashutosh Fibre Limited (SME IPO)</h3>
+<p>
+This company is likely in the fibre or textile industry. This is an <strong>SME IPO</strong> (Small and Medium Enterprises IPO), which means it&#x27;s for smaller companies and has different trading rules compared to Mainboard IPOs.
+</p>
+<ul>
+<li><strong>Price Band:</strong> Not yet announced.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> Not yet announced.</li>
+<li><strong>Open Date:</strong> August 31, 2026</li>
+<li><strong>Close Date:</strong> September 2, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>Not yet announced</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>Not yet announced</td></tr>
+<tr><td>Open Date</td><td>2026-08-31</td></tr>
+<tr><td>Close Date</td><td>2026-09-02</td></tr>
+</tbody></table>
+<h3>Shanti Inorganics Limited (SME IPO)</h3>
+<p>
+This company appears to be in the chemicals or inorganics sector. This is also an <strong>SME IPO</strong>.
+</p>
+<ul>
+<li><strong>Price Band:</strong> Not yet announced.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> Not yet announced.</li>
+<li><strong>Open Date:</strong> August 31, 2026</li>
+<li><strong>Close Date:</strong> September 2, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>Not yet announced</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>Not yet announced</td></tr>
+<tr><td>Open Date</td><td>2026-08-31</td></tr>
+<tr><td>Close Date</td><td>2026-09-02</td></tr>
+</tbody></table>
+<h3>Deepa Jewellers Limited (Forthcoming)</h3>
+<p>
+This company is in the jewellery sector.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹168 to ₹177 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 2,67,29,292 shares. At the upper price band of ₹177, this would mean the company aims to raise approximately ₹472.58 crores.</li>
+<li><strong>Open Date:</strong> September 1, 2026</li>
+<li><strong>Close Date:</strong> September 3, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹168 to ₹177</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>2,59,72,000 shares (Fresh Issue: 1,41,24,292 shares; OFS: 1,18,47,708 shares)</td></tr>
+<tr><td>Open Date</td><td>2026-09-01</td></tr>
+<tr><td>Close Date</td><td>2026-09-03</td></tr>
+</tbody></table>
+<h3>Rays of Belief Limited- For Profit Social Enterprise (FPSE) (Forthcoming)</h3>
+<p>
+This company is a For Profit Social Enterprise (FPSE), a specific type of business with a social mission.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹227 to ₹239 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 52,30,000 shares. At the upper price band of ₹239, this would mean the company aims to raise approximately ₹124.89 crores.</li>
+<li><strong>Open Date:</strong> September 1, 2026</li>
+<li><strong>Close Date:</strong> September 3, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹227 to ₹239</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>52,30,000 shares</td></tr>
+<tr><td>Open Date</td><td>2026-09-01</td></tr>
+<tr><td>Close Date</td><td>2026-09-03</td></tr>
+</tbody></table>
+<h2>How to actually read an IPO (the 6 things on every IPO)</h2>
+<p>
+When you look at an IPO, there are a few key pieces of information that help you understand what&#x27;s on offer:
+</p>
+<ol>
+<li><strong>Price Band:</strong> This is the range, like ₹78 to ₹82, within which the company offers its shares. You can bid at any price within this range. Most retail investors (those applying for up to ₹2 lakh worth of shares) choose to bid at the <strong>cut-off price</strong>, which is usually the highest price in the band (₹82 in our example). This ensures your bid is considered at the final price discovered.</li>
+</ol>
+<ol>
+<li><strong>Lot Size:</strong> This is the minimum number of shares you must apply for. You cannot apply for just one share; you have to apply in multiples of this lot size. For example, if the lot size is 100 shares, you must apply for 100, 200, 300 shares, and so on. This helps manage the large number of applications.</li>
+</ol>
+<ol>
+<li><strong>Minimum Investment:</strong> This is calculated by multiplying the lot size by the upper end of the price band. For instance, if the lot size was 100 shares and the upper price band was ₹82, your minimum investment would be ₹8,200 (100 shares * ₹82). This is the smallest amount of money you need to invest to participate in the IPO.</li>
+</ol>
+<ol>
+<li><strong>Issue Size:</strong> This refers to the total value of shares the company is offering to the public, or the total number of shares being sold. It tells you how much money the company aims to raise from the IPO. A larger issue size often means more shares are available for allotment.</li>
+</ol>
+<ol>
+<li><strong>Fresh Issue vs. Offer-for-Sale (OFS):</strong> An IPO can be a mix of two things:</li>
+<p>
+    *   <strong>Fresh Issue:</strong> The company issues new shares, and the money raised from these shares goes directly to the company. This money is typically used for business expansion, debt repayment, or other corporate purposes.
+    *   <strong>Offer-for-Sale (OFS):</strong> Existing shareholders (like promoters or early investors) sell some of their shares. The money raised from these shares goes to these selling shareholders, not to the company itself. The company does not receive any funds from an OFS.
+</p>
+</ol>
+<ol>
+<li><strong>RHP/DRHP (Red Herring Prospectus / Draft Red Herring Prospectus):</strong> This is the official document filed with SEBI (Securities and Exchange Board of India) that contains all the important details about the company, its financials, business operations, risks involved, management team, and how the IPO proceeds will be used. The DRHP is the initial draft, and the RHP is the final version before the IPO opens. It&#x27;s like the company&#x27;s detailed report card and business plan for potential investors.</li>
+</ol>
+<h2>The IPO process, step by step</h2>
+<p>
+Understanding the journey of an IPO can make the whole process clearer:
+</p>
+<ol>
+<li><strong>DRHP Filing:</strong> The company first prepares a <strong>Draft Red Herring Prospectus (DRHP)</strong> with all its details and files it with SEBI for approval. This document is made public for everyone to review.</li>
+</ol>
+<ol>
+<li><strong>Price Band Announcement:</strong> Once SEBI gives its nod, the company announces the <strong>price band</strong> (e.g., ₹78-₹82) and the <strong>lot size</strong> for the IPO.</li>
+</ol>
+<ol>
+<li><strong>Bidding Period:</strong> The IPO opens for a few days (typically 3-5 days). During this time, investors can place their bids for shares. Bids are categorised:</li>
+<p>
+    *   <strong>Retail Individual Investors (RIIs):</strong> Individuals applying for shares worth up to ₹2 lakh.
+    *   <strong>Non-Institutional Investors (NIIs) or High Net-worth Individuals (HNIs):</strong> Individuals or entities applying for shares worth more than ₹2 lakh.
+    *   <strong>Qualified Institutional Buyers (QIBs):</strong> Large institutional investors like mutual funds, foreign institutional investors, and insurance companies.
+</p>
+</ol>
+<ol>
+<li><strong>Allotment:</strong> After the bidding closes, the company and its registrars (firms that manage share records) determine the final offer price and decide how to distribute the shares. If the IPO is <strong>oversubscribed</strong> (more demand than shares available), shares are allotted through a lottery system for retail investors.</li>
+</ol>
+<ol>
+<li><strong>Listing:</strong> Finally, the shares get <strong>listed</strong> on the stock exchanges (like NSE or BSE) on a specific date. This is when they start trading, and you can buy or sell them like any other stock.</li>
+</ol>
+<h2>A simple way to think about it</h2>
+<p>
+Think of an IPO like a school fete stall. The school (the company) wants to raise money for new books or sports equipment. So, they decide to sell small &quot;ownership coupons&quot; of their fete stall to parents and students (the public). Each coupon represents a tiny part of the stall.
+</p>
+<p>
+When you buy these coupons, you&#x27;re giving money to the school. If the fete stall does well, the value of your coupon might go up. If it doesn&#x27;t do so well, the value might go down. An IPO is simply a company selling these &quot;ownership coupons&quot; (shares) for the very first time to the public to raise funds or allow existing owners to sell their stake.
+</p>
+<h2>Things people get confused about</h2>
+<p>
+<strong>Myth:</strong> Applying for an IPO guarantees you shares.
+<strong>Fact:</strong> If an IPO is very popular (oversubscribed), there are more applications than shares available. In such cases, shares are allotted through a lucky draw system, especially for retail investors. You might not get any shares even if you apply.
+</p>
+<p>
+<strong>Myth:</strong> Listing gain is guaranteed in an IPO.
+<strong>Fact:</strong> While some IPOs see their share prices rise on the first day of trading (listing day), this is not guaranteed. Share prices can also fall below the issue price, leading to a listing loss. The market decides the price based on demand and supply.
+</p>
+<p>
+<strong>Myth:</strong> IPOs are only for quick profits.
+<strong>Fact:</strong> An IPO is just the first step for a company to become publicly traded. Investing in an IPO means becoming a part-owner of the company. Like any investment, it should ideally be viewed with a long-term perspective, considering the company&#x27;s fundamentals and future prospects, not just short-term gains.
+</p>
+<h2>FAQ</h2>
+<h3>How do I even apply for an IPO?</h3>
+<p>
+You can apply for an IPO through your bank using the ASBA (Application Supported by Blocked Amount) facility, or directly through your demat account broker&#x27;s platform. Your application amount will be blocked in your bank account until allotment, not debited immediately.
+</p>
+<h3>What is a lot size?</h3>
+<p>
+The lot size is the minimum number of shares you must bid for when applying in an IPO. It&#x27;s set by the company to ensure efficient processing of applications and fair distribution of shares.
+</p>
+<h3>What is a price band?</h3>
+<p>
+The price band is the fixed range (e.g., ₹190 to ₹200) within which you can place your bid for the shares. You can choose any price within this range.
+</p>
+<h3>What is the &#x27;cut-off price&#x27;?</h3>
+<p>
+The cut-off price is typically the highest price within the announced price band. Retail investors often choose to bid at the cut-off price to ensure their application is considered at the final offer price, which is usually discovered at the upper end of the band if there is strong demand.
+</p>
+<h3>Can I sell my shares on the listing day?</h3>
+<p>
+Yes, once the shares are listed on the stock exchange and trading begins, you can sell them on the same day through your demat account, just like any other listed stock.
+</p>
+<h2>Sources</h2>
+<p>
+NSE upcoming/current issues data.
+</p>
+<p>
+<em>This is an educational explainer, not investment advice. myfinancial is not a SEBI-registered adviser.</em>
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
