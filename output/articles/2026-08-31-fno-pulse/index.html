@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>India F&amp;O Pulse — 31 Aug 2026: what the day&#x27;s options &amp; futures positioning is whispering</title>
+<meta name="description" content="End-of-day reading of India&#x27;s F&amp;O open interest, PCR, max pain and FII positioning — explained simply.">
+<meta name="keywords" content="">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/daily-fno-pulse/articles/2026-08-31-fno-pulse/">
+<meta property="og:title" content="India F&amp;O Pulse — 31 Aug 2026: what the day&#x27;s options &amp; futures positioning is whispering">
+<meta property="og:description" content="End-of-day reading of India&#x27;s F&amp;O open interest, PCR, max pain and FII positioning — explained simply.">
+<meta property="og:url" content="https://myfinancialria.github.io/daily-fno-pulse/articles/2026-08-31-fno-pulse/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "India F&O Pulse \u2014 31 Aug 2026: what the day's options & futures positioning is whispering", "description": "End-of-day reading of India's F&O open interest, PCR, max pain and FII positioning \u2014 explained simply.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-08-31", "dateModified": "2026-08-31", "mainEntityOfPage": "https://myfinancialria.github.io/daily-fno-pulse/articles/2026-08-31-fno-pulse/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/" class="active">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">F&amp;O Pulse · 2026-08-31</div><h1>India F&amp;O Pulse — 31 Aug 2026: what the day&#x27;s options &amp; futures positioning is whispering</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Nifty 50 options data today suggests a mildly bullish bias for the upcoming session, with strong support forming.</li>
+<li>Sensex options data also indicates a mildly bullish sentiment, with key levels holding firm.</li>
+<li>Bank Nifty, however, shows a mildly bearish tilt from its options positioning, despite today&#x27;s positive spot movement.</li>
+</ul>
+</div>
+<h2>What the indices did today</h2>
+<p>
+The <strong>NIFTY 50</strong> closed the day at 24,080.40, marking a slight decline of 0.39%. The index found itself positioned just above the significant Put option wall at 24,000, suggesting this level could act as a floor, while remaining below the 24,500 Call option wall, which may serve as resistance. This indicates that participants are seeing 24,000 as a crucial support level for the immediate term.
+</p>
+<p>
+The <strong>SENSEX</strong> mirrored Nifty&#x27;s movement, ending at 76,957.27, down 0.40% for the session. It closed very close to the 77,000 mark, which also hosts a substantial Put option base, implying a potential support zone. The 78,000 level appears to be the immediate ceiling based on Call option open interest. The index&#x27;s close near 77,000 suggests a consolidation around this psychological and options-derived pivot.
+</p>
+<p>
+In contrast, the <strong>BANK NIFTY</strong> showed resilience, closing higher by 0.92% at 58,024.95. The index finished the day above the heavy Put option concentration at 57,500, which now looks like a potential support. However, it also has a significant Call option wall at 57,500, indicating a tug-of-war around this level. Despite today&#x27;s gains, the options positioning suggests some caution at higher levels.
+</p>
+<h2>Decoding today&#x27;s open interest</h2>
+<p>
+Open Interest (OI) in options refers to the total number of outstanding contracts that have not yet been settled. It provides insights into where market participants, especially option writers (sellers), are positioning themselves. The strike price with the highest Call OI typically acts as a significant resistance level, as many participants expect the price not to rise above it. Conversely, the strike with the highest Put OI often signals a strong support level, as many expect the price not to fall below it.
+</p>
+<p>
+For the <strong>NIFTY 50</strong>, the highest Put OI is concentrated at the 24,000 strike, reinforcing its role as a potential floor. The highest Call OI, on the other hand, is at 24,500, suggesting a ceiling for upward moves. Today&#x27;s fresh activity saw significant new Put writing at 24,000, indicating that put sellers are confident the index will not fall below this level. Simultaneously, there was notable fresh Call writing near 24,216, suggesting some call sellers anticipate the upside to be capped around this point.
+</p>
+<p>
+On the <strong>SENSEX</strong>, the 77,000 strike holds the highest Put OI, acting as a robust support. The 78,000 strike has the highest Call OI, indicating a resistance zone. Fresh Put writing was observed at 76,900, with sellers expecting this level to hold as a base. New Call writing was concentrated near 77,833, suggesting that call sellers do not foresee the index moving significantly above this level in the near term.
+</p>
+<p>
+For <strong>BANK NIFTY</strong>, the 57,500 strike is a crucial level, attracting both the heaviest Put OI and a significant Call OI. This suggests a strong battleground for bulls and bears around this price point. Today&#x27;s activity showed fresh Put writing at 57,500, with put sellers expecting this to be a floor. However, there was also substantial fresh Call writing near 59,100, indicating that call sellers are positioning for a potential cap on further upside around that level.
+</p>
+<h2>PCR — what the put-call ratio is whispering</h2>
+<p>
+The Put-Call Ratio (PCR) is a widely watched indicator derived from open interest, calculated by dividing the total open interest of Put options by the total open interest of Call options. A PCR generally above 1.0 suggests that more Put options are open, which is often interpreted as a bullish signal by some, as put writers typically expect prices to rise or remain stable. Conversely, a PCR below 1.0 indicates more Call options are open, which can be seen as a bearish signal, as call writers expect prices to fall or remain capped.
+</p>
+<p>
+For <strong>NIFTY 50</strong>, the PCR based on total Open Interest (PCR(OI)) stands at 0.78, which is generally considered neutral to mildly bearish, suggesting a slightly higher proportion of Call options outstanding. However, today&#x27;s flow, measured by the change in Open Interest (PCR(today flow ΔOI)), registered 1.12. This indicates that fresh Put writing outpaced fresh Call writing today, suggesting some underlying positive sentiment or expectation of support building up during the session.
+</p>
+<p>
+The <strong>SENSEX</strong> PCR(OI) is at 1.06, indicating a balanced to mildly bullish stance from overall open interest. Today&#x27;s flow ΔPCR was 1.02, also suggesting a relatively balanced fresh activity for the day. This combination points towards a stable outlook with no strong directional bias emerging from the PCR.
+</p>
+<p>
+For <strong>BANK NIFTY</strong>, the PCR(OI) is 0.98, reflecting a largely neutral overall positioning. The PCR(today flow ΔOI) was 1.09, suggesting that today&#x27;s fresh activity saw more Put writing, which can be interpreted as some participants expecting support or a bounce.
+</p>
+<h2>Max pain and the magnet effect</h2>
+<p>
+&quot;Max Pain&quot; refers to the strike price at which option writers (sellers) would experience the minimum cumulative financial loss if the underlying index were to expire at that specific price. It&#x27;s often viewed as a &quot;magnet&quot; for the expiry price, especially as the expiry date draws closer, as option writers, who are typically large institutional players, tend to influence the market towards this level to minimise their losses.
+</p>
+<p>
+For the <strong>NIFTY 50</strong>, the Max Pain strike is currently at 24,300. This level is approximately 0.9% above the current spot price of 24,080.40, suggesting that the expiry price might tend to gravitate upwards towards this point.
+</p>
+<p>
+The <strong>SENSEX</strong> has its Max Pain strike precisely at 77,000, which is very close to its current spot price of 76,957.27. This indicates that option writers are positioned for the index to expire around its current levels, implying a potential for consolidation.
+</p>
+<p>
+For <strong>BANK NIFTY</strong>, the Max Pain strike is at 57,700, which is about 0.6% below its current spot price of 58,024.95. This positioning suggests a potential downward pull towards this level as expiry approaches, despite today&#x27;s positive move in the spot market.
+</p>
+<h2>FII positioning — what the big money did today</h2>
+<p>
+Foreign Institutional Investors (FIIs) are significant participants in the Indian derivatives market, and their positioning often provides insights into broader market sentiment.
+</p>
+<p>
+Today, FIIs held a very low long ratio in Index futures, standing at just <strong>9.4%</strong> (24,195 long contracts versus 233,510 short contracts). Historically, such a significantly low long ratio in FII Index futures has tended to coincide with a cautious or bearish outlook from these large institutional players on the broader market indices.
+</p>
+<p>
+In Stock futures, FIIs maintained a long ratio of <strong>54.4%</strong> (3,460,600 long contracts versus 2,896,720 short contracts). This indicates a slightly bullish bias in individual stock futures, suggesting that while they may be cautious on the overall index, they are selectively positive on specific stocks.
+</p>
+<h2>Stocks where money moved today</h2>
+<p>
+Today&#x27;s session saw some notable movements in F&amp;O segment stocks:
+</p>
+<p>
+<strong>Top Gainers:</strong>
+</p>
+<ul>
+<li><strong>AXISBANK:</strong> Gained 2.77% to close at ₹1300.00, with a volume of over 60 lakh shares.</li>
+<li><strong>TCS:</strong> Rose by 2.45% to ₹2399.30, seeing a volume of nearly 29 lakh shares.</li>
+<li><strong>ICICIBANK:</strong> Increased by 2.19% to ₹1454.00, with a very high volume of over 1.5 crore shares, indicating strong interest.</li>
+<li><strong>MARUTI:</strong> Climbed 1.28% to ₹13547.00.</li>
+<li><strong>SBIN:</strong> Advanced 1.19% to ₹1060.00, with a volume exceeding 51 lakh shares.</li>
+</ul>
+<p>
+<strong>Top Losers:</strong>
+</p>
+<ul>
+<li><strong>ADANIENT:</strong> Experienced a significant drop of 9.76% to ₹2859.10, accompanied by a very high volume of over 1.2 crore shares, suggesting strong selling pressure.</li>
+<li><strong>ITC:</strong> Declined by 3.95% to ₹255.50, with an exceptionally high volume of over 2.4 crore shares, indicating substantial unwinding or selling.</li>
+<li><strong>BHARTIARTL:</strong> Fell 3.75% to ₹1811.90, with a volume of over 1.6 crore shares.</li>
+<li><strong>HINDUNILVR:</strong> Down 2.14% to ₹1967.40.</li>
+<li><strong>BAJFINANCE:</strong> Lost 2.12% to ₹1057.00, with a volume of over 70 lakh shares.</li>
+</ul>
+<h2>What this combination historically tends to mean for tomorrow</h2>
+<p>
+Synthesising today&#x27;s data, the Nifty 50 and Sensex options positioning, particularly the Max Pain levels and fresh Put writing, suggests a mildly bullish bias for the upcoming session, with key support levels appearing to hold firm. However, the Bank Nifty&#x27;s Max Pain pointing downwards and its Call wall proximity indicates a potential for some downward pressure.
+</p>
+<p>
+This nuanced picture from index options is set against the backdrop of FIIs maintaining a significantly low long ratio in index futures, which historically has tended to coincide with a cautious or even bearish stance from these large participants on the broader market. While FIIs show a slightly positive bias in stock futures, their overall index futures positioning remains a notable counterpoint to the mildly bullish signals from Nifty and Sensex options.
+</p>
+<p>
+When these signals align in this direction – a mixed bag of mildly bullish index options data (Nifty, Sensex) alongside a mildly bearish signal for a key sector index (Bank Nifty) and a highly cautious FII stance on index futures – the next session has historically tended to witness index-specific movements rather than a broad, uniform trend. It suggests a market that could be selective, with certain indices or sectors potentially outperforming or underperforming based on their specific options structures and underlying flows, while the overall market might experience a degree of caution or range-bound activity.
+</p>
+<h2>How to read this yourself daily</h2>
+<p>
+Understanding these market signals daily can empower you to form your own informed perspectives. You can access options Open Interest data primarily from the National Stock Exchange (NSE) website. Look for the &quot;Daily Bhavcopy&quot; section for end-of-day data, or many brokerage platforms offer live options chain data during market hours.
+</p>
+<p>
+To start, identify the highest Call Open Interest and highest Put Open Interest strikes for the upcoming expiry. These strikes often act as immediate resistance and support levels, respectively. Next, observe the &quot;change in Open Interest&quot; column to identify where fresh Call writing (new sellers expecting prices to fall) and fresh Put writing (new sellers expecting prices to rise) have occurred. This tells you where new money is being deployed.
+</p>
+<p>
+Finally, calculate the Put-Call Ratio (PCR) by dividing the total Put OI by the total Call OI. A PCR above 1.0 often suggests more Puts are open, potentially indicating bullishness, while below 1.0 can suggest bearishness. By combining these data points – the major OI walls, fresh writing activity, and the PCR – along with FII positioning data (also available on the NSE website), you can build a comprehensive understanding of how market participants are positioned for the next trading session.
+</p>
+<p>
+<strong>Disclaimer:</strong> This article is published for educational and analytical purposes only. The author holds a NISM certification but is not a SEBI Registered Investment Adviser or Research Analyst. Nothing here constitutes investment advice, a recommendation to buy, sell or hold any security, or a forecast of future prices. Markets carry risk; please consult a SEBI-registered adviser before making any investment decision. Data sourced from NSE, BSE, and Fyers (broker API).## Mixed Signals Emerge from Today&#x27;s F&amp;O Data, Nifty and Sensex Lean Mildly Bullish
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Nifty 50 options data today suggests a mildly bullish bias for the upcoming session, with strong support forming around 24,000.</li>
+<li>Sensex options data also indicates a mildly bullish sentiment, with key levels holding firm near 77,000.</li>
+<li>Bank Nifty, however, shows a mildly bearish tilt from its options positioning, despite today&#x27;s positive spot movement.</li>
+</ul>
+</div>
+<h2>What the indices did today</h2>
+<p>
+The <strong>NIFTY 50</strong> closed the day at 24,080.40, marking a slight decline of 0.39%. The index found itself positioned just above the significant Put option wall at 24,000, suggesting this level could act as a floor, while remaining below the 24,500 Call option wall, which may serve as resistance. This indicates that participants are seeing 24,000 as a crucial support level for the immediate term.
+</p>
+<p>
+The <strong>SENSEX</strong> mirrored Nifty&#x27;s movement, ending at 76,957.27, down 0.40% for the session. It closed very close to the 77,000 mark, which also hosts a substantial Put option base, implying a potential support zone. The 78,000 level appears to be the immediate ceiling based on Call option open interest. The index&#x27;s close near 77,000 suggests a consolidation around this psychological and options-derived pivot.
+</p>
+<p>
+In contrast, the <strong>BANK NIFTY</strong> showed resilience, closing higher by 0.92% at 58,024.95. The index finished the day above the heavy Put option concentration at 57,500, which now looks like a potential support. However, it also has a significant Call option wall at 57,500, indicating a tug-of-war around this level. Despite today&#x27;s gains, the options positioning suggests some caution at higher levels.
+</p>
+<h2>Decoding today&#x27;s open interest</h2>
+<p>
+Open Interest (OI) in options refers to the total number of outstanding contracts that have not yet been settled. It provides insights into where market participants, especially option writers (sellers), are positioning themselves. The strike price with the highest Call OI typically acts as a significant resistance level, as many participants expect the price not to rise above it. Conversely, the strike with the highest Put OI often signals a strong support level, as many expect the price not to fall below it.
+</p>
+<p>
+For the <strong>NIFTY 50</strong>, the highest Put OI is concentrated at the 24,000 strike, reinforcing its role as a potential floor. The highest Call OI, on the other hand, is at 24,500, suggesting a ceiling for upward moves. Today&#x27;s fresh activity saw significant new Put writing at 24,000, indicating that put sellers are confident the index will not fall below this level. Simultaneously, there was notable fresh Call writing near 24,216, suggesting some call sellers anticipate the upside to be capped around this point.
+</p>
+<p>
+On the <strong>SENSEX</strong>, the 77,000 strike holds the highest Put OI, acting as a robust support. The 78,000 strike has the highest Call OI, indicating a resistance zone. Fresh Put writing was observed at 76,900, with sellers expecting this level to hold as a base. New Call writing was concentrated near 77,833, suggesting that call sellers do not foresee the index moving significantly above this level in the near term.
+</p>
+<p>
+For <strong>BANK NIFTY</strong>, the 57,500 strike is a crucial level, attracting both the heaviest Put OI and a significant Call OI. This suggests a strong battleground for bulls and bears around this price point. Today&#x27;s activity showed fresh Put writing at 57,500, with put sellers expecting this to be a floor. However, there was also substantial fresh Call writing near 59,100, indicating that call sellers are positioning for a potential cap on further upside around that level.
+</p>
+<h2>PCR — what the put-call ratio is whispering</h2>
+<p>
+The Put-Call Ratio (PCR) is a widely watched indicator derived from open interest, calculated by dividing the total open interest of Put options by the total open interest of Call options. A PCR generally above 1.0 suggests that more Put options are open, which is often interpreted as a bullish signal by some, as put writers typically expect prices to rise or remain stable. Conversely, a PCR below 1.0 indicates more Call options are open, which can be seen as a bearish signal, as call writers expect prices to fall or remain capped.
+</p>
+<p>
+For <strong>NIFTY 50</strong>, the PCR based on total Open Interest (PCR(OI)) stands at 0.78, which is generally considered neutral to mildly bearish, suggesting a slightly higher proportion of Call options outstanding. However, today&#x27;s flow, measured by the change in Open Interest (PCR(today flow ΔOI)), registered 1.12. This indicates that fresh Put writing outpaced fresh Call writing today, suggesting some underlying positive sentiment or expectation of support building up during the session.
+</p>
+<p>
+The <strong>SENSEX</strong> PCR(OI) is at 1.06, indicating a balanced to mildly bullish stance from overall open interest. Today&#x27;s flow ΔPCR was 1.02, also suggesting a relatively balanced fresh activity for the day. This combination points towards a stable outlook with no strong directional bias emerging from the PCR.
+</p>
+<p>
+For <strong>BANK NIFTY</strong>, the PCR(OI) is 0.98, reflecting a largely neutral overall positioning. The PCR(today flow ΔOI) was 1.09, suggesting that today&#x27;s fresh activity saw more Put writing, which can be interpreted as some participants expecting support or a bounce.
+</p>
+<h2>Max pain and the magnet effect</h2>
+<p>
+&quot;Max Pain&quot; refers to the strike price at which option writers (sellers) would experience the minimum cumulative financial loss if the underlying index were to expire at that specific price. It&#x27;s often viewed as a &quot;magnet&quot; for the expiry price, especially as the expiry date draws closer, as option writers, who are typically large institutional players, tend to influence the market towards this level to minimise their losses.
+</p>
+<p>
+For the <strong>NIFTY 50</strong>, the Max Pain strike is currently at 24,300. This level is approximately 0.9% above the current spot price of 24,080.40, suggesting that the expiry price might tend to gravitate upwards towards this point.
+</p>
+<p>
+The <strong>SENSEX</strong> has its Max Pain strike precisely at 77,000, which is very close to its current spot price of 76,957.27. This indicates that option writers are positioned for the index to expire around its current levels, implying a potential for consolidation.
+</p>
+<p>
+For <strong>BANK NIFTY</strong>, the Max Pain strike is at 57,700, which is about 0.6% below its current spot price of 58,024.95. This positioning suggests a potential downward pull towards this level as expiry approaches, despite today&#x27;s positive move in the spot market.
+</p>
+<h2>FII positioning — what the big money did today</h2>
+<p>
+Foreign Institutional Investors (FIIs) are significant participants in the Indian derivatives market, and their positioning often provides insights into broader market sentiment.
+</p>
+<p>
+Today, FIIs held a very low long ratio in Index futures, standing at just <strong>9.4%</strong> (24,195 long contracts versus 233,510 short contracts). Historically, such a significantly low long ratio in FII Index futures has tended to coincide with a cautious or bearish outlook from these large institutional players on the broader market indices.
+</p>
+<p>
+In Stock futures, FIIs maintained a long ratio of <strong>54.4%</strong> (3,460,600 long contracts versus 2,896,720 short contracts). This indicates a slightly bullish bias in individual stock futures, suggesting that while they may be cautious on the overall index, they are selectively positive on specific stocks.
+</p>
+<h2>Stocks where money moved today</h2>
+<p>
+Today&#x27;s session saw some notable movements in F&amp;O segment stocks:
+</p>
+<p>
+<strong>Top Gainers:</strong>
+</p>
+<ul>
+<li><strong>AXISBANK:</strong> Gained 2.77% to close at ₹1300.00, with a volume of over 60 lakh shares.</li>
+<li><strong>TCS:</strong> Rose by 2.45% to ₹2399.30, seeing a volume of nearly 29 lakh shares.</li>
+<li><strong>ICICIBANK:</strong> Increased by 2.19% to ₹1454.00, with a very high volume of over 1.5 crore shares, indicating strong interest.</li>
+<li><strong>MARUTI:</strong> Climbed 1.28% to ₹13547.00.</li>
+<li><strong>SBIN:</strong> Advanced 1.19% to ₹1060.00, with a volume exceeding 51 lakh shares.</li>
+</ul>
+<p>
+<strong>Top Losers:</strong>
+</p>
+<ul>
+<li><strong>ADANIENT:</strong> Experienced a significant drop of 9.76% to ₹2859.10, accompanied by a very high volume of over 1.2 crore shares, suggesting strong selling pressure.</li>
+<li><strong>ITC:</strong> Declined by 3.95% to ₹255.50, with an exceptionally high volume of over 2.4 crore shares, indicating substantial unwinding or selling.</li>
+<li><strong>BHARTIARTL:</strong> Fell 3.75% to ₹1811.90, with a volume of over 1.6 crore shares.</li>
+<li><strong>HINDUNILVR:</strong> Down 2.14% to ₹1967.40.</li>
+<li><strong>BAJFINANCE:</strong> Lost 2.12% to ₹1057.00, with a volume of over 70 lakh shares.</li>
+</ul>
+<h2>What this combination historically tends to mean for tomorrow</h2>
+<p>
+Synthesising today&#x27;s data, the Nifty 50 and Sensex options positioning, particularly the Max Pain levels and fresh Put writing, suggests a mildly bullish bias for the upcoming session, with key support levels appearing to hold firm. However, the Bank Nifty&#x27;s Max Pain pointing downwards and its Call wall proximity indicates a potential for some downward pressure.
+</p>
+<p>
+This nuanced picture from index options is set against the backdrop of FIIs maintaining a significantly low long ratio in index futures, which historically has tended to coincide with a cautious or even bearish stance from these large participants on the broader market. While FIIs show a slightly positive bias in stock futures, their overall index futures positioning remains a notable counterpoint to the mildly bullish signals from Nifty and Sensex options.
+</p>
+<p>
+When these signals align in this direction – a mixed bag of mildly bullish index options data (Nifty, Sensex) alongside a mildly bearish signal for a key sector index (Bank Nifty) and a highly cautious FII stance on index futures – the next session has historically tended to witness index-specific movements rather than a broad, uniform trend. It suggests a market that could be selective, with certain indices or sectors potentially outperforming or underperforming based on their specific options structures and underlying flows, while the overall market might experience a degree of caution or range-bound activity.
+</p>
+<h2>How to read this yourself daily</h2>
+<p>
+Understanding these market signals daily can empower you to form your own informed perspectives. You can access options Open Interest data primarily from the National Stock Exchange (NSE) website (nseindia.com &gt; Market Data &gt; Derivatives &gt; Option Chain). Look for the &quot;Daily Bhavcopy&quot; section for end-of-day data, or many brokerage platforms offer live options chain data during market hours.
+</p>
+<p>
+To start, identify the highest Call Open Interest and highest Put Open Interest strikes for the upcoming expiry. These strikes often act as immediate resistance and support levels, respectively. Next, observe the &quot;change in Open Interest&quot; column to identify where fresh Call writing (new sellers expecting prices to fall) and fresh Put writing (new sellers expecting prices to rise) have occurred. This tells you where new money is being deployed.
+</p>
+<p>
+Finally, calculate the Put-Call Ratio (PCR) by dividing the total Put OI by the total Call OI. A PCR above 1.0 often suggests more Puts are open, potentially indicating bullishness, while below 1.0 can suggest bearishness. By combining these data points – the major OI walls, fresh writing activity, and the PCR – along with FII positioning data (also available on the NSE website), you can build a comprehensive understanding of how market participants are positioned for the next trading session.
+</p>
+<p>
+<strong>Disclaimer:</strong> This article is published for educational and analytical purposes only. The author holds a NISM certification but is not a SEBI Registered Investment Adviser or Research Analyst. Nothing here constitutes investment advice, a recommendation to buy, sell or hold any security, or a forecast of future prices. Markets carry risk; please consult a SEBI-registered adviser before making any investment decision. Data sourced from NSE, BSE, and Fyers (broker API).
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
