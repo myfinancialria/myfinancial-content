@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Pre-Market Brief — 02 September 2026</title>
+<meta name="description" content="Global markets closed mostly lower, with Asian peers also trading in the red this morning, signalling a cautious start. GIFT Nifty indicates a likely gap-down.">
+<meta name="keywords" content="markets, global, shares, stocks, economictimes, indiatimes, articleshow, prices">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-02-pre_market-pre-market-brief-02-september-2026/">
+<meta property="og:title" content="Pre-Market Brief — 02 September 2026">
+<meta property="og:description" content="Global markets closed mostly lower, with Asian peers also trading in the red this morning, signalling a cautious start. GIFT Nifty indicates a likely gap-down.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-02-pre_market-pre-market-brief-02-september-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Pre-Market Brief \u2014 02 September 2026", "description": "Global markets closed mostly lower, with Asian peers also trading in the red this morning, signalling a cautious start. GIFT Nifty indicates a likely gap-down.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-02", "dateModified": "2026-09-02", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-02-pre_market-pre-market-brief-02-september-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/" class="active">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Pre-Market · 2026-09-02</div><h1>Pre-Market Brief — 02 September 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Global markets closed mostly lower, with Asian peers also trading in the red this morning, signalling a cautious start.</li>
+<li>GIFT Nifty indicates a likely gap-down open for the Indian benchmark Nifty 50.</li>
+<li>Domestic Institutional Investors (DIIs) continue to be net buyers, providing crucial support, while Foreign Institutional Investors (FIIs) were net buyers yesterday but remain net sellers over the last five sessions.</li>
+<li>A significant global bond selloff, coupled with rising crude oil prices, is raising inflation and interest rate concerns worldwide.</li>
+<li>Nifty 50&#x27;s CPR pivot is at 23845, with immediate resistance around 23903 and support at 23794.</li>
+<li>The primary risk for today remains the elevated global bond yields and crude oil prices, alongside sustained FII selling pressure.</li>
+</ul>
+</div>
+<h2>How global markets traded — and what it means for India</h2>
+<p>
+Global markets closed on a negative note yesterday, with major US indices declining amid concerns over inflation and rising bond yields. Asian markets are also trading lower this morning, reflecting a cautious sentiment across the board. The broader tone suggests investors are grappling with the implications of higher interest rates and geopolitical tensions impacting energy prices.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>% Change</th></tr></thead><tbody>
+<tr><td>Dow Jones</td><td>52766.88</td><td>-0.79%</td></tr>
+<tr><td>Nasdaq</td><td>26099.77</td><td>-1.03%</td></tr>
+<tr><td>S&amp;P 500</td><td>7631.47</td><td>-0.71%</td></tr>
+<tr><td>FTSE 100</td><td>10779.15</td><td>-0.09%</td></tr>
+<tr><td>Nikkei 225</td><td>64325.64</td><td>-2.85%</td></tr>
+<tr><td>Hang Seng</td><td>25253.50</td><td>-0.30%</td></tr>
+<tr><td>Shanghai</td><td>3941.39</td><td>-0.97%</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The widespread negativity in global markets, particularly the sharp fall in the Nikkei, indicates a risk-off sentiment. This could translate into a weak opening for Indian equities, with investors likely to remain cautious and potentially book profits.
+</p>
+<h2>Currency, commodities and yields</h2>
+<p>
+The Indian Rupee strengthened slightly against the US Dollar, with USD/INR at 94.87, down 0.26%. However, the Dollar Index saw a minor uptick of 0.14% to 99.81, suggesting broader dollar strength. Crude oil prices continued their upward trajectory, with Brent Crude at $95.25 (+0.63%) and WTI Crude at $90.50 (+0.31%), driven by Middle East tensions and inflation risks. Gold prices rose marginally by 0.43% to $4366.90, reflecting its safe-haven appeal. A significant move was seen in the US 10-year Treasury yield, which climbed 0.80% to 4.80%, impacting global debt markets.
+</p>
+<p>
+<strong>Interpretation:</strong> Rising crude oil prices are a significant headwind for India, potentially increasing import bills and putting pressure on sectors like oil marketing companies (OMCs), paints, and aviation. The uptick in the US 10-year yield is a major concern, as higher global yields can lead to FII outflows from emerging markets like India. While a slightly stronger Rupee is positive, the broader dollar strength and rising crude could limit its gains.
+</p>
+<h2>GIFT Nifty — what it&#x27;s signalling</h2>
+<p>
+The GIFT Nifty is currently trading at 23961.00, down 0.38%.
+</p>
+<p>
+<strong>Interpretation:</strong> This indicates a likely gap-down opening for the Nifty 50 when the Indian markets commence trading today.
+</p>
+<h2>FII/DII flows — who&#x27;s driving the tape</h2>
+<p>
+Yesterday, Foreign Institutional Investors (FIIs) were net buyers in the Indian cash market, infusing ₹1,143 crore. Domestic Institutional Investors (DIIs) also continued their buying spree, with net purchases of ₹1,847 crore. Over the last five sessions, FIIs have been net sellers, while DIIs have consistently provided strong support to the market.
+</p>
+<table><thead><tr><th>Date</th><th>FII Net (₹ crore)</th><th>DII Net (₹ crore)</th></tr></thead><tbody>
+<tr><td>2026-09-01</td><td>+1,143</td><td>+1,847</td></tr>
+<tr><td>2026-08-31</td><td>-7,986</td><td>+4,589</td></tr>
+<tr><td>2026-08-28</td><td>-5,040</td><td>+5,184</td></tr>
+<tr><td>2026-08-27</td><td>-298</td><td>+4,977</td></tr>
+<tr><td>2026-08-26</td><td>+503</td><td>+6,425</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> While FIIs turned net buyers yesterday, their overall trend over the last five sessions remains negative, indicating a cautious stance. DIIs have been the primary support for the Indian markets, consistently absorbing FII selling. Their continued buying will be crucial in mitigating any downside pressure today.
+</p>
+<h2>Key levels to watch — Nifty, Bank Nifty &amp; Sensex (technical)</h2>
+<p>
+<strong>NIFTY 50 (prev close 23852.35)</strong>
+</p>
+<table><thead><tr><th>Level</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>23845.07</td></tr>
+<tr><td>CPR Top</td><td>23848.71</td></tr>
+<tr><td>CPR Bottom</td><td>23841.42</td></tr>
+<tr><td>R1</td><td>23903.33</td></tr>
+<tr><td>R2</td><td>23954.32</td></tr>
+<tr><td>S1</td><td>23794.08</td></tr>
+<tr><td>S2</td><td>23735.82</td></tr>
+<tr><td>Swing High</td><td>24431.6</td></tr>
+<tr><td>Swing Low</td><td>23786.8</td></tr>
+<tr><td>20-DMA</td><td>24274.05</td></tr>
+<tr><td>50-DMA</td><td>24209.16</td></tr>
+</tbody></table>
+<p>
+<strong>BANK NIFTY (prev close 57088.1)</strong>
+</p>
+<table><thead><tr><th>Level</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>57044.13</td></tr>
+<tr><td>CPR Top</td><td>57066.12</td></tr>
+<tr><td>CPR Bottom</td><td>57022.15</td></tr>
+<tr><td>R1</td><td>57265.07</td></tr>
+<tr><td>R2</td><td>57442.03</td></tr>
+<tr><td>S1</td><td>56867.17</td></tr>
+<tr><td>S2</td><td>56646.23</td></tr>
+<tr><td>Swing High</td><td>58024.95</td></tr>
+<tr><td>Swing Low</td><td>56823.2</td></tr>
+<tr><td>20-DMA</td><td>57578.3</td></tr>
+<tr><td>50-DMA</td><td>57614.08</td></tr>
+</tbody></table>
+<p>
+<strong>SENSEX (prev close 76387.55)</strong>
+</p>
+<table><thead><tr><th>Level</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>76352.07</td></tr>
+<tr><td>CPR Top</td><td>76369.81</td></tr>
+<tr><td>CPR Bottom</td><td>76334.32</td></tr>
+<tr><td>R1</td><td>76568.41</td></tr>
+<tr><td>R2</td><td>76749.28</td></tr>
+<tr><td>S1</td><td>76171.2</td></tr>
+<tr><td>S2</td><td>75954.86</td></tr>
+<tr><td>Swing High</td><td>78119.39</td></tr>
+<tr><td>Swing Low</td><td>76135.72</td></tr>
+<tr><td>20-DMA</td><td>77607.17</td></tr>
+<tr><td>50-DMA</td><td>77468.39</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The CPR width is narrow for all three indices (Nifty 50, Bank Nifty, and Sensex), which typically suggests that a trending day could be on the cards rather than a sideways, range-bound session. For Nifty, the immediate range to watch is between S1 (23794) and R1 (23903). A sustained break below S1 could signal further downside towards S2 (23735), while a move above R1 might see it test R2 (23954). All indices are trading below their 20-DMA and 50-DMA, indicating a short-to-medium term bearish bias.
+</p>
+<h2>Option-chain signals (OI) — where support &amp; resistance sit</h2>
+<p>
+<strong>NIFTY:</strong>
+</p>
+<ul>
+<li>Highest Call OI (resistance): 24000 (OI 12,722,710), 24200 (OI 11,428,365), 24100 (OI 9,725,560)</li>
+<li>Highest Put OI (support): 23800 (OI 10,948,210), 23900 (OI 8,387,535), 23500 (OI 8,045,700)</li>
+<li>PCR: 0.82</li>
+</ul>
+<p>
+<strong>BANK NIFTY:</strong>
+</p>
+<ul>
+<li>Highest Call OI (resistance): 57500 (OI 1,979,280), 58000 (OI 1,421,100), 58500 (OI 630,210)</li>
+<li>Highest Put OI (support): 57500 (OI 1,989,630), 57000 (OI 996,720), 58000 (OI 957,810)</li>
+<li>PCR: 1.15</li>
+</ul>
+<p>
+<strong>SENSEX:</strong>
+</p>
+<ul>
+<li>Highest Call OI (resistance): 77000 (OI 5,539,440), 76500 (OI 3,474,320), 77500 (OI 3,119,620)</li>
+<li>Highest Put OI (support): 76000 (OI 4,016,040), 76300 (OI 3,030,960), 76200 (OI 2,984,380)</li>
+<li>PCR: 0.87</li>
+</ul>
+<p>
+<strong>Interpretation:</strong> For Nifty, the highest Call OI at 24000 suggests that option sellers expect the index to face a strong ceiling there, while the highest Put OI at 23800 indicates strong buying interest and a potential floor. A PCR of 0.82 leans towards a cautious or slightly bearish-to-neutral sentiment. Bank Nifty&#x27;s PCR of 1.15 is supportive, with significant Call and Put OI at 57500, suggesting it could be a crucial pivot. Sensex&#x27;s PCR of 0.87, similar to Nifty, points to a cautious outlook, with 77000 acting as a strong resistance and 76000 as key support. Combining with technical levels, traders should respect Nifty&#x27;s 23800-24000 range, Bank Nifty&#x27;s 57000-57500 zone, and Sensex&#x27;s 76000-77000 band today.
+</p>
+<h2>Corporate actions today</h2>
+<ul>
+<li><strong>NTPC</strong>: Trades ex-dividend for ₹3.50 per share. On the ex-date, the stock price typically adjusts downwards by the dividend amount.</li>
+<li><strong>DRAGARWQ</strong>: Trades ex-dividend for ₹4 per share.</li>
+<li><strong>BLACKROSE</strong>: Trades ex-dividend for ₹1.25 per share.</li>
+<li><strong>GEEKAYWIRE</strong>: Trades ex-dividend for ₹0.35 per share.</li>
+<li><strong>CHEMFAB</strong>: Trades ex-dividend for ₹1.25 per share.</li>
+<li><strong>GAIL</strong>: Trades ex-dividend for ₹0.50 per share.</li>
+<li><strong>GPPL</strong>: Trades ex-dividend for ₹5 per share.</li>
+<li><strong>TRITURBINE</strong>: Trades ex-dividend for ₹2 per share.</li>
+<li><strong>TBZ</strong>: Trades ex-dividend for ₹2.50 per share.</li>
+<li><strong>COMPUSOFT</strong>: Trades ex-dividend for ₹0.25 per share.</li>
+<li><strong>INDIAGLYCO</strong>: Trades ex-demerger. In a demerger, a company splits into two or more separate entities. Shareholders typically receive shares in the new entity in proportion to their holdings in the original company, and the original stock price adjusts.</li>
+</ul>
+<h2>Stock &amp; sector news that matters</h2>
+<ul>
+<li><strong>Global bond selloff deepens as inflation risks, oil prices jolt markets</strong></li>
+<p>
+    The global bond market is experiencing a significant retreat, leading to increased borrowing costs worldwide. Rising energy prices due to Middle East tensions are fueling inflation concerns.
+    <strong>Why it matters:</strong> This is a major macroeconomic headwind. Higher global bond yields can trigger FII outflows from emerging markets like India, impacting overall market liquidity and sentiment. Indian 10-year bond yields have already topped 7% due to this global trend.
+</p>
+<li><strong>TBZ shares rally 16%, extending gains for a second session. What&#x27;s triggering the surge?</strong></li>
+<p>
+    TBZ shares jumped 16% after GRT Jewellers announced plans to acquire the jewellery retailer’s promoter stake and launch an open offer for public shareholders at ₹249.61 per share.
+    <strong>Why it matters:</strong> This news is highly stock-specific and could lead to continued positive momentum in TBZ shares today. Investors holding TBZ shares should be aware of the open offer price.
+</p>
+<li><strong>BEML shares rise 2% after securing Rs 180 crore Vande Bharat sleeper order</strong></li>
+<p>
+    BEML shares gained nearly 2% after the company secured a ₹180.60 crore order from Integral Coach Factory for manufacturing and supplying Vande Bharat sleeper trainsets.
+    <strong>Why it matters:</strong> This is positive news for BEML, indicating strong order book visibility and potential for revenue growth. It could also provide a tailwind for other railway-related infrastructure stocks.
+</p>
+<li><strong>Swiggy shares drop 4%, market value down Rs 5,000 crore in 2 days. Here’s why</strong></li>
+<p>
+    Swiggy shares fell sharply, extending their two-session decline to 6% and erasing nearly ₹5,000 crore in market value, reportedly due to potential foreign outflows after entering the NSDL.
+    <strong>Why it matters:</strong> While the specific listing context isn&#x27;t fully clear, if Swiggy is tracked as a listed entity or has a significant impact on related sectors, this decline signals investor caution around its valuation or future prospects, potentially impacting other new-age tech stocks.
+</p>
+<li><strong>Hero MotoCorp shares fall over 4% as August exports, motorcycle dispatches decline</strong></li>
+<p>
+    Hero MotoCorp shares declined after its August dispatch data showed year-on-year declines in motorcycle and export volumes, despite strong scooter sales.
+    <strong>Why it matters:</strong> This is negative news for Hero MotoCorp and could weigh on the broader auto sector, particularly two-wheeler manufacturers, if the trend of declining motorcycle and export volumes persists.
+</p>
+<li><strong>Kwality Walls shares fall 3% as RIL&#x27;s foray into ice cream biz raises competition fears</strong></li>
+<p>
+    Kwality Walls shares dropped after Reliance Consumer Products entered India’s ice cream market with Bombay Creamery, raising competition concerns.
+    <strong>Why it matters:</strong> This news signals increased competition in the consumer goods and ice cream segment, which could put pressure on existing players like Kwality Walls. It highlights Reliance&#x27;s aggressive expansion in the FMCG space.
+</p>
+</ul>
+<h2>Events &amp; data to watch — and how markets usually react</h2>
+<ul>
+<li><strong>Global Bond Yields:</strong> The ongoing global bond selloff and rising yields, particularly the US 10-year yield topping 4.80%, will be closely watched. Markets typically react negatively to rising yields, as they increase borrowing costs for companies and governments, and make equities less attractive compared to fixed-income investments.</li>
+<li><strong>Crude Oil Prices:</strong> Brent crude hovering near $95 per barrel due to geopolitical tensions and inflation risks. Sustained high crude prices are generally a negative for net oil-importing economies like India, leading to concerns about inflation, current account deficit, and corporate margins.</li>
+<li><strong>Bank of Japan (BOJ) Hawkish Signals:</strong> Japanese bond yields are rising due to hawkish signals from the BOJ, strengthening expectations of a near-term rate hike. Such signals from major central banks can influence global monetary policy expectations and lead to volatility in currency and bond markets.</li>
+<li><strong>FII Flow Trend:</strong> While FIIs were net buyers yesterday, their overall selling trend over the past five sessions is a key indicator. Markets tend to be sensitive to FII flows, with sustained selling often leading to downward pressure.</li>
+</ul>
+<h2>What to watch in today&#x27;s session</h2>
+<ol>
+<li><strong>Global Cues:</strong> The negative sentiment from US and Asian markets, coupled with rising global bond yields, will set the tone for the Indian open.</li>
+<li><strong>Crude Oil Movement:</strong> Any further significant rise in Brent crude prices could dampen sentiment for oil-sensitive sectors.</li>
+<li><strong>FII/DII Flows:</strong> DII support has been crucial; monitoring if FIIs continue their buying or revert to selling will be key.</li>
+<li><strong>Nifty 50 Levels:</strong> Watch for Nifty&#x27;s reaction around the 23800 support and 24000 resistance levels, as indicated by option chain data and technicals.</li>
+<li><strong>Corporate Action Impact:</strong> Stocks going ex-dividend like NTPC, GAIL, and the demerger of INDIAGLYCO will see price adjustments and could witness increased trading activity.</li>
+<li><strong>Stock-Specific Reactions:</strong> News-driven moves in stocks like TBZ, BEML, Hero MotoCorp, Swiggy, and Kwality Walls will be in focus.</li>
+</ol>
+<h2>Bottom line</h2>
+<p>
+Indian markets are likely to open with a negative bias today, mirroring the cautious global sentiment driven by rising bond yields and crude oil prices. While DIIs continue to provide a cushion, the overall FII trend remains a concern. The Nifty 50 will need to hold crucial support levels around 23800 to prevent further downside, with 24000 acting as a significant resistance.
+</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://economictimes.indiatimes.com/markets/ipos/fpos/yotta-targets-jan-march-2027-ipo-seeks-up-to-1-5-billion-amid-ai-boom/articleshow/133701389.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/ipos/fpos/yotta-targets-jan-march-2027-ipo-seeks-up-to-1-5-billion-amid-ai-boom/articleshow/133701389.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-japanese-bond-yields-rise-as-boj-hawkish-signals-fuel-rate-hike-bets/articleshow/133701140.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-japanese-bond-yields-rise-as-boj-hawkish-signals-fuel-rate-hike-bets/articleshow/133701140.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/tbz-shares-rally-16-extending-gains-for-a-second-session-whats-triggering-the-surge/articleshow/133700844.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/tbz-shares-rally-16-extending-gains-for-a-second-session-whats-triggering-the-surge/articleshow/133700844.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/beml-shares-rise-2-after-securing-rs-180-crore-vande-bharat-sleeper-order/articleshow/133700760.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/beml-shares-rise-2-after-securing-rs-180-crore-vande-bharat-sleeper-order/articleshow/133700760.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/swiggy-shares-drop-4-market-value-down-rs-5000-crore-in-2-days-heres-why/articleshow/133700114.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/swiggy-shares-drop-4-market-value-down-rs-5000-crore-in-2-days-heres-why/articleshow/133700114.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/hero-motocorp-shares-fall-over-4-as-august-exports-motorcycle-dispatches-decline/articleshow/133700041.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/hero-motocorp-shares-fall-over-4-as-august-exports-motorcycle-dispatches-decline/articleshow/133700041.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/ai-data-centre-demand-fuels-fervo-energys-geothermal-growth-story/slideshow/133700544.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/ai-data-centre-demand-fuels-fervo-energys-geothermal-growth-story/slideshow/133700544.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/bonds/indian-10-year-bond-yield-tops-7-on-global-debt-rout-oil-rally/articleshow/133699767.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/bonds/indian-10-year-bond-yield-tops-7-on-global-debt-rout-oil-rally/articleshow/133699767.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/bonds/global-bond-selloff-deepens-as-inflation-risks-oil-prices-jolt-markets/articleshow/133699705.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/bonds/global-bond-selloff-deepens-as-inflation-risks-oil-prices-jolt-markets/articleshow/133699705.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/how-to-trade-hdfc-bank-shares-after-new-52-week-low-2-technical-analysts-explain/articleshow/133699483.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/how-to-trade-hdfc-bank-shares-after-new-52-week-low-2-technical-analysts-explain/articleshow/133699483.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-china-hong-kong-stocks-fall-as-global-bond-selloff-oil-surge-weigh-on-sentiment/articleshow/133699219.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-china-hong-kong-stocks-fall-as-global-bond-selloff-oil-surge-weigh-on-sentiment/articleshow/133699219.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/kwality-walls-shares-fall-3-as-rils-foray-into-ice-cream-biz-raises-competition-fears/articleshow/133698927.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/kwality-walls-shares-fall-3-as-rils-foray-into-ice-cream-biz-raises-competition-fears/articleshow/133698927.cms</a></li>
+<li><a href="https://www.livemint.com/market/mark-to-market/pvr-inox-rs-300-crore-buyback-stock-price-11788326663309.html" rel="noopener" target="_blank">https://www.livemint.com/market/mark-to-market/pvr-inox-rs-300-crore-buyback-stock-price-11788326663309.html</a></li>
+<li><a href="https://www.livemint.com/market/stock-market-news/1000-rally-in-five-years-multibagger-small-cap-stock-spice-lounge-food-works-hits-upper-circuit-11788328354497.html" rel="noopener" target="_blank">https://www.livemint.com/market/stock-market-news/1000-rally-in-five-years-multibagger-small-cap-stock-spice-lounge-food-works-hits-upper-circuit-11788328354497.html</a></li>
+<li><a href="https://www.livemint.com/market/stock-market-news/every-time-fiis-panicked-heres-what-happened-zerodha-nikhil-kamath-explains-why-smart-foreign-money-isnt-always-right-11788328352008.html" rel="noopener" target="_blank">https://www.livemint.com/market/stock-market-news/every-time-fiis-panicked-heres-what-happened-zerodha-nikhil-kamath-explains-why-smart-foreign-money-isnt-always-right-11788328352008.html</a></li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
