@@ -60,7 +60,7 @@ The Reserve Bank of India (RBI) governs foreign exchange transactions for reside
 
 Investing in US stocks involves understanding how capital gains are taxed in India.
 *   **Short-Term Capital Gains (STCG):** If you sell US stocks within 24 months of purchase, any profit is considered a short-term capital gain. This gain is added to your total income and taxed according to your applicable income tax slab rates.
-*   **Long-Term Capital Gains (LTCG):** If you sell US stocks after holding them for more than 24 months, the profit is treated as a long-term capital gain. This is taxed at a rate of 20% without the benefit of indexation for sales on or after July 23, 2024.
+*   **Long-Term Capital Gains (LTCG):** If you sell US stocks after holding them for more than 24 months, the profit is treated as a long-term capital gain. This is taxed at a rate of 12.5% without the benefit of indexation for sales on or after July 23, 2024.
 It's important to note that the foreign exchange rate fluctuations can also impact your capital gains or losses when converting back to Indian rupees.
 
 ### Double Taxation Avoidance Agreement (DTAA)
