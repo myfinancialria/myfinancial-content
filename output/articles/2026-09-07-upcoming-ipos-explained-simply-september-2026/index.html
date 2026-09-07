@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Upcoming IPOs, Explained Simply — September 2026</title>
+<meta name="description" content="This week, Qualiance International Limited&#x27;s SME IPO is closing, and Pranav Constructions Limited&#x27;s Mainboard IPO is open. Four more Mainboard IPOs — Prasol C.">
+<meta name="keywords" content="shares, september, company, announced, limited, mainboard, investors, public">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-07-upcoming-ipos-explained-simply-september-2026/">
+<meta property="og:title" content="Upcoming IPOs, Explained Simply — September 2026">
+<meta property="og:description" content="This week, Qualiance International Limited&#x27;s SME IPO is closing, and Pranav Constructions Limited&#x27;s Mainboard IPO is open. Four more Mainboard IPOs — Prasol C.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-07-upcoming-ipos-explained-simply-september-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Upcoming IPOs, Explained Simply \u2014 September 2026", "description": "This week, Qualiance International Limited's SME IPO is closing, and Pranav Constructions Limited's Mainboard IPO is open. Four more Mainboard IPOs \u2014 Prasol C.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-07", "dateModified": "2026-09-07", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-07-upcoming-ipos-explained-simply-september-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/" class="active">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">IPO Watch · 2026-09-07</div><h1>Upcoming IPOs, Explained Simply — September 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>This week, Qualiance International Limited&#x27;s SME IPO is closing, and Pranav Constructions Limited&#x27;s Mainboard IPO is open.</li>
+<li>Three more Mainboard IPOs — Prasol Chemicals, Kanohar Electricals, and Glass Wall Systems (India) — are set to open on September 8th, and Rentomojo&#x27;s Mainboard IPO is set to open on September 9th.</li>
+<li>LCC Projects Limited&#x27;s Mainboard IPO will open on September 9th.</li>
+<li>We explain what an IPO is, how to read its key numbers, and the step-by-step process of applying.</li>
+</ul>
+</div>
+<h2>First, what is an IPO — in one minute?</h2>
+<p>
+Imagine a popular local chai shop that has been doing very well. Now, the owners want to open more branches across the city. To get the money needed for this expansion, they decide to sell a small part of their ownership in the shop to the public.
+</p>
+<p>
+An <strong>IPO (Initial Public Offering)</strong> is just like that. It&#x27;s when a private company offers its shares to the public for the very first time. This is done in the <strong>primary market</strong> (where new shares are sold directly by the company). Once these shares are bought, they can then be traded on stock exchanges like the NSE or BSE. This process is called <strong>listing</strong>, and after listing, the shares are bought and sold in the <strong>secondary market</strong> (the regular stock market).
+</p>
+<p>
+Companies do an IPO mainly to raise money for growth, pay off debts, or allow existing owners to sell some of their shares.
+</p>
+<h2>The IPOs on the calendar right now</h2>
+<p>
+Here are the companies that are currently active or are lined up to launch their IPOs this week.
+</p>
+<h3>Qualiance International Limited</h3>
+<p>
+Qualiance International Limited&#x27;s business sector is not specified in the provided data. This is an <strong>SME IPO</strong> (Small and Medium Enterprise IPO), which means it&#x27;s for smaller companies that list on a separate platform of the stock exchange, often with different rules and minimum investment amounts compared to Mainboard IPOs.
+</p>
+<ul>
+<li><strong>Price Band:</strong> Not yet announced (the fixed range within which you can bid for shares).</li>
+<li><strong>Lot Size:</strong> Not yet announced (the minimum number of shares you must apply for).</li>
+<li><strong>Issue Size:</strong> Not yet announced (the total number of shares the company is offering to the public).</li>
+<li><strong>Open Date:</strong> September 4, 2026</li>
+<li><strong>Close Date:</strong> September 8, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>Not yet announced</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>Not yet announced</td></tr>
+<tr><td>Open Date</td><td>Sep 4, 2026</td></tr>
+<tr><td>Close Date</td><td>Sep 8, 2026</td></tr>
+</tbody></table>
+<h3>Pranav Constructions Limited</h3>
+<p>
+Pranav Constructions Limited is likely involved in the construction sector. This is a <strong>Mainboard IPO</strong>, meaning it will list on the main platform of the stock exchanges (NSE/BSE). Its IPO is currently open.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹118 to ₹124 per share. This is the range within which you can place your bid.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 22,463,137 shares. This is the total number of shares the company is offering to the public.</li>
+<li><strong>Open Date:</strong> September 7, 2026</li>
+<li><strong>Close Date:</strong> September 9, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹118 to ₹124</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>22,463,137 shares</td></tr>
+<tr><td>Open Date</td><td>Sep 7, 2026</td></tr>
+<tr><td>Close Date</td><td>Sep 9, 2026</td></tr>
+</tbody></table>
+<h3>Prasol Chemicals Limited</h3>
+<p>
+Prasol Chemicals Limited is likely a company in the chemicals sector. This is a Mainboard IPO, opening tomorrow.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹643 to ₹676 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 7,776,039 shares.</li>
+<li><strong>Open Date:</strong> September 8, 2026</li>
+<li><strong>Close Date:</strong> September 10, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹643 to ₹676</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>7,776,039 shares</td></tr>
+<tr><td>Open Date</td><td>Sep 8, 2026</td></tr>
+<tr><td>Close Date</td><td>Sep 10, 2026</td></tr>
+</tbody></table>
+<h3>Kanohar Electricals Limited</h3>
+<p>
+Kanohar Electricals Limited is likely involved in the electrical goods or services sector. This is a Mainboard IPO, opening tomorrow.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹601 to ₹632 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 16,949,595 shares.</li>
+<li><strong>Open Date:</strong> September 8, 2026</li>
+<li><strong>Close Date:</strong> September 10, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹601 to ₹632</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>16,949,595 shares</td></tr>
+<tr><td>Open Date</td><td>Sep 8, 2026</td></tr>
+<tr><td>Close Date</td><td>Sep 10, 2026</td></tr>
+</tbody></table>
+<h3>Glass Wall Systems (India) Limited</h3>
+<p>
+Glass Wall Systems (India) Limited is likely in the building materials or construction support sector. This is a Mainboard IPO, opening tomorrow.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹172 to ₹182 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 23,702,094 shares.</li>
+<li><strong>Open Date:</strong> September 8, 2026</li>
+<li><strong>Close Date:</strong> September 10, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹172 to ₹182</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>23,702,094 shares</td></tr>
+<tr><td>Open Date</td><td>Sep 8, 2026</td></tr>
+<tr><td>Close Date</td><td>Sep 10, 2026</td></tr>
+</tbody></table>
+<h3>Rentomojo Limited</h3>
+<p>
+Rentomojo Limited&#x27;s business sector is not specified, but the name suggests a rental service. This is a Mainboard IPO, opening on September 9th.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹384 to ₹404 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 31,274,640 shares.</li>
+<li><strong>Open Date:</strong> September 9, 2026</li>
+<li><strong>Close Date:</strong> September 11, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹384 to ₹404</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>31,274,640 shares</td></tr>
+<tr><td>Open Date</td><td>Sep 9, 2026</td></tr>
+<tr><td>Close Date</td><td>Sep 11, 2026</td></tr>
+</tbody></table>
+<h3>LCC Projects Limited</h3>
+<p>
+LCC Projects Limited is likely in the projects or infrastructure development sector. This is a Mainboard IPO, opening on September 9th.
+</p>
+<ul>
+<li><strong>Price Band:</strong> ₹139 to ₹146 per share.</li>
+<li><strong>Lot Size:</strong> Not yet announced.</li>
+<li><strong>Issue Size:</strong> 30,146,151 shares.</li>
+<li><strong>Open Date:</strong> September 9, 2026</li>
+<li><strong>Close Date:</strong> September 11, 2026</li>
+</ul>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td>Price Band</td><td>₹139 to ₹146</td></tr>
+<tr><td>Lot Size</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>30,146,151 shares</td></tr>
+<tr><td>Open Date</td><td>Sep 9, 2026</td></tr>
+<tr><td>Close Date</td><td>Sep 11, 2026</td></tr>
+</tbody></table>
+<h2>How to actually read an IPO (the 6 things on every IPO)</h2>
+<p>
+When a company announces an IPO, there are a few key pieces of information you&#x27;ll always find. Understanding these helps you grasp the basics of the offering.
+</p>
+<ol>
+<li><strong>Price Band:</strong> This is the range of prices at which the company is willing to sell its shares. For example, if the price band is ₹118 to ₹124, you can bid for shares anywhere within this range. The highest price in the band (₹124 in this example) is usually called the &quot;cap price.&quot;</li>
+<li><strong>Lot Size:</strong> You cannot buy just one share in an IPO. Instead, you have to apply for shares in fixed bundles called &quot;lots.&quot; If the lot size is 100 shares, you must apply for 100 shares, or 200 shares, and so on. This is to manage the large number of applications.</li>
+<li><strong>Minimum Investment:</strong> This is simply the lowest amount of money you need to apply for an IPO. It&#x27;s calculated by multiplying the lot size by the highest price in the price band. For example, if the lot size is 100 shares and the cap price is ₹124, your minimum investment would be ₹12,400 (100 shares * ₹124).</li>
+<li><strong>Issue Size:</strong> This refers to the total number of shares the company is offering to the public through the IPO. It tells you how big the offering is in terms of shares. Sometimes, this is also expressed as a total rupee value.</li>
+<li><strong>Fresh Issue vs. Offer-for-Sale (OFS):</strong> An IPO typically consists of two parts.</li>
+<p>
+    *   <strong>Fresh Issue:</strong> This is when the company issues new shares, and the money raised from these shares goes directly to the company for its business purposes (like expansion or debt repayment).
+    *   <strong>Offer-for-Sale (OFS):</strong> This is when existing shareholders (like promoters or early investors) sell some of their shares. The money from these shares goes to the selling shareholders, not to the company itself. The data provided for these IPOs does not specify the breakdown between fresh issue and OFS.
+</p>
+<li><strong>RHP/DRHP (Red Herring Prospectus / Draft Red Herring Prospectus):</strong> This is the official document filed with SEBI (Securities and Exchange Board of India) that contains all the details about the company, its financials, the IPO, risks involved, and how the money will be used. Think of it as the company&#x27;s detailed report card and business plan for potential investors. The DRHP is the draft version, and the RHP is the final one published before the IPO opens.</li>
+</ol>
+<h2>The IPO process, step by step</h2>
+<p>
+Applying for an IPO might seem complex, but it follows a clear path:
+</p>
+<ol>
+<li><strong>DRHP Filing:</strong> The company first files a <strong>Draft Red Herring Prospectus (DRHP)</strong> with SEBI for approval. This document gives a detailed picture of the company.</li>
+<li><strong>SEBI Approval &amp; RHP:</strong> Once SEBI reviews and approves the DRHP, the company publishes the final <strong>Red Herring Prospectus (RHP)</strong> and announces the IPO dates and <strong>price band</strong>.</li>
+<li><strong>Bidding Period:</strong> The IPO opens for a few days (usually 3 working days). During this time, you can place your bid for shares.</li>
+<p>
+    *   <strong>Retail Investors:</strong> Ordinary individuals like you and me can apply for shares worth up to ₹2 lakhs.
+    *   <strong>HNI (High Net-worth Individuals) / NII (Non-Institutional Investors):</strong> These are individuals or entities who apply for shares worth more than ₹2 lakhs.
+    *   <strong>QIB (Qualified Institutional Buyers):</strong> These are large institutional investors like mutual funds, insurance companies, and foreign institutional investors.
+</p>
+<li><strong>Allotment:</strong> After the bidding closes, the company and its bankers decide how to distribute the shares. If the IPO is <strong>oversubscribed</strong> (meaning more applications than available shares), shares are allotted through a lottery system for retail investors. If you get shares, this is called <strong>allotment</strong>.</li>
+<li><strong>Refund/Debit:</strong> If you are allotted shares, the money for those shares is debited from your bank account. If you are not allotted shares, the blocked money is unblocked and returned to your account.</li>
+<li><strong>Listing:</strong> Finally, the shares are <strong>listed</strong> on the stock exchanges (NSE and BSE), usually within a week of the IPO closing. Once listed, you can buy or sell these shares in the open market.</li>
+</ol>
+<h2>A simple way to think about it</h2>
+<p>
+Imagine your favourite neighbourhood bakery, &quot;Sweet Delights.&quot; They&#x27;ve been making delicious cakes for years, but now they want to buy a bigger oven and open a new shop across town. To raise the money, they decide to sell small &quot;ownership coupons&quot; for their bakery.
+</p>
+<p>
+An IPO is just like Sweet Delights selling these ownership coupons to the public for the first time. When you buy these coupons (shares), you become a part-owner of the bakery. The money you pay helps them grow, and if the bakery does well, the value of your coupons might increase.
+</p>
+<h2>Things people get confused about</h2>
+<p>
+Here are some common misunderstandings about IPOs:
+</p>
+<ul>
+<li><strong>Myth:</strong> Applying for an IPO guarantees you will get shares.</li>
+<p>
+    *   <strong>Fact:</strong> If an IPO receives more applications than the shares available (it&#x27;s &quot;oversubscribed&quot;), shares are allotted through a lottery system, especially for retail investors. There&#x27;s no guarantee of allotment.
+</p>
+<li><strong>Myth:</strong> All IPOs give you quick profits on listing day.</li>
+<p>
+    *   <strong>Fact:</strong> While some IPOs might list at a higher price than their issue price, others may list lower or at the same price. There&#x27;s no guarantee of &quot;listing gains,&quot; and the share price can go up or down after listing based on market conditions and company performance.
+</p>
+<li><strong>Myth:</strong> You can buy any number of shares you want in an IPO.</li>
+<p>
+    *   <strong>Fact:</strong> You must apply for shares in fixed bundles called &quot;lots.&quot; You can only bid for a multiple of the specified lot size.
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>How do I even apply for an IPO?</h3>
+<p>
+You can apply for an IPO through your bank&#x27;s ASBA (Applications Supported by Blocked Amount) facility via net banking, or through your stockbroker&#x27;s platform. You&#x27;ll need a demat account and a trading account.
+</p>
+<h3>What is a lot size?</h3>
+<p>
+A lot size is the minimum number of shares you must apply for in an IPO. You cannot apply for individual shares; you must apply in multiples of the specified lot.
+</p>
+<h3>What is the difference between a Mainboard and an SME IPO?</h3>
+<p>
+Mainboard IPOs are for larger companies and list on the main exchanges (NSE/BSE). SME IPOs are for smaller companies and list on dedicated SME platforms, often with different rules and minimum investment amounts.
+</p>
+<h3>What happens if I don&#x27;t get an allotment?</h3>
+<p>
+If you don&#x27;t get an allotment, the money you had blocked for the IPO in your bank account will be unblocked and returned to you.
+</p>
+<h3>Can I sell my shares immediately after allotment?</h3>
+<p>
+Once the shares are listed on the stock exchange, you are free to buy or sell them just like any other stock in the secondary market.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>NSE upcoming/current issues data</li>
+</ul>
+<p>
+<em>This is an educational explainer, not investment advice. myfinancial is not a SEBI-registered adviser.</em>
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
