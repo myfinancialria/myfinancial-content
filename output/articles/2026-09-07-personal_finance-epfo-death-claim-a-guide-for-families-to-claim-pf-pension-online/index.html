@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>EPFO Death Claim: A Guide for Families to Claim PF, Pension Online</title>
+<meta name="description" content="Families of deceased EPF members can claim Provident Fund (EPF), pension (EPS), and insurance (EDLI) benefits online. The online process requires the deceased.">
+<meta name="keywords" content="member, account, aadhaar, online, deceased, process, documents, benefits">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-07-personal_finance-epfo-death-claim-a-guide-for-families-to-claim-pf-pension-online/">
+<meta property="og:title" content="EPFO Death Claim: A Guide for Families to Claim PF, Pension Online">
+<meta property="og:description" content="Families of deceased EPF members can claim Provident Fund (EPF), pension (EPS), and insurance (EDLI) benefits online. The online process requires the deceased.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-07-personal_finance-epfo-death-claim-a-guide-for-families-to-claim-pf-pension-online/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "EPFO Death Claim: A Guide for Families to Claim PF, Pension Online", "description": "Families of deceased EPF members can claim Provident Fund (EPF), pension (EPS), and insurance (EDLI) benefits online. The online process requires the deceased.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-07", "dateModified": "2026-09-07", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-07-personal_finance-epfo-death-claim-a-guide-for-families-to-claim-pf-pension-online/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-09-07</div><h1>EPFO Death Claim: A Guide for Families to Claim PF, Pension Online</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Families of deceased EPF members can claim Provident Fund (EPF), pension (EPS), and insurance (EDLI) benefits online.</li>
+<li>The online process requires the deceased member&#x27;s Universal Account Number (UAN) and Aadhaar-linked bank account.</li>
+<li>Nominees or legal heirs need to submit specific forms like Form 20, Form 10D, and Form 5IF through the EPFO portal.</li>
+<li>Essential documents include the death certificate, Aadhaar of the claimant, and their bank account details.</li>
+<li>Proper nomination and KYC compliance of the deceased member significantly expedite the claim settlement process.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Losing a loved one is an incredibly difficult time, and navigating financial formalities can add to the stress. For millions of salaried Indians, the Employees&#x27; Provident Fund Organisation (EPFO) manages their provident fund (EPF) savings, a pension scheme (EPS), and an insurance benefit (EDLI). When an EPF member passes away, their family – typically the nominated beneficiaries or legal heirs – is entitled to claim these accumulated benefits.
+</p>
+<p>
+Historically, this process involved a lot of paperwork and visits to the EPFO office, which could be cumbersome during a period of grief. Recognising this challenge, EPFO has streamlined the process, allowing families to submit claims online. This digital approach aims to make it easier and quicker for eligible family members to receive the financial support they are due, right from the comfort of their homes.
+</p>
+<h2>Understanding the Benefits Available</h2>
+<p>
+When an EPF member passes away, their family can claim three distinct benefits managed by the EPFO. Understanding each of these is crucial for a smooth claim process.
+</p>
+<h3>Employee Provident Fund (EPF)</h3>
+<p>
+The EPF is a compulsory savings scheme where both the employee and employer contribute a portion of the employee&#x27;s salary (currently 12% each of basic salary plus dearness allowance). This accumulated corpus, along with interest, is paid out to the nominee or legal heir upon the member&#x27;s death. The entire EPF balance, including the employee&#x27;s and employer&#x27;s share and interest accrued, becomes payable.
+</p>
+<h3>Employee Pension Scheme (EPS)</h3>
+<p>
+The EPS is a social security scheme designed to provide pension benefits to employees upon retirement, or to their families in case of the employee&#x27;s demise. A part of the employer&#x27;s contribution (8.33% of basic salary, capped at ₹15,000 per month) goes into the EPS fund. Upon the death of an EPF member, the eligible family members (spouse, children, dependent parents) can receive a monthly family pension. The eligibility and amount of pension depend on factors like the deceased member&#x27;s service period and average wages.
+</p>
+<h3>Employee Deposit Linked Insurance (EDLI) Scheme</h3>
+<p>
+The EDLI scheme provides life insurance coverage to EPF members. In the unfortunate event of an EPF member&#x27;s death, their nominee or legal heir is entitled to receive a lump sum payment under this scheme. The benefit amount is linked to the employee&#x27;s average monthly wages and the EPF balance, with a maximum payout of ₹7 lakhs. This benefit is entirely funded by the employer, and no contribution is made by the employee.
+</p>
+<h2>Eligibility and Essential Documents for Claiming Benefits</h2>
+<p>
+To claim the death benefits from EPFO, specific individuals are eligible, and a set of documents must be furnished. A smooth claim process heavily relies on fulfilling these requirements accurately.
+</p>
+<h3>Who Can Claim?</h3>
+<p>
+The priority for claiming benefits follows a specific order:
+</p>
+<ul>
+<li><strong>Nominee:</strong> If the deceased member had filed a valid nomination (Form 2 for EPF and EDLI, and Form 2 for EPS), the nominated individual(s) are the primary claimants.</li>
+<li><strong>Legal Heirs:</strong> In the absence of a valid nomination, the legal heirs of the deceased member, as per the Hindu Succession Act or other applicable personal laws, can claim the benefits. This usually requires a succession certificate or a letter of administration from a court.</li>
+<li><strong>Guardian of a Minor:</strong> If the nominee or legal heir is a minor, their legal guardian can claim the benefits on their behalf.</li>
+</ul>
+<h3>Key Documents Required</h3>
+<p>
+For an online claim, ensure you have scanned copies of the following documents ready:
+</p>
+<ul>
+<li><strong>Death Certificate:</strong> Original death certificate of the EPF member.</li>
+<li><strong>Aadhaar Card:</strong> Aadhaar card of the claimant (nominee/legal heir).</li>
+<li><strong>Bank Account Details:</strong> Bank account passbook or a cancelled cheque of the claimant, with the IFSC code clearly visible. The bank account must be in the claimant&#x27;s name.</li>
+<li><strong>Universal Account Number (UAN):</strong> The UAN of the deceased member is crucial for accessing their EPF account details.</li>
+<li><strong>PAN Card:</strong> PAN card of the claimant, if the claim amount exceeds ₹50,000.</li>
+<li><strong>Succession Certificate/Letter of Administration:</strong> Mandatory if there is no nomination and the claim is being made by legal heirs.</li>
+<li><strong>Guardianship Certificate:</strong> If the claimant is a minor and the claim is made by a guardian.</li>
+<li><strong>Aadhaar of the Deceased Member:</strong> While not always explicitly required for the claimant&#x27;s process, it helps in verification if linked to the UAN.</li>
+</ul>
+<p>
+It is paramount that the deceased member&#x27;s UAN was activated and their Aadhaar and bank account details were linked to their EPF account. This KYC compliance significantly streamlines the online claim process. You can check the status of these linkages on the EPFO Member e-Sewa portal.
+</p>
+<h2>The Online Claim Process: A Step-by-Step Guide</h2>
+<p>
+The EPFO has simplified the death claim process, allowing nominees and legal heirs to submit their applications online. This method reduces the need for physical visits and expedites the settlement.
+</p>
+<h3>Prerequisites for Online Claim</h3>
+<p>
+Before initiating an online claim, ensure the following conditions are met:
+</p>
+<ol>
+<li><strong>Activated UAN:</strong> The deceased member&#x27;s UAN should be active.</li>
+<li><strong>Aadhaar Seeding:</strong> The deceased member&#x27;s Aadhaar number must be linked and verified with their UAN.</li>
+<li><strong>Bank Account Linked:</strong> The deceased member&#x27;s bank account details must be linked to their UAN and verified.</li>
+<li><strong>Digital Signature of Employer:</strong> While the nominee directly applies, for certain verifications, employer&#x27;s digital signature might be involved in the backend.</li>
+<li><strong>Claimant&#x27;s Aadhaar and Bank Account:</strong> The claimant must have their Aadhaar linked to their bank account.</li>
+</ol>
+<h3>Step-by-Step Online Submission</h3>
+<ol>
+<li><strong>Access the EPFO Member e-Sewa Portal:</strong> The claimant needs to visit the official EPFO Member e-Sewa portal (https://unifiedportal-mem.epfindia.gov.in/memberinterface/).</li>
+<li><strong>Login (if applicable):</strong> If the deceased member&#x27;s UAN and password are known, the nominee can log in using those credentials. However, in most death claim scenarios, the nominee will use the &quot;Online Claim Status&quot; or &quot;Death Claim Filing by Beneficiary&quot; option.</li>
+<li><strong>Navigate to Online Claim:</strong> Look for the &quot;Online Claim&quot; section or a similar option for &quot;Death Claim Filing by Beneficiary&quot; on the portal.</li>
+<li><strong>Enter Deceased Member&#x27;s Details:</strong> You will be prompted to enter the deceased member&#x27;s UAN. The system will then verify the details.</li>
+<li><strong>OTP Verification:</strong> An OTP will be sent to the mobile number registered with the deceased member&#x27;s Aadhaar. If the mobile number is not accessible, this step can be challenging, and an offline claim might be necessary.</li>
+<li><strong>Fill Claim Forms:</strong></li>
+<p>
+    *   <strong>Form 20 (EPF Withdrawal):</strong> This form is for claiming the Provident Fund accumulation.
+    *   <strong>Form 10D (EPS Pension Claim):</strong> This form is for claiming the monthly family pension.
+    *   <strong>Form 5IF (EDLI Insurance Claim):</strong> This form is for claiming the Employee Deposit Linked Insurance benefit.
+    You may need to fill one or all of these forms depending on the benefits being claimed.
+</p>
+<li><strong>Upload Documents:</strong> Scan and upload the required documents (Death Certificate, Aadhaar of claimant, Bank passbook/cancelled cheque, etc.) in the specified format and size.</li>
+<li><strong>Digital Attestation/Verification:</strong> The system will guide you through the digital attestation or verification process, which might involve linking the claimant&#x27;s Aadhaar for e-authentication.</li>
+<li><strong>Submit the Application:</strong> Review all the entered details and uploaded documents carefully before final submission.</li>
+<li><strong>Track Claim Status:</strong> After submission, a claim ID will be generated. You can use this ID on the EPFO portal to track the status of your claim.</li>
+</ol>
+<p>
+The entire process, from submission to settlement, typically takes about 20-30 days if all documents are in order and the KYC of the deceased member was updated.
+</p>
+<h2>Offline Claim Process: When and How</h2>
+<p>
+While the online claim process is increasingly preferred for its convenience and speed, there are situations where an offline claim might be necessary or unavoidable.
+</p>
+<h3>When to Opt for Offline Claims</h3>
+<ul>
+<li><strong>Non-availability of Deceased Member&#x27;s UAN/Aadhaar linked mobile:</strong> If the mobile number linked to the deceased member&#x27;s Aadhaar is not accessible, or if their Aadhaar was not seeded with UAN, online claims become difficult.</li>
+<li><strong>Lack of Nomination:</strong> In cases where there is no valid nomination, and legal heirs need to submit a succession certificate, the offline process might be more straightforward.</li>
+<li><strong>Technical Glitches:</strong> Sometimes, technical issues on the portal or with document uploads might necessitate an offline submission.</li>
+<li><strong>Preference for Physical Interaction:</strong> Some individuals may simply prefer to submit documents physically and interact with EPFO officials directly.</li>
+</ul>
+<h3>Steps for Offline Submission</h3>
+<ol>
+<li><strong>Obtain Forms:</strong> Download the relevant forms (Form 20, Form 10D, Form 5IF) from the official EPFO website (https://epfindia.gov.in/) or collect them from any EPFO office.</li>
+<li><strong>Fill Forms Manually:</strong> Fill out the forms accurately, ensuring all details match the supporting documents.</li>
+<li><strong>Attach Documents:</strong> Prepare physical copies of all required documents, self-attested where necessary. This includes the death certificate, claimant&#x27;s Aadhaar, bank passbook/cancelled cheque, succession certificate (if applicable), and any other supporting proof.</li>
+<li><strong>Employer Attestation:</strong> The forms and documents usually need to be attested by the last employer of the deceased member. This attestation confirms the member&#x27;s service and other details.</li>
+<li><strong>Submit to Regional EPFO Office:</strong> Submit the complete application package to the jurisdictional EPFO regional office. Ensure you get an acknowledgement receipt.</li>
+<li><strong>Track Status:</strong> You can track the status of your offline claim by visiting the EPFO office or sometimes through the online portal using a reference number provided.</li>
+</ol>
+<p>
+The offline process might take longer than online claims, often ranging from 30 to 60 days, depending on the complexity of the case and the regional office&#x27;s workload.
+</p>
+<h2>A real example</h2>
+<p>
+Priya, 35, a homemaker from Mumbai, recently lost her husband, Sameer, 40, who worked as a software engineer with an annual CTC of ₹25 lakhs. Sameer had been contributing to EPF for 15 years. He had ensured his UAN was active, Aadhaar was linked, and his bank account was updated. Crucially, Priya was nominated as the sole beneficiary for his EPF, EPS, and EDLI benefits.
+</p>
+<p>
+Upon Sameer&#x27;s demise, Priya needed to claim these benefits. Here’s how she proceeded:
+</p>
+<ol>
+<li><strong>Gathering Information:</strong> Priya first collected Sameer&#x27;s death certificate, her own Aadhaar card, and her bank account details. She also located Sameer&#x27;s UAN.</li>
+<li><strong>Accessing the Portal:</strong> She visited the EPFO Member e-Sewa portal (https://unifiedportal-mem.epfindia.gov.in/).</li>
+<li><strong>Initiating the Claim:</strong> On the portal, she navigated to the &quot;Death Claim Filing by Beneficiary&quot; section and entered Sameer&#x27;s UAN.</li>
+<li><strong>OTP Verification:</strong> An OTP was sent to Sameer&#x27;s mobile number, which Priya had access to. She entered the OTP to proceed.</li>
+<li><strong>Filling Forms:</strong> The portal prompted her to fill Form 20 (for EPF), Form 10D (for EPS), and Form 5IF (for EDLI). She accurately entered details such as the date of death, her relationship with Sameer, and her bank account information.</li>
+<p>
+    *   <strong>EPF:</strong> Sameer had accumulated approximately ₹45 lakhs in his EPF account over 15 years (illustrative, based on average contributions and interest). Priya filed Form 20 to claim this.
+    *   <strong>EPS:</strong> Based on Sameer&#x27;s service period and average wages, Priya was eligible for a monthly family pension. She filed Form 10D.
+    *   <strong>EDLI:</strong> She was also entitled to the EDLI benefit, which could be up to ₹7 lakhs. She filed Form 5IF for this.
+</p>
+<li><strong>Uploading Documents:</strong> Priya scanned and uploaded Sameer&#x27;s death certificate, her Aadhaar card, and a cancelled cheque of her bank account.</li>
+<li><strong>E-Authentication:</strong> She completed the e-authentication using her own Aadhaar, which was linked to her bank account.</li>
+<li><strong>Submission:</strong> After reviewing all details, she submitted the combined claim. She received a claim reference number.</li>
+</ol>
+<p>
+Priya tracked the status online. Within 25 days, the EPF and EDLI amounts were credited to her bank account. The family pension (EPS) started crediting monthly after a couple of months, following the initial processing. This online process saved her multiple trips to the EPFO office during a difficult time.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Check Your Own EPFO Nomination:</strong> Log in to the EPFO Member e-Sewa portal (https://unifiedportal-mem.epfindia.gov.in/) using your UAN and password. Under the &#x27;Manage&#x27; tab, select &#x27;E-Nomination&#x27; to check if you have an active nomination for EPF and EPS. If not, complete the e-nomination process immediately.</li>
+<li><strong>Verify Aadhaar and Bank Linkage:</strong> Ensure your Aadhaar number is linked and verified with your UAN, and your bank account details are correctly updated and validated in your EPFO profile. This is crucial for both you and your nominees.</li>
+<li><strong>Familiarise Yourself with the EPFO Portal:</strong> Spend 30 minutes navigating the EPFO Member e-Sewa portal. Understand where to find forms, check claim status, and update KYC details. This knowledge will be invaluable for your family if they ever need to make a claim.</li>
+<li><strong>Inform Your Family:</strong> Share your UAN and the process of accessing your EPFO account with a trusted family member. Explain the importance of nomination and where to find essential documents like your Aadhaar and bank details.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What if there&#x27;s no nominee?</h3>
+<p>
+If there is no valid nomination, the benefits will be paid to the legal heirs of the deceased member, who will need to obtain a succession certificate or a letter of administration from a competent court.
+</p>
+<h3>Can a minor claim benefits?</h3>
+<p>
+Yes, a minor can claim benefits through their legal guardian. The guardian will need to submit a guardianship certificate along with other required documents.
+</p>
+<h3>How long does the online claim process take?</h3>
+<p>
+Typically, if all documents are in order and KYC is updated, online claims are settled within 20-30 days. Offline claims might take longer, usually 30-60 days.
+</p>
+<h3>What is the EDLI benefit?</h3>
+<p>
+The Employee Deposit Linked Insurance (EDLI) scheme provides a lump sum insurance payout to the nominee/legal heir of a deceased EPF member, with a maximum benefit of ₹7 lakhs.
+</p>
+<h3>Is the EPF death claim taxable?</h3>
+<p>
+No, the EPF amount received by the nominee or legal heir upon the death of the member is generally exempt from income tax, provided the member had completed at least five years of continuous service.
+</p>
+<h3>What if the UAN is not activated?</h3>
+<p>
+If the UAN is not activated, the family will likely have to resort to an offline claim process, as online claims heavily rely on an active UAN and linked Aadhaar.
+</p>
+<h3>Can an NRI family member claim?</h3>
+<p>
+Yes, an NRI family member can claim the benefits. They will need to provide their Indian bank account details (NRO/NRE account) and fulfil all other documentation requirements.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>EPFO: https://epfindia.gov.in</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
