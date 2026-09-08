@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Pre-Market Brief — 08 September 2026</title>
+<meta name="description" content="Global markets displayed a mixed-to-negative tone, with US indices closing lower and Asian markets seeing varied performance. GIFT Nifty is signalling a cauti.">
+<meta name="keywords" content="markets, stocks, economictimes, indiatimes, shares, articleshow, investors, dividend">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-08-pre_market-pre-market-brief-08-september-2026/">
+<meta property="og:title" content="Pre-Market Brief — 08 September 2026">
+<meta property="og:description" content="Global markets displayed a mixed-to-negative tone, with US indices closing lower and Asian markets seeing varied performance. GIFT Nifty is signalling a cauti.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-08-pre_market-pre-market-brief-08-september-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Pre-Market Brief \u2014 08 September 2026", "description": "Global markets displayed a mixed-to-negative tone, with US indices closing lower and Asian markets seeing varied performance. GIFT Nifty is signalling a cauti.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-08", "dateModified": "2026-09-08", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-08-pre_market-pre-market-brief-08-september-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/" class="active">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Pre-Market · 2026-09-08</div><h1>Pre-Market Brief — 08 September 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Global markets displayed a mixed-to-negative tone, with US indices closing lower and Asian markets seeing varied performance.</li>
+<li>GIFT Nifty is signalling a cautious start for Indian equities, pointing to a potential gap-down.</li>
+<li>Foreign Institutional Investors (FIIs) were net buyers yesterday, while Domestic Institutional Investors (DIIs) continued their supportive stance.</li>
+<li>Rising crude oil prices and copper hitting record highs are significant headwinds for the Indian economy and specific sectors.</li>
+<li>Nifty&#x27;s immediate resistance is seen around 23700, with strong support at 23600.</li>
+<li>The day&#x27;s main risk stems from elevated global commodity prices and their potential impact on inflation and corporate margins.</li>
+</ul>
+</div>
+<h2>How global markets traded — and what it means for India</h2>
+<p>
+Global markets presented a mixed picture overnight. Major US indices like the Dow Jones, Nasdaq, and S&amp;P 500 closed in negative territory, reflecting a cautious sentiment among investors. In Asia, the Nikkei 225 saw a significant decline, while the Hang Seng also edged lower. The Shanghai Composite, however, managed to close with modest gains. The FTSE 100 in Europe also registered a slight positive close.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>% Change</th></tr></thead><tbody>
+<tr><td>Dow Jones</td><td>53414.25</td><td>-0.51%</td></tr>
+<tr><td>Nasdaq</td><td>26506.99</td><td>-0.29%</td></tr>
+<tr><td>S&amp;P 500</td><td>7718.60</td><td>-0.38%</td></tr>
+<tr><td>FTSE 100</td><td>10828.90</td><td>+0.06%</td></tr>
+<tr><td>Nikkei 225</td><td>65269.33</td><td>-1.70%</td></tr>
+<tr><td>Hang Seng</td><td>25352.69</td><td>-0.24%</td></tr>
+<tr><td>Shanghai</td><td>3940.55</td><td>+0.20%</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The overall negative sentiment from the US and a significant dip in the Nikkei suggest a cautious to negative opening bias for Indian markets. While some Asian markets showed resilience, the lack of strong positive cues globally could lead to profit booking or a subdued start for domestic indices.
+</p>
+<h2>Currency, commodities and yields</h2>
+<p>
+The Indian Rupee (USD/INR) weakened against the US Dollar, trading at ₹94.75, a rise of 0.34%. The Dollar Index data was unavailable. In commodities, both Brent Crude and WTI Crude saw significant jumps, with Brent rising 2.50% to $98.69 and WTI up 2.93% to $94.16. Gold prices also moved higher by 0.47% to $4450.70, and Silver gained 1.52% to $67.05. The US 10-Year Yield increased by 0.46% to 4.78%.
+</p>
+<p>
+<strong>Interpretation:</strong> A rising USD/INR is generally a positive for Indian IT and pharmaceutical exporters as their dollar earnings translate to more rupees, but it puts pressure on importers. The sharp increase in crude oil prices is a significant concern for India, a major oil importer, as it could fuel inflation, impact current account deficit, and put pressure on oil marketing companies (OMCs), paint, and aviation sectors. Rising US 10-year yields could make emerging markets like India less attractive for foreign capital, posing a risk to FII flows. Higher gold and silver prices suggest some safe-haven demand or inflationary concerns.
+</p>
+<h2>GIFT Nifty — what it&#x27;s signalling</h2>
+<p>
+The GIFT Nifty is currently trading at 23716.00, down by 0.35%.
+</p>
+<p>
+<strong>Interpretation:</strong> This indicates a negative bias for the Indian market open today, suggesting a potential gap-down for the Nifty 50.
+</p>
+<h2>FII/DII flows — who&#x27;s driving the tape</h2>
+<p>
+Yesterday, Foreign Institutional Investors (FIIs) were net buyers in the Indian cash market, infusing ₹280 crore, while Domestic Institutional Investors (DIIs) also remained net buyers, adding ₹567 crore. Over the last five sessions, DIIs have consistently been net buyers, providing strong support to the market, even as FII flows have shown volatility, with significant selling on September 3rd and 4th, balanced by strong buying on September 2nd and 1st.
+</p>
+<table><thead><tr><th>Date</th><th>FII Net (₹ cr)</th><th>DII Net (₹ cr)</th></tr></thead><tbody>
+<tr><td>2026-09-07</td><td>+280</td><td>+567</td></tr>
+<tr><td>2026-09-04</td><td>-3,112</td><td>+8,930</td></tr>
+<tr><td>2026-09-03</td><td>-2,346</td><td>+4,977</td></tr>
+<tr><td>2026-09-02</td><td>+6,688</td><td>+2,813</td></tr>
+<tr><td>2026-09-01</td><td>+1,143</td><td>+1,847</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The continued buying by DIIs is a significant supportive factor for the Indian market, absorbing FII selling pressure on certain days. While FIIs were net buyers yesterday, their mixed trend over the past week suggests a cautious approach, and DII buying remains crucial for market stability.
+</p>
+<h2>Key levels to watch — Nifty, Bank Nifty &amp; Sensex (technical)</h2>
+<p>
+<strong>Nifty 50 (Previous Close: 23651.45)</strong>
+</p>
+<table><thead><tr><th>Level</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>23682.72</td></tr>
+<tr><td>CPR Top</td><td>23698.35</td></tr>
+<tr><td>CPR Bottom</td><td>23667.08</td></tr>
+<tr><td>R1</td><td>23727.68</td></tr>
+<tr><td>R2</td><td>23803.92</td></tr>
+<tr><td>S1</td><td>23606.48</td></tr>
+<tr><td>S2</td><td>23561.52</td></tr>
+<tr><td>Swing High</td><td>24378.60</td></tr>
+<tr><td>Swing Low</td><td>23637.75</td></tr>
+<tr><td>20-DMA</td><td>24124.14</td></tr>
+<tr><td>50-DMA</td><td>24196.65</td></tr>
+</tbody></table>
+<p>
+<strong>Bank Nifty (Previous Close: 56785.0)</strong>
+</p>
+<table><thead><tr><th>Level</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>56870.22</td></tr>
+<tr><td>CPR Top</td><td>56912.82</td></tr>
+<tr><td>CPR Bottom</td><td>56827.61</td></tr>
+<tr><td>R1</td><td>56958.78</td></tr>
+<tr><td>R2</td><td>57132.57</td></tr>
+<tr><td>S1</td><td>56696.43</td></tr>
+<tr><td>S2</td><td>56607.87</td></tr>
+<tr><td>Swing High</td><td>58024.95</td></tr>
+<tr><td>Swing Low</td><td>56781.65</td></tr>
+<tr><td>20-DMA</td><td>57466.51</td></tr>
+<tr><td>50-DMA</td><td>57556.28</td></tr>
+</tbody></table>
+<p>
+<strong>Sensex (Previous Close: 75640.33)</strong>
+</p>
+<table><thead><tr><th>Level</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>75749.14</td></tr>
+<tr><td>CPR Top</td><td>75803.54</td></tr>
+<tr><td>CPR Bottom</td><td>75694.74</td></tr>
+<tr><td>R1</td><td>75903.30</td></tr>
+<tr><td>R2</td><td>76166.27</td></tr>
+<tr><td>S1</td><td>75486.17</td></tr>
+<tr><td>S2</td><td>75332.01</td></tr>
+<tr><td>Swing High</td><td>77986.84</td></tr>
+<tr><td>Swing Low</td><td>75594.98</td></tr>
+<tr><td>20-DMA</td><td>77130.85</td></tr>
+<tr><td>50-DMA</td><td>77414.90</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The CPR width for Nifty, Bank Nifty, and Sensex is relatively narrow (0.13% to 0.15%), suggesting that these indices could experience a trending move today rather than remaining range-bound. For Nifty, a break above R1 (23727.68) or below S1 (23606.48) would be crucial to determine the day&#x27;s direction. All three indices are currently trading below their 20-DMA and 50-DMA, indicating a short-to-medium term bearish bias. The swing lows for Nifty (23637.75) and Bank Nifty (56781.65) are very close to their previous closing prices, making these critical levels to watch for immediate support.
+</p>
+<h2>Option-chain signals (OI) — where support &amp; resistance sit</h2>
+<p>
+<strong>Nifty:</strong>
+</p>
+<ul>
+<li>Highest Call OI (Resistance): 23700 (49,676,055 contracts), 23800 (37,662,365 contracts)</li>
+<li>Highest Put OI (Support): 23600 (35,740,055 contracts), 23650 (34,768,045 contracts)</li>
+<li>PCR: 0.75</li>
+</ul>
+<p>
+<strong>Bank Nifty:</strong>
+</p>
+<ul>
+<li>Highest Call OI (Resistance): 57500 (2,147,130 contracts), 58000 (1,489,530 contracts)</li>
+<li>Highest Put OI (Support): 57500 (1,888,830 contracts), 57000 (972,630 contracts)</li>
+<li>PCR: 1.09</li>
+</ul>
+<p>
+<strong>Sensex:</strong>
+</p>
+<ul>
+<li>Highest Call OI (Resistance): 76000 (1,798,100 contracts), 76500 (1,794,600 contracts)</li>
+<li>Highest Put OI (Support): 75000 (1,052,940 contracts), 75500 (864,360 contracts)</li>
+<li>PCR: 0.69</li>
+</ul>
+<p>
+<strong>Interpretation:</strong> For Nifty, the highest Call OI at 23700 suggests that option sellers expect the market to face a ceiling around this level, making it a strong resistance. Conversely, the highest Put OI at 23600 indicates that option buyers are defending this level, acting as a crucial support. A PCR of 0.75 for Nifty leans towards a cautious-to-neutral sentiment, implying more call selling than put selling.
+</p>
+<p>
+Bank Nifty&#x27;s PCR of 1.09 suggests a slightly supportive or bullish-to-neutral stance. The 57500 strike shows significant Call and Put OI, indicating it could be a pivotal point for the day. For Sensex, a PCR of 0.69, combined with high Call OI at 76000, points to strong resistance and a cautious outlook.
+</p>
+<p>
+Combining technical and OI levels, Nifty needs to respect the 23600-23700 range today. A decisive move outside this range, especially below 23600, could signal further weakness.
+</p>
+<h2>Companies reporting results today</h2>
+<p>
+No Nifty 500 / large-cap results are scheduled today.
+</p>
+<h2>Corporate actions today</h2>
+<p>
+Several companies have their ex-date for corporate actions today:
+</p>
+<ul>
+<li><strong>GLOBUSSPR</strong>: Ex-date for Dividend of ₹6.53 Per Share. On the ex-date, the stock price typically adjusts downwards by the dividend amount.</li>
+<li><strong>TVSHLTD</strong>: Ex-date for Scheme Of Arrangement, specifically a Bonus Non-Convertible Redeemable Preference Shares (NCRPS) in a 46:1 ratio. This means for every 1 share held, shareholders will receive 46 NCRPS.</li>
+<li><strong>SINCLAIR</strong>: Ex-date for Dividend of ₹0.80 Per Share.</li>
+<li><strong>TINNARUBR</strong>: Ex-date for Dividend of ₹3.25 Per Share.</li>
+<li><strong>BLSE</strong>: Ex-date for Dividend of ₹0.50 Per Share.</li>
+<li><strong>SKIPPER</strong>: Ex-date for Dividend of ₹0.10 Per Share.</li>
+<li><strong>KDDL</strong>: Ex-date for Dividend of ₹8 Per Share.</li>
+<li><strong>BHANDARI</strong>: Ex-date for Dividend of ₹0.01 Per Share.</li>
+<li><strong>RUSHIL</strong>: Ex-date for Dividend of ₹0.05 Per Share.</li>
+<li><strong>APLAPOLLO</strong>: Ex-date for Dividend of ₹8.50 Per Share.</li>
+<li><strong>POLYPLEX</strong>: Ex-date for Dividend of ₹1 Per Share.</li>
+</ul>
+<p>
+For dividend ex-dates, investors must buy the shares before today to be eligible for the dividend.
+</p>
+<h2>Stock &amp; sector news that matters</h2>
+<p>
+<strong>Copper hits record high, UltraTech’s Ultravolt on the offensive: A double whammy for cable makers in FY27?</strong>
+Copper prices have reached unprecedented levels globally, impacting manufacturing costs. Simultaneously, UltraTech&#x27;s Ultravolt is aggressively entering the Indian wires and cables sector.
+<strong>Why it matters:</strong> This news signals a potential double whammy for Indian cable and wire manufacturers. Rising copper prices will directly increase their raw material costs, potentially squeezing margins. Increased competition from a large player like UltraTech could further pressure pricing and market share in the sector, affecting companies like Polycab India, Havells India, and KEI Industries.
+</p>
+<p>
+<strong>PVR Inox’s ₹300-crore buyback opens on Sept 10: Check buyback price, key dates, entitlement ratio</strong>
+PVR Inox&#x27;s share buyback offer of ₹300 crore opens on September 10 and closes on September 17, with a buyback price of ₹1,450 per share, which is over 25% above the current market price.
+<strong>Why it matters:</strong> This is a significant corporate action for PVR Inox shareholders. A buyback at a premium typically signals management confidence and can provide a floor for the stock price. Eligible shareholders might see an opportunity to tender their shares at a higher price, potentially leading to short-term price volatility around the buyback dates.
+</p>
+<p>
+<strong>FCNR(B) windfall for banks explained: Who got highest inflows and what it means for investors</strong>
+FCNR(B) deposits offer Indian banks a cheaper and balance-sheet-efficient source of funding, though their finite tenor and initial deployment challenges could pressure margins. ICICI Bank and Kotak Mahindra Bank reportedly saw high inflows.
+<strong>Why it matters:</strong> This news is relevant for the banking sector. While FCNR(B) deposits provide a cost-effective funding source, banks need to manage their deployment effectively to avoid margin pressure. Banks that have successfully attracted these deposits, like ICICI Bank and Kotak Mahindra Bank, might see some benefits in their funding costs, but the overall impact on profitability will depend on their asset-liability management.
+</p>
+<p>
+<strong>FPIs see autos, consumer durables race past staples during festive season</strong>
+Foreign investors are increasing their holdings in auto and consumer durable sectors, while reducing exposure to food, beverages, and tobacco stocks, anticipating strong festive season demand.
+<strong>Why it matters:</strong> This indicates a clear sectorial preference by FPIs, driven by expectations of a robust festive season. Companies in the auto sector (e.g., Maruti Suzuki, Tata Motors, M&amp;M) and consumer durables (e.g., Voltas, Blue Star) could see increased buying interest and positive sentiment. Conversely, companies in the food, beverages, and tobacco sectors might experience some selling pressure.
+</p>
+<p>
+<strong>Biocon shares rise 2% on 10-year Pertuzumab supply deal for breast cancer therapy in Brazil</strong>
+Biocon shares gained after securing a 10-year Pertuzumab supply contract in Brazil, with a consortium receiving full allocation under Brazil’s PDP programme.
+<strong>Why it matters:</strong> This is positive news for Biocon, highlighting its strong position in the biosimilars market and expanding its international footprint. A long-term supply deal provides revenue visibility and could contribute positively to the company&#x27;s financials, potentially boosting investor confidence in the stock.
+</p>
+<p>
+<strong>HFCL, Sterlite Tech shares jump 5%: What’s driving up to 705% multibagger run?</strong>
+HFCL and Sterlite Technologies hit their upper circuits, extending their significant rallies in 2026, driven by strong business updates.
+<strong>Why it matters:</strong> This highlights strong momentum in specific telecom and optical fiber related stocks. Positive business updates are clearly resonating with investors, leading to sharp price appreciation. These stocks could remain in focus, and their performance might indicate broader sentiment towards the digital infrastructure sector.
+</p>
+<h2>Events &amp; data to watch — and how markets usually react</h2>
+<ul>
+<li><strong>Crude Oil Price Movement:</strong> The sharp rise in Brent and WTI crude oil prices is a critical factor to watch today. Markets typically react negatively to sustained increases in crude oil, as it fuels inflation, impacts corporate margins (especially for OMCs, airlines, and paint companies), and can lead to a widening current account deficit.</li>
+<li><strong>RBI Liquidity Management:</strong> As per news, the Reserve Bank of India is tightening liquidity to combat rising inflation. Markets generally become cautious when the RBI tightens liquidity, as it can lead to higher borrowing costs for businesses and impact economic growth. Bond markets are particularly sensitive to such moves.</li>
+<li><strong>FPI Sectoral Flows:</strong> The observed shift by FPIs towards auto and consumer durables and away from staples ahead of the festive season will be important to monitor. Such clear sectoral preferences can drive significant price movements in the identified sectors.</li>
+<li><strong>Global Market Cues:</strong> Given the mixed global sentiment, especially the weakness in US and some Asian markets, Indian markets will closely watch how global indices perform through the day. Negative global cues can often trigger profit booking in domestic markets.</li>
+</ul>
+<h2>What to watch in today&#x27;s session</h2>
+<ol>
+<li>The opening bias indicated by GIFT Nifty and how domestic indices react to global cues.</li>
+<li>Nifty&#x27;s ability to hold the 23600 support level and its attempt to cross the 23700 resistance.</li>
+<li>Movement in crude oil prices and its potential impact on inflation-sensitive sectors and the Rupee.</li>
+<li>Performance of auto and consumer durable stocks, given the FPI buying interest for the festive season.</li>
+<li>Specific stock movements in PVR Inox (due to buyback), Biocon (Brazil deal), and cable/wire makers (due to copper prices and new competition).</li>
+<li>The overall FII flow trend, especially after yesterday&#x27;s net buying, and whether DIIs continue their supportive stance.</li>
+</ol>
+<h2>Bottom line</h2>
+<p>
+Indian markets are likely to open with a cautious to negative bias today, influenced by subdued global cues and a negative signal from GIFT Nifty. The key levels of 23600 for Nifty support and 23700 for resistance will be crucial in determining the day&#x27;s trading range. Investors should remain vigilant about rising crude oil and other commodity prices, which pose a significant risk to the broader economy and corporate earnings.
+</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/pvr-inoxs-rs-300-crore-buyback-opens-on-sept-10-check-buyback-price-key-dates-entitlement-ratio/articleshow/133913344.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/pvr-inoxs-rs-300-crore-buyback-opens-on-sept-10-check-buyback-price-key-dates-entitlement-ratio/articleshow/133913344.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/copper-hits-record-high-ultratechs-ultravolt-on-the-offensive-a-double-whammy-for-cable-makers-in-fy27/articleshow/133913050.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/copper-hits-record-high-ultratechs-ultravolt-on-the-offensive-a-double-whammy-for-cable-makers-in-fy27/articleshow/133913050.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/fcnrb-windfall-for-banks-explained-who-got-highest-inflows-and-what-it-means-for-investors/articleshow/133912727.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/fcnrb-windfall-for-banks-explained-who-got-highest-inflows-and-what-it-means-for-investors/articleshow/133912727.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/why-investors-are-turning-bullish-on-bloom-energy-shares/slideshow/133912665.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/why-investors-are-turning-bullish-on-bloom-energy-shares/slideshow/133912665.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/pc-jeweller-shares-fall-5-after-sharp-3-day-rally-stock-up-388-in-3-years/articleshow/133911978.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/pc-jeweller-shares-fall-5-after-sharp-3-day-rally-stock-up-388-in-3-years/articleshow/133911978.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/commodities/copper-hits-new-peak-of-14533/metric-ton-can-its-reddish-glow-brighten-even-further/articleshow/133911837.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/commodities/copper-hits-new-peak-of-14533/metric-ton-can-its-reddish-glow-brighten-even-further/articleshow/133911837.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/hfcl-sterlite-tech-shares-jump-5-whats-driving-up-to-705-multibagger-run/articleshow/133911653.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/hfcl-sterlite-tech-shares-jump-5-whats-driving-up-to-705-multibagger-run/articleshow/133911653.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/bonds/india-bonds-stuck-in-narrow-range-focus-on-oil-rbi-liquidity-moves/articleshow/133910360.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/bonds/india-bonds-stuck-in-narrow-range-focus-on-oil-rbi-liquidity-moves/articleshow/133910360.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-china-stocks-edge-higher-as-agriculture-energy-and-gold-shares-offset-tech-weakness/articleshow/133910045.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-china-stocks-edge-higher-as-agriculture-energy-and-gold-shares-offset-tech-weakness/articleshow/133910045.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/biocon-shares-rise-2-on-10-year-pertuzumab-supply-deal-for-breast-cancer-therapy-in-brazil/articleshow/133910110.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/biocon-shares-rise-2-on-10-year-pertuzumab-supply-deal-for-breast-cancer-therapy-in-brazil/articleshow/133910110.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/ashish-kacholias-portfolio-how-ace-investors-top-5-stock-holdings-performed-in-one-month/slideshow/133909732.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/ashish-kacholias-portfolio-how-ace-investors-top-5-stock-holdings-performed-in-one-month/slideshow/133909732.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/broadcoms-230-billion-ai-opportunity-buy-sell-or-hold-on-the-avgo-stock/slideshow/133909251.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/broadcoms-230-billion-ai-opportunity-buy-sell-or-hold-on-the-avgo-stock/slideshow/133909251.cms</a></li>
+<li><a href="https://www.livemint.com/market/stock-market-news/fpi-buying-autos-consumer-durables-festive-season-demand-11788798904500.html" rel="noopener" target="_blank">https://www.livemint.com/market/stock-market-news/fpi-buying-autos-consumer-durables-festive-season-demand-11788798904500.html</a></li>
+<li><a href="https://www.livemint.com/market/stock-market-news/tejas-networks-stock-forms-strong-bullish-candles-axis-direct-shares-buy-range-stop-loss-upside-holding-period-11788849830807.html" rel="noopener" target="_blank">https://www.livemint.com/market/stock-market-news/tejas-networks-stock-forms-strong-bullish-candles-axis-direct-shares-buy-range-stop-loss-upside-holding-period-11788849830807.html</a></li>
+<li><a href="https://www.livemint.com/market/stock-market-news/dividend-stocks-alert-last-chance-to-buy-today-to-qualify-for-these-shares-check-full-list-amount-payment-11788845748540.html" rel="noopener" target="_blank">https://www.livemint.com/market/stock-market-news/dividend-stocks-alert-last-chance-to-buy-today-to-qualify-for-these-shares-check-full-list-amount-payment-11788845748540.html</a></li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
