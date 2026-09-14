@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Optimise NPS for Higher Returns &amp; a Bigger Retirement Corpus</title>
+<meta name="description" content="The National Pension System (NPS) is a long-term retirement savings scheme offering market-linked returns and significant tax benefits. Optimising your NPS in.">
+<meta name="keywords" content="retirement, contributions, contribution, allocation, choice, pension, corpus, account">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-14-personal_finance-optimise-nps-for-higher-returns-a-bigger-retirement-corpus/">
+<meta property="og:title" content="Optimise NPS for Higher Returns &amp; a Bigger Retirement Corpus">
+<meta property="og:description" content="The National Pension System (NPS) is a long-term retirement savings scheme offering market-linked returns and significant tax benefits. Optimising your NPS in.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-14-personal_finance-optimise-nps-for-higher-returns-a-bigger-retirement-corpus/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Optimise NPS for Higher Returns & a Bigger Retirement Corpus", "description": "The National Pension System (NPS) is a long-term retirement savings scheme offering market-linked returns and significant tax benefits. Optimising your NPS in.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-14", "dateModified": "2026-09-14", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-14-personal_finance-optimise-nps-for-higher-returns-a-bigger-retirement-corpus/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-09-14</div><h1>Optimise NPS for Higher Returns &amp; a Bigger Retirement Corpus</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The National Pension System (NPS) is a long-term retirement savings scheme offering market-linked returns and significant tax benefits.</li>
+<li>Optimising your NPS involves strategically choosing between Active and Auto asset allocation based on your risk appetite and age.</li>
+<li>Selecting a well-performing Pension Fund Manager (PFM) and regularly reviewing your portfolio are crucial for corpus growth.</li>
+<li>Leveraging voluntary contributions beyond mandatory deductions, especially early in your career, significantly boosts your retirement fund.</li>
+<li>Understanding NPS withdrawal rules and tax implications at maturity helps in better financial planning for your golden years.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+The National Pension System (NPS) is a government-backed retirement scheme designed to help you build a substantial corpus for your post-working years. Think of it as a long-term investment that grows with the market, offering you a pension once you retire. It&#x27;s unique because it combines elements of both equity and debt investments, tailored to your risk preference, and comes with attractive tax benefits that can lower your taxable income each year.
+</p>
+<p>
+For salaried and self-employed individuals earning ₹15 lakhs or more, NPS offers a structured way to save for retirement while simultaneously reducing your tax outgo. It encourages disciplined savings over decades, allowing the power of compounding to work its magic. By making informed choices about how your money is invested and actively managing your account, you can significantly enhance your retirement fund, ensuring financial security when you stop working.
+</p>
+<h2>Decoding NPS: Structure and Tax Advantages</h2>
+<p>
+The National Pension System (NPS) primarily operates through two types of accounts: Tier I and Tier II. Understanding their differences is fundamental to optimising your contributions and tax benefits.
+</p>
+<h3>Tier I vs. Tier II Accounts</h3>
+<p>
+The <strong>Tier I account</strong> is the primary retirement account under NPS. Contributions to this account are locked in until retirement (age 60), with partial withdrawals allowed only under specific circumstances like children&#x27;s education, marriage, or critical illness, after a minimum of three years of contribution. This account is eligible for various tax benefits, making it the core of your retirement planning through NPS.
+</p>
+<p>
+The <strong>Tier II account</strong> is a voluntary savings facility. It acts more like a regular investment account where you can deposit and withdraw funds at any time, without the strict lock-in period of Tier I. While it offers flexibility, contributions to Tier II are generally not eligible for tax deductions, except for government employees who can claim deductions under Section 80C for Tier II contributions with a three-year lock-in. For most private sector individuals, Tier II is useful for additional, flexible savings but doesn&#x27;t offer the same tax advantages as Tier I.
+</p>
+<h3>Key Tax Benefits Under NPS</h3>
+<p>
+NPS offers compelling tax benefits that can significantly reduce your taxable income. These include:
+</p>
+<ul>
+<li><strong>Section 80C:</strong> Contributions to NPS Tier I are eligible for deduction under Section 80C, up to the overall limit of ₹1.5 lakhs. This is shared with other investments like EPF, PPF, ELSS, etc..</li>
+<li><strong>Section 80CCD(1):</strong> This section specifically covers your own contributions to NPS Tier I. Within the overall 80C limit, you can claim a deduction for your contribution.</li>
+<li><strong>Section 80CCD(1B):</strong> This is a crucial additional deduction. You can claim an exclusive deduction of up to ₹50,000 for voluntary contributions to NPS Tier I, over and above the ₹1.5 lakh limit under Section 80C. This benefit is particularly attractive for high-income earners looking for extra tax savings.</li>
+<li><strong>Section 80CCD(2):</strong> If you are a salaried employee, your employer&#x27;s contribution to your NPS Tier I account is deductible from your taxable income. For private sector employees, this deduction is capped at 10% of your basic salary plus Dearness Allowance (DA). For central government employees, the limit is 14% of basic salary plus DA. This benefit is over and above the limits under Sections 80C and 80CCD(1B), offering a substantial tax advantage.</li>
+</ul>
+<p>
+By strategically utilising these sections, especially 80CCD(1B) and 80CCD(2), you can significantly reduce your tax liability while building a robust retirement corpus.
+</p>
+<h2>Strategic Asset Allocation: Active vs. Auto Choice</h2>
+<p>
+One of the most critical decisions in optimising your NPS returns is choosing the right asset allocation strategy. NPS offers two main approaches: Active Choice and Auto Choice.
+</p>
+<h3>Understanding Asset Classes: E, C, G</h3>
+<p>
+NPS investments are primarily made across three asset classes:
+</p>
+<ul>
+<li><strong>Asset Class E (Equity):</strong> Primarily invests in equity market instruments. This class offers the potential for higher returns but comes with higher risk.</li>
+<li><strong>Asset Class C (Corporate Bonds):</strong> Invests in corporate bonds and other fixed-income instruments. This offers moderate returns with moderate risk.</li>
+<li><strong>Asset Class G (Government Securities):</strong> Invests in government securities and related instruments. This is generally considered the safest option, offering lower but stable returns.</li>
+</ul>
+<h3>When to Opt for Active Choice</h3>
+<p>
+Under <strong>Active Choice</strong>, you have the flexibility to decide the proportion of your investment across these three asset classes. You can allocate up to 75% of your corpus to Asset Class E (Equity) until age 50, after which it gradually tapers down. This option is ideal for individuals who:
+</p>
+<ul>
+<li>Have a good understanding of market dynamics and risk tolerance.</li>
+<li>Prefer to actively manage their portfolio and rebalance it periodically.</li>
+<li>Are comfortable taking higher risks for potentially higher returns, especially in their younger years.</li>
+<li>Wish to customise their allocation based on their personal financial goals and market outlook.</li>
+</ul>
+<p>
+If you choose Active Choice, it&#x27;s crucial to review and rebalance your portfolio regularly to ensure it aligns with your evolving risk profile and market conditions.
+</p>
+<h3>When Auto Choice Makes Sense</h3>
+<p>
+The <strong>Auto Choice</strong> option, also known as the Lifecycle Fund, automatically adjusts your asset allocation based on your age. As you get older, the allocation to riskier assets (equity) gradually decreases, and allocation to safer assets (corporate bonds and government securities) increases. This systematic de-risking aims to protect your accumulated corpus as you approach retirement. There are three types of Lifecycle Funds:
+</p>
+<ul>
+<li><strong>LC75 (Aggressive):</strong> Starts with 75% equity exposure, suitable for those with a higher risk appetite.</li>
+<li><strong>LC50 (Moderate):</strong> Starts with 50% equity exposure, a balanced approach.</li>
+<li><strong>LC25 (Conservative):</strong> Starts with 25% equity exposure, for those with a lower risk tolerance.</li>
+</ul>
+<p>
+Auto Choice is suitable for individuals who:
+</p>
+<ul>
+<li>Prefer a hands-off approach to investment management.</li>
+<li>Are unsure about their ideal asset allocation or market timing.</li>
+<li>Want a systematic de-risking strategy as they age.</li>
+<li>Prioritise capital preservation as they near retirement.</li>
+</ul>
+<p>
+For most individuals, especially those who prefer simplicity and a disciplined approach to managing retirement savings, Auto Choice can be an excellent option, as it removes the need for constant monitoring and rebalancing.
+</p>
+<h2>Choosing the Right Fund Manager and Regular Review</h2>
+<p>
+Beyond asset allocation, the performance of your chosen Pension Fund Manager (PFM) plays a significant role in the growth of your NPS corpus.
+</p>
+<h3>Evaluating Pension Fund Managers (PFMs)</h3>
+<p>
+Currently, there are several PFMs registered with PFRDA (Pension Fund Regulatory and Development Authority). When selecting a PFM, consider the following factors:
+</p>
+<ul>
+<li><strong>Historical Performance:</strong> While past performance is not indicative of future results, consistently good performance across various asset classes over a long period can be a positive indicator. Compare the returns of different PFMs for the Equity (E), Corporate Bond (C), and Government Securities (G) funds.</li>
+<li><strong>Expense Ratio:</strong> PFMs charge a small fee for managing your funds. While these are generally low in NPS, comparing them can be worthwhile.</li>
+<li><strong>Customer Service and Transparency:</strong> A PFM with good customer service and transparent reporting can make your experience smoother.</li>
+<li><strong>Investment Philosophy:</strong> Understand if the PFM&#x27;s investment philosophy aligns with your own risk appetite and long-term goals.</li>
+</ul>
+<p>
+You have the flexibility to change your PFM once a year, allowing you to switch if you are not satisfied with their performance or service.
+</p>
+<h3>The Importance of Periodic Portfolio Review</h3>
+<p>
+Even with an Auto Choice strategy, or especially with an Active Choice, regular review of your NPS portfolio is crucial.
+</p>
+<ul>
+<li><strong>Rebalancing (Active Choice):</strong> If you&#x27;ve opted for Active Choice, review your asset allocation at least once a year. Market movements can cause your actual allocation to drift from your target. Rebalancing ensures you bring it back in line with your risk profile. For instance, if equities have performed exceptionally well, their proportion might have increased beyond your comfort level, warranting a reduction.</li>
+<li><strong>Performance Check:</strong> Regardless of your choice, monitor the performance of your PFM. Compare their returns against benchmarks and other PFMs. If a PFM consistently underperforms, consider exercising your option to switch.</li>
+<li><strong>Life Stage Changes:</strong> Your risk appetite and financial goals may change over time due to life events like marriage, children, or career changes. Your NPS allocation should reflect these changes. For example, as you approach retirement, you might want to shift towards more conservative assets, even if you are on an aggressive Auto Choice plan.</li>
+</ul>
+<p>
+A disciplined annual review ensures your NPS remains aligned with your retirement goals and continues to work optimally for you.
+</p>
+<h2>Boosting Your Corpus: Voluntary Contributions and Compounding</h2>
+<p>
+While mandatory contributions through your employer or minimum annual contributions are a start, actively increasing your contributions can dramatically boost your retirement corpus.
+</p>
+<h3>Making Additional Contributions</h3>
+<p>
+Beyond the minimum annual contribution of ₹1,000 for Tier I, consider making voluntary contributions whenever your finances allow. This could be from bonuses, tax refunds, or simply by allocating a higher percentage of your income towards NPS. The additional ₹50,000 deduction under Section 80CCD(1B) is a strong incentive to contribute more. Even small, regular additional sums can make a big difference over decades due to compounding.
+</p>
+<p>
+You can make additional contributions online through the eNPS portal or through your Point of Presence (POP). Setting up a standing instruction for monthly voluntary contributions can help build this habit.
+</p>
+<h3>The Power of Starting Early</h3>
+<p>
+The greatest advantage in long-term investing, especially with schemes like NPS, is time. Starting early allows your investments more years to compound, meaning returns generate further returns.
+For example, a person starting at age 25 and contributing ₹10,000 per month will accumulate a significantly larger corpus than someone starting at age 35 with the same monthly contribution, even if they contribute for the same number of years to retirement. The extra decade of compounding for the early starter makes a monumental difference.
+This principle underscores why leveraging NPS early in your career is one of the most effective strategies for building a substantial retirement fund.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider Anjali, 30, ₹18L CTC, Hyderabad. She is a salaried employee with a good income and is planning for her retirement. Her basic salary is ₹7.5 lakhs per annum, and DA is ₹1.5 lakhs per annum.
+</p>
+<p>
+Anjali&#x27;s employer contributes 10% of her Basic + DA to her NPS Tier I account, which is ₹90,000 annually (10% of ₹9 lakhs). Anjali also makes a voluntary contribution of ₹50,000 to her NPS Tier I account to claim the additional deduction under Section 80CCD(1B).
+</p>
+<p>
+<strong>Here&#x27;s how her NPS contributions and tax savings stack up:</strong>
+</p>
+<ol>
+<li><strong>Employer&#x27;s Contribution:</strong> ₹90,000 (deductible under Section 80CCD(2)). This amount is excluded from her taxable income.</li>
+<li><strong>Anjali&#x27;s Voluntary Contribution:</strong> ₹50,000 (deductible under Section 80CCD(1B)). This is over and above the Section 80C limit.</li>
+</ol>
+<p>
+<strong>Total Annual NPS Contribution:</strong> ₹90,000 (Employer) + ₹50,000 (Anjali) = ₹1,40,000.
+</p>
+<p>
+Assuming Anjali is in the 30% tax bracket (plus cess), her tax savings from these contributions would be:
+</p>
+<ul>
+<li>Savings from Employer&#x27;s contribution (80CCD(2)): 30% of ₹90,000 = ₹27,000</li>
+<li>Savings from Anjali&#x27;s voluntary contribution (80CCD(1B)): 30% of ₹50,000 = ₹15,000</li>
+<p>
+<strong>Total Tax Savings:</strong> ₹27,000 + ₹15,000 = ₹42,000 annually.
+</p>
+</ul>
+<p>
+Now, let&#x27;s look at her corpus growth. Anjali chooses an Active Choice strategy with 75% in Asset E (Equity), 15% in Asset C (Corporate Bonds), and 10% in Asset G (Government Securities). She expects an average annual return of 10% over her investment horizon until age 60 (30 years).
+</p>
+<p>
+<strong>Annual Contribution:</strong> ₹1,40,000
+</p>
+<p>
+Using a future value calculator for 30 years at 10% annual return:
+Future Value = P * [((1 + r)^n - 1) / r]
+Where P = annual contribution, r = annual interest rate, n = number of years.
+</p>
+<p>
+Future Value = ₹1,40,000 * [((1 + 0.10)^30 - 1) / 0.10]
+Future Value ≈ ₹1,40,000 * [(17.4494 - 1) / 0.10]
+Future Value ≈ ₹1,40,000 * [16.4494 / 0.10]
+Future Value ≈ ₹1,40,000 * 164.494
+Future Value ≈ ₹2,30,29,160
+</p>
+<p>
+Anjali could accumulate a corpus of approximately ₹2.30 crores by the time she retires at 60. This is a substantial sum, part of which she can withdraw as a lump sum (up to 60% tax-free) and the rest used to buy an annuity for regular pension income.
+</p>
+<p>
+If Anjali decided to increase her voluntary contribution by just ₹5,000 per month (₹60,000 annually) from her bonus, her total annual contribution would be ₹2,00,000.
+With an annual contribution of ₹2,00,000 over 30 years at 10% return:
+Future Value ≈ ₹2,00,000 * 164.494
+Future Value ≈ ₹3,28,98,800
+</p>
+<p>
+This small additional contribution of ₹60,000 per year boosts her retirement corpus by nearly ₹1 crore, demonstrating the immense power of compounding and consistent contributions.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Log in and Check Allocation:</strong> Access your NPS account online via the CRA (Central Recordkeeping Agency) portal (e.g., NSDL or KFintech) and review your current asset allocation (E, C, G) and chosen Pension Fund Manager(s).</li>
+<li><strong>Review PFM Performance:</strong> Compare the historical returns of your current Pension Fund Manager&#x27;s schemes against other PFMs and relevant benchmarks for the asset classes you&#x27;re invested in. You can find this data on the NPS Trust website.</li>
+<li><strong>Evaluate Asset Allocation Strategy:</strong> Determine if your current strategy (Active Choice or Auto Choice) and its specific allocation (e.g., LC75, LC50, LC25) still align with your present risk appetite, age, and long-term retirement goals.</li>
+<li><strong>Consider Voluntary Contributions:</strong> If your finances permit, plan to make an additional voluntary contribution to your Tier I account to maximise the ₹50,000 deduction under Section 80CCD(1B) for the current financial year.</li>
+<li><strong>Set Annual Review Reminder:</strong> Schedule a recurring calendar reminder, perhaps around the start of the financial year, to review your NPS portfolio and make any necessary adjustments.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the minimum contribution to NPS Tier I?</h3>
+<p>
+The minimum contribution required for an NPS Tier I account is ₹500 per transaction, with a minimum aggregate contribution of ₹1,000 in a financial year.
+</p>
+<h3>Can I change my NPS asset allocation?</h3>
+<p>
+Yes, you can change your asset allocation strategy (from Active to Auto or vice-versa) and modify your allocation percentages within Active Choice four times in a financial year. You can also change your Pension Fund Manager once a year.
+</p>
+<h3>How many Pension Fund Managers can I choose?</h3>
+<p>
+You can choose one Pension Fund Manager (PFM) for your NPS account. However, you have the flexibility to switch your PFM once a year if you wish to.
+</p>
+<h3>What happens to my NPS corpus upon retirement?</h3>
+<p>
+Upon reaching age 60, for government employees, you can withdraw up to 60% of your NPS corpus as a tax-free lump sum, and the remaining minimum 40% must be used to purchase an annuity plan. For non-government subscribers, if the corpus is above ₹12 lakh, at least 20% must be used to purchase an annuity, and up to 80% can be withdrawn as a lump sum. If the corpus is up to ₹8 lakh, the entire amount can be withdrawn as a lump sum.
+</p>
+<h3>Is NPS suitable for short-term goals?</h3>
+<p>
+No, NPS is designed as a long-term retirement savings instrument with a lock-in period until age 60 for Tier I accounts. It is not suitable for short-term financial goals due to its illiquid nature and withdrawal restrictions.
+</p>
+<h3>Can NRIs invest in NPS?</h3>
+<p>
+Yes, Non-Resident Indians (NRIs) can open an NPS account. They can contribute to NPS using their NRE/NRO accounts. The rules for withdrawal and taxation are generally similar to resident Indians.
+</p>
+<h3>What is the difference between NPS and EPF?</h3>
+<p>
+EPF (Employees&#x27; Provident Fund) is mandatory for most salaried employees, with fixed contributions and returns. NPS is a voluntary, market-linked pension scheme with flexible contributions and asset allocation choices, offering different tax benefits and withdrawal rules.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+<li>NPS Trust: https://npstrust.org.in</li>
+<li>PFRDA: https://pfrda.org.in</li>
+<li>EPFO: https://epfindia.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
