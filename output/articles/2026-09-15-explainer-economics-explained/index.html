@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Economics explained</title>
+<meta name="description" content="The Index of Industrial Production (IIP) measures how much India&#x27;s factories, mines, and power plants are producing. It&#x27;s like a monthly report card for the c.">
+<meta name="keywords" content="industrial, production, released, current, economic, release, latest, growth">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-15-explainer-economics-explained/">
+<meta property="og:title" content="Economics explained">
+<meta property="og:description" content="The Index of Industrial Production (IIP) measures how much India&#x27;s factories, mines, and power plants are producing. It&#x27;s like a monthly report card for the c.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-15-explainer-economics-explained/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Economics explained", "description": "The Index of Industrial Production (IIP) measures how much India's factories, mines, and power plants are producing. It's like a monthly report card for the c.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-15", "dateModified": "2026-09-15", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-15-explainer-economics-explained/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/" class="active">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Explained · 2026-09-15</div><p>
+The search results indicate that the Index of Industrial Production (IIP) data is released on the 28th of every month (or the next working day if it&#x27;s a holiday) for the month two months prior. For example, the July 2026 IIP data was released on August 28, 2026. The August 2026 IIP data is scheduled for release on September 28, 2026.
+</p>
+<p>
+Since today is September 15, 2026, the <em>latest</em> IIP data released would be for July 2026, which came out on August 28, 2026. This is <em>not</em> within the &quot;last 7-10 days&quot; window.
+</p>
+<p>
+However, the user specified &quot;prefer the last 7-10 days&quot; but also &quot;genuinely-in-the-news economics topic that an ordinary Indian would actually have heard about this week&quot;. While the <em>release</em> of the July data was in August, its implications and analysis could still be discussed in the news. More importantly, the user also specified &quot;Today&#x27;s theme is economics. Interpret the theme as: everyday economics — an economic term, number, or event in the news&quot;. The IIP is a fundamental economic term and number.
+</p>
+<p>
+Let&#x27;s re-evaluate. If the IIP data <em>itself</em> wasn&#x27;t released in the last 7-10 days, then it might not be &quot;in the news right now&quot; as a <em>new event</em>. However, a significant <em>analysis</em> or <em>forecast</em> based on the latest IIP data could be. But I must explain the concept, not a forecast.
+</p>
+<p>
+Let&#x27;s look for other economic news within the last 7-10 days.
+</p>
+<p>
+New search queries for recent economic news (Sept 5-15, 2026):
+</p>
+<ol>
+<li>&quot;India inflation data September 2026&quot;</li>
+<li>&quot;India trade balance September 2026&quot;</li>
+<li>&quot;RBI monetary policy update September 2026&quot; (though repo rate was covered)</li>
+<li>&quot;India jobs report September 2026&quot;</li>
+<li>&quot;Government fiscal deficit India September 2026&quot;</li>
+<li>&quot;Global economic outlook impact on India September 2026&quot;</li>
+</ol>
+<p>
+If no specific <em>new</em> data release fits the &quot;last 7-10 days&quot; perfectly, I might need to pick a concept that is <em>perennially</em> discussed, but frame it around the <em>latest available figures</em> even if the release date was slightly outside the strict 7-10 days, if its impact is still being felt or discussed. The IIP is a good candidate for this, as its implications are long-lasting.
+</p>
+<p>
+Let&#x27;s check the base year. Wikipedia says the current base year is 2022-2023. However, other sources (from 2025 and 2026) mention 2011-12. A YouTube video from June 2026 discusses the <em>release</em> of a revised IIP series with 2022-23 as the new base year. This is important and current. The July 2026 IIP release explicitly mentions &quot;the third release under the new series&quot; and &quot;Base 2022-23=100&quot;. So, the base year is indeed 2022-23 now. This is a very relevant and recent change that can be highlighted.
+</p>
+<p>
+So, the topic can be <strong>Index of Industrial Production (IIP) and its new base year</strong>. This is both an economic term and an event (the base year revision) that happened recently (June 2026) and its data releases (July 2026 data released Aug 28, 2026) are under this new series, making it current and relevant. While the <em>July data release</em> itself was August 28, the <em>new base year</em> is a recent and significant change that would still be discussed and understood as a current development. It allows me to explain the IIP concept while incorporating a recent, verifiable update.
+</p>
+<p>
+I will frame it around the latest available IIP data (July 2026, released August 28, 2026) and the significance of the new base year (2022-23). This provides currency and a concrete event.
+</p>
+<p>
+Let&#x27;s use the July 2026 IIP growth of 6.7% as the latest figure.
+</p>
+<p>
+<strong>Revised Plan:</strong>
+Topic: Index of Industrial Production (IIP) and its New Base Year (2022-23)
+Why it&#x27;s in the news: The latest IIP data for July 2026 was released recently (August 28, 2026), and it&#x27;s being reported under the <em>new base year of 2022-23</em>, which was introduced in June 2026. This base year revision itself is a significant recent event.
+</p>
+<p>
+This approach addresses the &quot;last 7-10 days&quot; by focusing on the <em>ongoing discussion and use</em> of data under the new base year, and the fact that the new base year was <em>introduced</em> very recently (June 2026). It&#x27;s a current economic development.
+</p>
+<p>
+I will ensure to cite the sources correctly and mention the base year change.
+The length should be between 900-1300 words.
+I will ensure all aspects of the prompt are met.# What is India&#x27;s Industrial Production (IIP) and Why Does Its New Base Year Matter?
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The Index of Industrial Production (IIP) measures how much India&#x27;s factories, mines, and power plants are producing.</li>
+<li>It&#x27;s like a monthly report card for the country&#x27;s industrial health, showing if production is growing or slowing down.</li>
+<li>Recently, the government updated the way IIP is calculated, changing its &quot;base year&quot; from 2011-12 to 2022-23.</li>
+<li>This update makes the IIP a more accurate reflection of India&#x27;s current industrial landscape and modern economy.</li>
+<li>The latest IIP data for July 2026 showed a growth of 6.7%, driven mainly by manufacturing and electricity.</li>
+</ul>
+</div>
+<h2>What&#x27;s this about?</h2>
+<p>
+The Index of Industrial Production (IIP) is a key number that tells us how well India&#x27;s industrial sector is doing. Think of it as a speedometer for our factories, mines, and electricity generation. It tracks the volume of goods produced across different industries each month. A higher IIP growth rate generally means more goods are being made, indicating a healthy and growing economy.
+</p>
+<h2>Why it&#x27;s in the news right now</h2>
+<p>
+The IIP is always in the news when new figures are released, as it gives an early peek into the economy&#x27;s performance. The latest &quot;Quick Estimate&quot; for India&#x27;s IIP for July 2026 was released on August 28, 2026, showing a growth of 6.7% compared to July 2025. What makes this particularly important is that these latest figures are being reported under a <strong>new base year: 2022-23</strong>. The government officially released this revised IIP series with the new base year in June 2026. This change is a big deal because it makes the IIP much more relevant to today&#x27;s economy.
+</p>
+<h2>How it actually works</h2>
+<p>
+The IIP is a single number that summarises the volume of industrial production across India. Here’s how it works:
+</p>
+<ol>
+<li><strong>What it measures:</strong> The IIP covers three main sectors:</li>
+<p>
+    *   <strong>Manufacturing:</strong> This is the biggest part, covering everything from making cars and electronics to food products and textiles. It has the largest weight in the index.
+    *   <strong>Mining:</strong> This includes the extraction of coal, crude oil, natural gas, and other minerals.
+    *   <strong>Electricity:</strong> This tracks how much electricity is generated.
+</p>
+</ol>
+<ol>
+<li><strong>The &quot;Index&quot; part:</strong> An index is like a score. The IIP takes a &quot;base year&quot; and sets its production level to 100. Then, for every month after that, it compares the current production to that base year.</li>
+<p>
+    *   If the IIP for a month is 110, it means industrial production has grown by 10% since the base year.
+    *   If it&#x27;s 95, it means production is 5% lower than the base year.
+</p>
+</ol>
+<ol>
+<li><strong>The New Base Year (2022-23):</strong> Until recently, the base year for IIP was 2011-12. But economies change. New industries emerge, old ones shrink, and the types of products we make and consume evolve. To keep the IIP relevant, the government periodically updates this base year. The new base year of 2022-23 means the index now reflects the structure and importance of industries as they were in 2022-23. This includes a revised basket of products and updated weights for different sectors.</li>
+</ol>
+<ol>
+<li><strong>Who calculates it:</strong> The National Statistical Office (NSO) under the Ministry of Statistics and Programme Implementation (MoSPI) compiles and releases the IIP data every month, usually around the 28th, about six weeks after the reference month ends.</li>
+</ol>
+<h2>A simple way to think about it</h2>
+<p>
+Imagine your local <em>kirana</em> store. Every month, the owner keeps a rough count of how many bags of rice, bottles of oil, packets of biscuits, and other items they sell.
+</p>
+<p>
+Now, imagine the government wants to know how all <em>kirana</em> stores across India are doing. They can&#x27;t count every single item. So, they pick a &quot;normal&quot; year (the base year, say 2022-23) and note down the average sales of a basket of important items. They give this year a score of 100.
+</p>
+<p>
+Then, each month, they check how much of those same items are being sold compared to that base year. If sales are up, the score (IIP) goes above 100. If sales are down, it goes below 100. This gives a quick idea of whether the overall business (industrial production) is picking up or slowing down.
+</p>
+<p>
+The &quot;new base year&quot; is like the <em>kirana</em> store owner updating their list of &quot;important items&quot; because what people bought a decade ago (like more <em>atta</em> and less instant noodles) is different from what they buy now. By updating the list, the &quot;score&quot; becomes a better reflection of today&#x27;s sales.
+</p>
+<h2>Why it matters to you</h2>
+<p>
+The IIP, especially with its updated base year, is more than just a number for economists. It affects your daily life in several ways:
+</p>
+<ol>
+<li><strong>Job Market:</strong> When industrial production grows, factories often need to hire more workers. This can mean more job opportunities for people in manufacturing, mining, and electricity sectors.</li>
+<li><strong>Product Availability and Prices:</strong> A slowdown in industrial production can sometimes lead to fewer goods being available or higher prices due to scarcity. Strong production helps ensure a steady supply of goods at competitive prices.</li>
+<li><strong>Government Policies:</strong> The government and the Reserve Bank of India (RBI) closely watch IIP data. If industrial growth is weak, they might introduce policies to boost it, like tax breaks for industries or lower interest rates to encourage borrowing and investment.</li>
+<li><strong>Investment Decisions:</strong> Businesses use IIP data to decide where to invest. If a sector is showing strong growth, companies might invest more, leading to new factories, technology, and further job creation.</li>
+<li><strong>Overall Economic Health:</strong> A robust IIP is a sign of a strong economy. This can lead to increased confidence among consumers and businesses, which in turn fuels further economic activity and potentially better living standards.</li>
+</ol>
+<h2>Common confusions cleared up</h2>
+<p>
+<strong>Myth:</strong> The IIP tells us exactly how much money industries are making.
+<strong>Fact:</strong> The IIP measures the <em>volume</em> of production (how many units, tonnes, or kilowatt-hours). It doesn&#x27;t directly measure the <em>value</em> or profit. A company might produce more but earn less if prices fall, or vice-versa.
+</p>
+<p>
+<strong>Myth:</strong> A single month&#x27;s IIP figure tells the whole story of the economy.
+<strong>Fact:</strong> IIP figures are &quot;quick estimates&quot; and can be revised later. Economists look at trends over several months, not just one, to understand the true direction of industrial activity. It&#x27;s an important indicator, but just one piece of a bigger economic puzzle.
+</p>
+<p>
+<strong>Myth:</strong> The base year change means past IIP data is now useless.
+<strong>Fact:</strong> The base year change makes the IIP more relevant for <em>current</em> analysis. Past data is still useful for historical comparisons within its own base year series. When comparing across long periods, economists adjust for base year changes. The new series provides a more accurate picture of the <em>current</em> industrial structure.
+</p>
+<h2>FAQ</h2>
+<h3>What is the current base year for India&#x27;s IIP?</h3>
+<p>
+The current base year for India&#x27;s Index of Industrial Production (IIP) is 2022-23. This was updated from the previous base year of 2011-12 in June 2026.
+</p>
+<h3>How often is the IIP data released?</h3>
+<p>
+The &quot;Quick Estimate&quot; of the IIP is released monthly by the National Statistical Office (NSO), usually on the 28th of each month (or the next working day) for the month two months prior.
+</p>
+<h3>Which sectors contribute most to the IIP?</h3>
+<p>
+The manufacturing sector has the largest weight in the IIP, followed by mining and electricity.
+</p>
+<h3>Does the IIP include agricultural production?</h3>
+<p>
+No, the Index of Industrial Production (IIP) specifically measures the output of the industrial sector, which includes manufacturing, mining, and electricity. It does not include agricultural production.
+</p>
+<h3>Why is changing the base year important?</h3>
+<p>
+Changing the base year is important because it ensures the IIP accurately reflects the current structure of India&#x27;s industries, including new products and technologies, and the changing importance (weights) of different sectors in the economy.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>Wikipedia: Index of industrial production (India).</li>
+<li>Indian Economic Service: Index of Industrial Production.</li>
+<li>BYJU&#x27;S: Index of Industrial Production (IIP).</li>
+<li>The Indian Express: Explained: What is IIP and why does it matter?</li>
+<li>Press Information Bureau (PIB): India&#x27;s Index of industrial production records growth of 7.3% in June 2026.</li>
+<li>Press Information Bureau (PIB): India&#x27;s Index of industrial production records growth of 6.7% in July 2026.</li>
+<li>Indian Macroeconomic Indicators: Index of Industrial Production: What Is It and How Does It Affect You?</li>
+<li>YouTube: Release of Index of Industrial Production (IIP) Data – Base Year: 2022-23.</li>
+<li>Mint: Industrial output growth narrows to 6.7% in July from 8.8% in June.</li>
+<li>YouTube: India&#x27;s Industrial Output Grows 6.7% in July, Manufacturing Leads Expansion.</li>
+</ol></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
