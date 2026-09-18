@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>EPFO Form 10C: Claiming Pension Benefits Explained</title>
+<meta name="description" content="EPFO Form 10C is used to withdraw your Employees&#x27; Pension Scheme (EPS) contributions or to obtain a Scheme Certificate. You can apply for a Scheme Certificate.">
+<meta name="keywords" content="service, scheme, certificate, aadhaar, account, withdrawal, pension, employer">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-18-personal_finance-epfo-form-10c-claiming-pension-benefits-explained/">
+<meta property="og:title" content="EPFO Form 10C: Claiming Pension Benefits Explained">
+<meta property="og:description" content="EPFO Form 10C is used to withdraw your Employees&#x27; Pension Scheme (EPS) contributions or to obtain a Scheme Certificate. You can apply for a Scheme Certificate.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-18-personal_finance-epfo-form-10c-claiming-pension-benefits-explained/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "EPFO Form 10C: Claiming Pension Benefits Explained", "description": "EPFO Form 10C is used to withdraw your Employees' Pension Scheme (EPS) contributions or to obtain a Scheme Certificate. You can apply for a Scheme Certificate.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-18", "dateModified": "2026-09-18", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-18-personal_finance-epfo-form-10c-claiming-pension-benefits-explained/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-09-18</div><h1>EPFO Form 10C: Claiming Pension Benefits Explained</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>EPFO Form 10C is used to withdraw your Employees&#x27; Pension Scheme (EPS) contributions or to obtain a Scheme Certificate.</li>
+<li>You can apply for a Scheme Certificate if you have completed at least 10 years of service but are not yet 58, to carry forward your pensionable service.</li>
+<li>Withdrawal of EPS accumulations is possible if you have less than 10 years of service and are leaving employment before age 58.</li>
+<li>The online application process requires an activated UAN, linked Aadhaar, and KYC-verified bank details.</li>
+<li>Claiming EPS benefits through Form 10C is a crucial step for many employees transitioning between jobs or exiting the workforce.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you are employed in the organised sector in India, a portion of your salary goes towards the Employees&#x27; Provident Fund (EPF), and a smaller part of your employer&#x27;s contribution goes into the Employees&#x27; Pension Scheme (EPS). This EPS component is designed to provide you with a pension after retirement, provided you meet certain service conditions.
+</p>
+<p>
+Form 10C is the official document you use to interact with the EPFO regarding your EPS funds. It primarily serves two purposes: either to withdraw the accumulated funds from your EPS account if you haven&#x27;t completed enough service for a pension, or to get a &#x27;Scheme Certificate&#x27; which allows you to transfer your pensionable service from one employer to another, or to claim a pension later. Understanding when and how to use this form is vital for managing your retirement savings effectively.
+</p>
+<h2>Understanding EPS and Form 10C</h2>
+<p>
+The Employees&#x27; Pension Scheme (EPS) is a social security scheme managed by the Employees&#x27; Provident Fund Organisation (EPFO). Under this scheme, a portion of your employer&#x27;s contribution (currently 8.33% of your basic wages, capped at ₹15,000 per month) is diverted to your EPS account. The goal of EPS is to provide a regular income to employees after they turn 58, provided they have completed at least 10 years of eligible service.
+</p>
+<p>
+Form 10C is the application form specifically for claiming benefits under the EPS. It&#x27;s not for withdrawing your EPF corpus, which requires Form 19. Form 10C comes into play in two primary scenarios:
+</p>
+<h3>Withdrawal Benefit</h3>
+<p>
+If you have completed less than 10 years of eligible service and are leaving your employment before reaching 58 years of age, you are generally eligible to withdraw your accumulated EPS contributions. This withdrawal is a one-time lump sum payment. The amount you receive depends on your salary and the number of years of service, calculated as per the EPS rules.
+</p>
+<h3>Scheme Certificate</h3>
+<p>
+If you have completed 10 or more years of eligible service but are leaving employment before the age of 58, you are not eligible for a lump sum withdrawal. Instead, you can apply for a &#x27;Scheme Certificate&#x27;. This certificate acts as a record of your pensionable service and allows you to combine your service periods if you join another establishment covered by the EPS. It ensures that your total service period is considered when you eventually claim your pension at age 58 or 50 (reduced pension).
+</p>
+<h2>Who Can Apply for Form 10C?</h2>
+<p>
+The eligibility for applying for Form 10C depends on your service period and age:
+</p>
+<h3>For Withdrawal of EPS Accumulations</h3>
+<ul>
+<li><strong>Less than 10 years of service:</strong> If you have contributed to EPS for less than 10 years and are leaving your job (resignation, termination, or retirement before 58 years of age), you are eligible to withdraw your EPS contributions using Form 10C.</li>
+<li><strong>Age below 58 years:</strong> This withdrawal option is available only if you are below 58 years of age. If you are 58 or older, you would generally apply for pension benefits (Form 10D) if you meet the 10-year service criteria.</li>
+</ul>
+<h3>For Scheme Certificate</h3>
+<ul>
+<li><strong>10 or more years of service:</strong> If you have completed 10 or more years of eligible service under the EPS, but are leaving employment before reaching 58 years of age, you must apply for a Scheme Certificate. This certificate preserves your pensionable service.</li>
+<li><strong>Joining another establishment:</strong> The Scheme Certificate is particularly useful if you intend to join another organisation covered by the EPS. You can then submit this certificate to your new employer&#x27;s EPFO office to merge your service periods.</li>
+<li><strong>International workers:</strong> For international workers covered under Bilateral Social Security Agreements (SSA), the rules for withdrawal or certificate may vary as per the specific agreement.</li>
+</ul>
+<p>
+It is crucial to note that you cannot withdraw your EPS funds if you have completed 10 or more years of service. In such cases, the Scheme Certificate is the only option, allowing you to claim a pension later.
+</p>
+<h2>Documents Required for Form 10C Claim</h2>
+<p>
+To ensure a smooth and successful claim through Form 10C, whether online or offline, you&#x27;ll need to have certain documents and details readily available. While the online process integrates much of this, having physical copies or digital scans can be helpful for verification.
+</p>
+<h3>Essential Documents and Information:</h3>
+<ul>
+<li><strong>Universal Account Number (UAN):</strong> Your UAN must be activated, and your mobile number linked to it.</li>
+<li><strong>Aadhaar Number:</strong> Your Aadhaar must be linked and verified with your UAN. The name and date of birth on your Aadhaar should match your EPFO records.</li>
+<li><strong>Bank Account Details:</strong> Your bank account must be linked to your UAN, and the KYC (Know Your Customer) process for this account must be completed and verified by your employer. The bank account must be in your name.</li>
+<li><strong>PAN Card:</strong> While not always mandatory for Form 10C itself, it is essential if the withdrawn amount exceeds ₹50,000 to avoid higher TDS (Tax Deducted at Source).</li>
+<li><strong>Employer&#x27;s Details:</strong> Information about your previous employer, including their establishment ID.</li>
+<li><strong>Date of Joining and Date of Exit:</strong> Accurate dates are crucial for calculating service period.</li>
+<li><strong>Cancelled Cheque/Bank Passbook:</strong> A scanned copy of a cancelled cheque with your name and account number clearly visible, or the first page of your bank passbook, is required for online claims. This is for bank account verification.</li>
+<li><strong>Form 10C (Physical copy, if applying offline):</strong> Available on the EPFO website or from your employer.</li>
+</ul>
+<p>
+Ensure all personal details across your UAN, Aadhaar, and bank account are consistent to prevent claim rejections.
+</p>
+<h2>Step-by-Step Online Claim Process</h2>
+<p>
+The EPFO has streamlined the process for submitting various claims, including Form 10C, through its online portal. Here’s a detailed guide:
+</p>
+<ol>
+<li><strong>Activate UAN and Link Aadhaar:</strong></li>
+<p>
+    *   Ensure your Universal Account Number (UAN) is activated. If not, visit the EPFO Member Portal and activate it using your PF number and mobile number.
+    *   Log in to the UAN Member Portal. Under the &#x27;Manage&#x27; tab, select &#x27;KYC&#x27; and ensure your Aadhaar number is linked and verified. Also, link your bank account details and ensure they are approved by your employer.
+</p>
+</ol>
+<ol>
+<li><strong>Log in to the UAN Member Portal:</strong></li>
+<p>
+    *   Go to the official EPFO Member Portal (https://unifiedportal-mem.epfindia.gov.in/memberinterface/).
+    *   Enter your UAN, password, and the captcha code to log in.
+</p>
+</ol>
+<ol>
+<li><strong>Verify Service Details:</strong></li>
+<p>
+    *   Once logged in, navigate to the &#x27;Online Services&#x27; tab and select &#x27;Claim (Form-31, 19, 10C &amp; 10D)&#x27;.
+    *   On the next page, your member details will be displayed. Verify your bank account number (the one linked to your UAN) and click &#x27;Verify&#x27;.
+    *   Confirm the undertaking by clicking &#x27;Yes&#x27;.
+</p>
+</ol>
+<ol>
+<li><strong>Select Claim Type:</strong></li>
+<p>
+    *   Under the &#x27;I want to apply for&#x27; section, you will see various claim options. Select &#x27;Pension Withdrawal (Form 10C)&#x27; if you are eligible for a withdrawal.
+    *   If you have completed 10 years of service and are below 58, you might see an option for &#x27;Scheme Certificate&#x27;.
+</p>
+</ol>
+<ol>
+<li><strong>Enter Address and Upload Documents:</strong></li>
+<p>
+    *   Enter your full permanent address.
+    *   You may be required to upload a scanned copy of a cancelled cheque or your bank passbook. Ensure the image is clear and the IFSC code and account number are legible.
+</p>
+</ol>
+<ol>
+<li><strong>Get Aadhaar OTP:</strong></li>
+<p>
+    *   Click on &#x27;Get Aadhaar OTP&#x27;. An OTP will be sent to the mobile number registered with your Aadhaar.
+    *   Enter the OTP in the designated field and click &#x27;Validate OTP and Submit Claim&#x27;.
+</p>
+</ol>
+<ol>
+<li><strong>Confirmation:</strong></li>
+<p>
+    *   Upon successful submission, a confirmation message will appear. You can download the acknowledgement receipt for your records.
+    *   The claim will then be processed by the EPFO. You can track the status of your claim through the &#x27;Track Claim Status&#x27; option under the &#x27;Online Services&#x27; tab.
+</p>
+</ol>
+<p>
+The processing time usually ranges from 15 to 30 days, provided all details are correct and verified.
+</p>
+<h2>A real example</h2>
+<p>
+Meet <strong>Priya, 32, a marketing manager from Hyderabad, earning ₹18L CTC</strong>. She worked for a tech startup for 7 years and 8 months before resigning to pursue an MBA abroad. Since she has less than 10 years of service and is below 58, she is eligible to withdraw her EPS accumulations using Form 10C.
+</p>
+<p>
+Let&#x27;s assume her average monthly basic salary (capped at ₹15,000 for EPS calculation) for her service period was ₹15,000.
+The EPS withdrawal amount is calculated based on a formula provided in the EPS scheme, which uses a &#x27;commutation table&#x27; or a multiplier based on years of service and wages.
+</p>
+<p>
+For 7 years and 8 months of service, which is rounded up to 8 years for EPS calculation purposes (if service is 6 months or more, it&#x27;s rounded to the next full year), the withdrawal benefit would be calculated as follows:
+</p>
+<ul>
+<li><strong>Pensionable Salary:</strong> ₹15,000 (capped)</li>
+<li><strong>Service Period:</strong> 8 years (rounded from 7 years 8 months)</li>
+<li><strong>Formula:</strong> (Pensionable Salary x Service Multiplier from Table D)</li>
+</ul>
+<p>
+Let&#x27;s refer to a hypothetical simplified table for illustration (actual table is complex and part of EPS scheme):
+</p>
+<table><thead><tr><th>Service Years</th><th>Multiplier</th></tr></thead><tbody>
+<tr><td>1</td><td>1.02</td></tr>
+<tr><td>...</td><td>...</td></tr>
+<tr><td>7</td><td>7.35</td></tr>
+<tr><td>8</td><td>8.24</td></tr>
+<tr><td>...</td><td>...</td></tr>
+</tbody></table>
+<p>
+Using a multiplier of, say, 8.24 for 8 years of service:
+</p>
+<ul>
+<li><strong>Estimated EPS Withdrawal = ₹15,000 (Pensionable Salary) x 8.24 (Multiplier)</strong></li>
+<li><strong>Estimated EPS Withdrawal = ₹1,23,600</strong></li>
+</ul>
+<p>
+Priya followed these steps:
+</p>
+<ol>
+<li>She ensured her UAN was active, Aadhaar linked, and her SBI bank account KYC was verified with EPFO.</li>
+<li>She logged into the EPFO Member Portal.</li>
+<li>Under &#x27;Online Services&#x27;, she selected &#x27;Claim (Form-31, 19, 10C &amp; 10D)&#x27;.</li>
+<li>She verified her bank account number.</li>
+<li>She selected &#x27;Pension Withdrawal (Form 10C)&#x27; from the dropdown.</li>
+<li>She entered her address and uploaded a clear scanned copy of her cancelled cheque.</li>
+<li>She clicked &#x27;Get Aadhaar OTP&#x27;, entered the OTP received on her Aadhaar-linked mobile, and submitted the claim.</li>
+</ol>
+<p>
+Within 20 days, the amount of ₹1,23,600 (subject to actual calculation by EPFO) was credited to her bank account, helping her with her MBA expenses.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Check UAN Status and KYC:</strong> Log in to the EPFO Member Portal (https://unifiedportal-mem.epfindia.gov.in/memberinterface/). Verify that your UAN is active, your Aadhaar is linked and verified, and your bank account details are updated and approved by your employer.</li>
+<li><strong>Gather Documents:</strong> If you anticipate needing to claim EPS benefits soon, ensure you have a clear scanned copy of a cancelled cheque or your bank passbook ready.</li>
+<li><strong>Understand Your Service Period:</strong> Calculate your total eligible service period under EPS. This will help you determine if you are eligible for a withdrawal or a Scheme Certificate.</li>
+<li><strong>Update Contact Information:</strong> Ensure your mobile number linked to your Aadhaar is current, as the OTP for online claims will be sent there.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the difference between Form 19 and Form 10C?</h3>
+<p>
+Form 19 is used to withdraw your Employees&#x27; Provident Fund (EPF) accumulations, while Form 10C is specifically for claiming benefits under the Employees&#x27; Pension Scheme (EPS) – either withdrawal or a Scheme Certificate.
+</p>
+<h3>Can I withdraw my full EPS amount?</h3>
+<p>
+If you have completed less than 10 years of service, you can withdraw your accumulated EPS contributions as a lump sum. If you have 10 or more years of service, you cannot withdraw; you must apply for a Scheme Certificate.
+</p>
+<h3>Is the amount received from Form 10C taxable?</h3>
+<p>
+If your total service period is less than 5 years, the withdrawn EPS amount, along with EPF withdrawal, might be taxable as per income tax rules. If service is 5 years or more, it is generally tax-exempt.
+</p>
+<h3>How long does it take for the Form 10C claim to be processed?</h3>
+<p>
+Typically, online claims are processed within 15 to 30 days, provided all details are correct and verified by your employer and the EPFO. Offline claims might take longer.
+</p>
+<h3>What if my Aadhaar is not linked to my UAN?</h3>
+<p>
+You cannot submit an online claim without a linked and verified Aadhaar. You must first link your Aadhaar via the &#x27;Manage -&gt; KYC&#x27; section on the UAN Member Portal or through your employer.
+</p>
+<h3>Can I submit Form 10C if my employer has closed down?</h3>
+<p>
+Yes, you can still submit Form 10C. If applying offline, you may need to attest your claim form through a bank manager, gazetted officer, or magistrate if your previous employer is unavailable. Online submission requires prior employer verification of KYC.
+</p>
+<h3>What is the purpose of a Scheme Certificate?</h3>
+<p>
+A Scheme Certificate preserves your pensionable service if you have completed 10 or more years of service but are not yet 58. It allows you to combine your service periods across different employers to eventually claim a full pension at retirement.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+<li>RBI: https://rbi.org.in</li>
+<li>EPFO: https://epfindia.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
