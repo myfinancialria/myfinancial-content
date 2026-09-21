@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Upcoming IPOs, Explained Simply — September 2026</title>
+<meta name="description" content="Five companies, National Stock Exchange of India Limited, Sonaselection India Limited, Kheria Autocomp Limited, SpectraA Technology Solutions Limited, and Axi.">
+<meta name="keywords" content="shares, september, limited, company, announced, investors, companies, exchange">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-21-upcoming-ipos-explained-simply-september-2026/">
+<meta property="og:title" content="Upcoming IPOs, Explained Simply — September 2026">
+<meta property="og:description" content="Five companies, National Stock Exchange of India Limited, Sonaselection India Limited, Kheria Autocomp Limited, SpectraA Technology Solutions Limited, and Axi.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-21-upcoming-ipos-explained-simply-september-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Upcoming IPOs, Explained Simply \u2014 September 2026", "description": "Five companies, National Stock Exchange of India Limited, Sonaselection India Limited, Kheria Autocomp Limited, SpectraA Technology Solutions Limited, and Axi.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-21", "dateModified": "2026-09-21", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-21-upcoming-ipos-explained-simply-september-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/" class="active">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">IPO Watch · 2026-09-21</div><h1>Upcoming IPOs, Explained Simply — September 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Seven companies, National Stock Exchange of India Limited, Sonaselection India Limited, Kheria Autocomp Limited, SpectraA Technology Solutions Limited, Axiom Gas Engineering Limited, Manika Plastech Limited, and SS Retail Limited, currently have their IPOs open for bidding.</li>
+<li>Two more companies, Varmora Granito Limited and Pooja Logistics Limited, have IPOs opening later this week.</li>
+<li>This column explains what an IPO is, how it works, and how to understand the key numbers like price band, lot size, and issue size.</li>
+<li>We also cover the step-by-step process of applying for an IPO and clear up common misunderstandings.</li>
+</ul>
+</div>
+<h2>First, what is an IPO — in one minute?</h2>
+<p>
+Imagine your favourite local chai shop has been doing incredibly well. They have a loyal customer base, and now the owner wants to open several new branches across the city. To get the money needed for this big expansion, they decide to sell a small part of their ownership (called &#x27;shares&#x27;) to you and me, the public. This first-time sale of shares to the public is called an <strong>Initial Public Offering (IPO)</strong>.
+</p>
+<p>
+When a company does an IPO, it&#x27;s selling shares for the first time in the <strong>primary market</strong> (think of it as the &#x27;first sale&#x27; market). Once the IPO process is complete, these shares get <strong>listed</strong> on a stock exchange like the NSE or BSE. This means they can then be bought and sold by anyone in the regular stock market, which we call the <strong>secondary market</strong>. Companies do an IPO mainly to raise money for growth, pay off debts, or sometimes, for existing owners to sell some of their shares.
+</p>
+<h2>The IPOs on the calendar right now</h2>
+<p>
+Here&#x27;s a look at the companies that have their IPOs open or are coming up soon, along with what their numbers mean.
+</p>
+<h3>National Stock Exchange of India Limited (NSE)</h3>
+<p>
+This company itself operates India&#x27;s largest stock exchange, where shares are bought and sold every day.
+</p>
+<table><thead><tr><th>Field</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Symbol</td><td>NSE</td></tr>
+<tr><td>Segment</td><td>Mainboard</td></tr>
+<tr><td>Price Band</td><td>₹1,700 to ₹1,785</td></tr>
+<tr><td>Issue Size</td><td>88,642,911 shares</td></tr>
+<tr><td>Open Date</td><td>September 17, 2026</td></tr>
+<tr><td>Close Date</td><td>September 21, 2026</td></tr>
+</tbody></table>
+<p>
+The <strong>price band</strong> (the fixed range within which you can bid for shares) for NSE is ₹1,700 to ₹1,785 per share. The <strong>issue size</strong> (the total number of shares the company plans to sell in the IPO) is 88,642,911 shares. The IPO opened on September 17, 2026, and closes today, September 21, 2026. The <strong>lot size</strong> (the minimum number of shares you must apply for) for this IPO is not yet announced in the provided data.
+</p>
+<h3>Sonaselection India Limited (SONA)</h3>
+<p>
+The specific business sector for Sonaselection India Limited is not specified in the data provided.
+</p>
+<table><thead><tr><th>Field</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Symbol</td><td>SONA</td></tr>
+<tr><td>Segment</td><td>Mainboard</td></tr>
+<tr><td>Price Band</td><td>₹94 to ₹99</td></tr>
+<tr><td>Issue Size</td><td>10,010,000 shares</td></tr>
+<tr><td>Open Date</td><td>September 17, 2026</td></tr>
+<tr><td>Close Date</td><td>September 21, 2026</td></tr>
+</tbody></table>
+<p>
+Sonaselection India Limited has a price band of ₹94 to ₹99 per share. The company aims to sell 10,010,000 shares in this IPO. It opened on September 17, 2026, and also closes today, September 21, 2026. The lot size for this IPO is 348 shares.
+</p>
+<h3>Kheria Autocomp Limited (KHERIAAUTO)</h3>
+<p>
+This company&#x27;s name suggests it is likely involved in the automotive components sector. It is an <strong>SME</strong> (Small and Medium Enterprise) IPO, which means it will list on a dedicated platform for smaller companies.
+</p>
+<table><thead><tr><th>Field</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Symbol</td><td>KHERIAAUTO</td></tr>
+<tr><td>Segment</td><td>SME</td></tr>
+<tr><td>Price Band</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>Not yet announced</td></tr>
+<tr><td>Open Date</td><td>September 17, 2026</td></tr>
+<tr><td>Close Date</td><td>September 21, 2026</td></tr>
+</tbody></table>
+<p>
+For Kheria Autocomp Limited, the price band, lot size, and issue size are not yet announced. Its IPO opened on September 17, 2026, and closes today, September 21, 2026.
+</p>
+<h3>SpectraA Technology Solutions Limited (SPECTRAA)</h3>
+<p>
+Based on its name, SpectraA Technology Solutions Limited likely operates in the technology solutions sector. This is also an SME IPO.
+</p>
+<table><thead><tr><th>Field</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Symbol</td><td>SPECTRAA</td></tr>
+<tr><td>Segment</td><td>SME</td></tr>
+<tr><td>Price Band</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>Not yet announced</td></tr>
+<tr><td>Open Date</td><td>September 17, 2026</td></tr>
+<tr><td>Close Date</td><td>September 21, 2026</td></tr>
+</tbody></table>
+<p>
+For SpectraA Technology Solutions Limited, the price band, lot size, and issue size are not yet announced. Its IPO opened on September 17, 2026, and closes today, September 21, 2026.
+</p>
+<h3>Axiom Gas Engineering Limited (AXIOMGAS)</h3>
+<p>
+Axiom Gas Engineering Limited&#x27;s name suggests it is involved in the gas engineering sector. This is another SME IPO.
+</p>
+<table><thead><tr><th>Field</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Symbol</td><td>AXIOMGAS</td></tr>
+<tr><td>Segment</td><td>SME</td></tr>
+<tr><td>Price Band</td><td>Not yet announced</td></tr>
+<tr><td>Issue Size</td><td>Not yet announced</td></tr>
+<tr><td>Open Date</td><td>September 18, 2026</td></tr>
+<tr><td>Close Date</td><td>September 22, 2026</td></tr>
+</tbody></table>
+<p>
+For Axiom Gas Engineering Limited, the price band, lot size, and issue size are not yet announced. Its IPO opened on September 18, 2026, and will close tomorrow, September 22, 2026.
+</p>
+<h3>Varmora Granito Limited (VARMORA)</h3>
+<p>
+Varmora Granito Limited&#x27;s name indicates it is likely in the granite or tiles manufacturing sector.
+</p>
+<table><thead><tr><th>Field</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Symbol</td><td>VARMORA</td></tr>
+<tr><td>Segment</td><td>Mainboard</td></tr>
+<tr><td>Price Band</td><td>₹140 to ₹148</td></tr>
+<tr><td>Issue Size</td><td>49,074,776 shares</td></tr>
+<tr><td>Open Date</td><td>September 22, 2026</td></tr>
+<tr><td>Close Date</td><td>September 24, 2026</td></tr>
+</tbody></table>
+<p>
+This IPO is <strong>forthcoming</strong>, meaning it opens tomorrow. Varmora Granito Limited has a price band of ₹140 to ₹148 per share, with an issue size of 49,074,776 shares. It will open on September 22, 2026, and close on September 24, 2026. The lot size is not yet announced.
+</p>
+<h3>Pooja Logistics Limited (POOJALOGIS)</h3>
+<p>
+Pooja Logistics Limited operates in the logistics sector, dealing with the movement of goods. This is an SME IPO.
+</p>
+<table><thead><tr><th>Field</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Symbol</td><td>POOJALOGIS</td></tr>
+<tr><td>Segment</td><td>SME</td></tr>
+<tr><td>Price Band</td><td>₹109 to ₹115</td></tr>
+<tr><td>Lot Size</td><td>1,200 shares</td></tr>
+<tr><td>Issue Size</td><td>3,846,000 shares</td></tr>
+<tr><td>Open Date</td><td>September 23, 2026</td></tr>
+<tr><td>Close Date</td><td>September 25, 2026</td></tr>
+</tbody></table>
+<p>
+This IPO is also <strong>forthcoming</strong>. Pooja Logistics Limited has a price band of ₹109 to ₹115 per share. The <strong>lot size</strong> (the minimum number of shares you must apply for) is 1,200 shares. The <strong>issue size</strong> (the total number of shares the company plans to sell) is 3,846,000 shares. It will open on September 23, 2026, and close on September 25, 2026.
+</p>
+<h2>How to actually read an IPO (the 6 things on every IPO)</h2>
+<p>
+When you look at an IPO, there are a few key numbers and terms that help you understand what&#x27;s happening:
+</p>
+<ol>
+<li><strong>Price Band:</strong> This is the fixed range within which you can bid for shares. For example, Pooja Logistics has a price band of ₹109 to ₹115. You can bid at any price within this range. The company usually sets a &quot;floor price&quot; (the lowest) and a &quot;cap price&quot; (the highest).</li>
+<li><strong>Lot Size:</strong> This is the minimum number of shares you must apply for. You cannot apply for just one or two shares; you have to apply for at least one &quot;lot.&quot; For Pooja Logistics, one lot is 1,200 shares. This system helps manage the large number of applications.</li>
+<li><strong>Minimum Investment:</strong> This is the smallest amount of money you need to apply for one lot. You calculate this by multiplying the lot size by the upper end of the price band. For Pooja Logistics, if you apply at the upper price band of ₹115 per share, your minimum investment for one lot (1,200 shares) would be ₹115 x 1,200 = ₹1,38,000. For IPOs where the lot size is not yet announced, this amount cannot be calculated yet.</li>
+<li><strong>Issue Size:</strong> This refers to the total number of shares the company is offering to the public in the IPO. It tells you how many shares are being made available for sale. For instance, National Stock Exchange of India Limited is offering 88,642,911 shares.</li>
+<li><strong>Fresh Issue vs. Offer-for-Sale (OFS):</strong> An IPO typically consists of two parts.</li>
+<p>
+    *   A <strong>Fresh Issue</strong> is when the company issues brand new shares, and the money raised from these shares goes directly to the company. This money is used for its business needs, like expansion, buying new equipment, or repaying debt.
+    *   An <strong>Offer-for-Sale (OFS)</strong> is when existing shareholders (like the company&#x27;s founders or early investors) sell some of their shares to the public. In this case, the money raised from these shares goes to those selling shareholders, not to the company itself. The data provided does not specify the breakdown between fresh issue and OFS for these IPOs, but it&#x27;s an important distinction to look for in the company&#x27;s official documents.
+</p>
+<li><strong>RHP/DRHP (Red Herring Prospectus / Draft Red Herring Prospectus):</strong> This is the most important document for any IPO. It&#x27;s a detailed legal document that the company files with SEBI (Securities and Exchange Board of India). Think of it as the company&#x27;s complete report card and blueprint for the IPO. It contains everything you need to know: the company&#x27;s business, financial performance, management team, risks involved, and the full details of the IPO.</li>
+</ol>
+<h2>The IPO process, step by step</h2>
+<p>
+Here&#x27;s how an IPO typically unfolds:
+</p>
+<ol>
+<li><strong>DRHP Filing:</strong> The company first prepares a detailed document called the <strong>Draft Red Herring Prospectus (DRHP)</strong> and submits it to SEBI for approval. This document contains all the necessary information about the company and its plans.</li>
+<li><strong>SEBI Approval &amp; RHP:</strong> SEBI reviews the DRHP to ensure all disclosures are proper. Once approved, the company files the final <strong>Red Herring Prospectus (RHP)</strong>.</li>
+<li><strong>Price Band &amp; Dates Announced:</strong> The company then publicly announces the <strong>price band</strong> (the range within which investors can bid) and the dates when the IPO will be open for applications.</li>
+<li><strong>Bidding Period:</strong> During the announced dates, investors can apply for shares. Applications are usually divided into categories:</li>
+<p>
+    *   <strong>Retail Individual Investors (RIIs):</strong> Ordinary individuals who apply for shares worth up to ₹2 lakhs.
+    *   <strong>Non-Institutional Investors (NIIs) / High Net-worth Individuals (HNIs):</strong> Individuals or entities applying for shares worth more than ₹2 lakhs.
+    *   <strong>Qualified Institutional Buyers (QIBs):</strong> Large institutional investors like mutual funds, foreign institutional investors, and insurance companies.
+</p>
+<li><strong>Allotment:</strong> After the bidding closes, the company processes the applications. If the IPO receives more applications than shares offered (called <strong>oversubscription</strong>), shares are allotted to investors. For retail investors, this is usually done through a lottery system to ensure fairness. If the IPO is undersubscribed, everyone who applied typically gets shares.</li>
+<li><strong>Listing:</strong> Once the shares are allotted, they get <strong>listed</strong> on the stock exchange (like NSE or BSE). This means they can now be freely bought and sold by anyone in the secondary market, just like any other existing stock.</li>
+</ol>
+<h2>A simple way to think about it</h2>
+<p>
+Think of your local school holding its annual fete. There&#x27;s a very popular stall selling delicious homemade snacks. This stall has been so successful that the students running it decide they want to open a proper, permanent shop outside of school. To get the money to set up this new shop, they decide to offer &quot;ownership tickets&quot; (shares) for the first time to everyone at the fete. If you buy one of these tickets, you become a small part-owner of that snack business. This entire process – from offering tickets for the first time to getting them ready for trading – is like an IPO.
+</p>
+<h2>Things people get confused about</h2>
+<p>
+Here are a few common misunderstandings about IPOs:
+</p>
+<ul>
+<li><strong>Myth:</strong> Applying for an IPO guarantees you shares.</li>
+<p>
+    *   <strong>Fact:</strong> If an IPO is very popular and receives many more applications than the shares available (it&#x27;s &quot;oversubscribed&quot;), the shares are allotted through a lottery system for retail investors. This means you might not get any shares, even if you applied.
+</p>
+<li><strong>Myth:</strong> All IPOs give quick profits on listing day.</li>
+<p>
+    *   <strong>Fact:</strong> An IPO&#x27;s performance on its listing day depends on many market factors and the company&#x27;s business prospects. While some IPOs may see gains, there is no guarantee of profits, and share prices can go down too.
+</p>
+<li><strong>Myth:</strong> You should apply for as many lots as possible to increase your chances of getting shares.</li>
+<p>
+    *   <strong>Fact:</strong> For retail investors, applying for more than one lot from the same PAN card usually does not increase your chances of allotment in an oversubscribed IPO. It&#x27;s typically one application per PAN card that is considered for the lottery. Applying for just one lot is often sufficient.
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>How do I even apply for an IPO?</h3>
+<p>
+You can apply for an IPO through your bank&#x27;s ASBA (Application Supported by Blocked Amount) facility via net banking, or through your stockbroker&#x27;s online platform. Your money remains blocked in your account until allotment.
+</p>
+<h3>What is a lot size?</h3>
+<p>
+A lot size is the minimum number of shares you must apply for in an IPO. You cannot apply for fewer shares than the specified lot size.
+</p>
+<h3>What does &quot;Mainboard&quot; vs. &quot;SME&quot; mean?</h3>
+<p>
+<strong>Mainboard</strong> IPOs are for larger, more established companies and list on the main platforms of stock exchanges like NSE and BSE. <strong>SME</strong> (Small and Medium Enterprises) IPOs are for smaller companies and list on dedicated SME platforms of the exchanges, often with different trading rules and investor categories.
+</p>
+<h3>Can I sell my shares immediately after listing?</h3>
+<p>
+Yes, once your allotted shares are listed on the stock exchange, you can buy or sell them like any other stock in the secondary market, subject to market conditions.
+</p>
+<h3>What happens if I don&#x27;t get an allotment?</h3>
+<p>
+If you don&#x27;t get any shares in an IPO, the money that was blocked in your bank account (via ASBA) is simply unblocked and becomes available to you again, usually within a few days after the allotment process.
+</p>
+<h2>Sources</h2>
+<p>
+NSE upcoming/current issues data.
+</p>
+<p>
+<em>This is an educational explainer, not investment advice. myfinancial is not a SEBI-registered adviser.</em>
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
