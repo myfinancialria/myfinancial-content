@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Income Tax Act 2025: Crypto VDA Tax Rules, TDS &amp; ITR Filing</title>
+<meta name="description" content="The Income Tax Act, 2025 largely continues the existing tax framework for Virtual Digital Assets (VDAs). A flat 30% tax will still be levied on income from VD.">
+<meta name="keywords" content="transactions, transaction, losses, deducted, against, digital, reporting, exchange">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-26-personal_finance-income-tax-act-2025-crypto-vda-tax-rules-tds-itr-filing/">
+<meta property="og:title" content="Income Tax Act 2025: Crypto VDA Tax Rules, TDS &amp; ITR Filing">
+<meta property="og:description" content="The Income Tax Act, 2025 largely continues the existing tax framework for Virtual Digital Assets (VDAs). A flat 30% tax will still be levied on income from VD.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-26-personal_finance-income-tax-act-2025-crypto-vda-tax-rules-tds-itr-filing/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Income Tax Act 2025: Crypto VDA Tax Rules, TDS & ITR Filing", "description": "The Income Tax Act, 2025 largely continues the existing tax framework for Virtual Digital Assets (VDAs). A flat 30% tax will still be levied on income from VD.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-26", "dateModified": "2026-09-26", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-26-personal_finance-income-tax-act-2025-crypto-vda-tax-rules-tds-itr-filing/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Personal Finance · 2026-09-26</div><h1>Income Tax Act 2025: Crypto VDA Tax Rules, TDS &amp; ITR Filing</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The Income Tax Act, 2025 largely continues the existing tax framework for Virtual Digital Assets (VDAs).</li>
+<li>A flat 30% tax will still be levied on income from VDA transfers, without allowing set-off of losses.</li>
+<li>A 1% TDS (Tax Deducted at Source) remains applicable on VDA transactions exceeding specified thresholds.</li>
+<li>New reporting requirements under the Act mandate meticulous record-keeping of VDA transactions and wallet details.</li>
+<li>Investors must ensure accurate disclosure of VDA income and TDS in their Income Tax Returns (ITR).</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+For crypto investors in India, the Income Tax Act, 2025 brings more continuity than radical change regarding how Virtual Digital Assets (VDAs) are taxed. Essentially, the core rules you&#x27;ve been following for VDA taxation – a flat 30% tax on gains and a 1% TDS on transactions – largely remain in place. The key difference lies in updated section numbers within the Act and a heightened emphasis on detailed reporting and record-keeping for all your crypto activities.
+</p>
+<p>
+This means that if you&#x27;re buying, selling, or transferring any VDA, including cryptocurrencies or Non-Fungible Tokens (NFTs), you&#x27;ll continue to pay 30% tax on any profits you make. Crucially, you still cannot deduct any expenses (other than the cost of acquisition) or set off any losses from your VDA transactions against other income or even against other VDA gains. Additionally, a 1% TDS will continue to be deducted at the source for most VDA transactions, which you can later claim against your final tax liability.
+</p>
+<p>
+The new framework underscores the government&#x27;s intent for greater transparency. Investors will now need to be even more diligent in maintaining comprehensive records of their VDA transactions, including purchase dates, sale dates, values, wallet addresses, and transaction IDs. This detailed documentation will be crucial for accurate reporting in your Income Tax Returns and for addressing any queries from the tax authorities.
+</p>
+<h2>Understanding VDA Taxation under the New Act</h2>
+<p>
+The Income Tax Act, 2025 largely retains the framework for taxing Virtual Digital Assets (VDAs) that was introduced in previous finance acts. This continuity aims to provide clarity while ensuring that income derived from these assets is brought under the tax net. The primary components of this taxation framework are the flat 30% tax on gains and the 1% TDS on transfers.
+</p>
+<h3>The 30% Tax on VDA Transfers</h3>
+<p>
+Any income arising from the transfer of a Virtual Digital Asset is subject to a flat tax rate of 30%. This rate is applied to the net gain from the transaction. A critical aspect of this provision is that no deduction in respect of any expenditure (other than the cost of acquisition) or allowance is allowed while computing the income from the transfer of VDAs. Furthermore, losses arising from the transfer of VDAs cannot be set off against any other income, nor can they be carried forward to subsequent assessment years. This means that even if you incur a loss on one VDA transaction, you cannot use it to reduce the taxable gain from another VDA transaction or any other income source. This specific treatment highlights the government&#x27;s cautious approach to taxing these relatively new asset classes.
+</p>
+<h3>The 1% TDS Mechanism</h3>
+<p>
+To ensure traceability of transactions and to facilitate tax collection at an early stage, a 1% Tax Deducted at Source (TDS) is applicable on the transfer of VDAs. This TDS is deducted by the person responsible for paying consideration for the transfer of a VDA. The threshold for TDS deduction is ₹50,000 in a financial year for specified persons (individuals/HUFs subject to audit) and ₹10,000 for others. For instance, if you sell a VDA on an exchange, the exchange is typically responsible for deducting this 1% TDS on the sale consideration. This deducted amount can then be claimed as a credit against your final income tax liability when filing your Income Tax Return. It&#x27;s important to note that even if your profit is zero or you incur a loss, TDS will still be deducted on the gross sale consideration if it exceeds the specified threshold.
+</p>
+<h2>New Reporting Framework and Record-Keeping</h2>
+<p>
+The Income Tax Act, 2025, while maintaining the core tax rates, significantly tightens the reporting requirements for VDA transactions. This new framework places a substantial onus on investors to maintain comprehensive and accurate records, which will be critical for compliance and transparency.
+</p>
+<h3>Why Detailed Records are Crucial</h3>
+<p>
+With the updated provisions, tax authorities will expect a granular level of detail regarding VDA transactions. This means maintaining records beyond just the profit and loss figures. You should meticulously document every purchase, sale, transfer, or exchange of VDAs. Essential details to record include:
+</p>
+<ul>
+<li><strong>Date and time of transaction:</strong> Exact timestamp for each activity.</li>
+<li><strong>Type of VDA:</strong> The specific cryptocurrency, NFT, or other digital asset involved.</li>
+<li><strong>Quantity:</strong> The number of units of the VDA bought, sold, or transferred.</li>
+<li><strong>Value in Indian Rupees:</strong> The precise rupee value of the transaction at the time it occurred.</li>
+<li><strong>Transaction ID/Hash:</strong> The unique identifier for the blockchain transaction.</li>
+<li><strong>Wallet addresses:</strong> Both sender and receiver wallet addresses involved in the transfer.</li>
+<li><strong>Exchange details:</strong> The name of the exchange or platform used for the transaction.</li>
+<li><strong>Fees:</strong> Any transaction fees or network fees paid.</li>
+</ul>
+<p>
+These detailed records will not only help you accurately calculate your tax liability but will also serve as crucial evidence in case of any scrutiny from the Income Tax Department.
+</p>
+<h3>Impact on ITR Filing</h3>
+<p>
+The new reporting framework will likely necessitate specific schedules or enhanced disclosure requirements within the Income Tax Return (ITR) forms. While the exact form updates will be released by the Central Board of Direct Taxes (CBDT), investors should anticipate a dedicated section for reporting VDA income and TDS. Accurate reporting will involve:
+</p>
+<ul>
+<li><strong>Consolidating all VDA transactions:</strong> Gathering data from all exchanges and wallets used.</li>
+<li><strong>Calculating total gains:</strong> Summing up all profits from VDA transfers.</li>
+<li><strong>Reconciling TDS:</strong> Ensuring that the 1% TDS deducted by exchanges matches your records and is reflected in Form 26AS.</li>
+<li><strong>Declaring VDA income:</strong> Reporting the calculated income under the appropriate head in your ITR, likely &quot;Income from Other Sources&quot; or &quot;Profits and Gains of Business or Profession&quot; depending on the nature and frequency of your VDA activities.</li>
+</ul>
+<p>
+Failing to report VDA income accurately or maintain adequate records could lead to penalties and scrutiny from tax authorities.
+</p>
+<h2>Key Changes and Continuities</h2>
+<p>
+The Income Tax Act, 2025, while primarily maintaining the existing tax rates for VDAs, introduces specific legislative updates and reinforces certain principles. Understanding these changes and continuities is vital for compliance.
+</p>
+<h3>Section Number Updates</h3>
+<p>
+One of the primary &quot;changes&quot; highlighted in the source is the update to section numbers within the Income Tax Act. While the underlying tax treatment (30% tax, 1% TDS, no loss set-off) remains consistent with previous amendments, the specific sections governing VDAs may have been renumbered or consolidated. Investors should be aware that while the principles are the same, referring to the correct legislative sections will be important for legal and compliance purposes. The spirit of the law, however, continues to be consistent with the earlier provisions introduced for VDA taxation.
+</p>
+<h3>No Set-off or Carry Forward of Losses</h3>
+<p>
+A crucial continuity that cannot be overstated is the restriction on setting off or carrying forward losses from VDA transfers. Unlike traditional capital assets where losses can often be adjusted against gains or carried forward for up to eight assessment years, VDA losses offer no such relief. If you sell a VDA at a loss, that loss is simply disregarded for tax purposes. This means your taxable income from VDAs will only ever be based on your gains, without any reduction for losses incurred in other VDA transactions or against other income sources. This provision significantly impacts the risk-reward calculation for VDA investors and traders, making it imperative to factor in this tax inefficiency when planning investments.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rajesh, 42, a self-employed consultant in Mumbai, earning ₹35 lakhs per year.</strong> Rajesh has been dabbling in cryptocurrencies for a while.
+</p>
+<p>
+In the financial year 2025-26, Rajesh undertakes the following VDA transactions:
+</p>
+<ol>
+<li><strong>April 2025:</strong> Purchases 0.5 BTC for ₹15,00,000.</li>
+<li><strong>September 2025:</strong> Sells 0.2 BTC for ₹7,00,000.</li>
+<p>
+    <em>   Cost of acquisition for 0.2 BTC: (₹15,00,000 / 0.5) </em> 0.2 = ₹6,00,000.
+    *   Profit from this sale: ₹7,00,000 (Sale Price) - ₹6,00,000 (Cost) = ₹1,00,000.
+    *   TDS deducted by exchange: 1% of sale value = 1% of ₹7,00,000 = ₹7,000.
+</p>
+<li><strong>January 2026:</strong> Sells another 0.1 BTC for ₹2,50,000.</li>
+<p>
+    <em>   Cost of acquisition for 0.1 BTC: (₹15,00,000 / 0.5) </em> 0.1 = ₹3,00,000.
+    *   Loss from this sale: ₹2,50,000 (Sale Price) - ₹3,00,000 (Cost) = -₹50,000.
+    *   TDS deducted by exchange: 1% of sale value = 1% of ₹2,50,000 = ₹2,500.
+</p>
+</ol>
+<p>
+<strong>Calculating Rajesh&#x27;s VDA Tax Liability:</strong>
+</p>
+<ul>
+<li><strong>Total VDA Gains:</strong> Rajesh made a profit of ₹1,00,000 from the September sale.</li>
+<li><strong>Treatment of Loss:</strong> The loss of ₹50,000 from the January sale cannot be set off against the ₹1,00,000 gain. It is simply disregarded for tax purposes.</li>
+<li><strong>Taxable VDA Income:</strong> ₹1,00,000.</li>
+<li><strong>Tax @ 30%:</strong> 30% of ₹1,00,000 = ₹30,000.</li>
+<li><strong>Total TDS Deducted:</strong> ₹7,000 (from September sale) + ₹2,500 (from January sale) = ₹9,500.</li>
+<li><strong>Net Tax Payable (or Refundable) on VDAs:</strong> ₹30,000 (Tax Liability) - ₹9,500 (TDS) = ₹20,500.</li>
+</ul>
+<p>
+When filing his ITR, Rajesh will declare his ₹1,00,000 VDA gain and claim the ₹9,500 TDS credit. He will need to pay the balance ₹20,500. He also needs to ensure he has detailed records of both transactions, including dates, amounts, and transaction IDs, to support his ITR filing.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your VDA Transaction History:</strong> Gather all your VDA purchase and sale data from exchanges and wallets for the current financial year. Consolidate this information into a single spreadsheet.</li>
+<li><strong>Establish a Robust Record-Keeping System:</strong> Set up a dedicated digital folder or spreadsheet to meticulously record every future VDA transaction. Include details like date, time, asset, quantity, value (in INR), transaction ID, wallet addresses, and exchange used.</li>
+<li><strong>Understand Your Current Tax Position:</strong> Based on your consolidated history, estimate your potential VDA gains or losses for the current financial year. Remember that losses cannot be set off.</li>
+<li><strong>Reconcile TDS:</strong> Check your Form 26AS periodically to ensure that the 1% TDS deducted by exchanges on your VDA sales is correctly reflected. Report any discrepancies to your exchange.</li>
+<li><strong>Consult a Professional for Complex Portfolios:</strong> If you have a high volume of VDA transactions, engage with a Certified Financial Planner or a tax advisor specializing in VDA taxation to ensure full compliance and optimize your tax planning.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is a Virtual Digital Asset (VDA) under the Income Tax Act 2025?</h3>
+<p>
+A Virtual Digital Asset (VDA) is defined broadly to include any information or code or number or token generated through cryptographic means or otherwise, providing a digital representation of value exchanged with or without consideration, with the promise or expectation of a utility, or interest, and includes NFTs and any other digital asset as the Central Government may specify.
+</p>
+<h3>Has the 30% tax rate on VDA income changed?</h3>
+<p>
+No, the Income Tax Act, 2025 largely retains the existing provision of a flat 30% tax rate on income derived from the transfer of Virtual Digital Assets (VDAs).
+</p>
+<h3>How does the 1% TDS on VDA transactions operate?</h3>
+<p>
+A 1% Tax Deducted at Source (TDS) is applicable on the consideration paid for the transfer of a VDA, provided the transaction value exceeds certain thresholds (₹50,000 for specified persons, ₹10,000 for others). This TDS is deducted by the buyer or the VDA exchange and can be claimed as a credit against your final tax liability.
+</p>
+<h3>Can I adjust VDA losses against other income or VDA gains?</h3>
+<p>
+No, the Income Tax Act, 2025 continues to prohibit the set-off of losses arising from the transfer of Virtual Digital Assets against any other income or even against gains from other VDA transfers. Such losses cannot be carried forward to subsequent assessment years either.
+</p>
+<h3>What specific records must I maintain for VDA transactions?</h3>
+<p>
+You must maintain detailed records including the date, time, type of VDA, quantity, value in INR, transaction ID/hash, wallet addresses (sender/receiver), exchange details, and any associated fees for every VDA transaction.
+</p>
+<h3>Will the ITR filing process for VDAs be different?</h3>
+<p>
+While the core tax rules remain, the new reporting framework under the Income Tax Act, 2025 will likely require more detailed disclosure of VDA transactions within your Income Tax Return (ITR). You should anticipate specific schedules or enhanced sections dedicated to reporting VDA income and TDS.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/income-tax-act-2025-what-crypto-investors-should-know-about-vda-provisions-tds-and-itr-filing-rules-11790360376855.html</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# Income Tax Act 2025: Crypto VDA Tax Rules, TDS &amp; ITR Filing
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The Income Tax Act, 2025 largely continues the existing tax framework for Virtual Digital Assets (VDAs).</li>
+<li>A flat 30% tax will still be levied on income from VDA transfers, without allowing set-off of losses.</li>
+<li>A 1% TDS (Tax Deducted at Source) remains applicable on VDA transactions exceeding specified thresholds.</li>
+<li>New reporting requirements under the Act mandate meticulous record-keeping of VDA transactions and wallet details.</li>
+<li>Investors must ensure accurate disclosure of VDA income and TDS in their Income Tax Returns (ITR).</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+For crypto investors in India, the Income Tax Act, 2025, which came into effect from April 1, 2026, brings more continuity than radical change regarding how Virtual Digital Assets (VDAs) are taxed. Essentially, the core rules you&#x27;ve been following for VDA taxation – a flat 30% tax on gains and a 1% TDS on transactions – largely remain in place. The key difference lies in updated section numbers within the Act and a heightened emphasis on detailed reporting and record-keeping for all your crypto activities.
+</p>
+<p>
+This means that if you&#x27;re buying, selling, or transferring any VDA, including cryptocurrencies or Non-Fungible Tokens (NFTs), you&#x27;ll continue to pay 30% tax on any profits you make. Crucially, you still cannot deduct any expenses (other than the cost of acquisition) or set off any losses from your VDA transactions against other income or even against other VDA gains. Additionally, a 1% TDS will continue to be deducted at the source for most VDA transactions, which you can later claim against your final tax liability.
+</p>
+<p>
+The new framework underscores the government&#x27;s intent for greater transparency. Investors will now need to be even more diligent in maintaining comprehensive records of their VDA transactions, including purchase dates, sale dates, values, wallet addresses, and transaction IDs. This detailed documentation will be crucial for accurate reporting in your Income Tax Returns and for addressing any queries from the tax authorities.
+</p>
+<h2>Understanding VDA Taxation under the New Act</h2>
+<p>
+The Income Tax Act, 2025 largely retains the framework for taxing Virtual Digital Assets (VDAs) that was introduced in previous finance acts. This continuity aims to provide clarity while ensuring that income derived from these assets is brought under the tax net. The primary components of this taxation framework are the flat 30% tax on gains and the 1% TDS on transfers.
+</p>
+<h3>The 30% Tax on VDA Transfers</h3>
+<p>
+Any income arising from the transfer of a Virtual Digital Asset is subject to a flat tax rate of 30%. This rate is applied to the net gain from the transaction. A critical aspect of this provision is that no deduction in respect of any expenditure (other than the cost of acquisition) or allowance is allowed while computing the income from the transfer of VDAs. Furthermore, losses arising from the transfer of VDAs cannot be set off against any other income, nor can they be carried forward to subsequent assessment years. This means that even if you incur a loss on one VDA transaction, you cannot use it to reduce the taxable gain from another VDA transaction or any other income source. This specific treatment highlights the government&#x27;s cautious approach to taxing these relatively new asset classes.
+</p>
+<h3>The 1% TDS Mechanism</h3>
+<p>
+To ensure traceability of transactions and to facilitate tax collection at an early stage, a 1% Tax Deducted at Source (TDS) is applicable on the transfer of VDAs. This TDS is deducted by the person responsible for paying consideration for the transfer of a VDA. The general threshold for TDS deduction is ₹50,000 in a financial year for specified persons (individuals/HUFs subject to audit) and ₹10,000 for others. For instance, if you sell a VDA on an exchange, the exchange is typically responsible for deducting this 1% TDS on the sale consideration. This deducted amount can then be claimed as a credit against your final income tax liability when filing your Income Tax Return. It&#x27;s important to note that even if your profit is zero or you incur a loss, TDS will still be deducted on the gross sale consideration if it exceeds the specified threshold.
+</p>
+<h2>New Reporting Framework and Record-Keeping</h2>
+<p>
+The Income Tax Act, 2025, while maintaining the core tax rates, significantly tightens the reporting requirements for VDA transactions. This new framework places a substantial onus on investors to maintain comprehensive and accurate records, which will be critical for compliance and transparency.
+</p>
+<h3>Why Detailed Records are Crucial</h3>
+<p>
+With the updated provisions, tax authorities will expect a granular level of detail regarding VDA transactions. This means maintaining records beyond just the profit and loss figures. You should meticulously document every purchase, sale, transfer, or exchange of VDAs. Essential details to record include:
+</p>
+<ul>
+<li><strong>Date and time of transaction:</strong> Exact timestamp for each activity.</li>
+<li><strong>Type of VDA:</strong> The specific cryptocurrency, NFT, or other digital asset involved.</li>
+<li><strong>Quantity:</strong> The number of units of the VDA bought, sold, or transferred.</li>
+<li><strong>Value in Indian Rupees:</strong> The precise rupee value of the transaction at the time it occurred.</li>
+<li><strong>Transaction ID/Hash:</strong> The unique identifier for the blockchain transaction.</li>
+<li><strong>Wallet addresses:</strong> Both sender and receiver wallet addresses involved in the transfer.</li>
+<li><strong>Exchange details:</strong> The name of the exchange or platform used for the transaction.</li>
+<li><strong>Fees:</strong> Any transaction fees or network fees paid.</li>
+</ul>
+<p>
+These detailed records will not only help you accurately calculate your tax liability but will also serve as crucial evidence in case of any scrutiny from the Income Tax Department.
+</p>
+<h3>Impact on ITR Filing</h3>
+<p>
+The new reporting framework will likely necessitate specific schedules or enhanced disclosure requirements within the Income Tax Return (ITR) forms. While the exact form updates will be released by the Central Board of Direct Taxes (CBDT), investors should anticipate a dedicated section for reporting VDA income and TDS. Accurate reporting will involve:
+</p>
+<ul>
+<li><strong>Consolidating all VDA transactions:</strong> Gathering data from all exchanges and wallets used.</li>
+<li><strong>Calculating total gains:</strong> Summing up all profits from VDA transfers.</li>
+<li><strong>Reconciling TDS:</strong> Ensuring that the 1% TDS deducted by exchanges matches your records and is reflected in Form 26AS.</li>
+<li><strong>Declaring VDA income:</strong> Reporting the calculated income under the appropriate head in your ITR, likely through a dedicated Schedule VDA.</li>
+</ul>
+<p>
+Failing to report VDA income accurately or maintain adequate records could lead to penalties and scrutiny from tax authorities.
+</p>
+<h2>Key Changes and Continuities</h2>
+<p>
+The Income Tax Act, 2025, while primarily maintaining the existing tax rates for VDAs, introduces specific legislative updates and reinforces certain principles. Understanding these changes and continuities is vital for compliance.
+</p>
+<h3>Section Number Updates</h3>
+<p>
+One of the primary &quot;changes&quot; highlighted in the source is the update to section numbers within the Income Tax Act. While the underlying tax treatment (30% tax, 1% TDS, no loss set-off) remains consistent with previous amendments, the specific sections governing VDAs have been renumbered or consolidated. For instance, the 30% tax on VDA income, earlier covered under Section 115BBH of the Income-tax Act, 1961, is now under Section 194(1) of the 2025 Act. Similarly, the 1% TDS provision, previously under Section 194S, is now found in Section 393(1). Investors should be aware that while the principles are the same, referring to the correct legislative sections will be important for legal and compliance purposes. The spirit of the law, however, continues to be consistent with the earlier provisions introduced for VDA taxation.
+</p>
+<h3>No Set-off or Carry Forward of Losses</h3>
+<p>
+A crucial continuity that cannot be overstated is the restriction on setting off or carrying forward losses from VDA transfers. Unlike traditional capital assets where losses can often be adjusted against gains or carried forward for up to eight assessment years, VDA losses offer no such relief. If you sell a VDA at a loss, that loss is simply disregarded for tax purposes. This means your taxable income from VDAs will only ever be based on your gains, without any reduction for losses incurred in other VDA transactions or against other income sources. This provision significantly impacts the risk-reward calculation for VDA investors and traders, making it imperative to factor in this tax inefficiency when planning investments.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rajesh, 42, a self-employed consultant in Mumbai, earning ₹35 lakhs per year.</strong> Rajesh has been dabbling in cryptocurrencies for a while.
+</p>
+<p>
+In the financial year 2026-27 (Tax Year 2026-27 under the new Act), Rajesh undertakes the following VDA transactions:
+</p>
+<ol>
+<li><strong>April 2026:</strong> Purchases 0.5 BTC for ₹15,00,000.</li>
+<li><strong>September 2026:</strong> Sells 0.2 BTC for ₹7,00,000.</li>
+<p>
+    <em>   Cost of acquisition for 0.2 BTC: (₹15,00,000 / 0.5) </em> 0.2 = ₹6,00,000.
+    *   Profit from this sale: ₹7,00,000 (Sale Price) - ₹6,00,000 (Cost) = ₹1,00,000.
+    *   TDS deducted by exchange (1% of sale value): 1% of ₹7,00,000 = ₹7,000.
+</p>
+<li><strong>January 2027:</strong> Sells another 0.1 BTC for ₹2,50,000.</li>
+<p>
+    <em>   Cost of acquisition for 0.1 BTC: (₹15,00,000 / 0.5) </em> 0.1 = ₹3,00,000.
+    *   Loss from this sale: ₹2,50,000 (Sale Price) - ₹3,00,000 (Cost) = -₹50,000.
+    *   TDS deducted by exchange (1% of sale value): 1% of ₹2,50,000 = ₹2,500.
+</p>
+</ol>
+<p>
+<strong>Calculating Rajesh&#x27;s VDA Tax Liability for Tax Year 2026-27:</strong>
+</p>
+<ul>
+<li><strong>Total VDA Gains:</strong> Rajesh made a profit of ₹1,00,000 from the September sale.</li>
+<li><strong>Treatment of Loss:</strong> The loss of ₹50,000 from the January sale cannot be set off against the ₹1,00,000 gain. It is simply disregarded for tax purposes.</li>
+<li><strong>Taxable VDA Income:</strong> ₹1,00,000.</li>
+<li><strong>Tax @ 30%:</strong> 30% of ₹1,00,000 = ₹30,000.</li>
+<li><strong>Total TDS Deducted:</strong> ₹7,000 (from September sale) + ₹2,500 (from January sale) = ₹9,500.</li>
+<li><strong>Net Tax Payable (or Refundable) on VDAs:</strong> ₹30,000 (Tax Liability) - ₹9,500 (TDS) = ₹20,500.</li>
+</ul>
+<p>
+When filing his ITR, Rajesh will declare his ₹1,00,000 VDA gain and claim the ₹9,500 TDS credit. He will need to pay the balance ₹20,500. He also needs to ensure he has detailed records of both transactions, including dates, amounts, and transaction IDs, to support his ITR filing.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your VDA Transaction History:</strong> Gather all your VDA purchase and sale data from exchanges and wallets for the current financial year. Consolidate this information into a single spreadsheet.</li>
+<li><strong>Establish a Robust Record-Keeping System:</strong> Set up a dedicated digital folder or spreadsheet to meticulously record every future VDA transaction. Include details like date, time, asset, quantity, value (in INR), transaction ID, wallet addresses, and exchange used.</li>
+<li><strong>Understand Your Current Tax Position:</strong> Based on your consolidated history, estimate your potential VDA gains or losses for the current financial year. Remember that losses cannot be set off.</li>
+<li><strong>Reconcile TDS:</strong> Check your Form 26AS periodically to ensure that the 1% TDS deducted by exchanges on your VDA sales is correctly reflected. Report any discrepancies to your exchange.</li>
+<li><strong>Consult a Professional for Complex Portfolios:</strong> If you have a high volume of VDA transactions or engage in activities like staking or airdrops, engage with a Certified Financial Planner or a tax advisor specializing in VDA taxation to ensure full compliance and optimize your tax planning.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is a Virtual Digital Asset (VDA) under the Income Tax Act 2025?</h3>
+<p>
+A Virtual Digital Asset (VDA) is broadly defined in Section 2(111) of the Income Tax Act, 2025. It includes any information, code, number, or token generated through cryptographic means or otherwise, providing a digital representation of value, and explicitly includes crypto-assets and Non-Fungible Tokens (NFTs).
+</p>
+<h3>Has the 30% tax rate on VDA income changed?</h3>
+<p>
+No, the Income Tax Act, 2025 largely retains the existing provision of a flat 30% tax rate on income derived from the transfer of Virtual Digital Assets (VDAs). This rate applies irrespective of the holding period or your income slab.
+</p>
+<h3>How does the 1% TDS on VDA transactions operate?</h3>
+<p>
+A 1% Tax Deducted at Source (TDS) is applicable on the consideration paid for the transfer of a VDA, provided the transaction value exceeds certain thresholds (₹50,000 for specified persons, ₹10,000 for others). This TDS is deducted by the buyer or the VDA exchange and can be claimed as a credit against your final tax liability.
+</p>
+<h3>Can I adjust VDA losses against other income or VDA gains?</h3>
+<p>
+No, the Income Tax Act, 2025 continues to prohibit the set-off of losses arising from the transfer of Virtual Digital Assets against any other income or even against gains from other VDA transfers. Such losses cannot be carried forward to subsequent assessment years either.
+</p>
+<h3>What specific records must I maintain for VDA transactions?</h3>
+<p>
+You must maintain detailed records including the date, time, type of VDA, quantity, value in INR, transaction ID/hash, wallet addresses (sender/receiver), exchange details, and any associated fees for every VDA transaction.
+</p>
+<h3>Will the ITR filing process for VDAs be different?</h3>
+<p>
+While the core tax rules remain, the new reporting framework under the Income Tax Act, 2025 will likely require more detailed disclosure of VDA transactions within your Income Tax Return (ITR). You should anticipate specific schedules (like Schedule VDA) or enhanced sections dedicated to reporting VDA income and TDS.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/income-tax-act-2025-what-crypto-investors-should-know-about-vda-provisions-tds-and-itr-filing-rules-11790360376855.html</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>

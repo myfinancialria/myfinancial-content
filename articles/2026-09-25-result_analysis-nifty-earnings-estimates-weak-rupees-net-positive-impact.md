@@ -12,7 +12,7 @@ slug: 2026-09-25-result_analysis-nifty-earnings-estimates-weak-rupees-net-positi
 # Nifty Earnings Estimates: Weak Rupee's Net Positive Impact
 
 **TL;DR**
-- Nifty earnings estimates for FY27 are perceived as ambitious by financial analysts, including Nuvama's Prateek Parekh.
+- Nifty earnings estimates for FY27 are perceived as ambitious by some financial analysts, according to Livemint, which cites Nuvama's report.
 - Despite the high expectations, a weaker Indian Rupee is not anticipated to complicate the overall earnings outlook.
 - A depreciating rupee acts as a significant tailwind, boosting profitability for India's export-heavy sectors.
 - Conversely, consumer-facing segments and industries reliant on imports may face challenges due to increased costs.
@@ -105,7 +105,7 @@ Sectors heavily reliant on imports, such as oil and gas (due to crude oil import
 While currency fluctuations can impact sectoral performance, making investment decisions solely based on short-term currency movements is generally not advisable. A long-term, diversified investment strategy aligned with your financial goals is usually more prudent.
 
 ### What is the outlook for Nifty earnings in the near future?
-According to analysts like Nuvama's Prateek Parekh, Nifty earnings estimates for FY27 are ambitious, suggesting strong growth expectations. Despite a weaker rupee, the overall outlook for Nifty earnings is considered positive, driven by the benefits to export-heavy sectors.
+According to Livemint, citing Nuvama's report, Nifty earnings estimates for FY27 are ambitious, suggesting strong growth expectations. Despite a weaker rupee, the overall outlook for Nifty earnings is considered positive, driven by the benefits to export-heavy sectors.
 
 ## Sources
 
