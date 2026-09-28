@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Upcoming IPOs, Explained Simply — September 2026</title>
+<meta name="description" content="This week, several companies like A-One Steels, Moneyview, Runwal Enterprises, AceVector, German Green Steel and Power, Orient Cables, Shah Investor&#x27;s Home, a.">
+<meta name="keywords" content="shares, september, company, announced, limited, detail, bidding, investors">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-28-upcoming-ipos-explained-simply-september-2026/">
+<meta property="og:title" content="Upcoming IPOs, Explained Simply — September 2026">
+<meta property="og:description" content="This week, several companies like A-One Steels, Moneyview, Runwal Enterprises, AceVector, German Green Steel and Power, Orient Cables, Shah Investor&#x27;s Home, a.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-28-upcoming-ipos-explained-simply-september-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Upcoming IPOs, Explained Simply \u2014 September 2026", "description": "This week, several companies like A-One Steels, Moneyview, Runwal Enterprises, AceVector, German Green Steel and Power, Orient Cables, Shah Investor's Home, a.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-28", "dateModified": "2026-09-28", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-28-upcoming-ipos-explained-simply-september-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/" class="active">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">IPO Watch · 2026-09-28</div><h1>Upcoming IPOs, Explained Simply — September 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>This week, several companies like A-One Steels, Moneyview, Green Asia Impex, Runwal Enterprises, German Green Steel and Power, Orient Cables, Bench Mark Infotech Services, Himalayan Solar, Shah Investor&#x27;s Home, and Srit India have their Initial Public Offerings (IPOs) open for bidding.</li>
+<li>SME segment IPOs from Green Asia Impex, Bench Mark Infotech Services, and Himalayan Solar are also active.</li>
+<li>Vishal Nirmiti Limited&#x27;s IPO is set to open later this week.</li>
+<li>You&#x27;ll learn what an IPO is, how to understand key terms like price band and issue size, and the step-by-step process of applying.</li>
+</ul>
+</div>
+<h2>First, what is an IPO — in one minute?</h2>
+<p>
+Imagine a popular local chai shop that has been doing very well. Now, the owner wants to open more branches across the city, but needs a lot of money to do so. One way to get this money is to sell a small part of the shop&#x27;s ownership to the public.
+</p>
+<p>
+An <strong>IPO (Initial Public Offering)</strong> is exactly this – it&#x27;s when a private company sells its shares for the very first time to the public. This is done in the <strong>primary market</strong> (where shares are sold directly by the company). Once these shares are sold, they get <strong>listed</strong> on a stock exchange like NSE or BSE, meaning they can then be bought and sold by anyone in the regular stock market (the secondary market).
+</p>
+<h2>The IPOs on the calendar right now</h2>
+<p>
+Let&#x27;s look at the companies that are currently offering their shares to the public or will be doing so very soon.
+</p>
+<h3>A-One Steels India Limited</h3>
+<p>
+This company is likely involved in the steel manufacturing or trading sector. Its IPO is open today, September 28, 2026, and also closes today.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹385 to ₹405 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>49 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>99,99,999 shares</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 24, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>September 28, 2026</td></tr>
+</tbody></table>
+<ul>
+<li><strong>Price Band:</strong> This is the fixed range within which you can bid for shares. For A-One Steels, you can bid anywhere between ₹385 and ₹405 per share.</li>
+<li><strong>Lot Size:</strong> This is the minimum number of shares you must apply for. It&#x27;s not yet announced for this IPO.</li>
+<li><strong>Issue Size:</strong> This is the total number of shares the company is offering to the public, which is 73,84,934 shares.</li>
+</ul>
+<h3>Moneyview Limited</h3>
+<p>
+Moneyview Limited appears to be in the financial technology sector, possibly offering lending or money management services. Its IPO is open today, September 28, 2026, and also closes today.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹32 to ₹34 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>49 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>23,25,24,175 shares</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 24, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>September 28, 2026</td></tr>
+</tbody></table>
+<h3>Green Asia Impex Limited</h3>
+<p>
+This company is likely involved in import and export, possibly with a focus on environmentally friendly products. This is an <strong>SME (Small and Medium Enterprise)</strong> IPO, which means it&#x27;s for smaller companies and often has different listing requirements. Its IPO is open today, September 28, 2026, and also closes today.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹85 to ₹90 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>1,600 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>₹60.10 Crore (66.78 Lakh shares)</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 24, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>September 28, 2026</td></tr>
+</tbody></table>
+<h3>Runwal Enterprises Limited</h3>
+<p>
+The name suggests a diversified business, potentially in real estate or infrastructure. This IPO is open for bidding until tomorrow, September 29, 2026.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹290 to ₹305 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>49 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>₹500 Crore (1,63,98,962 equity shares)</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 25, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>September 29, 2026</td></tr>
+</tbody></table>
+<h3>AceVector Limited</h3>
+<p>
+AceVector Limited&#x27;s name suggests it might be in the technology or software sector. This IPO is open for bidding until tomorrow, September 29, 2026.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹30 to ₹32 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>49 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>7,42,29,166 shares</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 25, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>September 29, 2026</td></tr>
+</tbody></table>
+<h3>German Green Steel and Power Limited</h3>
+<p>
+This company is likely in the steel and power generation sector, possibly with a focus on sustainable or &quot;green&quot; technologies. This IPO is open for bidding until tomorrow, September 29, 2026.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹132 to ₹139 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>49 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>1,60,62,879 shares</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 25, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>September 29, 2026</td></tr>
+</tbody></table>
+<h3>Orient Cables (India) Limited</h3>
+<p>
+As the name suggests, this company is likely a manufacturer or distributor of cables and wires. This IPO is open for bidding until tomorrow, September 29, 2026.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹258 to ₹272 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>49 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>₹552 Crore (2,02,94,114 equity shares)</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 25, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>September 29, 2026</td></tr>
+</tbody></table>
+<h3>Bench Mark Infotech Services Limited</h3>
+<p>
+This company is likely in the Information Technology (IT) services sector. This is an <strong>SME</strong> IPO, open for bidding until tomorrow, September 29, 2026.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹85 to ₹90 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>1,600 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>₹60.10 Crore (66.78 Lakh shares)</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 25, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>September 29, 2026</td></tr>
+</tbody></table>
+<h3>Himalayan Solar Limited</h3>
+<p>
+This company is likely involved in the solar energy sector. This is an <strong>SME</strong> IPO, open for bidding until tomorrow, September 29, 2026.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹85 to ₹90 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>1,600 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>₹60.10 Crore (66.78 Lakh shares)</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 25, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>September 29, 2026</td></tr>
+</tbody></table>
+<h3>Shah Investor&#x27;s Home Limited</h3>
+<p>
+This company&#x27;s name suggests it operates in the financial services or investment sector. This IPO opens today, September 28, 2026, and will close on September 30, 2026.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹159 to ₹167 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>49 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>₹90.17 Crore (53,99,200 shares)</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 28, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>September 30, 2026</td></tr>
+</tbody></table>
+<h3>Srit India Limited</h3>
+<p>
+The sector for Srit India Limited is not specified from its name. This IPO opens today, September 28, 2026, and will close on September 30, 2026.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹123 to ₹130 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>49 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>1,17,60,000 shares</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 28, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>September 30, 2026</td></tr>
+</tbody></table>
+<h3>Vishal Nirmiti Limited</h3>
+<p>
+This company&#x27;s name suggests it might be in the construction or infrastructure development sector. This IPO is <strong>forthcoming</strong>, meaning it will open for bidding on September 30, 2026, and close on October 5, 2026.
+</p>
+<table><thead><tr><th>Detail</th><th>Value</th></tr></thead><tbody>
+<tr><td><strong>Price Band</strong></td><td>₹208 to ₹220 per share</td></tr>
+<tr><td><strong>Lot Size</strong></td><td>49 shares</td></tr>
+<tr><td><strong>Issue Size</strong></td><td>₹178 Crore (comprising a fresh issue of up to 69.71 lakh equity shares and an offer for sale of 15 lakh shares, totaling 84.71 lakh shares)</td></tr>
+<tr><td><strong>Open Date</strong></td><td>September 30, 2026</td></tr>
+<tr><td><strong>Close Date</strong></td><td>October 05, 2026</td></tr>
+</tbody></table>
+<h2>How to actually read an IPO (the 6 things on every IPO)</h2>
+<p>
+When you see an IPO announcement, here are the key pieces of information to understand:
+</p>
+<ol>
+<li><strong>Price Band:</strong> This is the range of prices at which the company is willing to sell its shares. For example, if the price band is ₹100-₹105, you can bid for shares at any price within this range. The highest price in the band is often called the &quot;cap price&quot;.</li>
+<li><strong>Lot Size:</strong> Shares in an IPO are not sold individually, but in fixed groups called &quot;lots&quot;. If the lot size is 50 shares, you must apply for at least 50 shares, or multiples of 50 (e.g., 100, 150, etc.). This ensures that the company deals with a manageable number of applications.</li>
+<li><strong>Minimum Investment:</strong> This is the smallest amount of money you need to invest to apply for an IPO. You calculate it by multiplying the lot size by the lowest price in the price band. For instance, if the lot size is 50 shares and the price band is ₹100-₹105, your minimum investment would be 50 shares * ₹100 = ₹5,000. (Note: For the IPOs above, the lot size is not yet announced, so the minimum investment cannot be calculated at this time.)</li>
+<li><strong>Issue Size:</strong> This refers to the total number of shares the company is offering to the public. It can also be expressed as the total value of shares being offered (e.g., ₹500 crores). A larger issue size means more shares are available.</li>
+<li><strong>Fresh Issue vs. Offer For Sale (OFS):</strong></li>
+<p>
+    *   <strong>Fresh Issue:</strong> When a company issues new shares to raise money for its business operations, expansion, or to pay off debts. The money from these shares goes directly to the company.
+    *   <strong>Offer For Sale (OFS):</strong> When existing shareholders (like promoters or early investors) sell some of their shares to the public. The money from these shares goes to the selling shareholders, not the company itself.
+    <em>   </em>Note: The specific breakdown between Fresh Issue and OFS is not provided in the data for the current IPOs, but it&#x27;s an important detail often found in the prospectus.*
+</p>
+<li><strong>RHP/DRHP (Red Herring Prospectus / Draft Red Herring Prospectus):</strong> This is the detailed legal document that a company files with SEBI (Securities and Exchange Board of India) before an IPO. It contains all the crucial information about the company, its financials, risks, management, and how the money raised will be used. It&#x27;s like the company&#x27;s report card and business plan rolled into one.</li>
+</ol>
+<h2>The IPO process, step by step</h2>
+<p>
+Applying for an IPO involves a few key stages:
+</p>
+<ol>
+<li><strong>DRHP Filing:</strong> The company first files its <strong>Draft Red Herring Prospectus (DRHP)</strong> with SEBI for approval. This document outlines all the details of the proposed IPO.</li>
+<li><strong>SEBI Approval &amp; RHP:</strong> Once SEBI approves, the company files the final <strong>Red Herring Prospectus (RHP)</strong> and announces the <strong>price band</strong> and <strong>issue dates</strong>.</li>
+<li><strong>Bidding:</strong> During the IPO open dates, investors can place bids for shares. There are different categories of investors:</li>
+<p>
+    *   <strong>Retail Individual Investors (RIIs):</strong> Ordinary individuals who apply for shares worth up to ₹2 lakhs.
+    *   <strong>High Net-worth Individuals (HNIs) / Non-Institutional Investors (NIIs):</strong> Individuals or entities who apply for shares worth more than ₹2 lakhs.
+    *   <strong>Qualified Institutional Buyers (QIBs):</strong> Large institutional investors like mutual funds, insurance companies, and foreign institutional investors.
+</p>
+<li><strong>Allotment:</strong> After the bidding closes, shares are allotted to successful bidders. If the IPO is <strong>oversubscribed</strong> (meaning more applications than shares available), shares are allotted through a lottery system for retail investors.</li>
+<li><strong>Listing:</strong> Finally, the shares get <strong>listed</strong> on the stock exchanges (NSE and BSE). This is when they start trading in the secondary market, and you can buy or sell them like any other stock.</li>
+</ol>
+<h2>A simple way to think about it</h2>
+<p>
+Think of a school fete where a popular stall is selling delicious homemade sweets. The stall owner decides to sell &quot;ownership coupons&quot; for a small part of their future sweet-making business to raise money for a bigger kitchen.
+</p>
+<ul>
+<li>The &quot;ownership coupons&quot; are the <strong>shares</strong>.</li>
+<li>Selling them for the first time is the <strong>IPO</strong>.</li>
+<li>The price range for the coupons is the <strong>price band</strong>.</li>
+<li>The minimum number of coupons you must buy is the <strong>lot size</strong>.</li>
+<li>The detailed recipe book and business plan for the sweet stall is the <strong>RHP</strong>.</li>
+<li>Once you buy the coupons, you can later sell them to other people at the fete – that&#x27;s like the shares getting <strong>listed</strong> on the stock exchange.</li>
+</ul>
+<h2>Things people get confused about</h2>
+<ul>
+<li><strong>Myth:</strong> Applying for an IPO guarantees you shares.</li>
+<p>
+    *   <strong>Fact:</strong> If an IPO is very popular (oversubscribed), there are more applications than shares available. In such cases, shares are allotted through a lottery system, especially for retail investors. You might not get any shares, or you might get fewer than you applied for.
+</p>
+<li><strong>Myth:</strong> IPOs are a guaranteed way to make quick money.</li>
+<p>
+    *   <strong>Fact:</strong> While some IPOs see a rise in price on listing day (<strong>listing gain</strong>), this is not guaranteed. Share prices can go down on listing day or in the future, depending on market conditions and the company&#x27;s performance. All investments carry risk.
+</p>
+<li><strong>Myth:</strong> You must apply for shares at the highest price in the band.</li>
+<p>
+    *   <strong>Fact:</strong> You can bid at any price within the price band. Many investors choose to bid at the &quot;cut-off price,&quot; which means they are willing to pay the final price discovered within the band. If you bid below the final cut-off price, your application might not be considered for allotment.
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>How do I even apply for an IPO?</h3>
+<p>
+You can apply for an IPO through your bank&#x27;s ASBA (Application Supported by Blocked Amount) facility via net banking, or through your stockbroker&#x27;s platform. Your money remains in your bank account until shares are allotted.
+</p>
+<h3>What is a lot size?</h3>
+<p>
+A lot size is the minimum number of shares you must apply for in an IPO. You cannot apply for a single share; you must apply in multiples of the specified lot.
+</p>
+<h3>What does it mean if an IPO is &quot;oversubscribed&quot;?</h3>
+<p>
+If an IPO is oversubscribed, it means the company received applications for more shares than it offered. For example, if an IPO is subscribed 10 times, it means applications were received for 10 times the number of shares available.
+</p>
+<h3>Why do companies do IPOs?</h3>
+<p>
+Companies typically do IPOs to raise capital (money) for various reasons, such as funding expansion plans, paying off debts, investing in new projects, or allowing existing shareholders to sell their stake.
+</p>
+<h3>What is the difference between a Mainboard IPO and an SME IPO?</h3>
+<p>
+Mainboard IPOs are for larger, more established companies and are listed on the main exchanges (NSE, BSE). SME IPOs are for smaller companies and are listed on separate platforms like NSE Emerge or BSE SME, often with different regulatory requirements and minimum investment amounts.
+</p>
+<h2>Sources</h2>
+<p>
+NSE upcoming/current issues data.
+</p>
+<p>
+<em>This is an educational explainer, not investment advice. myfinancial is not a SEBI-registered adviser.</em>
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
