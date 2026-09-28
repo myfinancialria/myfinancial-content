@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Market Wrap — 28 September 2026</title>
+<meta name="description" content="Indian equities witnessed a sharp decline today, with Nifty 50 falling over 1.5%. Global cues, particularly surging crude oil prices after President Trump&#x27;s r.">
+<meta name="keywords" content="stocks, selling, markets, sectors, indian, institutional, investors, decline">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-28-post_market-market-wrap-28-september-2026/">
+<meta property="og:title" content="Market Wrap — 28 September 2026">
+<meta property="og:description" content="Indian equities witnessed a sharp decline today, with Nifty 50 falling over 1.5%. Global cues, particularly surging crude oil prices after President Trump&#x27;s r.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-28-post_market-market-wrap-28-september-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Market Wrap \u2014 28 September 2026", "description": "Indian equities witnessed a sharp decline today, with Nifty 50 falling over 1.5%. Global cues, particularly surging crude oil prices after President Trump's r.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-28", "dateModified": "2026-09-28", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-28-post_market-market-wrap-28-september-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/" class="active">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Market Wrap · 2026-09-28</div><h1>Market Wrap — 28 September 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Indian equities witnessed a sharp decline today, with Nifty 50 falling over 1.5%.</li>
+<li>Global cues, particularly surging crude oil prices after President Trump&#x27;s rejection of Iran&#x27;s peace proposal, weighed heavily on market sentiment.</li>
+<li>Tata Teleservices (Maharashtra) Ltd. (TTML) emerged as the top gainer in the Nifty 500.</li>
+<li>Manappuram Finance Ltd. faced significant selling pressure, ending as the top loser in the Nifty 500.</li>
+<li>Foreign Institutional Investors (FIIs) were net sellers for the day, while Domestic Institutional Investors (DIIs) provided support.</li>
+<li>F&amp;O positioning signal is unavailable as OI build-up data requires the previous session&#x27;s figures.</li>
+</ul>
+</div>
+<h2>How the market behaved today</h2>
+<p>
+Indian equity markets experienced a significant downturn today, with the Nifty 50 closing sharply lower by 1.56% at 22780.25. The Bank Nifty also saw a substantial decline, shedding 1.99% to end at 54471.65. The day was characterized by broad-based selling pressure, with indices opening lower and largely trending downwards throughout the session, hitting their day&#x27;s lows towards the close.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>Change</th><th>High</th><th>Low</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>22780.25</td><td>-1.56%</td><td>23080.25</td><td>22762.20</td></tr>
+<tr><td>Bank Nifty</td><td>54471.65</td><td>-1.99%</td><td>55390.10</td><td>54437.70</td></tr>
+<tr><td>Midcap 100</td><td>59914.20</td><td>-1.63%</td><td>60783.75</td><td>59814.05</td></tr>
+<tr><td>Smallcap 100</td><td>19351.10</td><td>-1.85%</td><td>19692.35</td><td>19324.00</td></tr>
+</tbody></table>
+<p>
+The India VIX, a measure of market volatility, surged by 12.17% to 13.64, indicating increased investor apprehension and expected price swings in the near term.
+</p>
+<h2>What moved the market — the factors</h2>
+<p>
+The Indian market&#x27;s sharp decline today was primarily driven by negative global cues, particularly from the US. News of President Trump&#x27;s rejection of Iran&#x27;s peace proposal led to a significant surge in crude oil prices, which in turn sparked inflation worries and contributed to a downward trend in US market indexes. This global sentiment spilled over into Indian equities, leading to a broad-based sell-off.
+</p>
+<p>
+Adding to the pressure, Foreign Institutional Investors (FIIs) continued their selling spree, withdrawing ₹3,694 crore from the Indian cash market. This consistent outflow from FIIs, observed over multiple sessions recently, has been a significant drag on market performance. Domestic Institutional Investors (DIIs) provided some counter-balance with net buying of ₹2,838 crore, but it was insufficient to stem the overall market decline.
+</p>
+<p>
+Sectorally, PSU Banks and Realty were the biggest laggards, reflecting the broad negative sentiment. Heavyweight stocks across various sectors contributed to the Nifty&#x27;s fall, as evidenced by the high number of declining stocks compared to advancing ones. The rising India VIX further underscored the heightened uncertainty among investors.
+</p>
+<h2>Sectors — winners and losers</h2>
+<p>
+Today was a challenging day across the board, with all major sectoral indices closing in the red. Even the &quot;gaining&quot; sectors experienced declines, albeit smaller ones.
+</p>
+<p>
+<strong>Top 3 Gainer Sectors (relative performance):</strong>
+</p>
+<ul>
+<li><strong>IT:</strong> -0.26% (Showed the least decline among all sectors, indicating relative resilience).</li>
+<li><strong>MEDIA:</strong> -0.74% (Outperformed the broader market despite a negative close).</li>
+<li><strong>PHARMA:</strong> -0.89% (Also saw a comparatively smaller dip than other sectors).</li>
+</ul>
+<p>
+<strong>Top 3 Loser Sectors:</strong>
+</p>
+<ul>
+<li><strong>PSU BANK:</strong> -3.24% (Suffered the steepest decline, indicating strong selling pressure in public sector lenders).</li>
+<li><strong>REALTY:</strong> -2.12% (Witnessed significant profit booking or selling, despite recent positive capital inflow news in the sector).</li>
+<li><strong>ENERGY:</strong> -2.00% (Fell sharply, possibly due to broader market weakness despite rising crude oil prices).</li>
+</ul>
+<h2>Stocks that moved the market</h2>
+<h3>Top 5 gainers (Nifty 500)</h3>
+<table><thead><tr><th>Company Name</th><th>Sector</th><th>Close (₹)</th><th>% Change</th></tr></thead><tbody>
+<tr><td>Tata Teleservices (Maharashtra) Ltd. (TTML)</td><td>Telecommunication</td><td>36.19</td><td>+5.08%</td></tr>
+<tr><td>Elecon Engineering Co. Ltd. (ELECON)</td><td>Capital Goods</td><td>480.75</td><td>+4.91%</td></tr>
+<tr><td>Aegis Vopak Terminals Ltd. (AEGISVOPAK)</td><td>Oil Gas &amp; Consumable Fuels</td><td>298.55</td><td>+3.84%</td></tr>
+<tr><td>Go Digit General Insurance Ltd. (GODIGIT)</td><td>Financial Services</td><td>263.25</td><td>+3.76%</td></tr>
+<tr><td>Mangalore Refinery &amp; Petrochemicals Ltd. (MRPL)</td><td>Oil Gas &amp; Consumable Fuels</td><td>169.80</td><td>+3.16%</td></tr>
+</tbody></table>
+<p>
+Elecon Engineering Co. Ltd. showed a positive technical setup despite broader market weakness, with analysts identifying breakouts and trendline support. Go Digit General Insurance Ltd. was also highlighted by analysts as a breakout stock based on technical setups.
+</p>
+<h3>Top 5 losers (Nifty 500)</h3>
+<table><thead><tr><th>Company Name</th><th>Sector</th><th>Close (₹)</th><th>% Change</th></tr></thead><tbody>
+<tr><td>Manappuram Finance Ltd. (MANAPPURAM)</td><td>Financial Services</td><td>313.00</td><td>-6.29%</td></tr>
+<tr><td>Yes Bank Ltd. (YESBANK)</td><td>Financial Services</td><td>21.18</td><td>-5.87%</td></tr>
+<tr><td>Bank of India (BANKINDIA)</td><td>Financial Services</td><td>129.99</td><td>-5.76%</td></tr>
+<tr><td>Vodafone Idea Ltd. (IDEA)</td><td>Telecommunication</td><td>13.47</td><td>-5.54%</td></tr>
+<tr><td>Nippon Life India Asset Management Ltd. (NAM-INDIA)</td><td>Financial Services</td><td>1093.90</td><td>-5.45%</td></tr>
+</tbody></table>
+<p>
+The financial services sector saw multiple stocks among the top losers, indicating broad-based selling pressure in the segment.
+</p>
+<h2>News that moved stocks</h2>
+<p>
+<strong>Global Geopolitical Tensions &amp; Oil Prices:</strong>
+</p>
+<ul>
+<li><strong>US market drops as Trump’s rejection of Iran peace plan lifts oil prices</strong></li>
+<p>
+  Following President Trump&#x27;s dismissal of Iran&#x27;s peace proposal, US market indexes experienced a downward trend, spurred by a notable surge in crude prices, raising inflation worries and impacting global market sentiment, including India. This news contributed significantly to the broad market sell-off.
+</p>
+</ul>
+<p>
+<strong>Regulatory Settlements:</strong>
+</p>
+<ul>
+<li><strong>4 Adani group companies settle public shareholding violations case with Sebi. Check details</strong></li>
+<p>
+  Adani Enterprises and three other Adani group companies, along with their directors, settled with Sebi over minimum public shareholding violations by paying a total settlement amount of ₹1.48 crore. This news brought some clarity regarding past regulatory issues for the Adani group.
+</p>
+<li><strong>Sebi drops minimum public shareholding norms violation case against Vinod Adani and 4 Adani group companies</strong></li>
+<p>
+  Sebi concluded its investigation into Vinod Adani&#x27;s control over offshore investments in Adani group companies, finding insufficient evidence to support allegations of minimum public shareholding violations. This development could be seen as a positive for the Adani group.
+</p>
+</ul>
+<p>
+<strong>Bulk Deals &amp; Institutional Activity:</strong>
+</p>
+<ul>
+<li><strong>Clean Max Enviro bulk deal: Augment India divests stakes worth Rs 1,096 crore; Goldman Sachs, HSBC India among buyers</strong></li>
+<p>
+  Augment India I Holdings sold 85.03 lakh shares of Clean Max Enviro Energy Solutions for approximately ₹1,096 crore through NSE bulk deals, with Goldman Sachs, HSBC, and ICICI Prudential Life Insurance among the buyers. Such large institutional transactions can influence investor perception of the stock and sector.
+</p>
+</ul>
+<p>
+<strong>Real Estate &amp; Capital Inflow:</strong>
+</p>
+<ul>
+<li><strong>Equity capital inflow in real estate, data centre, hotel assets doubles to USD 9.5 bn in Jul-Sep: CBRE</strong></li>
+<p>
+  India&#x27;s real estate, data centre, and hospitality sectors attracted a record USD 9.5 billion in equity capital during the third quarter of 2026, a notable rise from the previous year, with data centres alone accounting for a significant portion. This positive news for the Realty sector, however, did not prevent the sector from being among today&#x27;s top losers, suggesting broader market weakness overshadowed specific positive news.
+</p>
+</ul>
+<p>
+<strong>IPO Update:</strong>
+</p>
+<ul>
+<li><strong>Moneyview IPO: 98x subscription, 3rd biggest ₹1,000 cr issue; GMP signals 41% premium - allotment, listing date</strong></li>
+<p>
+  Moneyview&#x27;s IPO was significantly oversubscribed by 98.5 times, primarily driven by non-institutional and retail investors, making it the third biggest ₹1,000 crore issue. The strong subscription indicates robust investor appetite for new listings, despite the challenging broader market.
+</p>
+</ul>
+<h2>F&amp;O build-up — where traders are positioning</h2>
+<p>
+OI build-up needs the previous session&#x27;s OI — it will populate from the next run.
+</p>
+<h2>Market breadth</h2>
+<p>
+The market breadth was overwhelmingly negative today, with 435 declines against only 64 advances out of a total of 499 stocks. This indicates a broad-based selling pressure across the market, reflecting the widespread bearish sentiment.
+</p>
+<h2>FII / DII flows</h2>
+<p>
+Foreign Institutional Investors (FIIs) remained net sellers in the Indian equity market today, while Domestic Institutional Investors (DIIs) continued to provide support.
+</p>
+<table><thead><tr><th>Investor Type</th><th>Net Flow (₹ crore)</th></tr></thead><tbody>
+<tr><td>FII</td><td>-3,694</td></tr>
+<tr><td>DII</td><td>+2,838</td></tr>
+</tbody></table>
+<p>
+Looking at the 5-day history, FIIs have been net sellers in four out of the last five sessions, with significant outflows on September 24th (₹-5,027 cr) and today (₹-3,694 cr). This consistent selling by FIIs suggests a cautious or risk-off stance towards Indian equities. Conversely, DIIs have been consistent net buyers throughout this period, absorbing some of the FII selling pressure and providing crucial domestic support to the market.
+</p>
+<h2>Event breakdown — what happened today and how it hit the market</h2>
+<p>
+Today&#x27;s market action was predominantly influenced by a confluence of global factors rather than a single domestic event. The most impactful news came from the US, where President Trump&#x27;s rejection of Iran&#x27;s peace proposal led to a sharp increase in crude oil prices. This development immediately triggered inflation concerns and a sell-off in US markets, which then cascaded into Indian equities. The rupee also weakened towards 96 against the US dollar, pressured by surging crude, US bond yields, and the sharp equity sell-off.
+</p>
+<p>
+Domestically, the Adani group saw some regulatory clarity with four of its companies settling public shareholding violations with Sebi for ₹1.48 crore, and Sebi dropping a similar case against Vinod Adani due to insufficient evidence. While these are positive developments for the group, the broader market weakness overshadowed any potential positive impact. The significant FII outflows further exacerbated the negative sentiment, leading to a broad-based decline across sectors like PSU Bank and Realty.
+</p>
+<h2>Setup for tomorrow</h2>
+<p>
+Given today&#x27;s sharp decline driven by global cues, the Indian market is likely to remain watchful of international developments. US markets, which opened lower due to the crude oil spike, will provide overnight direction. Key factors to watch include the trajectory of crude oil prices and the US 10-year yield, which closed higher today at 5.22%. The Dollar Index also saw a slight uptick.
+</p>
+<p>
+Technically, the Nifty 50 has broken key support levels, and the surge in India VIX suggests continued volatility. Investors should monitor global market openings, particularly in Asia, for early cues. Sectors that saw heavy selling today, like PSU Banks and Realty, might remain under pressure, while IT and Pharma showed relative resilience. Key levels to watch for Nifty 50 would be today&#x27;s low of 22762.20 as immediate support, and resistance around 23000.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>https://economictimes.indiatimes.com/markets/stocks/news/4-adani-group-companies-settle-public-shareholding-violations-case-with-sebi-check-details/articleshow/134547647.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/news/sebi-drops-minimum-public-shareholding-norms-violation-case-against-vinod-adani-and-4-adani-group-companies/articleshow/134546792.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/news/clean-max-enviro-bulk-deal-augment-india-divests-stakes-worth-rs-1096-crore-goldman-sachs-hsbc-india-among-buyers/articleshow/134546538.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/news/market-trading-guide-quality-power-among-3-stock-recommendations-for-tuesday/slideshow/134546225.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-wall-st-opens-lower-as-oil-spikes-after-trump-rejects-iran-peace-proposal/articleshow/134544649.cms</li>
+<li>https://economictimes.indiatimes.com/markets/forex/forex-news/rupee-slips-toward-96-vs-us-dollar-as-crude-yields-and-stocks-weigh-on-currency/articleshow/134544621.cms</li>
+<li>https://economictimes.indiatimes.com/markets/digital-real-estate/realty-news/equity-capital-inflow-in-real-estate-data-centre-hotel-assets-doubles-to-usd-9-5-bn-in-jul-sep-cbre/articleshow/134544206.cms</li>
+<li>https://www.livemint.com/market/stock-market-news/moneyview-ipo-98x-subscription-3rd-biggest-rs-1-000-cr-issue-gmp-signals-41-premium-allotment-listing-date-11790614713333.html</li>
+<li>https://www.livemint.com/market/stock-market-news/top-5-breakout-stocks-to-buy-kpi-green-crisil-manyavar-prudent-go-digit-by-sumeet-bagadia-target-stoploss-11790605918011.html</li>
+<li>Data provided by user (US 10Y Yield)</li>
+<li>NSE (Official Source)</li>
+<li>RBI (Official Source)</li>
+<li>SEBI (Official Source)</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
