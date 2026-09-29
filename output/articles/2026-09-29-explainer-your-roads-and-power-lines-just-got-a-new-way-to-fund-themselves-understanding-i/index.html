@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Your Roads and Power Lines Just Got a New Way to Fund Themselves: Understanding InvITs</title>
+<meta name="description" content="Infrastructure Investment Trusts (InvITs) are like mutual funds for big projects like roads and power lines. They allow ordinary people and large investors to.">
+<meta name="keywords" content="invits, infrastructure, assets, investment, september, projects, trusts, investors">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-29-explainer-your-roads-and-power-lines-just-got-a-new-way-to-fund-themselves-understanding-i/">
+<meta property="og:title" content="Your Roads and Power Lines Just Got a New Way to Fund Themselves: Understanding InvITs">
+<meta property="og:description" content="Infrastructure Investment Trusts (InvITs) are like mutual funds for big projects like roads and power lines. They allow ordinary people and large investors to.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-09-29-explainer-your-roads-and-power-lines-just-got-a-new-way-to-fund-themselves-understanding-i/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Your Roads and Power Lines Just Got a New Way to Fund Themselves: Understanding InvITs", "description": "Infrastructure Investment Trusts (InvITs) are like mutual funds for big projects like roads and power lines. They allow ordinary people and large investors to.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-09-29", "dateModified": "2026-09-29", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-09-29-explainer-your-roads-and-power-lines-just-got-a-new-way-to-fund-themselves-understanding-i/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/" class="active">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Explained · 2026-09-29</div><h1>Your Roads and Power Lines Just Got a New Way to Fund Themselves: Understanding InvITs</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Infrastructure Investment Trusts (InvITs) are like mutual funds for big projects like roads and power lines.</li>
+<li>They allow ordinary people and large investors to put money into these projects and earn regular income.</li>
+<li>This helps companies and the government get funds for new infrastructure without taking on too much debt.</li>
+<li>Recently, SEBI has made changes to InvIT regulations, and there&#x27;s a push for more private InvITs to go public.</li>
+<li>This new way of funding is crucial for India&#x27;s massive infrastructure growth plans.</li>
+</ul>
+</div>
+<h2>What&#x27;s this about?</h2>
+<p>
+Imagine India building thousands of kilometres of new highways, upgrading power grids, and setting up modern digital networks. These massive projects need huge amounts of money. That&#x27;s where <strong>Infrastructure Investment Trusts (InvITs)</strong> come in. An InvIT is a special kind of investment vehicle, regulated by SEBI (Securities and Exchange Board of India), that pools money from many investors – both big institutions and individual savers – and invests it in completed, income-generating infrastructure assets. Think of it as a mutual fund, but instead of investing in company stocks, it invests in physical infrastructure projects like toll roads, power transmission lines, or gas pipelines.
+</p>
+<h2>Why it&#x27;s in the news right now</h2>
+<p>
+InvITs are making headlines because they are becoming a key way to fund India&#x27;s ambitious infrastructure development. Just this week, the Securities and Exchange Board of India (SEBI) approved allowing Depository Receipts (DRs) against InvIT units, which aims to attract more foreign capital into these vehicles. There&#x27;s also news about IRB InvIT Fund completing a significant fund-raise of ₹2,351 crore through institutional placement and preferential allotment to acquire more highway assets. Furthermore, the National Highways Infra Trust (NHIT), sponsored by NHAI, recently engaged consultants for the operations and maintenance of its national highway assets, showing continued professional management of these trusts. There&#x27;s also a broader trend of privately placed InvITs looking to go public to broaden their investor base and increase liquidity, with projections of several such transitions by FY27. The Reserve Bank of India (RBI) also issued amendment directions on September 22, 2026, to clarify valuation norms for InvIT units held by financial institutions, ensuring uniform practices. Experts predict that the combined assets under management (AUM) of InvITs and REITs could double to around ₹20 trillion by 2030-31, driven by continued asset monetisation and regulatory reforms.
+</p>
+<h2>How it actually works</h2>
+<p>
+An InvIT has a specific structure to manage these large projects:
+</p>
+<ol>
+<li><strong>Sponsor:</strong> This is the company or government entity that originally built or owns the infrastructure assets (like NHAI for roads or Power Grid Corporation for power lines). The sponsor sets up the InvIT and transfers its operational, revenue-generating assets into it.</li>
+<li><strong>Trustee:</strong> A SEBI-registered trustee oversees the InvIT and ensures that all rules are followed and investors&#x27; interests are protected.</li>
+<li><strong>Investment Manager:</strong> This entity makes decisions on behalf of the InvIT, like which assets to buy, how to manage them, and how to raise more funds.</li>
+<li><strong>Project Manager:</strong> This team is responsible for the day-to-day operations and maintenance of the actual infrastructure assets (e.g., collecting tolls, maintaining power lines).</li>
+<li><strong>Investors:</strong> You, me, or large institutions can buy &quot;units&quot; of the InvIT, similar to buying shares of a company or units of a mutual fund.</li>
+<li><strong>Assets and Income:</strong> The InvIT owns the income-generating infrastructure assets. The money earned from these assets (like toll collections from a highway or charges for transmitting electricity) is collected.</li>
+<li><strong>Distribution:</strong> A significant portion (at least 90% of the net distributable cash flow) of this income is regularly distributed to the unitholders (investors) as dividends or interest.</li>
+</ol>
+<p>
+So, essentially, the sponsor sells its completed projects to the InvIT, gets money to build new projects, and investors get a share of the income generated by the existing projects.
+</p>
+<h2>A simple way to think about it</h2>
+<p>
+Imagine a landlord (the <strong>Sponsor</strong>) who owns several apartment buildings (the <strong>infrastructure assets</strong>) that regularly collect rent. Instead of managing all the buildings himself, or taking out new loans for every new building he wants to construct, he creates a special &quot;Rent-Sharing Club&quot; (the <strong>InvIT</strong>).
+</p>
+<p>
+He invites people (the <strong>Investors</strong>) to join this club by buying &quot;club memberships&quot; (the <strong>InvIT units</strong>). The money from these memberships goes to the landlord, who then uses it to build <em>more</em> apartment buildings. In return, a large part of the rent collected from <em>all</em> the club&#x27;s buildings is regularly shared among the club members. A professional manager (the <strong>Investment Manager</strong>) looks after the buildings and makes sure the rent is collected properly.
+</p>
+<h2>Why it matters to you</h2>
+<ol>
+<li><strong>New Investment Opportunity:</strong> InvITs offer a way for ordinary Indians to invest in large-scale infrastructure projects like roads, power lines, and telecom towers, which were previously hard to access.</li>
+<li><strong>Potential for Stable Income:</strong> Since InvITs primarily invest in operational, revenue-generating assets, they aim to provide regular income distributions to investors, often quarterly or half-yearly.</li>
+<li><strong>Diversification:</strong> Adding InvITs to your investment portfolio can help diversify it beyond traditional stocks, bonds, and mutual funds, as their performance might not always move in the same way as other asset classes.</li>
+<li><strong>Boosts Infrastructure Development:</strong> By providing a new source of long-term funding, InvITs help accelerate the construction of critical infrastructure across India, which in turn supports economic growth and creates jobs.</li>
+<li><strong>Government&#x27;s Asset Monetisation:</strong> The government and public sector companies can use InvITs to monetise (sell or lease out) existing assets, freeing up capital to build new projects without increasing public debt. For example, NHAI has actively used InvITs to monetise highways.</li>
+</ol>
+<h2>Common confusions cleared up</h2>
+<ul>
+<li><strong>Myth:</strong> InvITs are just like investing in a company&#x27;s stock.</li>
+<p>
+    <em>   <strong>Fact:</strong> While you buy units on a stock exchange, InvITs are different. A company&#x27;s stock represents ownership in the entire business, which can involve many different activities. An InvIT specifically invests in a portfolio of </em>income-generating infrastructure assets* and is required to distribute a large portion of its cash flows to unitholders.
+</p>
+<li><strong>Myth:</strong> InvITs are tax-free investments.</li>
+<p>
+    *   <strong>Fact:</strong> No, InvITs are not entirely tax-free. The taxation of InvITs can be complex and depends on the nature of the income distributed (e.g., interest, dividend, repayment of capital) and the investor&#x27;s tax bracket. India&#x27;s Finance Bill 2026 introduced changes to simplify investor taxation for InvITs, effective from April 1, 2026. It&#x27;s always best to consult a tax advisor.
+</p>
+<li><strong>Myth:</strong> InvITs are the same as REITs.</li>
+<p>
+    *   <strong>Fact:</strong> InvITs (Infrastructure Investment Trusts) are similar in structure to REITs (Real Estate Investment Trusts) but invest specifically in infrastructure assets (like roads, power lines). REITs, on the other hand, invest in income-generating real estate assets (like office buildings, shopping malls).
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>What is the minimum investment amount for InvITs?</h3>
+<p>
+For public InvITs, the minimum subscription amount can be in the range of ₹10,000 to ₹15,000. Recent SEBI amendments in September 2025 also reduced the minimum investment threshold for InvITs from ₹1 crore to ₹25 lakhs for any investor.
+</p>
+<h3>Are InvITs regulated?</h3>
+<p>
+Yes, InvITs are regulated by the Securities and Exchange Board of India (SEBI) under the SEBI (Infrastructure Investment Trusts) Regulations, 2014.
+</p>
+<h3>What kind of returns can I expect from InvITs?</h3>
+<p>
+InvITs aim to provide stable, long-term returns primarily through regular income distributions (dividends/interest) from the operational assets. The actual returns depend on the performance of the underlying assets, market conditions, and tax implications.
+</p>
+<h3>Can foreign investors invest in Indian InvITs?</h3>
+<p>
+Yes, any investor, whether domestic or foreign, retail or institutional, can buy InvIT units in India. The recent SEBI approval for Depository Receipts against InvIT units is specifically aimed at facilitating greater foreign capital participation.
+</p>
+<h3>What types of infrastructure assets do InvITs typically hold?</h3>
+<p>
+InvITs typically hold assets like toll roads, power transmission lines, gas pipelines, renewable energy projects, and telecom towers. Public InvITs are required to invest at least 80% of their assets in completed and revenue-generating infrastructure projects.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>SEBI (Infrastructure Investment Trusts) Regulations, 2014. (Referenced in multiple search results)</li>
+<li>IRB InvIT Fund raises ₹2,351 crore via placement and preferential allotment.</li>
+<li>SEBI approves Depository Receipts against REIT and InvIT units.</li>
+<li>NHAI Strengthens Professional Management of InvIT-led Operations and Maintenance of National Highway Assets.</li>
+<li>RBI issues Amendment Directions, 2026 for valuation of InvIT and REIT units by financial institutions.</li>
+<li>Infrastructure Investment Trusts: Private Invits Going Public for Wider Investor Base.</li>
+<li>Combined AUM of InvITs and REITs set to double to ~Rs. 20 trillion by 2030-31: ICRA.</li>
+<li>Powergrid Infrastructure Investment Trust Declares Distribution for the Quarter Ended June 30, 2026.</li>
+<li>Infrastructure Investment Trusts (InvITs) - Structure, Types, Taxation - ET Money.</li>
+<li>What is InvITs? Meaning, Features &amp; Benefits Explained - NISM.</li>
+<li>Infrastructure Investment Trusts, Features, Structure, Challenges (September 25, 2026).</li>
+<li>What is InvIT? Meaning, Structure &amp; Role in India&#x27;s Infrastructure Growth (June 10, 2026).</li>
+<li>What is an InvIT(Infrastructure Investment Trust) - India Bond (May 20, 2024).</li>
+<li>Infrastructure Investment Trust (InvITs) - Indian Economic Service.</li>
+<li>SEBI Update – SEBI Notifies Third Amendment to InvIT Regulations, 2025 (September 05, 2025).</li>
+<li>National Highways Infra Trust&#x27;s Board approved engaging General Management Consultants (September 20, 2026).</li>
+<li>IRB InvIT Fund Opens Institutional Placement To Raise Up To Rs 2,000 Crore (September 24, 2026).</li>
+<li>IRB Infrastructure to Manage Rs.2,663 Crore Highway Assets for IRB InvIT Fund (September 29, 2026).</li>
+<li>List of InvIT Stocks in India (2026) - INDmoney (September 28, 2026).</li>
+<li>The future of InvITs in 2026: Five mega trends that will transform the market (November 15, 2025).</li>
+<li>NHAI monetises ₹28307 crore highways in FY26, nears ₹30k crore target (March 30, 2026).</li>
+<li>Infrastructure Financing in India: Trends, Institutions, and Innovations - PIB (March 18, 2026).</li>
+<li>Actis consolidates India roads portfolio under NXT-Infra Trust (September 25, 2026).# Your Roads and Power Lines Just Got a New Way to Fund Themselves: Understanding InvITs</li>
+</ul>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Infrastructure Investment Trusts (InvITs) are like mutual funds for big projects like roads and power lines.</li>
+<li>They allow ordinary people and large investors to put money into these projects and earn regular income.</li>
+<li>This helps companies and the government get funds for new infrastructure without taking on too much debt.</li>
+<li>Recently, SEBI has made changes to InvIT regulations, and there&#x27;s a push for more private InvITs to go public.</li>
+<li>This new way of funding is crucial for India&#x27;s massive infrastructure growth plans.</li>
+</ul>
+</div>
+<h2>What&#x27;s this about?</h2>
+<p>
+Imagine India building thousands of kilometres of new highways, upgrading power grids, and setting up modern digital networks. These massive projects need huge amounts of money. That&#x27;s where <strong>Infrastructure Investment Trusts (InvITs)</strong> come in. An InvIT is a special kind of investment vehicle, regulated by SEBI (Securities and Exchange Board of India), that pools money from many investors – both big institutions and individual savers – and invests it in completed, income-generating infrastructure assets. Think of it as a mutual fund, but instead of investing in company stocks, it invests in physical infrastructure projects like toll roads, power transmission lines, or gas pipelines.
+</p>
+<h2>Why it&#x27;s in the news right now</h2>
+<p>
+InvITs are making headlines because they are becoming a key way to fund India&#x27;s ambitious infrastructure development. Just this week, on September 28, 2026, SEBI approved allowing Depository Receipts (DRs) against InvIT units, a move aimed at attracting more foreign capital into these vehicles. There&#x27;s also recent news from September 29, 2026, about IRB InvIT Fund completing a significant fund-raise of ₹2,351 crore through institutional placement and preferential allotment to acquire more highway assets. Furthermore, the National Highways Infra Trust (NHIT), sponsored by NHAI, recently engaged consultants for the operations and maintenance of its national highway assets, showing continued professional management of these trusts, with a decision taken on July 13, 2026. The Reserve Bank of India (RBI) also issued amendment directions on September 22, 2026, to clarify valuation norms for InvIT units held by financial institutions, ensuring uniform practices. Experts predict that the combined assets under management (AUM) of InvITs and REITs could double to around ₹20 trillion by 2030-31, driven by continued asset monetisation and regulatory reforms.
+</p>
+<h2>How it actually works</h2>
+<p>
+An InvIT has a specific structure to manage these large projects:
+</p>
+<ol>
+<li><strong>Sponsor:</strong> This is the company or government entity that originally built or owns the infrastructure assets (like NHAI for roads or Power Grid Corporation for power lines). The sponsor sets up the InvIT and transfers its operational, revenue-generating assets into it.</li>
+<li><strong>Trustee:</strong> A SEBI-registered trustee oversees the InvIT and ensures that all rules are followed and investors&#x27; interests are protected.</li>
+<li><strong>Investment Manager:</strong> This entity makes decisions on behalf of the InvIT, like which assets to buy, how to manage them, and how to raise more funds.</li>
+<li><strong>Project Manager:</strong> This team is responsible for the day-to-day operations and maintenance of the actual infrastructure assets (e.g., collecting tolls, maintaining power lines).</li>
+<li><strong>Investors:</strong> You, me, or large institutions can buy &quot;units&quot; of the InvIT, similar to buying shares of a company or units of a mutual fund.</li>
+<li><strong>Assets and Income:</strong> The InvIT owns the income-generating infrastructure assets. The money earned from these assets (like toll collections from a highway or charges for transmitting electricity) is collected.</li>
+<li><strong>Distribution:</strong> A significant portion (at least 90% of the net distributable cash flow) of this income is regularly distributed to the unitholders (investors) as dividends or interest.</li>
+</ol>
+<p>
+So, essentially, the sponsor sells its completed projects to the InvIT, gets money to build new projects, and investors get a share of the income generated by the existing projects.
+</p>
+<h2>A simple way to think about it</h2>
+<p>
+Imagine a landlord (the <strong>Sponsor</strong>) who owns several apartment buildings (the <strong>infrastructure assets</strong>) that regularly collect rent. Instead of managing all the buildings himself, or taking out new loans for every new building he wants to construct, he creates a special &quot;Rent-Sharing Club&quot; (the <strong>InvIT</strong>).
+</p>
+<p>
+He invites people (the <strong>Investors</strong>) to join this club by buying &quot;club memberships&quot; (the <strong>InvIT units</strong>). The money from these memberships goes to the landlord, who then uses it to build <em>more</em> apartment buildings. In return, a large part of the rent collected from <em>all</em> the club&#x27;s buildings is regularly shared among the club members. A professional manager (the <strong>Investment Manager</strong>) looks after the buildings and makes sure the rent is collected properly.
+</p>
+<h2>Why it matters to you</h2>
+<ol>
+<li><strong>New Investment Opportunity:</strong> InvITs offer a way for ordinary Indians to invest in large-scale infrastructure projects like roads, power lines, and telecom towers, which were previously hard to access.</li>
+<li><strong>Potential for Stable Income:</strong> Since InvITs primarily invest in operational, revenue-generating assets, they aim to provide regular income distributions to investors, often quarterly or half-yearly.</li>
+<li><strong>Diversification:</strong> Adding InvITs to your investment portfolio can help diversify it beyond traditional stocks, bonds, and mutual funds, as their performance might not always move in the same way as other asset classes.</li>
+<li><strong>Boosts Infrastructure Development:</strong> By providing a new source of long-term funding, InvITs help accelerate the construction of critical infrastructure across India, which in turn supports economic growth and creates jobs.</li>
+<li><strong>Government&#x27;s Asset Monetisation:</strong> The government and public sector companies can use InvITs to monetise (sell or lease out) existing assets, freeing up capital to build new projects without increasing public debt. For example, NHAI has actively used InvITs to monetise highways.</li>
+</ol>
+<h2>Common confusions cleared up</h2>
+<ul>
+<li><strong>Myth:</strong> InvITs are just like investing in a company&#x27;s stock.</li>
+<p>
+    <em>   <strong>Fact:</strong> While you buy units on a stock exchange, InvITs are different. A company&#x27;s stock represents ownership in the entire business, which can involve many different activities. An InvIT specifically invests in a portfolio of </em>income-generating infrastructure assets* and is required to distribute a large portion of its cash flows to unitholders.
+</p>
+<li><strong>Myth:</strong> InvITs are tax-free investments.</li>
+<p>
+    *   <strong>Fact:</strong> No, InvITs are not entirely tax-free. The taxation of InvITs can be complex and depends on the nature of the income distributed (e.g., interest, dividend, repayment of capital) and the investor&#x27;s tax bracket. India&#x27;s Finance Bill 2026 introduced changes to simplify investor taxation for InvITs, effective from April 1, 2026. It&#x27;s always best to consult a tax advisor.
+</p>
+<li><strong>Myth:</strong> InvITs are the same as REITs.</li>
+<p>
+    *   <strong>Fact:</strong> InvITs (Infrastructure Investment Trusts) are similar in structure to REITs (Real Estate Investment Trusts) but invest specifically in infrastructure assets (like roads, power lines). REITs, on the other hand, invest in income-generating real estate assets (like office buildings, shopping malls).
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>What is the minimum investment amount for InvITs?</h3>
+<p>
+For public InvITs, the minimum subscription amount can be in the range of ₹10,000 to ₹15,000. Recent SEBI amendments in September 2025 also reduced the minimum investment threshold for InvITs from ₹1 crore to ₹25 lakhs for any investor.
+</p>
+<h3>Are InvITs regulated?</h3>
+<p>
+Yes, InvITs are regulated by the Securities and Exchange Board of India (SEBI) under the SEBI (Infrastructure Investment Trusts) Regulations, 2014.
+</p>
+<h3>What kind of returns can I expect from InvITs?</h3>
+<p>
+InvITs aim to provide stable, long-term returns primarily through regular income distributions (dividends/interest) from the operational assets. The actual returns depend on the performance of the underlying assets, market conditions, and tax implications.
+</p>
+<h3>Can foreign investors invest in Indian InvITs?</h3>
+<p>
+Yes, any investor, whether domestic or foreign, retail or institutional, can buy InvIT units in India. The recent SEBI approval on September 28, 2026, for Depository Receipts against InvIT units is specifically aimed at facilitating greater foreign capital participation.
+</p>
+<h3>What types of infrastructure assets do InvITs typically hold?</h3>
+<p>
+InvITs typically hold assets like toll roads, power transmission lines, gas pipelines, renewable energy projects, and telecom towers. Public InvITs are required to invest at least 80% of their assets in completed and revenue-generating infrastructure projects.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Infrastructure Investment Trusts, Features, Structure, Challenges (September 25, 2026).</li>
+<li>Infrastructure Investment Trust (InvITs) - Indian Economic Service.</li>
+<li>What is an InvIT(Infrastructure Investment Trust) - India Bond (May 20, 2024).</li>
+<li>What is InvIT? Meaning, Structure &amp; Role in India&#x27;s Infrastructure Growth (June 10, 2026).</li>
+<li>SEBI Update – SEBI Notifies Third Amendment to InvIT Regulations, 2025 (September 05, 2025).</li>
+<li>Powergrid Infrastructure Investment Trust Declares Distribution for the Quarter Ended June 30, 2026 (July 28, 2026).</li>
+<li>Infrastructure Investment Trusts (InvITs) - Structure, Types, Taxation - ET Money (September 14, 2023).</li>
+<li>What is InvITs? Meaning, Features &amp; Benefits Explained - NISM (May 08, 2026).</li>
+<li>NHAI Strengthens Professional Management of InvIT-led Operations and Maintenance of National Highway Assets (July 17, 2026).</li>
+<li>National Highways Infra Trust board approves engaging consultants for 908 km (September 20, 2026).</li>
+<li>Sebi approves Depository Receipts against REIT and InvIT units (September 28, 2026).</li>
+<li>IRB InvIT Fund raises ₹2,351 crore via placement and preferential allotment (September 29, 2026).</li>
+<li>NHAI monetises ₹28307 crore highways in FY26, nears ₹30k crore target (March 30, 2026).</li>
+<li>NHAI Strengthens Professional Management of InvIT-led Operations and Maintenance of National Highway Assets - PIB (July 16, 2026).</li>
+<li>Infrastructure Investment Trusts: Private Invits Going Public for Wider Investor Base (September 07, 2026).</li>
+<li>Powergrid Infrastructure Investment Trust share price - Screener (September 29, 2026).</li>
+<li>Infrastructure Financing in India: Trends, Institutions, and Innovations - PIB (March 18, 2026).</li>
+<li>RBI issues Amendment Directions, 2026 for valuation of InvIT and REIT units by financial institutions (September 22, 2026).</li>
+<li>Actis consolidates India roads portfolio under NXT-Infra Trust (September 25, 2026).</li>
+<li>IRB InvIT Fund Opens Institutional Placement To Raise Up To Rs 2,000 Crore (September 24, 2026).</li>
+<li>Combined AUM of InvITs and REITs set to double to ~Rs. 20 trillion by 2030-31: ICRA (September 24, 2026).</li>
+<li>IRB Infrastructure to Manage Rs.2,663 Crore Highway Assets for IRB InvIT Fund (September 29, 2026).</li>
+<li>List of InvIT Stocks in India (2026) - INDmoney (September 28, 2026).</li>
+<li>The future of InvITs in 2026: Five mega trends that will transform the market (November 15, 2025).</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
