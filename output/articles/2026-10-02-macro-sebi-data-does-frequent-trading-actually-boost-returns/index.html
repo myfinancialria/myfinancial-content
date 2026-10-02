@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>SEBI Data: Does Frequent Trading Actually Boost Returns?</title>
+<meta name="description" content="SEBI&#x27;s recent studies for FY25 and FY26 reveal that a vast majority of individual traders in the equity derivatives segment incur losses. The studies, based o.">
+<meta name="keywords" content="trading, investor, traders, losses, individual, studies, transaction, financial">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-02-macro-sebi-data-does-frequent-trading-actually-boost-returns/">
+<meta property="og:title" content="SEBI Data: Does Frequent Trading Actually Boost Returns?">
+<meta property="og:description" content="SEBI&#x27;s recent studies for FY25 and FY26 reveal that a vast majority of individual traders in the equity derivatives segment incur losses. The studies, based o.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-02-macro-sebi-data-does-frequent-trading-actually-boost-returns/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "SEBI Data: Does Frequent Trading Actually Boost Returns?", "description": "SEBI's recent studies for FY25 and FY26 reveal that a vast majority of individual traders in the equity derivatives segment incur losses. The studies, based o.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-02", "dateModified": "2026-10-02", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-02-macro-sebi-data-does-frequent-trading-actually-boost-returns/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/" class="active">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Macro &amp; Markets · 2026-10-02</div><h1>SEBI Data: Does Frequent Trading Actually Boost Returns?</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>SEBI&#x27;s recent studies for FY25 and FY26 reveal that a vast majority of individual traders in the equity derivatives segment incur losses.</li>
+<li>The studies, based on client-level data from top brokers, indicate that increased trading frequency does not correlate with higher profits for retail investors.</li>
+<li>Brokerage charges, taxes, and other transaction costs significantly erode any potential gains from frequent trading activities.</li>
+<li>Many retail participants engaging in derivatives lack adequate financial literacy or risk management strategies for such complex instruments.</li>
+<li>These findings underscore the importance of understanding risks and costs before participating in the highly speculative derivatives market.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+The Securities and Exchange Board of India (SEBI) recently published two important studies that shed light on how individual investors fare in the stock market, particularly in the derivatives segment. Derivatives, like futures and options (F&amp;O), are financial contracts whose value is derived from an underlying asset, such as stocks. They are often used for speculation or hedging.
+</p>
+<p>
+These studies, covering the financial years 2024-25 and 2025-26, analysed detailed trading data from the top 15 stockbrokers in India. The key takeaway is stark: most individual traders who actively participate in the F&amp;O market end up losing money. Furthermore, the research suggests that trading more frequently doesn&#x27;t improve their chances of making a profit; in fact, it often exacerbates losses due to mounting transaction costs.
+</p>
+<h2>The SEBI Study: Key Findings on F&amp;O Trading</h2>
+<p>
+SEBI, India&#x27;s market regulator, undertook these comprehensive studies to understand the participation and performance of individual investors in the equity derivatives segment. The first study focused on the profitability of individual traders, while the second delved into their trading behaviour, including frequency, strategies employed, associated costs, and demographic profiles. The data was sourced directly from client-level trading records of the 15 largest stockbrokers, providing a robust and granular view of market activity.
+</p>
+<p>
+The findings for FY25 and FY26 were consistent with earlier observations, painting a clear picture: a significant majority of individual traders in the equity F&amp;O segment experienced net losses. This trend persists despite the growing popularity and accessibility of derivative trading platforms. The studies highlighted that while a small percentage of traders might generate profits, their gains are often outweighed by the substantial losses incurred by the larger cohort of participants. This imbalance underscores the highly speculative nature of these instruments and the challenges retail investors face in consistently profiting from them.
+</p>
+<h3>High Loss Ratios Among Retail Traders</h3>
+<p>
+One of the most striking revelations from the SEBI studies is the high proportion of individual traders who end up losing money. Across both financial years, the percentage of loss-making individual traders in the F&amp;O segment remained consistently high, often exceeding 85-90%. This figure is crucial as it challenges the perception that F&amp;O trading offers quick or easy returns. The aggregate net trading loss for individual traders ran into thousands of crores of rupees annually, indicating the significant financial drain on retail participants.
+</p>
+<h3>Understanding the Trader Demographics</h3>
+<p>
+The studies also provided insights into the demographics of these traders. They found a growing participation from younger individuals and those from smaller cities, often drawn by the promise of high returns advertised through various channels. However, the data suggests that many of these new entrants lack the necessary financial literacy, risk management skills, or in-depth understanding of the complex strategies required to navigate the derivatives market successfully. This gap in knowledge often contributes to their poor performance and subsequent losses.
+</p>
+<h2>Frequency vs. Profitability: A Harsh Reality</h2>
+<p>
+The SEBI studies directly addressed the common misconception that more frequent trading leads to better outcomes. The data unequivocally showed the opposite: increased trading frequency was often associated with higher losses for individual traders. This is a critical finding, as many retail investors believe that by constantly monitoring the market and executing numerous trades, they can capitalise on small price movements and accumulate profits.
+</p>
+<h3>The Impact of Transaction Costs</h3>
+<p>
+The primary reason behind this inverse relationship between frequency and profitability lies in transaction costs. Each trade, whether profitable or not, incurs several charges:
+</p>
+<ul>
+<li><strong>Brokerage:</strong> While discount brokers have reduced brokerage significantly, even small per-trade charges can add up rapidly with high-frequency trading.</li>
+<li><strong>Securities Transaction Tax (STT):</strong> This is a direct tax levied on every equity and equity derivative transaction on recognised stock exchanges. The rates vary for futures and options, but it&#x27;s a non-negotiable cost.</li>
+<li><strong>Stamp Duty:</strong> A small tax levied by state governments on stock market transactions.</li>
+<li><strong>Exchange Transaction Charges:</strong> Fees charged by the stock exchanges (NSE, BSE) for using their platforms.</li>
+<li><strong>SEBI Turnover Fees:</strong> A small fee levied by SEBI on the turnover.</li>
+<li><strong>GST:</strong> Goods and Services Tax is applicable on brokerage, exchange charges, and SEBI turnover fees.</li>
+</ul>
+<p>
+When a trader executes dozens or hundreds of trades in a day or week, these seemingly small costs multiply rapidly. Even if a trader makes a small profit on a trade, the cumulative transaction costs can easily wipe out that profit, turning a winning trade into an overall loss. For example, a trader might make ₹500 on a single option trade, but if the combined brokerage, STT, and other charges for that trade (and the preceding losing trades) amount to ₹600, they are still at a net loss of ₹100.
+</p>
+<h3>The Psychological Toll of Overtrading</h3>
+<p>
+Beyond financial costs, frequent trading often leads to psychological biases. Traders might chase losses, take excessive risks, or deviate from their initial strategy in an attempt to recover lost capital. This emotional decision-making further degrades their performance, creating a vicious cycle of losses and increased trading activity in a desperate bid to break even. The studies indirectly highlight the need for disciplined, well-researched trading strategies rather than impulsive, high-frequency activity.
+</p>
+<h2>What it means for retail investors</h2>
+<p>
+The findings from SEBI&#x27;s studies carry significant implications for individual investors, particularly those considering or already involved in the equity derivatives segment. It&#x27;s crucial to approach these markets with a clear understanding of the risks and a realistic expectation of returns.
+</p>
+<h3>1. Re-evaluate Your Derivatives Strategy</h3>
+<p>
+If you are an active F&amp;O trader, critically review your trading statements. Calculate your net profit/loss after accounting for all transaction costs, including brokerage, STT, and other charges. The SEBI data suggests that for most, the costs often outweigh the gains. Consider if your current strategy is sustainable or if you are simply accumulating losses.
+</p>
+<h3>2. Prioritise Long-Term Investing</h3>
+<p>
+The studies indirectly reinforce the importance of long-term, disciplined investing in equity markets, perhaps through direct equity or mutual funds, rather than short-term speculative trading. Long-term investing typically involves lower transaction costs and allows compounding to work its magic over time.
+</p>
+<h3>3. Enhance Financial Literacy and Risk Management</h3>
+<p>
+Before venturing into complex instruments like derivatives, invest time in understanding how they work, the associated risks, and effective risk management strategies. SEBI itself regularly issues advisories and educational material to help investors make informed decisions. Never trade with capital you cannot afford to lose.
+</p>
+<h3>4. Be Wary of Unrealistic Promises</h3>
+<p>
+The studies serve as a stark reminder against the allure of quick riches often promoted through social media or unverified financial &quot;gurus.&quot; If a scheme or strategy promises guaranteed high returns from F&amp;O trading, it&#x27;s highly likely to be misleading. Always verify claims against credible data and regulatory warnings.
+</p>
+<h2>A real example</h2>
+<p>
+Meet Suresh, 42, an IT professional earning ₹35 lakhs CTC in Hyderabad. Inspired by online forums and friends, Suresh started trading Nifty options in FY26. He began with a capital of ₹2 lakhs, hoping to generate supplementary income.
+</p>
+<p>
+Suresh would typically execute 10-15 trades per day, trying to capture small movements. His average brokerage for a single lot of Nifty options (buy and sell) was ₹40 (₹20 for buy, ₹20 for sell). On top of this, he paid STT (around 0.05% on options premium on sell side), exchange charges, SEBI turnover fees, and GST. Let&#x27;s assume an average total cost of ₹60 per round trip (buy + sell) trade for simplicity.
+</p>
+<p>
+In a particular month, Suresh executed 250 round-trip trades.
+Total transaction costs = 250 trades * ₹60/trade = ₹15,000.
+</p>
+<p>
+During this month, Suresh had some winning trades and some losing trades.
+His gross trading profit (before costs) from winning trades was ₹30,000.
+His gross trading loss (before costs) from losing trades was ₹20,000.
+His net trading profit (before costs) = ₹30,000 - ₹20,000 = ₹10,000.
+</p>
+<p>
+However, after accounting for transaction costs:
+Actual net profit/loss = Net trading profit (before costs) - Total transaction costs
+Actual net profit/loss = ₹10,000 - ₹15,000 = -₹5,000.
+</p>
+<p>
+Despite generating a gross profit on his trades, Suresh ended up losing ₹5,000 for the month, purely due to the high frequency of his trading and the cumulative transaction costs. Over the entire financial year, his losses mounted to over ₹1.2 lakhs, significantly impacting his savings and mental peace. This example clearly illustrates how frequent trading, even with some successful trades, can lead to overall losses when costs are factored in.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your trading statements:</strong> If you trade F&amp;O, download your detailed trading statements from your broker for the last 6-12 months. Carefully examine the brokerage, STT, and other charges you&#x27;ve paid. Calculate your net profit/loss after all these deductions.</li>
+<li><strong>Assess your risk appetite:</strong> Honestly evaluate if you truly understand the risks associated with derivatives. If not, commit to learning more from credible sources like SEBI&#x27;s investor education portal or RBI&#x27;s consumer education initiatives.</li>
+<li><strong>Consider alternatives:</strong> Explore less speculative investment options that align with your financial goals, such as diversified equity mutual funds (both actively managed and index funds) or direct equity investments for the long term. AMFI India provides detailed information on mutual funds.</li>
+<li><strong>Set clear financial goals:</strong> Define what you want your money to achieve. Speculative trading might not align with goals like retirement planning or buying a house, which often require stable, long-term growth.</li>
+<li><strong>Seek professional advice:</strong> If you&#x27;re unsure about your investment strategy or how to manage your portfolio, consider consulting a Certified Financial Planner (CFP) who can provide personalised guidance.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What are equity derivatives?</h3>
+<p>
+Equity derivatives are financial contracts whose value is derived from an underlying equity asset, such as individual stocks or stock market indices like Nifty or Sensex. Common types include futures and options.
+</p>
+<h3>Why did SEBI conduct these studies?</h3>
+<p>
+SEBI conducted these studies to understand the participation patterns and performance of individual investors in the equity derivatives market, aiming to inform policy decisions and enhance investor protection.
+</p>
+<h3>Does SEBI recommend against trading in F&amp;O?</h3>
+<p>
+SEBI&#x27;s studies highlight the significant risks and high probability of losses for individual traders in F&amp;O. While SEBI does not outright ban F&amp;O trading, it strongly advises caution, comprehensive understanding, and robust risk management for participants.
+</p>
+<h3>Are all individual traders losing money in F&amp;O?</h3>
+<p>
+No, the studies indicate that a small percentage of individual traders do make profits. However, the vast majority (over 85-90%) incur losses, and the aggregate losses far outweigh the aggregate profits.
+</p>
+<h3>How do transaction costs impact F&amp;O trading profitability?</h3>
+<p>
+Transaction costs, including brokerage, STT, exchange charges, and GST, are levied on every trade. For frequent traders, these costs accumulate rapidly and can significantly erode or even wipe out gross profits, leading to net losses even if individual trades are successful.
+</p>
+<h3>Where can I find more information about SEBI&#x27;s investor education initiatives?</h3>
+<p>
+You can find more information about SEBI&#x27;s investor education initiatives and advisories on their official website, particularly in the investor section.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>1Finance: Does trading more actually help? SEBI’s data says no. <a href="https://1finance.co.in/1f-dashboard/blog/sebi-trading-losses-fno-study/" rel="noopener" target="_blank">https://1finance.co.in/1f-dashboard/blog/sebi-trading-losses-fno-study/</a></li>
+<li>SEBI: Investor Education and Protection. <a href="https://sebi.gov.in/investor-education.html" rel="noopener" target="_blank">https://sebi.gov.in/investor-education.html</a></li>
+<li>RBI: Consumer Education and Protection. <a href="https://rbi.org.in/scripts/ConsumerEducation.aspx" rel="noopener" target="_blank">https://rbi.org.in/scripts/ConsumerEducation.aspx</a></li>
+<li>AMFI India: Investor Corner. <a href="https://www.amfiindia.com/investor-corner" rel="noopener" target="_blank">https://www.amfiindia.com/investor-corner</a></li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# SEBI Data: Does Frequent Trading Actually Boost Returns?
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>SEBI&#x27;s recent studies for FY25 and FY26 reveal that a vast majority of individual traders in the equity derivatives segment incur losses.</li>
+<li>The studies, based on client-level data from top brokers, indicate that increased trading frequency does not correlate with higher profits for retail investors.</li>
+<li>Brokerage charges, taxes, and other transaction costs significantly erode any potential gains from frequent trading activities.</li>
+<li>Many retail participants engaging in derivatives lack adequate financial literacy or risk management strategies for such complex instruments.</li>
+<li>These findings underscore the importance of understanding risks and costs before participating in the highly speculative derivatives market.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+The Securities and Exchange Board of India (SEBI) recently published two important studies that shed light on how individual investors fare in the stock market, particularly in the derivatives segment. Derivatives, like futures and options (F&amp;O), are financial contracts whose value is derived from an underlying asset, such as stocks. They are often used for speculation or hedging.
+</p>
+<p>
+These studies, covering the financial years 2024-25 and 2025-26, analysed detailed trading data from the top 15 stockbrokers in India. The key takeaway is stark: most individual traders who actively participate in the F&amp;O market end up losing money. Furthermore, the research suggests that trading more frequently doesn&#x27;t improve their chances of making a profit; in fact, it often exacerbates losses due to mounting transaction costs.
+</p>
+<h2>The SEBI Study: Key Findings on F&amp;O Trading</h2>
+<p>
+SEBI, India&#x27;s market regulator, undertook these comprehensive studies to understand the participation and performance of individual investors in the equity derivatives segment. The first study focused on the profitability of individual traders, while the second delved into their trading behaviour, including frequency, strategies employed, associated costs, and demographic profiles. The data was sourced directly from client-level trading records of the 15 largest stockbrokers, providing a robust and granular view of market activity.
+</p>
+<p>
+The findings for FY25 and FY26 were consistent with earlier observations, painting a clear picture: a significant majority of individual traders in the equity F&amp;O segment experienced net losses. This trend persists despite the growing popularity and accessibility of derivative trading platforms. The studies highlighted that while a small percentage of traders might generate profits, their gains are often outweighed by the substantial losses incurred by the larger cohort of participants. This imbalance underscores the highly speculative nature of these instruments and the challenges retail investors face in consistently profiting from them.
+</p>
+<h3>High Loss Ratios Among Retail Traders</h3>
+<p>
+One of the most striking revelations from the SEBI studies is the high proportion of individual traders who end up losing money. Across both financial years, the percentage of loss-making individual traders in the F&amp;O segment remained consistently high, with 87.7% incurring net losses in FY26. This figure is crucial as it challenges the perception that F&amp;O trading offers quick or easy returns. The aggregate net trading loss for individual traders was approximately ₹91,685 crore in FY26, down from ₹1.12 lakh crore in FY25, but the average loss per trader marginally rose to about ₹1.17 lakh.
+</p>
+<h3>Understanding the Trader Demographics</h3>
+<p>
+The studies also provided insights into the demographics of these traders. They found a growing participation from younger individuals, with traders under the age of 30 facing a 91.9% loss rate during FY26. Many of these new entrants, often drawn by the promise of high returns advertised through various channels, may lack the necessary financial literacy, risk management skills, or in-depth understanding of the complex strategies required to navigate the derivatives market successfully. This gap in knowledge often contributes to their poor performance and subsequent losses.
+</p>
+<h2>Frequency vs. Profitability: A Harsh Reality</h2>
+<p>
+The SEBI studies directly addressed the common misconception that more frequent trading leads to better outcomes. The data unequivocally showed the opposite: increased trading frequency was often associated with higher losses for individual traders. This is a critical finding, as many retail investors believe that by constantly monitoring the market and executing numerous trades, they can capitalise on small price movements and accumulate profits.
+</p>
+<h3>The Impact of Transaction Costs</h3>
+<p>
+The primary reason behind this inverse relationship between frequency and profitability lies in transaction costs. Each trade, whether profitable or not, incurs several charges. These include brokerage, Securities Transaction Tax (STT), stamp duty, exchange transaction charges, SEBI turnover fees, and GST.
+</p>
+<p>
+When a trader executes dozens or hundreds of trades in a day or week, these seemingly small costs multiply rapidly. Even if a trader makes a small profit on a trade, the cumulative transaction costs can easily wipe out that profit, turning a winning trade into an overall loss. For example, transaction costs consumed ₹25,000 crore of the total losses in FY26.
+</p>
+<h3>The Psychological Toll of Overtrading</h3>
+<p>
+Beyond financial costs, frequent trading often leads to psychological biases. Traders might chase losses, take excessive risks, or deviate from their initial strategy in an attempt to recover lost capital. This emotional decision-making further degrades their performance, creating a vicious cycle of losses and increased trading activity in a desperate bid to break even. The studies indirectly highlight the need for disciplined, well-researched trading strategies rather than impulsive, high-frequency activity.
+</p>
+<h2>What it means for retail investors</h2>
+<p>
+The findings from SEBI&#x27;s studies carry significant implications for individual investors, particularly those considering or already involved in the equity derivatives segment. It&#x27;s crucial to approach these markets with a clear understanding of the risks and a realistic expectation of returns.
+</p>
+<h3>1. Re-evaluate Your Derivatives Strategy</h3>
+<p>
+If you are an active F&amp;O trader, critically review your trading statements. Calculate your net profit/loss after accounting for all transaction costs, including brokerage, STT, and other charges. The SEBI data suggests that for most, the costs often outweigh the gains. Consider if your current strategy is sustainable or if you are simply accumulating losses.
+</p>
+<h3>2. Prioritise Long-Term Investing</h3>
+<p>
+The studies indirectly reinforce the importance of long-term, disciplined investing in equity markets, perhaps through direct equity or mutual funds, rather than short-term speculative trading. Long-term investing typically involves lower transaction costs and allows compounding to work its magic over time. AMFI India provides comprehensive resources for investors regarding mutual funds.
+</p>
+<h3>3. Enhance Financial Literacy and Risk Management</h3>
+<p>
+Before venturing into complex instruments like derivatives, invest time in understanding how they work, the associated risks, and effective risk management strategies. SEBI itself regularly issues advisories and educational material to help investors make informed decisions through initiatives like the &#x27;Saa₹thi&#x27; mobile app and dedicated investor websites. Never trade with capital you cannot afford to lose.
+</p>
+<h3>4. Be Wary of Unrealistic Promises</h3>
+<p>
+The studies serve as a stark reminder against the allure of quick riches often promoted through social media or unverified financial &quot;gurus.&quot; If a scheme or strategy promises guaranteed high returns from F&amp;O trading, it&#x27;s highly likely to be misleading. Always verify claims against credible data and regulatory warnings.
+</p>
+<h2>A real example</h2>
+<p>
+Meet Suresh, 42, an IT professional earning ₹35 lakhs CTC in Hyderabad. Inspired by online forums and friends, Suresh started trading Nifty options in FY26. He began with a capital of ₹2 lakhs, hoping to generate supplementary income.
+</p>
+<p>
+Suresh would typically execute 10-15 trades per day, trying to capture small movements. His average brokerage for a single lot of Nifty options (buy and sell) was ₹40 (₹20 for buy, ₹20 for sell). On top of this, he paid STT (around 0.05% on options premium on sell side), exchange charges, SEBI turnover fees, and GST. Let&#x27;s assume an average total cost of ₹60 per round trip (buy + sell) trade for simplicity.
+</p>
+<p>
+In a particular month, Suresh executed 250 round-trip trades.
+Total transaction costs = 250 trades * ₹60/trade = ₹15,000.
+</p>
+<p>
+During this month, Suresh had some winning trades and some losing trades.
+His gross trading profit (before costs) from winning trades was ₹30,000.
+His gross trading loss (before costs) from losing trades was ₹20,000.
+His net trading profit (before costs) = ₹30,000 - ₹20,000 = ₹10,000.
+</p>
+<p>
+However, after accounting for transaction costs:
+Actual net profit/loss = Net trading profit (before costs) - Total transaction costs
+Actual net profit/loss = ₹10,000 - ₹15,000 = -₹5,000.
+</p>
+<p>
+Despite generating a gross profit on his trades, Suresh ended up losing ₹5,000 for the month, purely due to the high frequency of his trading and the cumulative transaction costs. Over the entire financial year, his losses mounted to over ₹1.2 lakhs, significantly impacting his savings and mental peace. This example clearly illustrates how frequent trading, even with some successful trades, can lead to overall losses when costs are factored in.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your trading statements:</strong> If you trade F&amp;O, download your detailed trading statements from your broker for the last 6-12 months. Carefully examine the brokerage, STT, and other charges you&#x27;ve paid. Calculate your net profit/loss after all these deductions.</li>
+<li><strong>Assess your risk appetite:</strong> Honestly evaluate if you truly understand the risks associated with derivatives. If not, commit to learning more from credible sources like SEBI&#x27;s investor education portal or RBI&#x27;s consumer education initiatives.</li>
+<li><strong>Consider alternatives:</strong> Explore less speculative investment options that align with your financial goals, such as diversified equity mutual funds (both actively managed and index funds) or direct equity investments for the long term. AMFI India provides detailed information on mutual funds.</li>
+<li><strong>Set clear financial goals:</strong> Define what you want your money to achieve. Speculative trading might not align with goals like retirement planning or buying a house, which often require stable, long-term growth.</li>
+<li><strong>Seek professional advice:</strong> If you&#x27;re unsure about your investment strategy or how to manage your portfolio, consider consulting a Certified Financial Planner (CFP) who can provide personalised guidance.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What are equity derivatives?</h3>
+<p>
+Equity derivatives are financial contracts whose value is derived from an underlying equity asset, such as individual stocks or stock market indices like Nifty or Sensex. Common types include futures and options.
+</p>
+<h3>Why did SEBI conduct these studies?</h3>
+<p>
+SEBI conducted these studies to understand the participation patterns and performance of individual investors in the equity derivatives market, aiming to inform policy decisions and enhance investor protection.
+</p>
+<h3>Does SEBI recommend against trading in F&amp;O?</h3>
+<p>
+SEBI&#x27;s studies highlight the significant risks and high probability of losses for individual traders in F&amp;O. While SEBI does not outright ban F&amp;O trading, it strongly advises caution, comprehensive understanding, and robust risk management for participants.
+</p>
+<h3>Are all individual traders losing money in F&amp;O?</h3>
+<p>
+No, the studies indicate that a small percentage of individual traders do make profits. However, the vast majority (over 87%) incur losses, and the aggregate losses far outweigh the aggregate profits.
+</p>
+<h3>How do transaction costs impact F&amp;O trading profitability?</h3>
+<p>
+Transaction costs, including brokerage, STT, exchange charges, and GST, are levied on every trade. For frequent traders, these costs accumulate rapidly and can significantly erode or even wipe out gross profits, leading to net losses even if individual trades are successful.
+</p>
+<h3>Where can I find more information about SEBI&#x27;s investor education initiatives?</h3>
+<p>
+You can find more information about SEBI&#x27;s investor education initiatives and advisories on their official website, particularly in the investor section, and through resources like their &#x27;Saa₹thi&#x27; mobile app.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>1Finance: Does trading more actually help? SEBI’s data says no. <a href="https://1finance.co.in/1f-dashboard/blog/sebi-trading-losses-fno-study/" rel="noopener" target="_blank">https://1finance.co.in/1f-dashboard/blog/sebi-trading-losses-fno-study/</a></li>
+<li>SEBI: National Centre for Financial Education. <a href="https://sebi.gov.in/ncfe.html" rel="noopener" target="_blank">https://sebi.gov.in/ncfe.html</a></li>
+<li>K G Somani &amp; Co LLP: SEBI Study: 87.7% of Individual F&amp;O Traders Lost Money in FY26 Despite Falling Participation. <a href="https://kgl.co.in/insights/sebi-fno-study-fy26-individual-traders-lost-money/" rel="noopener" target="_blank">https://kgl.co.in/insights/sebi-fno-study-fy26-individual-traders-lost-money/</a></li>
+<li>RBI: Consumer Education and Protection. <a href="https://rbi.org.in/scripts/ConsumerEducation.aspx" rel="noopener" target="_blank">https://rbi.org.in/scripts/ConsumerEducation.aspx</a></li>
+<li>NISM: SEBI Investor Certification Exam. <a href="https://nism.ac.in/sebi-investor-certification-exam/" rel="noopener" target="_blank">https://nism.ac.in/sebi-investor-certification-exam/</a></li>
+<li>Shriram Mutual Funds: SEBI Investor Education Program. <a href="https://www.shriramasset.com/investor-education/sebi-investor-education-program" rel="noopener" target="_blank">https://www.shriramasset.com/investor-education/sebi-investor-education-program</a></li>
+<li>AMFI: Investor Corner. <a href="https://www.amfiindia.com/investor-corner" rel="noopener" target="_blank">https://www.amfiindia.com/investor-corner</a></li>
+<li>SEBI Investor: Investor Education Reading Material. <a href="https://investor.sebi.gov.in/educational-material/" rel="noopener" target="_blank">https://investor.sebi.gov.in/educational-material/</a></li>
+<li>Press Information Bureau: Consumer Protection Hub at Mahatma Mandir Convention Centre, Gandhinagar. <a href="https://pib.gov.in/PressReleasePage.aspx?PRID=1940419" rel="noopener" target="_blank">https://pib.gov.in/PressReleasePage.aspx?PRID=1940419</a></li>
+<li>Open Magazine: SEBI F&amp;O Loss Study Explained: Why 9 in 10 Retail Traders Lost ₹91685 crore in FY26. <a href="https://openthemagazine.com/money/sebi-fno-loss-study-explained-why-9-in-10-retail-traders-lost-%E2%82%B991685-crore-in-fy26/" rel="noopener" target="_blank">https://openthemagazine.com/money/sebi-fno-loss-study-explained-why-9-in-10-retail-traders-lost-%E2%82%B991685-crore-in-fy26/</a></li>
+<li>MSE: Saa₹thi - SEBI&#x27;s Mobile App on Investor Education. <a href="https://www.msetamil.com/investor-awareness-education/saarthi-sebis-mobile-app-on-investor-education/" rel="noopener" target="_blank">https://www.msetamil.com/investor-awareness-education/saarthi-sebis-mobile-app-on-investor-education/</a></li>
+<li>Finology: Why 9 in 10 F&amp;O Traders Lose Money: What SEBI&#x27;s FY26 Study Means for Beginners. <a href="https://finology.in/articles/sebi-fno-loss-study-fy26/" rel="noopener" target="_blank">https://finology.in/articles/sebi-fno-loss-study-fy26/</a></li>
+<li>AMFI: Explore AMFI. <a href="https://www.amfiindia.com/" rel="noopener" target="_blank">https://www.amfiindia.com/</a></li>
+<li>ETBFSI: RBI&#x27;s redressal framework, where and how to lodge a complaint? <a href="https://bfsi.economictimes.indiatimes.com/news/industry/rbis-redressal-framework-where-and-how-to-lodge-a-complaint/106927375" rel="noopener" target="_blank">https://bfsi.economictimes.indiatimes.com/news/industry/rbis-redressal-framework-where-and-how-to-lodge-a-complaint/106927375</a></li>
+<li>CNBC TV18: SEBI&#x27;s F&amp;O Study | FY26: New Entrants Decline, Net Loss Per Trader Narrows. <a href="https://www.youtube.com/watch?v=sM370d-E<em>w4" rel="noopener" target="</em>blank">https://www.youtube.com/watch?v=sM370d-E_w4</a></li>
+<li>Multibagg AI: Retail F&amp;O losses: SEBI data shows ₹1.81 lakh cr. <a href="https://multibagg.ai/blog/retail-fno-losses-sebi-data-shows-1-81-lakh-cr/" rel="noopener" target="_blank">https://multibagg.ai/blog/retail-fno-losses-sebi-data-shows-1-81-lakh-cr/</a></li>
+<li>Vikaspedia: RBI Initiatives for Consumer Protection. <a href="https://vikaspedia.in/social-welfare/financial-inclusion/rbi-initiatives-for-consumer-protection" rel="noopener" target="_blank">https://vikaspedia.in/social-welfare/financial-inclusion/rbi-initiatives-for-consumer-protection</a></li>
+<li>AMFI: Download Monthly MF Factsheets. <a href="https://www.amfiindia.com/investor-corner/download-monthly-mf-factsheets" rel="noopener" target="_blank">https://www.amfiindia.com/investor-corner/download-monthly-mf-factsheets</a></li>
+<li>AMFI: Portfolio Disclosure. <a href="https://www.amfiindia.com/investor-corner/portfolio-disclosure" rel="noopener" target="_blank">https://www.amfiindia.com/investor-corner/portfolio-disclosure</a></li>
+<li>AMFI: Distributor Corner. <a href="https://www.amfiindia.com/distributor-corner" rel="noopener" target="_blank">https://www.amfiindia.com/distributor-corner</a></li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
