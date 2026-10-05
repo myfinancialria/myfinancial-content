@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>IPO Report Card: 30 to 60 Days After Listing — October 2026</title>
+<meta name="description" content="Out of 44 companies that listed between 30 and 60 days ago, 20 are currently trading above their initial public offer (IPO) price. 24 companies are currently .">
+<meta name="keywords" content="announced, trading, current, listing, company, currently, shares, market">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-05-ipo-report-card-30-to-60-days-after-listing-october-2026/">
+<meta property="og:title" content="IPO Report Card: 30 to 60 Days After Listing — October 2026">
+<meta property="og:description" content="Out of 44 companies that listed between 30 and 60 days ago, 20 are currently trading above their initial public offer (IPO) price. 24 companies are currently .">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-05-ipo-report-card-30-to-60-days-after-listing-october-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "IPO Report Card: 30 to 60 Days After Listing \u2014 October 2026", "description": "Out of 44 companies that listed between 30 and 60 days ago, 20 are currently trading above their initial public offer (IPO) price. 24 companies are currently .", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-05", "dateModified": "2026-10-05", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-05-ipo-report-card-30-to-60-days-after-listing-october-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/" class="active">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">IPO Watch · 2026-10-05</div><h1>IPO Report Card: 30 to 60 Days After Listing — October 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Out of 44 companies that listed between 30 and 60 days ago, 20 are currently trading above their initial public offer (IPO) price.</li>
+<li>24 companies are currently trading below their IPO price.</li>
+<li>The highest return against the IPO price is 224.2%, while the lowest is -74.9%.</li>
+<li>One company is trading almost exactly at its IPO price, with a 0.3% return.</li>
+</ul>
+</div>
+<h2>Why look 30 to 60 days after listing?</h2>
+<p>
+When a company first offers its shares to the public, it&#x27;s called an Initial Public Offering (IPO). The first day these shares are traded on the stock exchange is known as the <strong>listing day</strong>. Many people focus on the <strong>listing gain</strong> (the percentage difference between the IPO price and the closing price on listing day). This initial &quot;pop&quot; or &quot;drop&quot; often gets a lot of attention.
+</p>
+<p>
+However, the listing day can be a very emotional time, driven by high demand or sudden profit-booking. It doesn&#x27;t always reflect the company&#x27;s true long-term value. This is why we look at IPOs 30 to 60 days after they list. By this time, the initial excitement or panic usually settles down. Also, a common &quot;lock-in&quot; period for certain large investors (like anchor investors) often ends around 30 days for 50% of their allotted shares, while the remaining 50% are locked in for 90 days. This means these investors are then free to sell their shares, which can affect the price. Looking at the price after this period gives us a calmer, more realistic picture of how the market is valuing the company.
+</p>
+<h2>The scorecard</h2>
+<p>
+Here&#x27;s how the companies that listed between 30 and 60 days ago are performing as of October 5, 2026:
+</p>
+<table><thead><tr><th>Company</th><th>Type (Mainboard/SME)</th><th>IPO price (₹)</th><th>Listing close (₹)</th><th>Listing gain (%)</th><th>Price now (₹)</th><th>Change vs IPO price (%)</th><th>Days since listing</th></tr></thead><tbody>
+<tr><td>Priority Jewels</td><td>Not announced</td><td>200.0</td><td>Not announced</td><td>Not announced</td><td>289.0</td><td>44.5</td><td>31</td></tr>
+<tr><td>Paluck Technol.</td><td>Not announced</td><td>48.0</td><td>Not announced</td><td>Not announced</td><td>43.06</td><td>-10.3</td><td>31</td></tr>
+<tr><td>Complete Sports and Management</td><td>Not announced</td><td>135.0</td><td>Not announced</td><td>Not announced</td><td>201.0</td><td>48.9</td><td>31</td></tr>
+<tr><td>ESDS Software</td><td>Not announced</td><td>429.0</td><td>Not announced</td><td>Not announced</td><td>1360.15</td><td>217.1</td><td>31</td></tr>
+<tr><td>Kwick Forensic</td><td>Not announced</td><td>90.0</td><td>Not announced</td><td>Not announced</td><td>173.85</td><td>93.2</td><td>32</td></tr>
+<tr><td>Lumino Inds</td><td>Not announced</td><td>82.0</td><td>Not announced</td><td>Not announced</td><td>99.05</td><td>20.8</td><td>32</td></tr>
+<tr><td>Sumax Engineering</td><td>Not announced</td><td>101.0</td><td>Not announced</td><td>Not announced</td><td>101.3</td><td>0.3</td><td>33</td></tr>
+<tr><td>Annu Projects</td><td>Not announced</td><td>99.0</td><td>Not announced</td><td>Not announced</td><td>45.5</td><td>-54.0</td><td>33</td></tr>
+<tr><td>Skyways Air Ser.</td><td>Not announced</td><td>138.0</td><td>Not announced</td><td>Not announced</td><td>109.95</td><td>-20.3</td><td>34</td></tr>
+<tr><td>ABH Healthcare</td><td>Not announced</td><td>102.0</td><td>Not announced</td><td>Not announced</td><td>43.5</td><td>-57.4</td><td>34</td></tr>
+<tr><td>Madhur Knit</td><td>Not announced</td><td>100.0</td><td>Not announced</td><td>Not announced</td><td>55.8</td><td>-44.2</td><td>34</td></tr>
+<tr><td>Symbiotec Pharma</td><td>Not announced</td><td>988.0</td><td>Not announced</td><td>Not announced</td><td>1168.3</td><td>18.2</td><td>34</td></tr>
+<tr><td>Hy-Tech Engineer</td><td>Not announced</td><td>53.0</td><td>Not announced</td><td>Not announced</td><td>70.4</td><td>32.8</td><td>34</td></tr>
+<tr><td>Augmont Enterpri</td><td>Not announced</td><td>788.0</td><td>Not announced</td><td>Not announced</td><td>1228.75</td><td>55.9</td><td>35</td></tr>
+<tr><td>Tempsens Instruments</td><td>Not announced</td><td>300.0</td><td>Not announced</td><td>Not announced</td><td>492.55</td><td>64.2</td><td>38</td></tr>
+<tr><td>Dhanwel Hybrid</td><td>Not announced</td><td>99.0</td><td>Not announced</td><td>Not announced</td><td>43.23</td><td>-56.3</td><td>40</td></tr>
+<tr><td>Mopshop Distribution</td><td>Not announced</td><td>138.0</td><td>Not announced</td><td>Not announced</td><td>34.58</td><td>-74.9</td><td>40</td></tr>
+<tr><td>Gaja Alternative Asset</td><td>Not announced</td><td>160.0</td><td>Not announced</td><td>Not announced</td><td>135.65</td><td>-15.2</td><td>40</td></tr>
+<tr><td>Shankesh Jewellers</td><td>Not announced</td><td>93.0</td><td>Not announced</td><td>Not announced</td><td>88.5</td><td>-4.8</td><td>41</td></tr>
+<tr><td>Sunshine Picture</td><td>Not announced</td><td>360.0</td><td>Not announced</td><td>Not announced</td><td>450.0</td><td>25.0</td><td>41</td></tr>
+<tr><td>Fascinate Textiles</td><td>Not announced</td><td>151.0</td><td>Not announced</td><td>Not announced</td><td>77.6</td><td>-48.6</td><td>42</td></tr>
+<tr><td>Lalithaa Jewel</td><td>Not announced</td><td>201.0</td><td>Not announced</td><td>Not announced</td><td>392.6</td><td>95.3</td><td>42</td></tr>
+<tr><td>Horizon Industrial</td><td>Not announced</td><td>60.0</td><td>Not announced</td><td>Not announced</td><td>47.79</td><td>-20.4</td><td>42</td></tr>
+<tr><td>ENS Enterprises</td><td>Not announced</td><td>92.0</td><td>Not announced</td><td>Not announced</td><td>101.5</td><td>10.3</td><td>45</td></tr>
+<tr><td>Technocrats Plasma</td><td>Not announced</td><td>132.0</td><td>Not announced</td><td>Not announced</td><td>428.0</td><td>224.2</td><td>45</td></tr>
+<tr><td>Skytech Infinite Platform</td><td>Not announced</td><td>77.0</td><td>Not announced</td><td>Not announced</td><td>40.7</td><td>-47.1</td><td>45</td></tr>
+<tr><td>Credent Connect N Care</td><td>Not announced</td><td>189.0</td><td>Not announced</td><td>Not announced</td><td>367.7</td><td>94.6</td><td>46</td></tr>
+<tr><td>Pramodini Medicare</td><td>Not announced</td><td>118.0</td><td>Not announced</td><td>Not announced</td><td>113.5</td><td>-3.8</td><td>47</td></tr>
+<tr><td>Shiprocket</td><td>Not announced</td><td>97.0</td><td>Not announced</td><td>Not announced</td><td>124.9</td><td>28.8</td><td>47</td></tr>
+<tr><td>Behari Lal Engg.</td><td>Not announced</td><td>285.0</td><td>Not announced</td><td>Not announced</td><td>490.25</td><td>72.0</td><td>47</td></tr>
+<tr><td>Q&amp;T Foods</td><td>Not announced</td><td>115.0</td><td>Not announced</td><td>Not announced</td><td>33.25</td><td>-71.1</td><td>47</td></tr>
+<tr><td>Milky Mist Dairy</td><td>Not announced</td><td>140.0</td><td>Not announced</td><td>Not announced</td><td>305.0</td><td>117.9</td><td>48</td></tr>
+<tr><td>Sham Foam</td><td>Not announced</td><td>130.0</td><td>Not announced</td><td>Not announced</td><td>82.89</td><td>-36.2</td><td>48</td></tr>
+<tr><td>Dhoot Transmission</td><td>Not announced</td><td>871.0</td><td>Not announced</td><td>Not announced</td><td>1517.2</td><td>74.2</td><td>49</td></tr>
+<tr><td>Molbio Diagnosti</td><td>Not announced</td><td>807.0</td><td>Not announced</td><td>Not announced</td><td>1503.35</td><td>86.3</td><td>49</td></tr>
+<tr><td>Technocraft Ven.</td><td>Not announced</td><td>212.0</td><td>Not announced</td><td>Not announced</td><td>470.35</td><td>121.9</td><td>52</td></tr>
+<tr><td>Optimystix Entertainment</td><td>Not announced</td><td>175.0</td><td>Not announced</td><td>Not announced</td><td>133.0</td><td>-24.0</td><td>52</td></tr>
+<tr><td>Leap India</td><td>Not announced</td><td>159.0</td><td>Not announced</td><td>Not announced</td><td>142.9</td><td>-10.1</td><td>52</td></tr>
+<tr><td>LAPL Automotive</td><td>Not announced</td><td>94.0</td><td>Not announced</td><td>Not announced</td><td>97.6</td><td>3.8</td><td>53</td></tr>
+<tr><td>G V Electricals</td><td>Not announced</td><td>130.0</td><td>Not announced</td><td>Not announced</td><td>129.7</td><td>-0.2</td><td>54</td></tr>
+<tr><td>Ardee Industries</td><td>Not announced</td><td>53.0</td><td>Not announced</td><td>Not announced</td><td>48.49</td><td>-8.5</td><td>54</td></tr>
+<tr><td>Aegeus Technolog</td><td>Not announced</td><td>105.0</td><td>Not announced</td><td>Not announced</td><td>125.5</td><td>19.5</td><td>55</td></tr>
+<tr><td>Anawil Wire</td><td>Not announced</td><td>270.0</td><td>Not announced</td><td>Not announced</td><td>393.3</td><td>45.7</td><td>56</td></tr>
+<tr><td>Fusion Klassroom Edutech</td><td>Not announced</td><td>159.0</td><td>Not announced</td><td>Not announced</td><td>165.15</td><td>3.9</td><td>59</td></tr>
+</tbody></table>
+<p>
+Out of these 44 companies, 20 are currently trading above their IPO price, showing positive returns for those who were allotted shares. 24 companies are trading below their IPO price. The returns range widely, from a significant gain of 224.2% for Technocrats Plasma to a loss of 74.9% for Mopshop Distribution.
+</p>
+<h2>Reading each listing (what the numbers say)</h2>
+<p>
+Here&#x27;s what the current market price means compared to the IPO price for each company:
+</p>
+<h3>Priority Jewels</h3>
+<p>
+This company had an IPO price of ₹200.0. Its current price is ₹289.0, meaning it is trading 44.5% above its IPO price.
+</p>
+<h3>Paluck Technol.</h3>
+<p>
+With an IPO price of ₹48.0, Paluck Technol. is currently trading at ₹43.06. This means it is 10.3% below its IPO price.
+</p>
+<h3>Complete Sports and Management</h3>
+<p>
+The IPO price for this company was ₹135.0. It is now trading at ₹201.0, which is 48.9% above its IPO price.
+</p>
+<h3>ESDS Software</h3>
+<p>
+ESDS Software&#x27;s IPO price was ₹429.0. Its current price is ₹1360.15, marking a significant 217.1% increase from its IPO price.
+</p>
+<h3>Kwick Forensic</h3>
+<p>
+Kwick Forensic had an IPO price of ₹90.0. It is now trading at ₹173.85, showing a 93.2% gain from its IPO price.
+</p>
+<h3>Lumino Inds</h3>
+<p>
+The IPO price for Lumino Inds was ₹82.0. Its current price is ₹99.05, which is 20.8% above its IPO price.
+</p>
+<h3>Sumax Engineering</h3>
+<p>
+With an IPO price of ₹101.0, Sumax Engineering is currently trading at ₹101.3. This represents a small gain of 0.3% from its IPO price.
+</p>
+<h3>Annu Projects</h3>
+<p>
+Annu Projects had an IPO price of ₹99.0. Its current price is ₹45.5, meaning it is trading 54.0% below its IPO price.
+</p>
+<h3>Skyways Air Ser.</h3>
+<p>
+The IPO price for Skyways Air Ser. was ₹138.0. It is now trading at ₹109.95, which is 20.3% below its IPO price.
+</p>
+<h3>ABH Healthcare</h3>
+<p>
+ABH Healthcare&#x27;s IPO price was ₹102.0. Its current price is ₹43.5, indicating a 57.4% decrease from its IPO price.
+</p>
+<h3>Madhur Knit</h3>
+<p>
+With an IPO price of ₹100.0, Madhur Knit is currently trading at ₹55.8. This means it is 44.2% below its IPO price.
+</p>
+<h3>Symbiotec Pharma</h3>
+<p>
+Symbiotec Pharma had an IPO price of ₹988.0. It is now trading at ₹1168.3, showing an 18.2% gain from its IPO price.
+</p>
+<h3>Hy-Tech Engineer</h3>
+<p>
+The IPO price for Hy-Tech Engineer was ₹53.0. Its current price is ₹70.4, which is 32.8% above its IPO price.
+</p>
+<h3>Augmont Enterpri</h3>
+<p>
+Augmont Enterpri had an IPO price of ₹788.0. It is currently trading at ₹1228.75, representing a 55.9% increase from its IPO price.
+</p>
+<h3>Tempsens Instruments</h3>
+<p>
+Tempsens Instruments&#x27; IPO price was ₹300.0. Its current price is ₹492.55, marking a 64.2% gain from its IPO price.
+</p>
+<h3>Dhanwel Hybrid</h3>
+<p>
+With an IPO price of ₹99.0, Dhanwel Hybrid is currently trading at ₹43.23. This means it is 56.3% below its IPO price.
+</p>
+<h3>Mopshop Distribution</h3>
+<p>
+Mopshop Distribution had an IPO price of ₹138.0. Its current price is ₹34.58, indicating a significant 74.9% decrease from its IPO price.
+</p>
+<h3>Gaja Alternative Asset</h3>
+<p>
+The IPO price for Gaja Alternative Asset was ₹160.0. It is now trading at ₹135.65, which is 15.2% below its IPO price.
+</p>
+<h3>Shankesh Jewellers</h3>
+<p>
+Shankesh Jewellers had an IPO price of ₹93.0. Its current price is ₹88.5, meaning it is trading 4.8% below its IPO price.
+</p>
+<h3>Sunshine Picture</h3>
+<p>
+With an IPO price of ₹360.0, Sunshine Picture is currently trading at ₹450.0. This represents a 25.0% gain from its IPO price.
+</p>
+<h3>Fascinate Textiles</h3>
+<p>
+Fascinate Textiles&#x27; IPO price was ₹151.0. Its current price is ₹77.6, indicating a 48.6% decrease from its IPO price.
+</p>
+<h3>Lalithaa Jewel</h3>
+<p>
+The IPO price for Lalithaa Jewel was ₹201.0. It is now trading at ₹392.6, which is 95.3% above its IPO price.
+</p>
+<h3>Horizon Industrial</h3>
+<p>
+Horizon Industrial had an IPO price of ₹60.0. Its current price is ₹47.79, meaning it is trading 20.4% below its IPO price.
+</p>
+<h3>ENS Enterprises</h3>
+<p>
+With an IPO price of ₹92.0, ENS Enterprises is currently trading at ₹101.5. This represents a 10.3% gain from its IPO price.
+</p>
+<h3>Technocrats Plasma</h3>
+<p>
+Technocrats Plasma&#x27;s IPO price was ₹132.0. Its current price is ₹428.0, marking a significant 224.2% increase from its IPO price.
+</p>
+<h3>Skytech Infinite Platform</h3>
+<p>
+The IPO price for Skytech Infinite Platform was ₹77.0. It is now trading at ₹40.7, which is 47.1% below its IPO price.
+</p>
+<h3>Credent Connect N Care</h3>
+<p>
+Credent Connect N Care had an IPO price of ₹189.0. It is currently trading at ₹367.7, representing a 94.6% increase from its IPO price.
+</p>
+<h3>Pramodini Medicare</h3>
+<p>
+With an IPO price of ₹118.0, Pramodini Medicare is currently trading at ₹113.5. This means it is 3.8% below its IPO price.
+</p>
+<h3>Shiprocket</h3>
+<p>
+Shiprocket&#x27;s IPO price was ₹97.0. Its current price is ₹124.9, indicating a 28.8% gain from its IPO price.
+</p>
+<h3>Behari Lal Engg.</h3>
+<p>
+The IPO price for Behari Lal Engg. was ₹285.0. It is now trading at ₹490.25, which is 72.0% above its IPO price.
+</p>
+<h3>Q&amp;T Foods</h3>
+<p>
+Q&amp;T Foods had an IPO price of ₹115.0. Its current price is ₹33.25, meaning it is trading 71.1% below its IPO price.
+</p>
+<h3>Milky Mist Dairy</h3>
+<p>
+With an IPO price of ₹140.0, Milky Mist Dairy is currently trading at ₹305.0. This represents a 117.9% gain from its IPO price.
+</p>
+<h3>Sham Foam</h3>
+<p>
+Sham Foam&#x27;s IPO price was ₹130.0. Its current price is ₹82.89, indicating a 36.2% decrease from its IPO price.
+</p>
+<h3>Dhoot Transmission</h3>
+<p>
+The IPO price for Dhoot Transmission was ₹871.0. It is now trading at ₹1517.2, which is 74.2% above its IPO price.
+</p>
+<h3>Molbio Diagnosti</h3>
+<p>
+Molbio Diagnosti had an IPO price of ₹807.0. It is currently trading at ₹1503.35, representing an 86.3% increase from its IPO price.
+</p>
+<h3>Technocraft Ven.</h3>
+<p>
+With an IPO price of ₹212.0, Technocraft Ven. is currently trading at ₹470.35. This means it is 121.9% above its IPO price.
+</p>
+<h3>Optimystix Entertainment</h3>
+<p>
+Optimystix Entertainment&#x27;s IPO price was ₹175.0. Its current price is ₹133.0, indicating a 24.0% decrease from its IPO price.
+</p>
+<h3>Leap India</h3>
+<p>
+The IPO price for Leap India was ₹159.0. It is now trading at ₹142.9, which is 10.1% below its IPO price.
+</p>
+<h3>LAPL Automotive</h3>
+<p>
+LAPL Automotive had an IPO price of ₹94.0. Its current price is ₹97.6, meaning it is trading 3.8% above its IPO price.
+</p>
+<h3>G V Electricals</h3>
+<p>
+With an IPO price of ₹130.0, G V Electricals is currently trading at ₹129.7. This represents a small decrease of 0.2% from its IPO price.
+</p>
+<h3>Ardee Industries</h3>
+<p>
+Ardee Industries&#x27; IPO price was ₹53.0. Its current price is ₹48.49, indicating an 8.5% decrease from its IPO price.
+</p>
+<h3>Aegeus Technolog</h3>
+<p>
+The IPO price for Aegeus Technolog was ₹105.0. It is now trading at ₹125.5, which is 19.5% above its IPO price.
+</p>
+<h3>Anawil Wire</h3>
+<p>
+Anawil Wire had an IPO price of ₹270.0. Its current price is ₹393.3, meaning it is trading 45.7% above its IPO price.
+</p>
+<h3>Fusion Klassroom Edutech</h3>
+<p>
+With an IPO price of ₹159.0, Fusion Klassroom Edutech is currently trading at ₹165.15. This represents a 3.9% gain from its IPO price.
+</p>
+<h2>Why do IPOs pop or drop on listing?</h2>
+<p>
+An IPO&#x27;s initial price movement is a dance between <strong>demand</strong> (how many people want to buy the shares) and <strong>supply</strong> (how many shares are available).
+</p>
+<ul>
+<li><strong>Demand vs. Supply:</strong> If many people want to buy shares, and there aren&#x27;t enough to go around, the price tends to go up. If there are more shares than buyers, the price might drop. Think of it like a school fete stall selling special handmade crafts. If everyone wants the same few items, the stall owner might get a higher price. If nobody is interested, they might have to lower prices.</li>
+<li><strong>Subscription Levels:</strong> This refers to how many times the IPO shares were applied for. High subscription levels usually mean high demand, which can lead to a listing &quot;pop&quot; (price increase).</li>
+<li><strong>Market Mood:</strong> The overall sentiment of the stock market and economy also plays a role. If the broader market is doing well, new listings often benefit.</li>
+<li><strong>Pricing:</strong> The company sets the IPO price. If it&#x27;s priced conservatively (a bit low), it leaves room for the price to rise on listing. If it&#x27;s priced aggressively (a bit high), it might struggle to gain.</li>
+<li><strong>Lock-in and Anchor Investors:</strong> Some large investors, called <strong>anchor investors</strong>, commit to buying shares before the IPO opens to the public. Their shares are often &quot;locked in&quot; for a certain period (e.g., 30 days), meaning they cannot sell them immediately. Once this lock-in period ends, if these investors decide to sell, it can increase the supply of shares in the market, potentially affecting the price.</li>
+</ul>
+<h2>Why the first-day price is not the whole story</h2>
+<p>
+The listing day price is just a snapshot. The stock market is full of <strong>volatility</strong> (quick ups and downs in price). A company&#x27;s share price can change a lot over days, weeks, or months due to many factors.
+</p>
+<p>
+For example, a stock might list flat (meaning its price doesn&#x27;t change much from the IPO price) but then climb significantly over the next few weeks as more investors discover its value. Conversely, a stock might have a huge listing gain but then see its price fall as early investors book profits or new information about the company or industry emerges. The <strong>broader market</strong> performance also impacts individual stocks. If the overall market is falling, even good companies might see their share prices drop. The first day is just the beginning of a company&#x27;s journey on the stock exchange.
+</p>
+<h2>A simple way to think about it</h2>
+<p>
+Imagine a new sweet shop opens in your neighbourhood. On the grand opening day, there&#x27;s a lot of buzz, maybe special offers, and a huge crowd. People might even pay a little extra just to be among the first. That&#x27;s like the IPO listing day.
+</p>
+<p>
+But after a month or two, the initial excitement fades. People now buy sweets based on how good they taste, the quality, the service, and the regular prices. The shop&#x27;s daily sales and how customers feel about it over time determine its true popularity and value. This calmer, settled period is like looking at an IPO 30 to 60 days after listing.
+</p>
+<h2>Things people get confused about</h2>
+<ul>
+<li><strong>Myth:</strong> A big listing gain means it&#x27;s a great company.</li>
+<p>
+    *   <strong>Fact:</strong> A big listing gain mostly shows high immediate demand for the shares, not necessarily the company&#x27;s long-term performance or financial health.
+</p>
+<li><strong>Myth:</strong> If an IPO lists below its issue price, it&#x27;s a bad investment forever.</li>
+<p>
+    *   <strong>Fact:</strong> An initial drop can be due to various reasons like market conditions, aggressive pricing, or early profit-booking. The company&#x27;s performance can improve over time, and its share price might recover or even grow significantly later.
+</p>
+<li><strong>Myth:</strong> The IPO price is the &quot;right&quot; price for the company&#x27;s shares.</li>
+<p>
+    *   <strong>Fact:</strong> The IPO price is what the company offers shares at. Once listed, the open market, through buying and selling by millions of investors, decides the &quot;right&quot; price based on demand, supply, and future expectations.
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>What is an IPO?</h3>
+<p>
+An IPO, or Initial Public Offering, is when a private company first offers its shares to the public to raise money, allowing ordinary people to buy a part of the company.
+</p>
+<h3>What is the &quot;issue price&quot;?</h3>
+<p>
+The issue price is the fixed price per share at which the company offers its shares to investors during the IPO.
+</p>
+<h3>What is &quot;current price&quot;?</h3>
+<p>
+The current price is the latest trading price of a company&#x27;s share on the stock exchange at a given moment.
+</p>
+<h3>What is &quot;return vs IPO price&quot;?</h3>
+<p>
+This number tells you the percentage change between the IPO price and the current market price. A positive percentage means the share is trading above its IPO price, and a negative percentage means it&#x27;s below.
+</p>
+<h3>What is the difference between a Mainboard and SME IPO?</h3>
+<p>
+Mainboard IPOs are for larger, more established companies that list on the main exchanges (NSE or BSE), while SME (Small and Medium Enterprise) IPOs are for smaller companies with different listing requirements and often lower market capitalisation, listing on dedicated SME platforms.
+</p>
+<h2>Sources</h2>
+<p>
+IPO prices, listing-day prices and current market prices from chittorgarh.com.
+</p>
+<p>
+<em>This is an educational explainer, not investment advice. Past performance is not indicative of future results. myfinancial is not a SEBI-registered adviser.</em>
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
