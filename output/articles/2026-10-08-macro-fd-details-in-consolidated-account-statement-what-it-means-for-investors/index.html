@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>FD Details in Consolidated Account Statement: What it Means for Investors</title>
+<meta name="description" content="The Reserve Bank of India (RBI) is set to integrate Fixed Deposit (FD) details into the Consolidated Account Statement (CAS). This initiative aims to provide .">
+<meta name="keywords" content="details, statement, financial, consolidated, account, interest, mutual, holdings">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-08-macro-fd-details-in-consolidated-account-statement-what-it-means-for-investors/">
+<meta property="og:title" content="FD Details in Consolidated Account Statement: What it Means for Investors">
+<meta property="og:description" content="The Reserve Bank of India (RBI) is set to integrate Fixed Deposit (FD) details into the Consolidated Account Statement (CAS). This initiative aims to provide .">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-08-macro-fd-details-in-consolidated-account-statement-what-it-means-for-investors/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "FD Details in Consolidated Account Statement: What it Means for Investors", "description": "The Reserve Bank of India (RBI) is set to integrate Fixed Deposit (FD) details into the Consolidated Account Statement (CAS). This initiative aims to provide .", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-08", "dateModified": "2026-10-08", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-08-macro-fd-details-in-consolidated-account-statement-what-it-means-for-investors/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/" class="active">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Macro &amp; Markets · 2026-10-08</div><h1>FD Details in Consolidated Account Statement: What it Means for Investors</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The Reserve Bank of India (RBI) is set to integrate Fixed Deposit (FD) details into the Consolidated Account Statement (CAS).</li>
+<li>This initiative aims to provide investors with a single, comprehensive view of their bank deposits and other investments.</li>
+<li>The implementation of this enhanced CAS is expected to be completed by December 31, 2026.</li>
+<li>Investors will soon be able to track their bank FDs alongside mutual fund holdings and demat account investments in one place.</li>
+<li>This move is designed to simplify financial portfolio tracking, aid in better asset allocation, and improve overall financial planning.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Soon, managing your investments is going to get a lot simpler. The Reserve Bank of India (RBI) has announced a significant change: details of your Fixed Deposits (FDs) will soon be included in your Consolidated Account Statement (CAS). Currently, the CAS primarily shows your holdings in mutual funds and shares held in your demat account. This new integration means you&#x27;ll get a more complete picture of your financial wealth in one document.
+</p>
+<p>
+Imagine having FDs across different banks, along with investments in various mutual funds and shares. Keeping track of all these separately can be cumbersome. With this upcoming change, expected by December 31, 2026, your CAS will serve as a single, holistic statement, bringing together your bank FDs and market-linked investments. This will make it much easier to assess your overall financial health, track maturity dates, and plan your finances more effectively.
+</p>
+<h2>Understanding the Consolidated Account Statement (CAS)</h2>
+<p>
+The Consolidated Account Statement (CAS) is a single statement that provides a comprehensive view of an investor&#x27;s holdings across various financial instruments. Issued by depositories like the National Securities Depository Limited (NSDL) and Central Depository Services (India) Limited (CDSL), the CAS currently consolidates details of investments held in dematerialised form, such as shares, debentures, bonds, and mutual fund units.
+</p>
+<h3>Current Scope of CAS</h3>
+<p>
+Presently, if you have investments in shares or mutual funds, you receive a CAS either monthly or half-yearly, depending on your transaction activity. This statement lists all your equity holdings, mutual fund units, exchange-traded funds (ETFs), and other securities held in your demat account. It provides key information like the number of units/shares, their current value, and transaction history. This has been a significant step towards simplifying portfolio tracking for market-linked investments.
+</p>
+<h3>Who issues the CAS?</h3>
+<p>
+The CAS is generated by depositories (NSDL and CDSL) based on the Permanent Account Number (PAN) linked to your investment accounts. If you have accounts with both depositories, you receive a consolidated CAS from one of them, typically the one where you have your primary demat account or the one that processes your first transaction in a month. This centralisation ensures that all your demat and mutual fund holdings under a single PAN are captured in one place.
+</p>
+<h2>The Integration of Fixed Deposits (FDs)</h2>
+<p>
+The upcoming inclusion of Fixed Deposit details marks a pivotal enhancement to the CAS. FDs, being a cornerstone of traditional Indian savings, are held by millions, often across multiple banks. This integration will finally bring these crucial assets into the consolidated view, offering a truly comprehensive financial snapshot.
+</p>
+<h3>What FDs will be included?</h3>
+<p>
+While specific operational details are still being worked out, the RBI’s announcement indicates that bank FDs will be the primary focus. This will likely cover FDs held with commercial banks, and potentially even co-operative banks, provided they are linked to the investor&#x27;s PAN. The aim is to capture all FDs under a single PAN, regardless of the bank they are held with, similar to how mutual funds are consolidated. This move is expected to streamline the tracking of interest income and maturity schedules.
+</p>
+<h3>Significance for Investors</h3>
+<p>
+This integration is highly significant for several reasons. Firstly, FDs, despite being a popular investment choice, often remain outside the purview of a consolidated financial statement. Investors typically track them using individual bank statements or physical receipts. Secondly, for individuals holding FDs across multiple banks, manually consolidating this information can be time-consuming and prone to errors. The CAS will eliminate this manual effort, providing an automated, single-point reference for all FD holdings. This will offer a clear picture of an investor&#x27;s overall asset allocation, allowing for better rebalancing and strategic financial decisions.
+</p>
+<h2>Impact on Financial Planning and Tax Compliance</h2>
+<p>
+The enhanced CAS, with FD details, will have a profound impact on how individuals approach financial planning and manage their tax obligations. It transforms a scattered view into a cohesive one, enabling more informed decision-making.
+</p>
+<h3>Streamlined Portfolio Review</h3>
+<p>
+With FDs visible alongside market investments, investors will gain a clearer, holistic understanding of their asset allocation. This makes it easier to assess if their portfolio aligns with their risk appetite and financial goals. For instance, a quick glance at the CAS will reveal the proportion of funds allocated to debt (FDs) versus equity (shares, mutual funds), facilitating timely rebalancing. This integrated view also aids in monitoring maturity profiles of FDs, allowing investors to plan for reinvestment or utilisation of funds well in advance.
+</p>
+<h3>Enhanced Tax Compliance and Reporting</h3>
+<p>
+Interest earned on FDs is taxable as per income tax slabs. Currently, investors need to collect interest certificates or statements from each bank to calculate their total FD interest income for tax filing. The inclusion of FD details in the CAS, potentially with aggregated interest income information, could significantly simplify this process. It would provide a consolidated figure, making it easier for individuals to accurately report their income and ensure compliance with the Income Tax Act, 1961. This could also help in tracking Tax Deducted at Source (TDS) on FD interest, ensuring proper credit during ITR filing.
+</p>
+<h3>Simplified Estate Planning</h3>
+<p>
+For nominees and legal heirs, retrieving details of all FDs held by a deceased individual can be a challenging task, especially if the FDs are spread across multiple banks. A comprehensive CAS, detailing all FDs, would serve as an invaluable document for estate planning and the smooth transfer of assets, reducing administrative burden during difficult times.
+</p>
+<h2>Challenges and Future Outlook</h2>
+<p>
+While the integration of FDs into CAS is a welcome move, its successful implementation will depend on addressing several operational challenges and ensuring robust data management.
+</p>
+<h3>Data Standardisation and Security</h3>
+<p>
+One of the primary challenges will be standardising data formats across various banks to ensure seamless integration into the CAS. Each bank might have its own system for recording FD details, and harmonising this data for a unified statement will require significant coordination between the RBI, banks, and depositories. Ensuring the accuracy, completeness, and security of sensitive financial data will be paramount. Robust cybersecurity measures will be critical to protect this consolidated information from potential breaches.
+</p>
+<h3>Potential for Further Integration</h3>
+<p>
+This initiative opens the door for potentially integrating other popular investment avenues into the CAS in the future. This could include Public Provident Fund (PPF) accounts, National Pension System (NPS) holdings, insurance policies, and even real estate assets. A truly unified financial statement could revolutionise personal finance management in India, providing an unparalleled level of transparency and control to investors. The roadmap for such broader integration would likely involve collaboration with other regulatory bodies like PFRDA and IRDAI.
+</p>
+<h2>A real example</h2>
+<p>
+<strong>Meena, 38, ₹32L CTC, Chennai</strong>
+</p>
+<p>
+Meena is a salaried professional in Chennai who believes in a balanced portfolio. She has invested in various mutual funds (equity and debt) and also holds shares in her demat account. Additionally, Meena has several Fixed Deposits across three different banks, accumulating to ₹45 lakhs, with varying maturity dates and interest rates.
+</p>
+<p>
+Currently, Meena receives a CAS that shows her mutual fund and demat holdings. To get a complete picture of her wealth, she has to manually track her FDs using bank statements and a personal spreadsheet. This involves:
+</p>
+<ol>
+<li>Checking statements from Bank A for ₹15 lakh FD maturing in Jan 2027 at 7.2% interest.</li>
+<li>Checking statements from Bank B for two FDs: ₹10 lakh maturing in March 2027 at 7.0% and ₹8 lakh maturing in July 2027 at 7.1%.</li>
+<li>Checking statements from Bank C for ₹12 lakh FD maturing in April 2028 at 7.3%.</li>
+<li>Adding up interest income from all FDs and comparing it with TDS certificates for tax filing.</li>
+</ol>
+<p>
+With the new system, once implemented by December 31, 2026, Meena&#x27;s CAS will automatically include all her FD details. Her statement will show:
+</p>
+<ul>
+<li><strong>Mutual Fund Holdings:</strong> (e.g., ₹60 lakhs in various funds)</li>
+<li><strong>Demat Holdings:</strong> (e.g., ₹40 lakhs in shares)</li>
+<li><strong>Fixed Deposit Holdings:</strong></li>
+<p>
+    *   Bank A: ₹15,00,000, Maturity: Jan 2027, Interest Rate: 7.2%
+    *   Bank B: ₹10,00,000, Maturity: Mar 2027, Interest Rate: 7.0%
+    *   Bank B: ₹8,00,000, Maturity: Jul 2027, Interest Rate: 7.1%
+    *   Bank C: ₹12,00,000, Maturity: Apr 2028, Interest Rate: 7.3%
+    *   <strong>Total FD Value: ₹45,00,000</strong>
+</p>
+</ul>
+<p>
+This consolidated view will allow Meena to instantly see her total financial assets (₹60L + ₹40L + ₹45L = ₹1.45 Crores) and understand her overall asset allocation (approx. 69% market-linked, 31% FDs). She can easily track upcoming FD maturities and estimate her total interest income for tax planning without sifting through multiple bank documents.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Locate your latest Consolidated Account Statement (CAS):</strong> If you invest in mutual funds or shares, you should be receiving a CAS. Familiarise yourself with its contents and how to access it (e.g., via email from your depository).</li>
+<li><strong>Compile a list of all your Fixed Deposits:</strong> Note down the bank name, principal amount, interest rate, and maturity date for every FD you hold, regardless of the bank.</li>
+<li><strong>Ensure PAN linkage and KYC are updated:</strong> Verify that your PAN is correctly linked to all your bank accounts and investment folios. Ensure your Know Your Customer (KYC) details are current across all financial institutions.</li>
+<li><strong>Review your current asset allocation:</strong> Based on your existing CAS and your manual FD list, get a clear picture of how your wealth is currently distributed across different asset classes.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is a Consolidated Account Statement (CAS)?</h3>
+<p>
+A Consolidated Account Statement (CAS) is a single statement issued by depositories (NSDL/CDSL) that provides a comprehensive view of an investor&#x27;s holdings in demat accounts (shares, bonds) and mutual funds under one PAN.
+</p>
+<h3>Which FDs will be included in the CAS?</h3>
+<p>
+The RBI&#x27;s initiative aims to include details of Fixed Deposits (FDs) held with banks. This will likely cover FDs linked to your Permanent Account Number (PAN) across various commercial and potentially co-operative banks.
+</p>
+<h3>When can I expect to see my FD details in CAS?</h3>
+<p>
+The implementation of this enhanced CAS, including FD details, is expected to be completed by December 31, 2026.
+</p>
+<h3>Will this impact my tax filing?</h3>
+<p>
+While the CAS itself is an information statement, its enhanced details, including FDs, will make it significantly easier for you to track your total interest income. This can simplify the process of accurately reporting income and complying with income tax regulations during ITR filing.
+</p>
+<h3>Who issues the CAS?</h3>
+<p>
+The Consolidated Account Statement (CAS) is issued by depositories, namely National Securities Depository Limited (NSDL) and Central Depository Services (India) Limited (CDSL).
+</p>
+<h3>Can I opt out of this feature?</h3>
+<p>
+The integration of FD details into the CAS is a regulatory initiative by the RBI, aimed at enhancing transparency and ease of financial tracking. It is generally expected to be a standard feature for all investors, similar to how mutual fund and demat holdings are currently included.
+</p>
+<h3>Will my joint FDs also be included?</h3>
+<p>
+Details regarding joint FDs and how they will be presented in the CAS are yet to be fully clarified. However, typically, statements are linked to the primary PAN holder. It is expected that systems will evolve to handle joint holdings appropriately.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Money: https://www.livemint.com/money/fd-details-to-soon-be-included-in-consolidated-account-statement-says-rbi-what-it-means-for-investors-11791421790743.html</li>
+<li>RBI: https://rbi.org.in</li>
+<li>SEBI: https://sebi.gov.in</li>
+<li>AMFI India: https://amfiindia.com</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>PFRDA: https://pfrda.org.in</li>
+<li>IRDAI: https://irdai.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# FD Details in Consolidated Account Statement: What it Means for Investors
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The Reserve Bank of India (RBI) is set to integrate Fixed Deposit (FD) details into the Consolidated Account Statement (CAS).</li>
+<li>This initiative aims to provide investors with a single, comprehensive view of their bank deposits and other investments.</li>
+<li>The implementation of this enhanced CAS is expected to be completed by December 31, 2026.</li>
+<li>Investors will soon be able to track their bank FDs alongside mutual fund holdings and demat account investments in one place.</li>
+<li>This move is designed to simplify financial portfolio tracking, aid in better asset allocation, and improve overall financial planning.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Soon, managing your investments is going to get a lot simpler. The Reserve Bank of India (RBI) has announced a significant change: details of your Fixed Deposits (FDs) will soon be included in your Consolidated Account Statement (CAS). Currently, the CAS primarily shows your holdings in mutual funds and shares held in your demat account. This new integration means you&#x27;ll get a more complete picture of your financial wealth in one document.
+</p>
+<p>
+Imagine having FDs across different banks, along with investments in various mutual funds and shares. Keeping track of all these separately can be cumbersome. With this upcoming change, expected by December 31, 2026, your CAS will serve as a single, holistic statement, bringing together your bank FDs and market-linked investments. This will make it much easier to assess your overall financial health, track maturity dates, and plan your finances more effectively.
+</p>
+<h2>Understanding the Consolidated Account Statement (CAS)</h2>
+<p>
+The Consolidated Account Statement (CAS) is a single statement that provides a comprehensive view of an investor&#x27;s holdings across various financial instruments. Issued by depositories like the National Securities Depository Limited (NSDL) and Central Depository Services (India) Limited (CDSL), the CAS currently consolidates details of investments held in dematerialised form, such as shares, debentures, bonds, and mutual fund units.
+</p>
+<h3>Current Scope of CAS</h3>
+<p>
+Presently, if you have investments in shares or mutual funds, you receive a CAS either monthly or half-yearly, depending on your transaction activity. This statement lists all your equity holdings, mutual fund units, exchange-traded funds (ETFs), and other securities held in your demat account. It provides key information like the number of units/shares, their current value, and transaction history. This has been a significant step towards simplifying portfolio tracking for market-linked investments.
+</p>
+<h3>Who issues the CAS?</h3>
+<p>
+The CAS is generated by depositories (NSDL and CDSL) and registrar and share transfer agents (RTA) based on the Permanent Account Number (PAN) linked to your investment accounts. If you have accounts with both depositories, you receive a consolidated CAS from one of them, typically the one where you have your primary demat account or the one that processes your first transaction in a month. This centralisation ensures that all your demat and mutual fund holdings under a single PAN are captured in one place.
+</p>
+<h2>The Integration of Fixed Deposits (FDs)</h2>
+<p>
+The upcoming inclusion of Fixed Deposit details marks a pivotal enhancement to the CAS. FDs, being a cornerstone of traditional Indian savings, are held by millions, often across multiple banks. This integration will finally bring these crucial assets into the consolidated view, offering a truly comprehensive financial snapshot.
+</p>
+<h3>What FDs will be included?</h3>
+<p>
+While specific operational details are still being worked out, the RBI’s announcement indicates that bank deposit accounts will be facilitated for inclusion. It is currently not clarified whether &quot;deposit accounts&quot; will include savings accounts or only fixed deposits; the exact scope will be known once operational guidelines are issued. This will likely cover FDs held with commercial banks, and potentially even co-operative banks, provided they are linked to the investor&#x27;s PAN. The aim is to capture all FDs under a single PAN, regardless of the bank they are held with, similar to how mutual funds are consolidated. This move is expected to streamline the tracking of interest income and maturity schedules.
+</p>
+<h3>Significance for Investors</h3>
+<p>
+This integration is highly significant for several reasons. Firstly, FDs, despite being a popular investment choice, often remain outside the purview of a consolidated financial statement. Investors typically track them using individual bank statements or physical receipts. Secondly, for individuals holding FDs across multiple banks, manually consolidating this information can be time-consuming and prone to errors. The CAS will eliminate this manual effort, providing an automated, single-point reference for all FD holdings. This will offer a clear picture of an investor&#x27;s overall asset allocation, allowing for better rebalancing and strategic financial decisions.
+</p>
+<h2>Impact on Financial Planning and Tax Compliance</h2>
+<p>
+The enhanced CAS, with FD details, will have a profound impact on how individuals approach financial planning and manage their tax obligations. It transforms a scattered view into a cohesive one, enabling more informed decision-making.
+</p>
+<h3>Streamlined Portfolio Review</h3>
+<p>
+With FDs visible alongside market investments, investors will gain a clearer, holistic understanding of their asset allocation. This makes it easier to assess if their portfolio aligns with their risk appetite and financial goals. For instance, a quick glance at the CAS will reveal the proportion of funds allocated to debt (FDs) versus equity (shares, mutual funds), facilitating timely rebalancing. This integrated view also aids in monitoring maturity profiles of FDs, allowing investors to plan for reinvestment or utilisation of funds well in advance.
+</p>
+<h3>Enhanced Tax Compliance and Reporting</h3>
+<p>
+Interest earned on FDs is taxable as per income tax slabs, and must be declared while filing ITR under &#x27;income from other sources&#x27;. The inclusion of FD details in the CAS, potentially with aggregated interest income information, could significantly simplify this process. It would provide a consolidated figure, making it easier for individuals to accurately report their income and ensure compliance with the Income Tax Act, 1961. This could also help in tracking Tax Deducted at Source (TDS) on FD interest, which is generally 10% if PAN is provided and interest exceeds ₹40,000 (₹50,000 for senior citizens) in a financial year, ensuring proper credit during ITR filing.
+</p>
+<h3>Simplified Estate Planning</h3>
+<p>
+For nominees and legal heirs, retrieving details of all FDs held by a deceased individual can be a challenging task, especially if the FDs are spread across multiple banks. A comprehensive CAS, detailing all FDs, would serve as an invaluable document for estate planning and the smooth transfer of assets, reducing administrative burden during difficult times.
+</p>
+<h2>Challenges and Future Outlook</h2>
+<p>
+While the integration of FDs into CAS is a welcome move, its successful implementation will depend on addressing several operational challenges and ensuring robust data management.
+</p>
+<h3>Data Standardisation and Security</h3>
+<p>
+One of the primary challenges will be standardising data formats across various banks to ensure seamless integration into the CAS. Each bank might have its own system for recording FD details, and harmonising this data for a unified statement will require significant coordination between the RBI, banks, and depositories. Ensuring the accuracy, completeness, and security of sensitive financial data will be paramount. Robust cybersecurity measures will be critical to protect this consolidated information from potential breaches.
+</p>
+<h3>Potential for Further Integration</h3>
+<p>
+This initiative opens the door for potentially integrating other popular investment avenues into the CAS in the future. This could include Public Provident Fund (PPF) accounts, National Pension System (NPS) holdings, and insurance policies. A truly unified financial statement could revolutionise personal finance management in India, providing an unparalleled level of transparency and control to investors. The roadmap for such broader integration would likely involve collaboration with other regulatory bodies like PFRDA and IRDAI.
+</p>
+<h2>A real example</h2>
+<p>
+<strong>Meena, 38, ₹32L CTC, Chennai</strong>
+</p>
+<p>
+Meena is a salaried professional in Chennai who believes in a balanced portfolio. She has invested in various mutual funds (equity and debt) and also holds shares in her demat account. Additionally, Meena has several Fixed Deposits across three different banks, accumulating to ₹45 lakhs, with varying maturity dates and interest rates.
+</p>
+<p>
+Currently, Meena receives a CAS that shows her mutual fund and demat holdings. To get a complete picture of her wealth, she has to manually track her FDs using bank statements and a personal spreadsheet. This involves:
+</p>
+<ol>
+<li>Checking statements from Bank A for ₹15 lakh FD maturing in Jan 2027 at 7.2% interest.</li>
+<li>Checking statements from Bank B for two FDs: ₹10 lakh maturing in March 2027 at 7.0% and ₹8 lakh maturing in July 2027 at 7.1%.</li>
+<li>Checking statements from Bank C for ₹12 lakh FD maturing in April 2028 at 7.3%.</li>
+<li>Adding up interest income from all FDs and comparing it with TDS certificates for tax filing.</li>
+</ol>
+<p>
+With the new system, once implemented by December 31, 2026, Meena&#x27;s CAS will automatically include all her FD details. Her statement will show:
+</p>
+<ul>
+<li><strong>Mutual Fund Holdings:</strong> (e.g., ₹60 lakhs in various funds)</li>
+<li><strong>Demat Holdings:</strong> (e.g., ₹40 lakhs in shares)</li>
+<li><strong>Fixed Deposit Holdings:</strong></li>
+<p>
+    *   Bank A: ₹15,00,000, Maturity: Jan 2027, Interest Rate: 7.2%
+    *   Bank B: ₹10,00,000, Maturity: Mar 2027, Interest Rate: 7.0%
+    *   Bank B: ₹8,00,000, Maturity: Jul 2027, Interest Rate: 7.1%
+    *   Bank C: ₹12,00,000, Maturity: Apr 2028, Interest Rate: 7.3%
+    *   <strong>Total FD Value: ₹45,00,000</strong>
+</p>
+</ul>
+<p>
+This consolidated view will allow Meena to instantly see her total financial assets (₹60L + ₹40L + ₹45L = ₹1.45 Crores) and understand her overall asset allocation (approx. 69% market-linked, 31% FDs). She can easily track upcoming FD maturities and estimate her total interest income for tax planning without sifting through multiple bank documents.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Locate your latest Consolidated Account Statement (CAS):</strong> If you invest in mutual funds or shares, you should be receiving a CAS. Familiarise yourself with its contents and how to access it (e.g., via email from your depository or through NSDL/CDSL websites).</li>
+<li><strong>Compile a list of all your Fixed Deposits:</strong> Note down the bank name, principal amount, interest rate, and maturity date for every FD you hold, regardless of the bank.</li>
+<li><strong>Ensure PAN linkage and KYC are updated:</strong> Verify that your PAN is correctly linked to all your bank accounts and investment folios. Ensure your Know Your Customer (KYC) details are current across all financial institutions.</li>
+<li><strong>Review your current asset allocation:</strong> Based on your existing CAS and your manual FD list, get a clear picture of how your wealth is currently distributed across different asset classes.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is a Consolidated Account Statement (CAS)?</h3>
+<p>
+A Consolidated Account Statement (CAS) is a single statement issued by depositories (NSDL/CDSL) that provides a comprehensive view of an investor&#x27;s holdings in demat accounts (shares, bonds) and mutual funds under one PAN.
+</p>
+<h3>Which FDs will be included in the CAS?</h3>
+<p>
+The RBI&#x27;s initiative aims to include details of bank deposit accounts. It is currently not clarified whether this will include savings accounts or only fixed deposits, with the exact scope to be known once operational guidelines are issued.
+</p>
+<h3>When can I expect to see my FD details in CAS?</h3>
+<p>
+The implementation of this enhanced CAS, including FD details, is expected to be completed by December 31, 2026.
+</p>
+<h3>Will this impact my tax filing?</h3>
+<p>
+While the CAS itself is an information statement, its enhanced details, including FDs, will make it significantly easier for you to track your total interest income. This can simplify the process of accurately reporting income and complying with income tax regulations during ITR filing, as FD interest is taxable.
+</p>
+<h3>Who issues the CAS?</h3>
+<p>
+The Consolidated Account Statement (CAS) is primarily issued by depositories, namely National Securities Depository Limited (NSDL) and Central Depository Services (India) Limited (CDSL).
+</p>
+<h3>Can I opt out of this feature?</h3>
+<p>
+The integration of FD details into the CAS is a regulatory initiative by the RBI, aimed at enhancing transparency and ease of financial tracking. It is generally expected to be a standard feature for all investors, similar to how mutual fund and demat holdings are currently included.
+</p>
+<h3>Will my joint FDs also be included?</h3>
+<p>
+Details regarding joint FDs and how they will be presented in the CAS are yet to be fully clarified. However, typically, CAS consolidation is based on the PAN of the first holder and the pattern of holding.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Money: https://www.livemint.com/money/fd-details-to-soon-be-included-in-consolidated-account-statement-says-rbi-what-it-means-for-investors-11791421790743.html</li>
+<li>RBI: https://rbi.org.in</li>
+<li>SEBI: https://sebi.gov.in</li>
+<li>AMFI India: https://amfiindia.com</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>PFRDA: https://pfrda.org.in</li>
+<li>IRDAI: https://irdai.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
