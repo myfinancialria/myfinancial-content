@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Claiming HRA for Self &amp; Parents: Rules for Your Properties</title>
+<meta name="description" content="House Rent Allowance (HRA) exemption is available only under the old tax regime. You can claim HRA for rent paid towards the residential accommodation you act.">
+<meta name="keywords" content="parents, property, exemption, landlord, occupy, paying, actual, rented">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-09-personal_finance-claiming-hra-for-self-parents-rules-for-your-properties/">
+<meta property="og:title" content="Claiming HRA for Self &amp; Parents: Rules for Your Properties">
+<meta property="og:description" content="House Rent Allowance (HRA) exemption is available only under the old tax regime. You can claim HRA for rent paid towards the residential accommodation you act.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-09-personal_finance-claiming-hra-for-self-parents-rules-for-your-properties/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Claiming HRA for Self & Parents: Rules for Your Properties", "description": "House Rent Allowance (HRA) exemption is available only under the old tax regime. You can claim HRA for rent paid towards the residential accommodation you act.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-09", "dateModified": "2026-10-09", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-09-personal_finance-claiming-hra-for-self-parents-rules-for-your-properties/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Personal Finance · 2026-10-09</div><h1>Claiming HRA for Self &amp; Parents: Rules for Your Properties</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>House Rent Allowance (HRA) exemption is available only under the old tax regime.</li>
+<li>You can claim HRA for rent paid towards the residential accommodation you actually occupy.</li>
+<li>If you pay rent to your parents for a house you live in, you can claim HRA, provided they own the property and declare the rent as income.</li>
+<li>You cannot claim HRA for a property that you do not personally occupy, even if you are paying rent for your parents to live there.</li>
+<li>Proper documentation, including rent receipts and landlord&#x27;s PAN (if rent exceeds ₹1 lakh annually), is crucial for claiming HRA.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+House Rent Allowance, or HRA, is a common component of a salaried employee&#x27;s income that offers a tax exemption benefit. Essentially, if you live in rented accommodation, a portion of the rent you pay can be reduced from your taxable income, thereby lowering your tax liability. This exemption is specifically available if you opt for the old tax regime.
+</p>
+<p>
+The core principle behind HRA exemption is that it&#x27;s meant to offset the cost of your <em>own</em> residential accommodation. This means the benefit is tied directly to the house you physically live in and pay rent for. The rules become a bit nuanced when you consider situations involving your parents, especially if you&#x27;re financially supporting them by paying their rent or if you live in a property owned by them.
+</p>
+<h2>HRA Eligibility and the Old Tax Regime</h2>
+<p>
+To claim HRA exemption, the first and foremost condition is that you must be a salaried employee receiving HRA as part of your salary structure. Secondly, you must actually be paying rent for the accommodation you occupy. It&#x27;s crucial to remember that HRA exemption is <strong>not available</strong> if you opt for the new tax regime, which offers simplified tax slabs without many deductions and exemptions. If you choose the old tax regime, you can avail the HRA benefit along with other deductions like those under Section 80C, 80D, etc.
+</p>
+<p>
+The HRA exemption amount is the least of the following three:
+</p>
+<ol>
+<li>Actual HRA received from your employer.</li>
+<li>50% of your basic salary + Dearness Allowance (DA) if you live in a metro city (Delhi, Mumbai, Kolkata, Chennai), or 40% for non-metro cities.</li>
+<li>Actual rent paid minus 10% of your basic salary + DA.</li>
+</ol>
+<h3>Conditions for a Valid HRA Claim</h3>
+<p>
+For your HRA claim to be valid, you need to meet certain conditions:
+</p>
+<ul>
+<li><strong>Actual Rent Payment:</strong> You must genuinely pay rent for the accommodation you reside in.</li>
+<li><strong>No Self-Ownership:</strong> You or your spouse, minor child, or HUF should not own the residential accommodation for which you are claiming HRA. If you own a house in the same city where you are employed and live in a rented house, you can still claim HRA, provided you can justify why you are not living in your own house (e.g., your owned house is rented out, or it&#x27;s far from your workplace).</li>
+<li><strong>Landlord-Tenant Relationship:</strong> There must be a clear landlord-tenant relationship. You pay rent, and the landlord receives it.</li>
+</ul>
+<h2>The &quot;Actual Occupation&quot; Rule for HRA</h2>
+<p>
+A fundamental aspect of HRA exemption, as per Section 10(13A) of the Income Tax Act, is that the allowance is granted to meet &quot;expenditure actually incurred on payment of rent... in respect of residential accommodation <strong>occupied by the assessee</strong>.&quot; This phrase &quot;occupied by the assessee&quot; is critical. It unequivocally means that the HRA benefit is available only for the property that <em>you</em>, the taxpayer, personally reside in.
+</p>
+<p>
+This rule clarifies that you cannot claim HRA for a property that is occupied by someone else, even if you are financially responsible for their rent. For instance, if you pay rent for a separate apartment where your parents reside, you cannot claim HRA for that property because you do not occupy it. The exemption is strictly tied to your own residential expenses.
+</p>
+<h3>What if you work in two cities?</h3>
+<p>
+In rare scenarios, if an individual genuinely maintains and occupies two different residential accommodations in two different cities due to their employment, they might be able to claim HRA for both, provided they satisfy all conditions for actual occupation and rent payment for both properties. However, this is an exception and requires strong justification and documentation. The primary focus remains on <em>your</em> actual occupation.
+</p>
+<h2>Claiming HRA When Paying Rent to Parents</h2>
+<p>
+A common query arises when an individual lives with their parents in a house owned by the parents and pays rent to them. This is a legitimate scenario where you <em>can</em> claim HRA, provided certain conditions are met:
+</p>
+<ul>
+<li><strong>Genuine Landlord-Tenant Relationship:</strong> You must genuinely pay rent to your parents. It cannot be a mere paper transaction.</li>
+<li><strong>Parents Must Own the Property:</strong> The property for which you are paying rent must be owned by your parents (or jointly owned by them).</li>
+<li><strong>Parents Declare Rent as Income:</strong> Your parents must declare the rent received from you as income from house property in their own income tax returns. This is crucial for the transaction to be considered legitimate by the tax authorities.</li>
+<li><strong>Actual Occupation by You:</strong> You, the assessee, must actually reside in that property.</li>
+</ul>
+<p>
+If these conditions are met, you can claim HRA for the rent paid to your parents. This helps both you (by reducing your taxable income) and your parents (by providing them with a legitimate income stream). Ensure you have proper rent receipts and, if the annual rent exceeds ₹1 lakh, your parents&#x27; PAN details.
+</p>
+<h2>Can You Claim HRA for Your Parents&#x27; Separate Residence?</h2>
+<p>
+This is where the &quot;more than one property&quot; aspect often causes confusion, especially when it involves parents. Based on the &quot;actual occupation&quot; rule, <strong>you cannot claim HRA for a separate property that your parents occupy, even if you are paying the rent for it.</strong>
+</p>
+<p>
+Let&#x27;s break this down:
+</p>
+<ol>
+<li><strong>Your Primary Residence:</strong> If you live in a rented apartment and pay rent to an unrelated landlord, you can claim HRA for <em>that</em> apartment, assuming you meet all other conditions.</li>
+<li><strong>Parents&#x27; Residence (You Don&#x27;t Occupy):</strong> If your parents live in their own house (which they own) and you send them money, you <em>cannot</em> claim HRA for this, as you are not paying rent for a property <em>you occupy</em>. If your parents live in a <em>rented</em> house, and you pay rent directly to their landlord on their behalf, you <em>still cannot</em> claim HRA for this property because you do not occupy it. The HRA is a benefit for <em>your</em> housing expense, not for your dependents&#x27; housing expenses.</li>
+</ol>
+<p>
+While you might be financially supporting your parents by covering their rent or giving them money, this expenditure does not qualify for HRA exemption under Section 10(13A) unless you are the actual occupant of that specific property. Any financial support provided to parents might be eligible for other deductions (e.g., medical expenses under Section 80D for senior citizens, if applicable), but not HRA.
+</p>
+<h2>A real example</h2>
+<p>
+Rahul, 38, works in an IT firm in Bengaluru with a basic salary of ₹12 lakhs per annum and HRA of ₹3.6 lakhs per annum. He lives in a rented apartment in Indiranagar, Bengaluru, paying ₹30,000 per month (₹3.6 lakhs annually). His parents live in their own house in Chennai, and Rahul sends them ₹15,000 per month for their household expenses.
+</p>
+<p>
+Rahul wants to understand his HRA claim for the financial year.
+</p>
+<p>
+<strong>1. HRA for his own rented apartment in Bengaluru:</strong>
+</p>
+<ul>
+<li><strong>Actual HRA received:</strong> ₹3,60,000</li>
+<li><strong>50% of Basic Salary (Bengaluru is a metro city):</strong> 50% of ₹12,00,000 = ₹6,00,000</li>
+<li><strong>Actual rent paid minus 10% of Basic Salary:</strong> ₹3,60,000 (rent) - (10% of ₹12,00,000) = ₹3,60,000 - ₹1,20,000 = ₹2,40,000</li>
+</ul>
+<p>
+The least of these three amounts is ₹2,40,000.
+<strong>Rahul can claim an HRA exemption of ₹2,40,000 for his Bengaluru apartment.</strong>
+</p>
+<p>
+<strong>2. HRA for his parents&#x27; house in Chennai:</strong>
+Rahul sends ₹15,000 per month to his parents for their expenses. His parents own their house in Chennai, and Rahul does not live there.
+</p>
+<p>
+<strong>Can Rahul claim HRA for the ₹15,000 he sends to his parents?</strong>
+No. Rahul cannot claim HRA for the money he sends to his parents. The reasons are:
+</p>
+<ul>
+<li>He does not occupy the house in Chennai. The HRA exemption is strictly for the residential accommodation <em>occupied by the assessee</em>.</li>
+<li>Even if his parents were living in a rented house in Chennai and Rahul was paying their landlord directly, he still would not be able to claim HRA because he does not occupy that property.</li>
+</ul>
+<p>
+Therefore, Rahul&#x27;s total HRA exemption for the year would be ₹2,40,000, solely for his own rented residence in Bengaluru.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Check Your Tax Regime:</strong> Confirm whether you are opting for the old or new tax regime. HRA exemption is only available under the old regime.</li>
+<li><strong>Gather Rent Receipts:</strong> Ensure you have valid rent receipts for all months you are claiming HRA. If your annual rent exceeds ₹1 lakh, obtain your landlord&#x27;s PAN details.</li>
+<li><strong>Review Landlord-Tenant Relationship:</strong> If paying rent to parents, ensure they own the property and are prepared to declare the rent as income in their tax returns.</li>
+<li><strong>Confirm Actual Occupation:</strong> Verify that you are claiming HRA only for the property you physically reside in. Do not claim for properties occupied by others.</li>
+<li><strong>Consult Your Employer&#x27;s HR/Payroll:</strong> Discuss your HRA claim with your HR or payroll department to ensure you submit the correct documentation and understand their internal processes.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>1. Can I claim HRA if I live in my own house?</h3>
+<p>
+No, HRA is specifically for rent paid for accommodation you occupy. If you own the house you live in, you cannot claim HRA.
+</p>
+<h3>2. Is HRA exemption available under the new tax regime?</h3>
+<p>
+No, HRA exemption is one of the many deductions and exemptions that are not available if you opt for the new, simplified tax regime.
+</p>
+<h3>3. What documents do I need to claim HRA?</h3>
+<p>
+You typically need rent receipts. If the annual rent paid exceeds ₹1 lakh, you must also provide your landlord&#x27;s Permanent Account Number (PAN).
+</p>
+<h3>4. Can I claim HRA for rent paid to my spouse?</h3>
+<p>
+No, you cannot claim HRA for rent paid to your spouse. The Income Tax Department generally disallows such claims as they are not considered a genuine landlord-tenant relationship.
+</p>
+<h3>5. What if my landlord doesn&#x27;t have a PAN or refuses to provide it?</h3>
+<p>
+If the annual rent exceeds ₹1 lakh and your landlord does not have a PAN, you should obtain a declaration from them to that effect, along with their name and address. However, it&#x27;s generally advisable to deal with landlords who comply with tax regulations.
+</p>
+<h3>6. Can I claim HRA if I own a house but live in a rented apartment in the same city?</h3>
+<p>
+Yes, you can, provided you can justify why you are not living in your own house (e.g., your own house is rented out, or it&#x27;s far from your workplace). You must also be genuinely paying rent for the apartment you occupy.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/paying-rent-for-yourself-and-parents-know-if-you-can-claim-hra-for-more-than-one-property-11791508264851.html</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# Claiming HRA for Self &amp; Parents: Rules for Your Properties
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>House Rent Allowance (HRA) exemption is available only under the old tax regime.</li>
+<li>You can claim HRA for rent paid towards the residential accommodation you actually occupy.</li>
+<li>If you pay rent to your parents for a house you live in, you can claim HRA, provided they own the property and declare the rent as income.</li>
+<li>You cannot claim HRA for a property that you do not personally occupy, even if you are paying rent for your parents to live there.</li>
+<li>Proper documentation, including rent receipts and landlord&#x27;s PAN (if rent exceeds ₹1 lakh annually), is crucial for claiming HRA.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+House Rent Allowance, or HRA, is a common component of a salaried employee&#x27;s income that offers a tax exemption benefit. Essentially, if you live in rented accommodation, a portion of the rent you pay can be reduced from your taxable income, thereby lowering your tax liability. This exemption is specifically available if you opt for the old tax regime.
+</p>
+<p>
+The core principle behind HRA exemption is that it&#x27;s meant to offset the cost of your <em>own</em> residential accommodation. This means the benefit is tied directly to the house you physically live in and pay rent for. The rules become a bit nuanced when you consider situations involving your parents, especially if you&#x27;re financially supporting them by paying their rent or if you live in a property owned by them.
+</p>
+<h2>HRA Eligibility and the Old Tax Regime</h2>
+<p>
+To claim HRA exemption, the first and foremost condition is that you must be a salaried employee receiving HRA as part of your salary structure. Secondly, you must actually be paying rent for the accommodation you occupy. It&#x27;s crucial to remember that HRA exemption is <strong>not available</strong> if you opt for the new tax regime, which offers simplified tax slabs without many deductions and exemptions. If you choose the old tax regime, you can avail the HRA benefit along with other deductions like those under Section 80C, 80D, etc.
+</p>
+<p>
+The HRA exemption amount is the least of the following three:
+</p>
+<ol>
+<li>Actual HRA received from your employer.</li>
+<li>50% of your basic salary + Dearness Allowance (DA) if you live in a metro city (Delhi, Mumbai, Kolkata, Chennai), or 40% for non-metro cities. (From FY 2026-27, Bengaluru, Hyderabad, Pune, and Ahmedabad are also considered metro cities for HRA purposes.)</li>
+<li>Actual rent paid minus 10% of your basic salary + DA.</li>
+</ol>
+<h3>Conditions for a Valid HRA Claim</h3>
+<p>
+For your HRA claim to be valid, you need to meet certain conditions:
+</p>
+<ul>
+<li><strong>Actual Rent Payment:</strong> You must genuinely pay rent for the accommodation you reside in.</li>
+<li><strong>No Self-Ownership:</strong> You or your spouse, minor child, or HUF should not own the residential accommodation for which you are claiming HRA. If you own a house in the same city where you are employed and live in a rented house, you can still claim HRA, provided you can justify why you are not living in your own house (e.g., your owned house is rented out, or it&#x27;s far from your workplace).</li>
+<li><strong>Landlord-Tenant Relationship:</strong> There must be a clear landlord-tenant relationship. You pay rent, and the landlord receives it.</li>
+</ul>
+<h2>The &quot;Actual Occupation&quot; Rule for HRA</h2>
+<p>
+A fundamental aspect of HRA exemption, as per Section 10(13A) of the Income Tax Act, is that the allowance is granted to meet &quot;expenditure actually incurred on payment of rent... in respect of residential accommodation <strong>occupied by the assessee</strong>.&quot; This phrase &quot;occupied by the assessee&quot; is critical. It unequivocally means that the HRA benefit is available only for the property that <em>you</em>, the taxpayer, personally reside in.
+</p>
+<p>
+This rule clarifies that you cannot claim HRA for a property that is occupied by someone else, even if you are financially responsible for their rent. For instance, if you pay rent for a separate apartment where your parents reside, you cannot claim HRA for that property because you do not occupy it. The exemption is strictly tied to your own residential expenses.
+</p>
+<h3>What if you work in two cities?</h3>
+<p>
+In rare scenarios, if an individual genuinely maintains and occupies two different residential accommodations in two different cities due to their employment, they might be able to claim HRA for both, provided they satisfy all conditions for actual occupation and rent payment for both properties. However, this is an exception and requires strong justification and documentation. The primary focus remains on <em>your</em> actual occupation.
+</p>
+<h2>Claiming HRA When Paying Rent to Parents</h2>
+<p>
+A common query arises when an individual lives with their parents in a house owned by the parents and pays rent to them. This is a legitimate scenario where you <em>can</em> claim HRA, provided certain conditions are met:
+</p>
+<ul>
+<li><strong>Genuine Landlord-Tenant Relationship:</strong> You must genuinely pay rent to your parents. It cannot be a mere paper transaction.</li>
+<li><strong>Parents Must Own the Property:</strong> The property for which you are paying rent must be owned by your parents (or jointly owned by them).</li>
+<li><strong>Parents Declare Rent as Income:</strong> Your parents must declare the rent received from you as income from house property in their own income tax returns. This is crucial for the transaction to be considered legitimate by the tax authorities.</li>
+<li><strong>Actual Occupation by You:</strong> You, the assessee, must actually reside in that property.</li>
+</ul>
+<p>
+If these conditions are met, you can claim HRA for the rent paid to your parents. This helps both you (by reducing your taxable income) and your parents (by providing them with a legitimate income stream). Ensure you have proper rent receipts and, if the annual rent exceeds ₹1 lakh, your parents&#x27; PAN details.
+</p>
+<h2>Can You Claim HRA for Your Parents&#x27; Separate Residence?</h2>
+<p>
+This is where the &quot;more than one property&quot; aspect often causes confusion, especially when it involves parents. Based on the &quot;actual occupation&quot; rule, <strong>you cannot claim HRA for a separate property that your parents occupy, even if you are paying the rent for it.</strong>
+</p>
+<p>
+Let&#x27;s break this down:
+</p>
+<ol>
+<li><strong>Your Primary Residence:</strong> If you live in a rented apartment and pay rent to an unrelated landlord, you can claim HRA for <em>that</em> apartment, assuming you meet all other conditions.</li>
+<li><strong>Parents&#x27; Residence (You Don&#x27;t Occupy):</strong> If your parents live in their own house (which they own) and you send them money, you <em>cannot</em> claim HRA for this, as you are not paying rent for a property <em>you occupy</em>. If your parents live in a <em>rented</em> house, and you pay rent directly to their landlord on their behalf, you <em>still cannot</em> claim HRA for this property because you do not occupy it. The HRA is a benefit for <em>your</em> housing expense, not for your dependents&#x27; housing expenses.</li>
+</ol>
+<p>
+While you might be financially supporting your parents by covering their rent or giving them money, this expenditure does not qualify for HRA exemption under Section 10(13A) unless you are the actual occupant of that specific property. Any financial support provided to parents might be eligible for other deductions (e.g., medical expenses under Section 80D for senior citizens, if applicable), but not HRA.
+</p>
+<h2>A real example</h2>
+<p>
+Rahul, 38, works in an IT firm in Bengaluru with a basic salary of ₹12 lakhs per annum and HRA of ₹3.6 lakhs per annum. He lives in a rented apartment in Indiranagar, Bengaluru, paying ₹30,000 per month (₹3.6 lakhs annually). His parents live in their own house in Chennai, and Rahul sends them ₹15,000 per month for their household expenses.
+</p>
+<p>
+Rahul wants to understand his HRA claim for the financial year.
+</p>
+<p>
+<strong>1. HRA for his own rented apartment in Bengaluru:</strong>
+</p>
+<ul>
+<li><strong>Actual HRA received:</strong> ₹3,60,000</li>
+<li><strong>50% of Basic Salary (Bengaluru is a metro city from FY 2026-27):</strong> 50% of ₹12,00,000 = ₹6,00,000</li>
+<li><strong>Actual rent paid minus 10% of Basic Salary:</strong> ₹3,60,000 (rent) - (10% of ₹12,00,000) = ₹3,60,000 - ₹1,20,000 = ₹2,40,000</li>
+</ul>
+<p>
+The least of these three amounts is ₹2,40,000.
+<strong>Rahul can claim an HRA exemption of ₹2,40,000 for his Bengaluru apartment.</strong>
+</p>
+<p>
+<strong>2. HRA for his parents&#x27; house in Chennai:</strong>
+Rahul sends ₹15,000 per month to his parents for their expenses. His parents own their house in Chennai, and Rahul does not live there.
+</p>
+<p>
+<strong>Can Rahul claim HRA for the ₹15,000 he sends to his parents?</strong>
+No. Rahul cannot claim HRA for the money he sends to his parents. The reasons are:
+</p>
+<ul>
+<li>He does not occupy the house in Chennai. The HRA exemption is strictly for the residential accommodation <em>occupied by the assessee</em>.</li>
+<li>Even if his parents were living in a rented house in Chennai and Rahul was paying their landlord directly, he still would not be able to claim HRA because he does not occupy that property.</li>
+</ul>
+<p>
+Therefore, Rahul&#x27;s total HRA exemption for the year would be ₹2,40,000, solely for his own rented residence in Bengaluru.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Check Your Tax Regime:</strong> Confirm whether you are opting for the old or new tax regime. HRA exemption is only available under the old regime.</li>
+<li><strong>Gather Rent Receipts:</strong> Ensure you have valid rent receipts for all months you are claiming HRA. If your annual rent exceeds ₹1 lakh, obtain your landlord&#x27;s PAN details.</li>
+<li><strong>Review Landlord-Tenant Relationship:</strong> If paying rent to parents, ensure they own the property and are prepared to declare the rent as income in their tax returns.</li>
+<li><strong>Confirm Actual Occupation:</strong> Verify that you are claiming HRA only for the property you physically reside in. Do not claim for properties occupied by others.</li>
+<li><strong>Consult Your Employer&#x27;s HR/Payroll:</strong> Discuss your HRA claim with your HR or payroll department to ensure you submit the correct documentation and understand their internal processes.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>1. Can I claim HRA if I live in my own house?</h3>
+<p>
+No, HRA is specifically for rent paid for accommodation you occupy. If you own the house you live in, you cannot claim HRA.
+</p>
+<h3>2. Is HRA exemption available under the new tax regime?</h3>
+<p>
+No, HRA exemption is one of the many deductions and exemptions that are not available if you opt for the new, simplified tax regime.
+</p>
+<h3>3. What documents do I need to claim HRA?</h3>
+<p>
+You typically need rent receipts. If the annual rent paid exceeds ₹1 lakh, you must also provide your landlord&#x27;s Permanent Account Number (PAN).
+</p>
+<h3>4. Can I claim HRA for rent paid to my spouse?</h3>
+<p>
+No, you cannot claim HRA for rent paid to your spouse. The Income Tax Department generally disallows such claims as they are not considered a genuine landlord-tenant relationship.
+</p>
+<h3>5. What if my landlord doesn&#x27;t have a PAN or refuses to provide it?</h3>
+<p>
+If the annual rent exceeds ₹1 lakh and your landlord does not have a PAN, you should obtain a declaration from them to that effect, along with their name and address. However, it&#x27;s generally advisable to deal with landlords who comply with tax regulations.
+</p>
+<h3>6. Can I claim HRA if I own a house but live in a rented apartment in the same city?</h3>
+<p>
+Yes, you can, provided you can justify why you are not living in your own house (e.g., your own house is rented out, or it&#x27;s far from your workplace). You must also be genuinely paying rent for the apartment you occupy.
+</p>
+<h3>7. Is a rent agreement mandatory for claiming HRA?</h3>
+<p>
+While not always legally mandatory under the IT Act, a valid rent agreement is strongly recommended for proof of genuine tenancy and for documentation purposes.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+<li>Livemint Money: https://www.livemint.com/money/personal-finance/paying-rent-for-yourself-and-parents-know-if-you-can-claim-hra-for-more-than-one-property-11791508264851.html</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
