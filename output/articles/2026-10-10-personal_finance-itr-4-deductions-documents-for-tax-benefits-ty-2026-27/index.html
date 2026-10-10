@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>ITR-4 Deductions: Documents for Tax Benefits (TY 2026-27)</title>
+<meta name="description" content="ITR-4 is for individuals, HUFs, and partnership firms opting for presumptive taxation under Sections 44AD, 44ADA, or 44AE. This form simplifies tax filing by .">
+<meta name="keywords" content="presumptive, deductions, receipts, regime, taxation, interest, filing, business">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-10-personal_finance-itr-4-deductions-documents-for-tax-benefits-ty-2026-27/">
+<meta property="og:title" content="ITR-4 Deductions: Documents for Tax Benefits (TY 2026-27)">
+<meta property="og:description" content="ITR-4 is for individuals, HUFs, and partnership firms opting for presumptive taxation under Sections 44AD, 44ADA, or 44AE. This form simplifies tax filing by .">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-10-personal_finance-itr-4-deductions-documents-for-tax-benefits-ty-2026-27/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ITR-4 Deductions: Documents for Tax Benefits (TY 2026-27)", "description": "ITR-4 is for individuals, HUFs, and partnership firms opting for presumptive taxation under Sections 44AD, 44ADA, or 44AE. This form simplifies tax filing by .", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-10", "dateModified": "2026-10-10", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-10-personal_finance-itr-4-deductions-documents-for-tax-benefits-ty-2026-27/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Personal Finance · 2026-10-10</div><h1>ITR-4 Deductions: Documents for Tax Benefits (TY 2026-27)</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>ITR-4 is for individuals, HUFs, and partnership firms opting for presumptive taxation under Sections 44AD, 44ADA, or 44AE.</li>
+<li>This form simplifies tax filing by allowing eligible taxpayers to declare income at a prescribed rate, avoiding detailed book-keeping.</li>
+<li>Even under presumptive taxation, you can claim various deductions under Chapter VI-A (like 80C, 80D) and certain exemptions.</li>
+<li>Key documents for ITR-4 filing include PAN, Aadhaar, bank statements, and proofs for all claimed investments and deductions.</li>
+<li>Understanding ITR-4 provisions and required documentation is crucial for seamless tax compliance for small businesses and professionals.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+For many small businesses and professionals in India, the thought of maintaining elaborate books of accounts and undergoing annual audits can be daunting. To simplify tax compliance for these taxpayers, the Income Tax Department introduced the presumptive taxation scheme. If you opt for this scheme, you can file your income tax return using Form ITR-4.
+</p>
+<p>
+In essence, presumptive taxation allows you to declare a certain percentage of your gross receipts or turnover as your taxable income, rather than calculating your actual profit and loss. This eliminates the need to maintain detailed financial records. For example, a professional might declare 50% of their gross receipts as income, or a business might declare 6% or 8% of their turnover, depending on whether the receipts are digital or cash-based. This simplified approach is a boon for those who prefer to focus on their core business or profession rather than extensive accounting. However, even with this simplified method, you can still claim various tax benefits and deductions available under the Income Tax Act, provided you have the necessary documentation.
+</p>
+<h2>Understanding ITR-4 Eligibility and Presumptive Taxation</h2>
+<p>
+ITR-4, also known as Sugam, is specifically designed for certain categories of taxpayers who opt for the presumptive taxation scheme. This scheme is a simplified way for small taxpayers to compute their income without maintaining detailed books of accounts.
+</p>
+<h3>Who can file ITR-4?</h3>
+<p>
+ITR-4 can be filed by:
+</p>
+<ul>
+<li>An Individual</li>
+<li>A Hindu Undivided Family (HUF)</li>
+<li>A Partnership Firm (excluding Limited Liability Partnership Firms or LLPs)</li>
+</ul>
+<p>
+These entities must be residents of India and have a total income up to ₹50 lakhs. Additionally, they must have income from:
+</p>
+<ul>
+<li>Business income computed under Section 44AD (for eligible businesses).</li>
+<li>Professional income computed under Section 44ADA (for eligible professionals).</li>
+<li>Income from plying, hiring, or leasing goods carriages computed under Section 44AE.</li>
+<li>Salary/Pension.</li>
+<li>Income from One House Property (excluding cases where loss is brought forward or carried forward).</li>
+<li>Income from Other Sources (excluding winnings from lottery and race horses, income taxable at special rates, etc.).</li>
+</ul>
+<p>
+It&#x27;s important to note that if your total income exceeds ₹50 lakhs, or if you have income from capital gains, multiple house properties, or foreign assets, you cannot use ITR-4 and must opt for other applicable ITR forms.
+</p>
+<h3>How Presumptive Income is Calculated</h3>
+<p>
+The Income Tax Act specifies different rates for calculating presumptive income based on the nature of the business or profession:
+</p>
+<ul>
+<li><strong>Section 44AD (Businesses):</strong> If your gross turnover does not exceed ₹3 crores (for TY 2026-27, assuming no change from current limits), you can opt for this scheme. Your presumptive income is calculated as:</li>
+<p>
+    *   6% of gross receipts received through digital modes (bank transfer, UPI, etc.).
+    *   8% of gross receipts received through cash.
+    This encourages digital transactions by offering a lower presumptive rate.
+</p>
+<li><strong>Section 44ADA (Professionals):</strong> For specified professionals (e.g., legal, medical, engineering, architectural, accountancy, technical consultancy, interior decoration, film artists) with gross receipts not exceeding ₹75 lakhs (for TY 2026-27, assuming no change from current limits), you can declare 50% of your gross receipts as presumptive income.</li>
+<li><strong>Section 44AE (Goods Carriages):</strong> This section applies to taxpayers engaged in the business of plying, hiring, or leasing goods carriages, who own not more than 10 goods vehicles at any time during the previous year. The presumptive income is calculated as ₹1,000 per ton of gross vehicle weight (or unladen weight for heavy goods vehicles) for each month or part of a month for which the vehicle is owned. For light goods vehicles, it&#x27;s ₹7,500 per vehicle per month or part of a month.</li>
+</ul>
+<p>
+Opting for presumptive taxation means you are not required to maintain detailed books of accounts or get them audited, as long as you declare income at or above the prescribed rates. This significantly reduces the compliance burden.
+</p>
+<h2>Claiming Deductions and Exemptions with ITR-4</h2>
+<p>
+A common misconception is that opting for presumptive taxation means you cannot claim any deductions. This is not entirely true. While business expenses are deemed to be covered by the presumptive income rate, you can still claim various personal deductions and exemptions.
+</p>
+<h3>Chapter VI-A Deductions</h3>
+<p>
+These are the most common deductions available to taxpayers, irrespective of whether they opt for presumptive taxation or not (unless they choose the new tax regime). These include:
+</p>
+<ul>
+<li><strong>Section 80C:</strong> Investments in PPF, ELSS, life insurance premiums, home loan principal repayment, children&#x27;s tuition fees, etc., up to ₹1.5 lakhs.</li>
+<li><strong>Section 80CCD:</strong> Contributions to NPS (National Pension System).</li>
+<li><strong>Section 80D:</strong> Premiums paid for health insurance for self, family, and parents.</li>
+<li><strong>Section 80G:</strong> Donations to specified charitable institutions.</li>
+<li><strong>Section 80TTA/80TTB:</strong> Interest income from savings bank accounts (₹10,000 for individuals/HUFs under 60) or interest from deposits for senior citizens (₹50,000).</li>
+<li><strong>Section 80E:</strong> Interest paid on education loans.</li>
+<li><strong>Section 80DD/80DDB:</strong> Expenses for medical treatment of disabled dependents or specified diseases.</li>
+</ul>
+<p>
+It&#x27;s crucial to gather all relevant proofs for these deductions to claim them accurately.
+</p>
+<h3>Exemptions</h3>
+<p>
+Certain exemptions can also be claimed, provided you are not opting for the new tax regime. These include:
+</p>
+<ul>
+<li><strong>House Rent Allowance (HRA):</strong> If you receive HRA as part of your salary and pay rent, you can claim an exemption.</li>
+<li><strong>Leave Travel Allowance (LTA):</strong> Exemption for travel expenses during leave.</li>
+<li><strong>Standard Deduction:</strong> A standard deduction of ₹50,000 is available against salary income.</li>
+</ul>
+<h3>New Tax Regime vs. Old Tax Regime</h3>
+<p>
+From Assessment Year 2024-25 (which covers Tax Year 2023-24 onwards), the new tax regime has become the default. However, taxpayers still have the option to choose the old tax regime. For ITR-4 filers, this choice is particularly significant:
+</p>
+<ul>
+<li><strong>Old Tax Regime:</strong> Allows you to claim most Chapter VI-A deductions, HRA, LTA, and other exemptions. This might be beneficial if you have substantial investments and expenses that qualify for deductions.</li>
+<li><strong>New Tax Regime:</strong> Offers lower tax rates but requires you to forgo most of the common deductions and exemptions, including those under Chapter VI-A (except for Section 80CCD(2) for employer&#x27;s contribution to NPS).</li>
+</ul>
+<p>
+You must carefully evaluate your income and potential deductions to decide which regime is more beneficial for you before filing your ITR-4.
+</p>
+<h2>Essential Documents for ITR-4 Filing (TY 2026-27)</h2>
+<p>
+Even though ITR-4 simplifies the income calculation process, you still need to keep certain documents handy to ensure accurate filing and to substantiate any claims made. These documents are crucial for reconciliation and potential scrutiny by the Income Tax Department.
+</p>
+<h3>Personal Identification and Income Details</h3>
+<ul>
+<li><strong>Permanent Account Number (PAN):</strong> Your unique 10-digit alphanumeric identifier.</li>
+<li><strong>Aadhaar Card:</strong> Mandatory for linking with PAN and e-filing.</li>
+<li><strong>Bank Statements/Passbook:</strong> For all your bank accounts for the financial year (April 1, 2026, to March 31, 2027). These are essential to verify your gross receipts, especially to distinguish between cash and digital receipts for claiming the 6% presumptive rate under Section 44AD.</li>
+<li><strong>Form 26AS:</strong> This annual statement provides details of tax deducted at source (TDS) and tax collected at source (TCS) against your PAN. It also shows details of certain high-value transactions. You can download this from the Income Tax e-filing portal.</li>
+<li><strong>Annual Information Statement (AIS) and Taxpayer Information Summary (TIS):</strong> These provide a comprehensive view of all financial transactions reported to the Income Tax Department under your PAN, including interest income, dividends, mutual fund transactions, and more. Reconciling these with your records is vital.</li>
+<li><strong>Salary Slips/Form 16:</strong> If you have any income from salary in addition to your business/professional income, you&#x27;ll need these documents.</li>
+<li><strong>Interest Certificates/Bank Statements:</strong> For interest earned from savings accounts, fixed deposits, recurring deposits, etc.</li>
+</ul>
+<h3>Proofs for Deductions and Exemptions (if opting for Old Tax Regime)</h3>
+<ul>
+<li><strong>Section 80C Investment Proofs:</strong></li>
+<p>
+    *   Life insurance premium receipts.
+    *   PPF passbook/statements.
+    *   ELSS (Equity Linked Savings Scheme) statements.
+    *   Home loan principal repayment certificate.
+    *   Children&#x27;s school tuition fee receipts.
+    *   Sukanya Samriddhi Yojana statements.
+    *   Fixed Deposit receipts (tax-saving FDs).
+</p>
+<li><strong>Section 80D Health Insurance Premiums:</strong> Receipts or statements from your health insurance provider.</li>
+<li><strong>Section 80G Donation Receipts:</strong> Receipts from charitable organisations with their PAN and 80G registration number.</li>
+<li><strong>Section 80E Education Loan Interest Certificate:</strong> From the bank or financial institution.</li>
+<li><strong>Home Loan Interest Certificate:</strong> From the bank or housing finance company for interest paid on a home loan.</li>
+<li><strong>Rent Receipts/Rent Agreement:</strong> If claiming HRA exemption.</li>
+</ul>
+<h3>Business/Professional Records (for reconciliation)</h3>
+<p>
+While detailed books of accounts are not mandatory, it&#x27;s prudent to maintain a summary of:
+</p>
+<ul>
+<li><strong>Gross Receipts/Turnover Register:</strong> A simple record of all income received, categorised by cash and digital modes.</li>
+<li><strong>Cash Book/Bank Book Summary:</strong> To track cash flows and bank transactions related to your business/profession.</li>
+<li><strong>Invoices/Bills:</strong> Copies of invoices issued for services rendered or goods sold, especially for verifying gross receipts.</li>
+</ul>
+<p>
+Having these documents organised will not only simplify your ITR-4 filing but also provide a robust defence in case of any tax scrutiny.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rohan, 42, a freelance architect in Mumbai, with gross receipts of ₹60 lakhs</strong> for the Financial Year 2026-27. He has opted for presumptive taxation under Section 44ADA.
+</p>
+<p>
+<strong>Scenario 1: Rohan opts for the Old Tax Regime</strong>
+</p>
+<ol>
+<li><strong>Gross Receipts:</strong> ₹60,00,000</li>
+<li><strong>Presumptive Income (50% under Section 44ADA):</strong> ₹30,00,000 (50% of ₹60,00,000)</li>
+</ol>
+<p>
+Now, let&#x27;s look at his other income and potential deductions:
+</p>
+<ul>
+<li><strong>Interest from Savings Bank:</strong> ₹12,000</li>
+<li><strong>Investments &amp; Expenses for Deductions:</strong></li>
+<p>
+    *   PPF Contribution (80C): ₹1,50,000
+    *   ELSS Investment (80C): ₹50,000
+    *   Health Insurance Premium for family (80D): ₹30,000
+    *   Health Insurance Premium for parents (80D, parents are senior citizens): ₹40,000
+</p>
+</ul>
+<p>
+<strong>Calculation of Taxable Income (Old Regime):</strong>
+</p>
+<ul>
+<li><strong>Business Income:</strong> ₹30,00,000</li>
+<li><strong>Income from Other Sources (Savings Bank Interest):</strong> ₹12,000</li>
+<li><strong>Gross Total Income:</strong> ₹30,12,000</li>
+</ul>
+<ul>
+<li><strong>Less: Chapter VI-A Deductions:</strong></li>
+<p>
+    *   <strong>Section 80C:</strong> Rohan&#x27;s total 80C investments are ₹1,50,000 (PPF) + ₹50,000 (ELSS) = ₹2,00,000. However, the maximum deduction under 80C is ₹1,50,000. So, deduction = ₹1,50,000.
+    *   <strong>Section 80D:</strong>
+        *   For family (under 60): ₹30,000 (max ₹25,000). So, deduction = ₹25,000.
+        *   For senior citizen parents: ₹40,000 (max ₹50,000). So, deduction = ₹40,000.
+        *   Total 80D deduction = ₹25,000 + ₹40,000 = ₹65,000.
+    *   <strong>Section 80TTA:</strong> Interest from savings bank is ₹12,000. Maximum deduction is ₹10,000. So, deduction = ₹10,000.
+</p>
+</ul>
+<ul>
+<li><strong>Total Deductions:</strong> ₹1,50,000 (80C) + ₹65,000 (80D) + ₹10,000 (80TTA) = ₹2,25,000</li>
+</ul>
+<ul>
+<li><strong>Net Taxable Income:</strong> ₹30,12,000 - ₹2,25,000 = ₹27,87,000</li>
+</ul>
+<ul>
+<li><strong>Tax Calculation (Old Regime Rates for TY 2026-27, assuming current rates):</strong></li>
+<p>
+    *   Up to ₹2,50,000: Nil
+    *   ₹2,50,001 to ₹5,00,000 (₹2,50,000 @ 5%): ₹12,500
+    *   ₹5,00,001 to ₹10,00,000 (₹5,00,000 @ 20%): ₹1,00,000
+    *   Above ₹10,00,000 (₹17,87,000 @ 30%): ₹5,36,100
+    *   <strong>Total Income Tax:</strong> ₹12,500 + ₹1,00,000 + ₹5,36,100 = ₹6,48,600
+    *   Add 4% Health and Education Cess: ₹25,944
+    *   <strong>Total Tax Liability:</strong> ₹6,48,600 + ₹25,944 = ₹6,74,544
+</p>
+</ul>
+<p>
+<strong>Scenario 2: Rohan opts for the New Tax Regime</strong>
+</p>
+<ul>
+<li><strong>Gross Total Income:</strong> ₹30,12,000</li>
+<li><strong>Deductions:</strong> In the new regime, Rohan would generally forgo all Chapter VI-A deductions (80C, 80D, 80TTA).</li>
+<li><strong>Net Taxable Income:</strong> ₹30,12,000</li>
+</ul>
+<ul>
+<li><strong>Tax Calculation (New Regime Rates for TY 2026-27, assuming current rates):</strong></li>
+<p>
+    *   Up to ₹3,00,000: Nil
+    *   ₹3,00,001 to ₹6,00,000 (₹3,00,000 @ 5%): ₹15,000
+    *   ₹6,00,001 to ₹9,00,000 (₹3,00,000 @ 10%): ₹30,000
+    *   ₹9,00,001 to ₹12,00,000 (₹3,00,000 @ 15%): ₹45,000
+    *   ₹12,00,001 to ₹15,00,000 (₹3,00,000 @ 20%): ₹60,000
+    *   Above ₹15,00,000 (₹15,12,000 @ 30%): ₹4,53,600
+    *   <strong>Total Income Tax:</strong> ₹15,000 + ₹30,000 + ₹45,000 + ₹60,000 + ₹4,53,600 = ₹6,03,600
+    *   Add 4% Health and Education Cess: ₹24,144
+    *   <strong>Total Tax Liability:</strong> ₹6,03,600 + ₹24,144 = ₹6,27,744
+</p>
+</ul>
+<p>
+In Rohan&#x27;s case, the <strong>New Tax Regime</strong> results in a lower tax liability of ₹6,27,744 compared to ₹6,74,544 under the Old Tax Regime, even with significant deductions. This illustrates why it&#x27;s crucial to compare both regimes based on your specific financial situation.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Verify ITR-4 Eligibility:</strong> Confirm if your business or professional income, along with your total income, falls within the limits for filing ITR-4 for Tax Year 2026-27. Ensure you meet the conditions for presumptive taxation under Section 44AD, 44ADA, or 44AE.</li>
+<li><strong>Gather Bank Statements:</strong> Collect all bank statements for the financial year 2026-27 (April 2026 - March 2027). Segregate your gross receipts into cash and digital modes, as this impacts the presumptive income calculation.</li>
+<li><strong>Consolidate Investment Proofs:</strong> If you plan to opt for the Old Tax Regime, compile all investment proofs for Chapter VI-A deductions (e.g., PPF, ELSS, life insurance, health insurance premiums, education loan interest receipts).</li>
+<li><strong>Review Form 26AS, AIS, and TIS:</strong> Download these statements from the Income Tax e-filing portal. Reconcile the income and TDS/TCS details reported there with your own records to ensure accuracy and identify any discrepancies.</li>
+<li><strong>Evaluate Tax Regimes:</strong> Based on your compiled income and potential deductions, perform a quick comparison of your tax liability under both the old and new tax regimes. This will help you decide which option is more beneficial for you for TY 2026-27.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Who is eligible to file ITR-4?</h3>
+<p>
+ITR-4 can be filed by resident individuals, Hindu Undivided Families (HUFs), and partnership firms (excluding LLPs) with a total income up to ₹50 lakhs, who have opted for presumptive taxation under Sections 44AD, 44ADA, or 44AE.
+</p>
+<h3>Can I claim HRA with ITR-4?</h3>
+<p>
+Yes, if you have salary income and are opting for the Old Tax Regime, you can claim HRA exemption. However, if you choose the new tax regime, HRA exemption is generally not available.
+</p>
+<h3>Do I need to maintain books of accounts if I file ITR-4?</h3>
+<p>
+No, if you declare your income at or above the prescribed presumptive rates under Sections 44AD, 44ADA, or 44AE, you are not required to maintain detailed books of accounts.
+</p>
+<h3>What happens if my actual profit is lower than the presumptive income?</h3>
+<p>
+If your actual profit is lower than the presumptive income, and you wish to declare this lower profit, you cannot opt for the presumptive taxation scheme. In such a case, you would need to maintain proper books of accounts and get them audited, then file ITR-3.
+</p>
+<h3>Can I switch between presumptive taxation and regular taxation?</h3>
+<p>
+Yes, you can opt in or out of the presumptive taxation scheme. However, if you opt out of Section 44AD in any year, you are barred from opting into it for the next five assessment years.
+</p>
+<h3>Are capital gains reported in ITR-4?</h3>
+<p>
+No, if you have any income from capital gains (e.g., from selling shares, mutual funds, or property), you are not eligible to file ITR-4 and must choose another applicable ITR form, usually ITR-2 or ITR-3.
+</p>
+<h3>What is the deadline for filing ITR-4 for TY 2026-27?</h3>
+<p>
+For individuals, HUFs, and firms not requiring an audit, the general deadline for filing ITR-4 for Tax Year 2026-27 (Financial Year 2026-27) is typically 31st July 2027.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>Income Tax India: https://incometax.gov.in/</li>
+<li>Income Tax India: https://incometax.gov.in/</li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
