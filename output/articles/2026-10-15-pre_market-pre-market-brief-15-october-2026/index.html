@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Pre-Market Brief — 15 October 2026</title>
+<meta name="description" content="Global markets presented a mixed picture, with US indices closing lower and Asian markets mostly in the red, while European markets were flat. GIFT Nifty is s.">
+<meta name="keywords" content="markets, stocks, global, shares, indian, support, resistance, strong">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-15-pre_market-pre-market-brief-15-october-2026/">
+<meta property="og:title" content="Pre-Market Brief — 15 October 2026">
+<meta property="og:description" content="Global markets presented a mixed picture, with US indices closing lower and Asian markets mostly in the red, while European markets were flat. GIFT Nifty is s.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-15-pre_market-pre-market-brief-15-october-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Pre-Market Brief \u2014 15 October 2026", "description": "Global markets presented a mixed picture, with US indices closing lower and Asian markets mostly in the red, while European markets were flat. GIFT Nifty is s.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-15", "dateModified": "2026-10-15", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-15-pre_market-pre-market-brief-15-october-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/" class="active">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Pre-Market · 2026-10-15</div><h1>Pre-Market Brief — 15 October 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Global markets presented a mixed picture, with US indices closing lower and Asian markets mostly in the red, while European markets were flat.</li>
+<li>GIFT Nifty is signalling a significant gap-up open for the Indian benchmark Nifty 50, diverging from global cues.</li>
+<li>Foreign Institutional Investors (FIIs) continued their selling streak, while Domestic Institutional Investors (DIIs) provided strong buying support.</li>
+<li>Nestle India reported robust Q2 results, and the IT sector saw a notable rebound over the past few days.</li>
+<li>Nifty 50&#x27;s key resistance sits around 23000-23150, with strong support at 22700-22760.</li>
+<li>The expectation of a potential US Fed rate hike in December, following hotter-than-expected inflation, remains a key global risk factor.</li>
+</ul>
+</div>
+<h2>How global markets traded — and what it means for India</h2>
+<p>
+Overnight, US markets closed lower, with the Nasdaq seeing a significant decline of 1.88% and the S&amp;P 500 down by 1.11%. The Dow Jones also registered a marginal dip. In Asia this morning, markets are largely trading in the red, with Japan&#x27;s Nikkei 225 down nearly 5% and Hong Kong&#x27;s Hang Seng and China&#x27;s Shanghai Composite also showing losses. The UK&#x27;s FTSE 100, however, managed a slight gain.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>% Change</th></tr></thead><tbody>
+<tr><td>Dow Jones</td><td>51621.48</td><td>-0.09%</td></tr>
+<tr><td>Nasdaq</td><td>26692.87</td><td>-1.88%</td></tr>
+<tr><td>S&amp;P 500</td><td>7718.94</td><td>-1.11%</td></tr>
+<tr><td>FTSE 100</td><td>10730.70</td><td>+0.05%</td></tr>
+<tr><td>Nikkei 225</td><td>64425.95</td><td>-4.90%</td></tr>
+<tr><td>Hang Seng</td><td>24003.79</td><td>-1.28%</td></tr>
+<tr><td>Shanghai</td><td>3707.48</td><td>-1.59%</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The broad negative sentiment from US and Asian markets suggests a cautious start for Indian equities. However, the strong positive signal from GIFT Nifty indicates that domestic factors or specific news might lead to a divergent, possibly positive, opening for the Indian market.
+</p>
+<h2>Currency, commodities and yields</h2>
+<p>
+The Indian Rupee strengthened against the US Dollar, with USD/INR closing at 94.96, down 0.34%. The Dollar Index also saw a decline of 0.46% to 102.08. Crude oil prices softened, with Brent Crude down 2.20% to $103.73 and WTI Crude falling 1.41% to $93.75. Gold and Silver both saw gains, rising 1.38% and 1.87% respectively. The US 10-Year Treasury Yield decreased by 0.52% to 5.19%.
+</p>
+<p>
+<strong>Interpretation:</strong> A stronger Rupee (lower USD/INR) is generally positive for importers and helps to curb imported inflation, while potentially reducing tailwinds for IT and pharma exporters. Falling crude oil prices are a significant positive for India, easing pressure on oil marketing companies (OMCs), paint, and aviation sectors. The decline in US 10-Year yields is a relief for global bond markets and could potentially reduce the risk of FII outflows from emerging markets like India. Rising gold and silver prices often indicate a flight to safety amidst global uncertainties.
+</p>
+<h2>GIFT Nifty — what it&#x27;s signalling</h2>
+<p>
+The GIFT Nifty is currently trading at 23043.00, showing a significant gain of +1.86%.
+</p>
+<p>
+<strong>Interpretation:</strong> This strong positive movement in GIFT Nifty suggests that the Indian Nifty 50 index is likely to open with a substantial gap-up today, potentially defying the negative cues from broader Asian markets.
+</p>
+<h2>FII/DII flows — who&#x27;s driving the tape</h2>
+<p>
+Yesterday, Foreign Institutional Investors (FIIs) remained net sellers in the Indian cash equity market, offloading shares worth ₹-1,857 crore. Domestic Institutional Investors (DIIs), however, continued to provide strong support, buying equities worth ₹2,670 crore. This trend of FII selling being absorbed by DII buying has been consistent over the last five sessions.
+</p>
+<table><thead><tr><th>Date</th><th>FII Net (₹ crore)</th><th>DII Net (₹ crore)</th></tr></thead><tbody>
+<tr><td>2026-10-14</td><td>-1,857</td><td>+2,670</td></tr>
+<tr><td>2026-10-13</td><td>-1,305</td><td>+2,439</td></tr>
+<tr><td>2026-10-12</td><td>-1,708</td><td>+3,045</td></tr>
+<tr><td>2026-10-08</td><td>-12,944</td><td>+10,703</td></tr>
+<tr><td>2026-10-07</td><td>-6,121</td><td>+4,597</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The persistent selling by FIIs indicates a cautious stance from foreign investors, possibly due to global factors like rising US interest rate expectations. However, robust buying by DIIs has been instrumental in cushioning the market and preventing sharper declines, suggesting strong domestic conviction and liquidity.
+</p>
+<h2>Key levels to watch — Nifty, Bank Nifty &amp; Sensex (technical)</h2>
+<h3>NIFTY 50 (prev close 23020.8)</h3>
+<table><thead><tr><th>Level Type</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>22893.82</td></tr>
+<tr><td>CPR Top</td><td>22957.31</td></tr>
+<tr><td>CPR Bottom</td><td>22830.33</td></tr>
+<tr><td>CPR Width</td><td>0.55%</td></tr>
+<tr><td>R1</td><td>23150.23</td></tr>
+<tr><td>R2</td><td>23279.67</td></tr>
+<tr><td>S1</td><td>22764.38</td></tr>
+<tr><td>S2</td><td>22507.97</td></tr>
+<tr><td>Swing High</td><td>23281.95</td></tr>
+<tr><td>Swing Low</td><td>22179.9</td></tr>
+<tr><td>20-DMA</td><td>22848.28</td></tr>
+<tr><td>50-DMA</td><td>23579.25</td></tr>
+</tbody></table>
+<h3>BANK NIFTY (prev close 55994.0)</h3>
+<table><thead><tr><th>Level Type</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>55759.83</td></tr>
+<tr><td>CPR Top</td><td>55876.92</td></tr>
+<tr><td>CPR Bottom</td><td>55642.75</td></tr>
+<tr><td>CPR Width</td><td>0.42%</td></tr>
+<tr><td>R1</td><td>56240.67</td></tr>
+<tr><td>R2</td><td>56487.33</td></tr>
+<tr><td>S1</td><td>55513.17</td></tr>
+<tr><td>S2</td><td>55032.33</td></tr>
+<tr><td>Swing High</td><td>56006.5</td></tr>
+<tr><td>Swing Low</td><td>53785.7</td></tr>
+<tr><td>20-DMA</td><td>55343.13</td></tr>
+<tr><td>50-DMA</td><td>56526.6</td></tr>
+</tbody></table>
+<h3>SENSEX (prev close 74207.78)</h3>
+<table><thead><tr><th>Level Type</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>73773.96</td></tr>
+<tr><td>CPR Top</td><td>73990.87</td></tr>
+<tr><td>CPR Bottom</td><td>73557.05</td></tr>
+<tr><td>CPR Width</td><td>0.59%</td></tr>
+<tr><td>R1</td><td>74651.55</td></tr>
+<tr><td>R2</td><td>75095.31</td></tr>
+<tr><td>S1</td><td>73330.2</td></tr>
+<tr><td>S2</td><td>72452.61</td></tr>
+<tr><td>Swing High</td><td>74362.29</td></tr>
+<tr><td>Swing Low</td><td>71292.88</td></tr>
+<tr><td>20-DMA</td><td>73204.78</td></tr>
+<tr><td>50-DMA</td><td>75443.41</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The narrow CPR width for Nifty (0.55%) and Bank Nifty (0.42%) suggests that a trending day could be more likely than a range-bound one. For Nifty, a break above R1 (23150) could signal further upside towards R2 (23279), while a slip below S1 (22764) might indicate weakness. Bank Nifty&#x27;s narrow CPR also points to potential directional movement; a move past R1 (56240) could see it target R2 (56487), whereas a fall below S1 (55513) would be a concern. The 20-DMA for Nifty and Bank Nifty are below their previous closes, indicating that the recent momentum has been strong.
+</p>
+<h2>Option-chain signals (OI) — where support &amp; resistance sit</h2>
+<h3>NIFTY</h3>
+<ul>
+<li><strong>Highest CALL OI (resistance):</strong> 23000 (OI 9,351,030), 23500 (OI 8,108,750), 23200 (OI 6,994,455)</li>
+<li><strong>Highest PUT OI (support):</strong> 22700 (OI 13,378,105), 22500 (OI 11,985,935), 22800 (OI 11,124,685)</li>
+<li><strong>PCR:</strong> 1.26</li>
+</ul>
+<h3>BANK NIFTY</h3>
+<ul>
+<li><strong>Highest CALL OI (resistance):</strong> 56000 (OI 1,165,530), 57000 (OI 945,240), 55000 (OI 884,640)</li>
+<li><strong>Highest PUT OI (support):</strong> 55000 (OI 1,523,400), 55500 (OI 969,450), 56000 (OI 832,350)</li>
+<li><strong>PCR:</strong> 0.89</li>
+</ul>
+<h3>SENSEX</h3>
+<ul>
+<li><strong>Highest CALL OI (resistance):</strong> 74500 (OI 7,089,220), 75000 (OI 4,296,660), 74200 (OI 4,039,800)</li>
+<li><strong>Highest PUT OI (support):</strong> 74000 (OI 7,610,040), 73000 (OI 5,680,340), 73500 (OI 5,504,780)</li>
+<li><strong>PCR:</strong> 1.2</li>
+</ul>
+<p>
+<strong>Interpretation:</strong> For Nifty, the highest Call OI at 23000 and 23200 suggests that option sellers expect these levels to act as a ceiling, while the strong Put OI at 22700 and 22800 indicates significant buying interest and a potential floor. A PCR of 1.26 for Nifty leans towards a supportive or bullish-to-neutral sentiment. For Bank Nifty, the highest Call OI at 56000 and 57000 points to resistance, while Put OI at 55000 and 55500 suggests support. A PCR of 0.89 for Bank Nifty indicates a slightly cautious to neutral sentiment. Combining with technicals, Nifty&#x27;s 23000-23200 zone will be a crucial resistance, while 22700-22800 should act as immediate support. Bank Nifty will need to respect 56000 as a resistance and find support around 55000-55500.
+</p>
+<h2>Corporate actions today</h2>
+<ul>
+<li><strong>SHIVAMAUTO:</strong> Trades ex-rights today for its Rights Issue in the ratio of 19:25 at a premium of ₹10 per share. This means shareholders on record date will be eligible to apply for new shares at the specified price.</li>
+<li><strong>SHRADDHA:</strong> Trades ex-rights today for its Rights Issue in the ratio of 3:20 at a premium of ₹150 per share. Similar to SHIVAMAUTO, the share price will adjust to reflect the rights entitlement.</li>
+<li><strong>ANANDRATHI:</strong> Trades ex-dividend today for an Interim Dividend of ₹4 per share. On the ex-date, the stock price typically adjusts downwards by the dividend amount, and shareholders buying today will not be eligible for this dividend.</li>
+</ul>
+<h2>Stock &amp; sector news that matters</h2>
+<ul>
+<li><strong>Nestle India Q2 Results: Standalone profit jumps 36% YoY to Rs 1,027 crore, revenue rises 20%</strong></li>
+<p>
+    Nestle India reported a strong Q2 FY27 with a 36% year-on-year increase in standalone net profit to ₹1,027 crore and a 20% rise in revenue.
+    <strong>Why it matters:</strong> This robust performance could lead to positive sentiment and trading activity in Nestle India shares today, and potentially uplift other FMCG sector stocks.
+</p>
+</ul>
+<ul>
+<li><strong>Rs 82,500 crore rally in 3 days: Why TCS, HCL Tech, other IT stocks jumped up to 12% in 3 days and will the boom last?</strong></li>
+<p>
+    The Nifty IT index has seen an 8% surge in the last three days, adding ₹82,500 crore to its market capitalisation, following a global selloff in AI-linked stocks.
+    <strong>Why it matters:</strong> This rebound indicates renewed interest in the IT sector. While the article questions the sustainability, individual IT stocks like TCS and HCL Tech could see continued momentum, influencing the broader market.
+</p>
+</ul>
+<ul>
+<li><strong>IDBI Bank shares fall 7% as investors book profit after Fairfax deal gets cabinet nod</strong></li>
+<p>
+    IDBI Bank shares declined by 7% as investors booked profits after a nearly 13% rally in the previous session, which followed the Cabinet&#x27;s approval of Fairfax&#x27;s acquisition of a 60.72% stake in the lender.
+    <strong>Why it matters:</strong> This could lead to continued volatility in IDBI Bank shares as profit booking continues or new positions are taken. The news of the deal itself is a long-term positive, but short-term price action can be driven by profit-taking.
+</p>
+</ul>
+<ul>
+<li><strong>Indian bonds breathe easy as Treasury yields decline</strong></li>
+<p>
+    Indian government bonds saw slight gains early Thursday, influenced by a rally in US Treasuries, despite ongoing concerns about liquidity and rising interest rates domestically.
+    <strong>Why it matters:</strong> A decline in bond yields is generally positive for interest-rate sensitive sectors like banking and finance, as it can reduce borrowing costs and improve valuations. It also signals a potential easing of liquidity concerns.
+</p>
+</ul>
+<ul>
+<li><strong>Redington could gain as memory shortage reshapes ICT distribution; brokerage sees 20% upside</strong></li>
+<p>
+    DAM Capital has re-initiated coverage on Redington with a &#x27;Buy&#x27; rating and a target price of ₹470, citing potential gains from memory shortages, distributor consolidation, and software growth.
+    <strong>Why it matters:</strong> This positive brokerage report could drive buying interest in Redington shares today, potentially leading to an upward movement.
+</p>
+</ul>
+<ul>
+<li><strong>Ready for take-off? Analysts map the flight path for India&#x27;s aerospace stocks</strong></li>
+<p>
+    India&#x27;s aerospace sector is projected for multi-year growth, fueled by increased aircraft production, defence spending, exports, and global supply-chain diversification, with companies like HAL and Data Patterns highlighted.
+    <strong>Why it matters:</strong> This thematic positive outlook could bring focus and buying interest to aerospace and defence-related stocks, including HAL and Data Patterns, over the medium to long term.
+</p>
+</ul>
+<h2>Events &amp; data to watch — and how markets usually react</h2>
+<ul>
+<li><strong>US Federal Reserve Rate Hike Expectations:</strong> Citigroup now expects the US Federal Reserve to raise interest rates by 25 basis points in December, following hotter-than-expected September inflation data. Markets typically react with caution and increased volatility around expectations and actual announcements of interest rate hikes from major central banks like the Fed, as it impacts global liquidity and capital flows.</li>
+<li><strong>Indian Bond Market Movement:</strong> The easing of US Treasury yields is providing some relief to Indian government bonds. Bond markets are sensitive to global yield movements and domestic liquidity conditions, with declining yields generally seen as positive for equity markets, especially rate-sensitive sectors.</li>
+<li><strong>FII Flow Trends:</strong> The continued FII selling trend, despite DII buying, will be closely watched. Sustained FII outflows can put pressure on the market, while a reversal could provide a significant boost.</li>
+</ul>
+<h2>What to watch in today&#x27;s session</h2>
+<ol>
+<li><strong>GIFT Nifty&#x27;s lead:</strong> Monitor if the Indian market open truly reflects the strong gap-up indicated by GIFT Nifty, or if global negative cues temper the initial enthusiasm.</li>
+<li><strong>Nifty 50&#x27;s 23000-23200 resistance:</strong> Watch how Nifty reacts to the crucial 23000-23200 zone, which has high Call OI and technical resistance. A sustained move above this could signal further strength.</li>
+<li><strong>FII vs. DII dynamics:</strong> Observe the FII and DII cash market activity. Continued DII support will be crucial to absorb any further FII selling pressure.</li>
+<li><strong>IT Sector Momentum:</strong> After the recent rally, watch if IT stocks can sustain their upward trajectory, especially given the mixed global tech sentiment.</li>
+<li><strong>Nestle India and FMCG:</strong> Keep an eye on Nestle India&#x27;s stock performance following its strong Q2 results, and its potential impact on the broader FMCG sector.</li>
+<li><strong>Crude Oil Prices:</strong> Any further decline in crude oil prices would be a positive for India and could provide sector-specific tailwinds.</li>
+</ol>
+<h2>Bottom line</h2>
+<p>
+The Indian market is poised for a potentially gap-up open, as indicated by GIFT Nifty, despite a largely negative global backdrop. While strong domestic institutional buying has been a consistent support, the persistent FII selling and global concerns around a potential US Fed rate hike remain key factors to monitor. The Nifty&#x27;s ability to sustain above the 23000-23200 resistance zone will be critical in determining the day&#x27;s direction.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>[ET Markets] Nestle India Q2 Results: Standalone profit jumps 36% YoY to Rs 1,027 crore, revenue rises 20% https://economictimes.indiatimes.com/markets/stocks/earnings/nestle-india-q2-results-standalone-profit-jumps-36-yoy-to-rs-1027-crore-revenue-rises-20/articleshow/134960308.cms</li>
+<li>[ET Markets] Indian bonds breathe easy as Treasury yields decline https://economictimes.indiatimes.com/markets/bonds/indian-bonds-breathe-easy-as-treasury-yields-decline/articleshow/134960547.cms</li>
+<li>[ET Markets] Redington could gain as memory shortage reshapes ICT distribution; brokerage sees 20% upside https://economictimes.indiatimes.com/markets/stocks/news/redington-could-gain-as-memory-shortage-reshapes-ict-distribution-brokerage-sees-20-upside/articleshow/134960409.cms</li>
+<li>[ET Markets] Global Market: Citi expects Fed to raise rates by 25 basis points in December after hot US inflation data https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/global-market-citi-expects-fed-to-raise-rates-by-25-basis-points-in-december-after-hot-us-inflation-data/articleshow/134960261.cms</li>
+<li>[ET Markets] Rs 82,500 crore rally in 3 days: Why TCS, HCL Tech, other IT stocks jumped up to 12% in 3 days and will the boom last? https://economictimes.indiatimes.com/markets/stocks/news/rs-82500-crore-rally-in-3-days-why-tcs-hcl-tech-other-it-stocks-jumped-up-to-12-in-3-days-and-will-the-boom-last/articleshow/134959977.cms</li>
+<li>[ET Markets] IDBI Bank shares fall 7% as investors book profit after Fairfax deal gets cabinet nod https://economictimes.indiatimes.com/markets/stocks/news/idbi-bank-shares-fall-7-as-investors-book-profit-after-fairfax-deal-gets-cabinet-nod/articleshow/134959588.cms</li>
+<li>[ET Markets] Ready for take-off? Analysts map the flight path for India&#x27;s aerospace stocks https://economictimes.indiatimes.com/markets/stocks/news/ready-for-take-off-analysts-map-the-flight-path-for-indias-aerospace-stocks/articleshow/134959501.cms</li>
+<li>[ET Markets] Rocket Lab shares plunge 8%: What’s behind the selloff? https://economictimes.indiatiatimes.com/markets/us-stocks/news/rocket-lab-shares-plunge-8-whats-behind-the-selloff/slideshow/134959471.cms</li>
+<li>[ET Markets] From Rs 1,000 in 1977 to Rs 52 lakh today: The Reliance wealth story behind Jio’s Rs 10.3 lakh crore mega IPO https://economictimes.indiatimes.com/markets/stocks/news/from-rs-1000-in-1977-to-rs-52-lakh-today-the-reliance-wealth-story-behind-jios-rs-10-3-lakh-crore-mega-ipo/articleshow/134959204.cms</li>
+<li>[ET Markets] Top 10 PMS portfolios that delivered up to 7% returns in September. See full list https://economictimes.indiatimes.com/markets/stocks/news/top-10-pms-portfolios-that-delivered-up-to-7-returns-in-september-see-full-list/slideshow/134960115.cms</li>
+<li>[ET Markets] Q2 Results Live Updates: Nestle Q2 profit jumps over 36% YoY to Rs 1,027 crore, revenue rises 20% YoY https://economictimes.indiatimes.com/markets/stocks/live-blog/wipro-q2-results-today-live-updates-tech-mahindra-quarter-2-fy27-earnings-dividend-share-price-updates-15-october-2026/liveblog/134959381.cms</li>
+<li>[ET Markets] Global Market: Bank of China (Hong Kong) plans $3.3 billion onshore yuan debt issuance https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/global-market-bank-of-china-hong-kong-plans-3-3-billion-onshore-yuan-debt-issuance/articleshow/134958921.cms</li>
+<li>[Livemint Markets] Nykaa, Tata Consumer, Blue Star shares: Top stocks to buy | What Kotak Securities suggests - Target price, stop loss https://www.livemint.com/market/stock-market-news/nykaa-tata-consumer-blue-star-shares-top-stocks-to-buy-what-kotak-securities-suggests-target-price-stop-loss-11792046752469.html</li>
+<li>[Livemint Markets] BLS International share price jumps 9%: Can the recovery sustain? Check forecast by stock market experts https://www.livemint.com/market/stock-market-news/bls-international-share-price-jumps-9-can-the-recovery-sustain-check-forecast-by-stock-market-experts-11792045784964.html</li>
+<li>[Livemint Markets] Gallantt Ispat shares rally 14% today: What&#x27;s fuelling surge? Buy, sell or hold? Check target price, support, resistance https://www.livemint.com/market/stock-market-news/gallantt-ispat-shares-rally-14-today-whats-fuelling-surge-buy-sell-or-hold-check-target-price-support-resistance-11792045246408.html</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
