@@ -63,6 +63,7 @@ TABS = [
     {"key": "fno-pulse", "label": "F&O Pulse"},
     {"key": "mavericks", "label": "Business Mavericks"},
     {"key": "market-pulse", "label": "Market Pulse"},
+    {"key": "sector-analysis", "label": "Sector Analysis"},
     {"key": "news", "label": "News"},
 ]
 TAB_LABEL = {t["key"]: t["label"] for t in TABS}
@@ -78,8 +79,11 @@ TAB_BLURB = {
     "fno-pulse": "End-of-day options & futures positioning — PCR, max pain, FII flows.",
     "mavericks": "The rise, fall and comeback stories behind India's biggest businesses.",
     "market-pulse": "Pre-market, post-market and commodities snapshots.",
+    "sector-analysis": "A structured India sector map: current state, economic impact, news drivers, SWOT and policy tailwinds.",
     "news": "Results calendar, corporate actions, FII/DII flows and the news that moves markets.",
 }
+
+SECTOR_DATA = HERE / "data" / "sector_analysis.json"
 
 # Each source: (source_key, articles_dir, hero_dir_template)
 # hero_dir_template: a dir holding <slug>/hero.{jpg,png} to copy, or None.
@@ -159,6 +163,59 @@ table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
 .pill.flat { background:#F1F5F9; color:#475569; }
 .pill.tag { background:#FEF3C7; color:#92400E; }
 .read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
 footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
 @media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
 """
@@ -629,6 +686,126 @@ def render_ipo_page(ipo_articles: list[dict]) -> None:
     out_path.write_text(page)
 
 
+def _load_sector_data() -> dict:
+    if not SECTOR_DATA.exists():
+        return {}
+    try:
+        return json.loads(SECTOR_DATA.read_text())
+    except Exception as e:
+        print(f"  ! failed to load sector analysis data: {e}")
+        return {}
+
+
+def render_sector_page() -> None:
+    """Render the editorial sector map from data/sector_analysis.json."""
+    data = _load_sector_data()
+    sectors = data.get("sectors") or []
+    source_map = {s["id"]: s for s in data.get("sources", [])}
+    prefix = "../"
+
+    def source_link(source_id: str) -> str:
+        source = source_map.get(source_id)
+        if not source:
+            return ""
+        return f'<a href="{html.escape(source["url"], quote=True)}" target="_blank" rel="noopener">{html.escape(source["name"])}</a>'
+
+    cards = []
+    for idx, sector in enumerate(sectors, 1):
+        subsectors = sector.get("subsectors") or []
+        search_text = " ".join([
+            sector.get("name", ""), sector.get("summary", ""),
+            *[sub.get("name", "") + " " + sub.get("analysis", "")
+              for sub in subsectors],
+        ]).lower()
+        subs_html = []
+        for sub in subsectors:
+            tone = (sub.get("tone") or "Watch").lower().replace(" ", "-")
+            news = "".join(f"<li>{html.escape(item)}</li>" for item in sub.get("news", []))
+            swot = sub.get("swot") or {}
+            swot_html = "".join(
+                f'<div class="swot-box {klass}"><span class="label">{label}</span>'
+                f'<p>{html.escape(swot.get(key, "—"))}</p></div>'
+                for klass, label, key in (
+                    ("s", "Strength", "strengths"),
+                    ("w", "Weakness", "weaknesses"),
+                    ("o", "Opportunity", "opportunities"),
+                    ("t", "Threat", "threats"),
+                )
+            )
+            policies = " · ".join(
+                html.escape(p.get("text", ""))
+                + (f' — {source_link(p.get("source", ""))}' if p.get("source") else "")
+                for p in sub.get("policies", [])
+            ) or "No specific policy link added yet."
+            subs_html.append(
+                '<article class="subsector-card">'
+                '<div class="subsector-head">'
+                f'<h3>{html.escape(sub.get("name", "Subsector"))}</h3>'
+                f'<span class="signal {html.escape(tone)}">{html.escape(sub.get("tone", "Watch"))}</span>'
+                '</div>'
+                f'<p class="subsector-analysis">{html.escape(sub.get("analysis", ""))}</p>'
+                '<div class="impact-grid">'
+                f'<div class="impact-box"><span class="label">Economic impact</span><p>{html.escape(sub.get("impact", ""))}</p></div>'
+                f'<div class="impact-box"><span class="label">News &amp; performance drivers</span><ul class="news-list">{news}</ul></div>'
+                '</div>'
+                '<div class="swot-title">SWOT snapshot</div>'
+                f'<div class="swot-grid">{swot_html}</div>'
+                f'<div class="policy-strip"><span class="label">Policy tailwinds to track</span><p>{policies}</p></div>'
+                '</article>'
+            )
+        cards.append(
+            f'<details class="sector-card" data-search="{html.escape(search_text, quote=True)}" open>'
+            '<summary>'
+            '<div>'
+            f'<span class="sector-index">{idx:02d}</span>'
+            '<div>'
+            f'<h2>{html.escape(sector.get("name", "Sector"))}</h2>'
+            f'<p>{html.escape(sector.get("summary", ""))}</p>'
+            '</div></div><span class="sector-view">Collapse</span>'
+            '</summary>'
+            f'<div class="subsector-list">{"".join(subs_html)}</div>'
+            '</details>'
+        )
+
+    count = sum(len(s.get("subsectors") or []) for s in sectors)
+    source_list = " · ".join(source_link(s.get("id", "")) for s in data.get("sources", []))
+    body = (
+        '<div class="wrap sector-wrap">'
+        '<section class="sector-hero">'
+        '<p class="eyebrow">MyFinancial research desk</p>'
+        f'<h1>{html.escape(data.get("title", "Sector analysis"))}</h1>'
+        f'<p>{html.escape(data.get("intro", ""))}</p>'
+        '<div class="sector-meta">'
+        f'<span>Snapshot · {html.escape(data.get("as_of", ""))}</span>'
+        f'<span>{len(sectors)} sectors · {count} subsectors</span>'
+        '<span>India · educational research</span>'
+        '</div></section>'
+        f'<div class="research-note"><strong>Read this first:</strong> {html.escape(data.get("disclaimer", ""))}</div>'
+        '<div class="sector-toolbar">'
+        '<label for="sector-search">Search sectors and subsectors</label>'
+        '<input id="sector-search" class="sector-search" type="search" placeholder="Search: EV, banks, chemicals, policy…" autocomplete="off">'
+        '<button class="sector-filter active" type="button" data-filter="all">All sectors</button>'
+        '<button class="sector-filter" type="button" data-filter="constructive">Constructive</button>'
+        '<button class="sector-filter" type="button" data-filter="watch">Watch</button>'
+        '<button class="sector-filter" type="button" data-filter="defensive">Defensive</button>'
+        '</div>'
+        f'<div class="sector-grid">{"".join(cards)}</div>'
+        '<div class="sector-bottom"><strong>Method:</strong> This page combines structural themes, current operating variables and publicly announced policy direction. “Constructive”, “Watch” and “Defensive” are research lenses, not ratings. News bullets are a monitoring checklist; they are intentionally not presented as a real-time price signal. <strong>Primary sources:</strong> '
+        f'{source_list}</div>'
+        '</div>'
+        '<script>(function(){const q=document.getElementById("sector-search"), cards=[...document.querySelectorAll(".sector-card")], buttons=[...document.querySelectorAll(".sector-filter")];let tone="all";function apply(){const term=(q.value||"").toLowerCase().trim();cards.forEach(card=>{const matchesText=!term||card.dataset.search.includes(term);const matchesTone=tone==="all"||card.querySelector(".signal."+tone);card.hidden=!(matchesText&&matchesTone);});}q.addEventListener("input",apply);buttons.forEach(btn=>btn.addEventListener("click",()=>{tone=btn.dataset.filter;buttons.forEach(b=>b.classList.toggle("active",b===btn));apply();}));})();</script>'
+    )
+    seo = seo_block(
+        {"title": "Sector Analysis — India sectors, subsectors and policy | myfinancial",
+         "description": data.get("intro", "Indian sector and subsector research snapshot."),
+         "date": dt.date.today().isoformat()},
+        f"{BASE_URL}/sector-analysis/")
+    page = HEAD.format(css=CSS, seo=seo, home=prefix, nav=build_nav(prefix, "sector-analysis")) + body + FOOTER
+    out_path = OUT / "sector-analysis" / "index.html"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(page)
+
+
 def render_sitemap(articles: list[dict]) -> None:
     urls = [f"{BASE_URL}/"]
     urls += [f"{BASE_URL}/{t['key']}/" for t in TABS if t["key"]]
@@ -677,6 +854,8 @@ def main() -> int:
         tab_articles = [a for a in all_articles if a["tab"] == t["key"]]
         if t["key"] == "ipo":
             render_ipo_page(tab_articles)
+        elif t["key"] == "sector-analysis":
+            render_sector_page()
         else:
             render_listing(t["key"], tab_articles)
 

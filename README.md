@@ -17,6 +17,7 @@ sticky top-nav:
 | F&O Pulse | `sources/daily-fno-pulse/` | `daily-fno-pulse` |
 | Business Mavericks | `sources/business-mavericks/` | `business-mavericks` |
 | Market Pulse | `sources/market-pulse/` | `myfinancial-market-pulse` |
+| Sector Analysis | `data/sector_analysis.json` + `site_build.py` | Curated India sector/subsector research snapshot |
 | News | `sources/news/` | `myfinancial-news` |
 
 Each pipeline only has to drop markdown into its own `articles/` folder; the
