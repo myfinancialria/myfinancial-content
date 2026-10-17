@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>ITC Q2 FY27 Results: Taxation Impact and Share Outlook</title>
+<meta name="description" content="ITC has scheduled its board meeting to announce Q2 FY27 financial results. Analysts anticipate a potential decline in net profit for the quarter, primarily du.">
+<meta name="keywords" content="cigarette, results, business, segment, profit, taxation, company, growth">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-17-result_analysis-itc-q2-fy27-results-taxation-impact-and-share-outlook/">
+<meta property="og:title" content="ITC Q2 FY27 Results: Taxation Impact and Share Outlook">
+<meta property="og:description" content="ITC has scheduled its board meeting to announce Q2 FY27 financial results. Analysts anticipate a potential decline in net profit for the quarter, primarily du.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-17-result_analysis-itc-q2-fy27-results-taxation-impact-and-share-outlook/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ITC Q2 FY27 Results: Taxation Impact and Share Outlook", "description": "ITC has scheduled its board meeting to announce Q2 FY27 financial results. Analysts anticipate a potential decline in net profit for the quarter, primarily du.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-17", "dateModified": "2026-10-17", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-17-result_analysis-itc-q2-fy27-results-taxation-impact-and-share-outlook/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/" class="active">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Result Analysis · 2026-10-17</div><h1>ITC Q2 FY27 Results: Taxation Impact and Share Outlook</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>ITC has scheduled its board meeting to announce Q2 FY27 financial results.</li>
+<li>Analysts anticipate a potential decline in net profit for the quarter, primarily due to increased cigarette taxation.</li>
+<li>The cigarette segment remains a significant profit driver for ITC, making it sensitive to tax policy changes.</li>
+<li>Investors will closely monitor the performance of ITC&#x27;s diversified non-cigarette FMCG, hotel, agri, and paperboard businesses.</li>
+<li>The results and management commentary will provide crucial insights into the company&#x27;s future growth trajectory and share outlook.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When a large company like ITC announces its quarterly results, it&#x27;s a big event for investors and the market. For the upcoming Q2 FY27 results, covering the July-September 2026 period, the main buzz is around how government taxes on cigarettes might have affected ITC&#x27;s profits. Since cigarettes are a major part of ITC&#x27;s business, any change in taxation can directly impact how much money the company makes.
+</p>
+<p>
+This means that even if other parts of ITC&#x27;s business – like its food products, hotels, or paper – performed well, a significant increase in cigarette taxes could still pull down the overall net profit. Investors will be looking not just at the headline profit number, but also at how each business segment performed and what the company management says about future plans, especially concerning the impact of taxes and growth in other areas.
+</p>
+<h2>Upcoming Q2 FY27 Results and Market Expectations</h2>
+<p>
+ITC Limited has formally announced its board meeting date to declare the financial results for the second quarter of the fiscal year 2026-27 (Q2 FY27). This period covers the months of July, August, and September 2026. The announcement of quarterly earnings is a critical event for any listed company, as it provides transparency into its financial health and operational performance to shareholders and the broader market.
+</p>
+<p>
+Market analysts and investors are keenly awaiting these results, with a prevailing expectation that the company&#x27;s net profit might show a decline. This anticipation is largely attributed to potential impacts from changes in cigarette taxation policies. Given that the cigarette business forms a substantial portion of ITC&#x27;s revenue and profitability, even minor adjustments in excise duties or other taxes can significantly influence its bottom line. Investors will be looking for detailed breakdowns of segment-wise performance and management&#x27;s commentary on how these tax changes have been absorbed and what strategies are in place to mitigate future impacts.
+</p>
+<h3>The Role of Cigarette Taxation</h3>
+<p>
+Taxation on tobacco products in India has historically been a complex and frequently evolving landscape. Both central and state governments levy various taxes, including excise duty, GST, and cess, on cigarettes. These taxes are often increased to discourage consumption for public health reasons and to generate government revenue. For a company like ITC, which is a dominant player in the Indian cigarette market, any upward revision in these taxes directly impacts its pricing power, sales volumes, and ultimately, its profit margins.
+</p>
+<p>
+When taxes increase, companies typically have two options: absorb the cost, which reduces their profit, or pass it on to consumers through higher prices. Passing on costs can sometimes lead to a dip in sales volume as products become more expensive. Therefore, the balance between taxation, pricing, and volume is crucial for the profitability of the cigarette segment. The upcoming Q2 FY27 results are expected to reflect the challenges posed by the latest round of such tax adjustments.
+</p>
+<h2>Diversified Business Segments: A Potential Buffer?</h2>
+<p>
+While the cigarette business often grabs headlines due to its high-margin nature and sensitivity to taxation, ITC is a highly diversified conglomerate. The company operates across several other significant segments, which could potentially act as a buffer against volatility in its tobacco business. These segments include:
+</p>
+<h3>Fast-Moving Consumer Goods (FMCG) – Others</h3>
+<p>
+This segment encompasses a wide array of products, from packaged foods (Aashirvaad, Sunfeast, Bingo!), personal care (Savlon, Fiama), education and stationery (Classmate), to agarbattis (Mangaldeep) and safety matches. ITC has been consistently investing in expanding its FMCG portfolio, aiming to build a strong presence in the Indian consumer market. Performance in this segment is driven by consumer demand, brand building, distribution reach, and competitive pricing. Strong growth here can partially offset any slowdown in the cigarette business.
+</p>
+<h3>Hotels</h3>
+<p>
+ITC owns and operates a chain of luxury hotels across India, including brands like ITC Hotels and Welcomhotel. The hotel business is cyclical and sensitive to economic conditions, travel and tourism trends, and corporate spending. Post-pandemic recovery and increased domestic tourism could contribute positively to this segment&#x27;s performance.
+</p>
+<h3>Agri-Business</h3>
+<p>
+ITC&#x27;s Agri-Business segment is a major player in the procurement and export of agricultural commodities. It also supports farmers through its e-Choupal initiative. This segment&#x27;s performance is influenced by agricultural output, commodity prices, and global trade dynamics. It provides backward integration benefits to the FMCG business by ensuring a steady supply of raw materials.
+</p>
+<h3>Paperboards, Paper &amp; Packaging</h3>
+<p>
+This segment manufactures paperboards, specialty papers, and packaging solutions. It caters to both internal requirements (for ITC&#x27;s FMCG and cigarette businesses) and external clients. Demand for paper and packaging is often linked to overall industrial growth and consumer goods production.
+</p>
+<p>
+The Q2 FY27 results will highlight how these diversified segments have performed, and whether their growth has been robust enough to cushion the potential impact from the cigarette business. Investors will be keen to see the contribution of these segments to overall revenue and profitability.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Ananya, 42, a software engineer with ₹35L CTC, based in Gurugram</strong>, who holds 500 shares of ITC in her long-term portfolio. She bought these shares at an average price of ₹350 per share a few years ago, primarily for their stability and dividend yield.
+</p>
+<p>
+When ITC announces its Q2 FY27 results, Ananya first looks at the headline net profit. If the net profit indeed declines due to cigarette taxation, as anticipated, she might see a slight dip in the stock price on the day of the announcement.
+</p>
+<p>
+Here&#x27;s how she might analyse it:
+</p>
+<ol>
+<li><strong>Headline numbers:</strong> Let&#x27;s assume ITC&#x27;s Q2 FY27 net profit is ₹4,500 crores, down 5% from ₹4,737 crores in Q2 FY26.</li>
+<li><strong>Segmental breakup:</strong> Ananya then delves into the segmental results. She notices that the cigarette segment&#x27;s profit before tax (PBT) is down by, say, 8% to ₹3,000 crores, directly linking it to the taxation impact.</li>
+<li><strong>Diversification check:</strong> Crucially, she observes that the FMCG (Others) segment has grown its revenue by 12% to ₹6,500 crores and its PBT by 15% to ₹600 crores. The Hotels business also shows a healthy recovery, with PBT up 20% to ₹150 crores.</li>
+<li><strong>Management Commentary:</strong> She reads the management&#x27;s statement, which acknowledges the tax pressures on cigarettes but highlights strong growth in the FMCG segment and continued focus on cost efficiencies across businesses. They might also mention plans to expand into new product categories or markets in FMCG.</li>
+<li><strong>Impact on Ananya&#x27;s portfolio:</strong></li>
+<p>
+    *   <strong>Short-term:</strong> The stock might react negatively immediately, perhaps falling from ₹420 to ₹405. Her portfolio value for ITC shares would temporarily drop from ₹2,10,000 to ₹2,02,500.
+    *   <strong>Long-term perspective:</strong> Ananya, being a long-term investor, wouldn&#x27;t panic. She would weigh the temporary decline in cigarette profits against the robust growth in other segments. The strong performance of FMCG and Hotels reassures her about ITC&#x27;s diversification strategy. She might conclude that while cigarette taxes are a recurring challenge, the company&#x27;s ability to grow its non-tobacco businesses makes it a resilient investment. She would continue to hold her shares, perhaps even considering buying more on a dip if she believes the long-term growth story remains intact, especially if the dividend yield remains attractive.
+</p>
+</ol>
+<p>
+This detailed analysis helps Ananya look beyond the immediate headline and understand the underlying business dynamics, aligning her actions with her long-term investment goals.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your portfolio diversification:</strong> Check if any single stock or sector has an outsized allocation in your investment portfolio. Consider if your investments are adequately diversified across different industries to mitigate specific sector risks, like regulatory changes impacting a particular segment.</li>
+<li><strong>Stay updated on company announcements:</strong> If you hold ITC shares, or are considering investing, mark the date of the Q2 FY27 results announcement. Be prepared to review the official exchange filing (BSE/NSE websites) for detailed financial figures and management commentary.</li>
+<li><strong>Understand sector-specific risks:</strong> For any company you invest in, especially those in regulated industries like tobacco, alcohol, or pharmaceuticals, understand the specific regulatory and taxation risks involved. This helps in anticipating potential impacts on their profitability.</li>
+<li><strong>Re-evaluate your investment thesis:</strong> Post-results, revisit why you invested in ITC (or any other company). Has the core investment thesis changed? Is the company&#x27;s long-term growth story still intact despite short-term headwinds? This helps in making informed hold/buy/sell decisions.</li>
+<li><strong>Consult a financial planner:</strong> If you are unsure how corporate results, taxation changes, or market fluctuations might affect your personal financial goals, consider speaking with a Certified Financial Planner (CFP) to get personalised advice.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Why do cigarette taxes impact ITC&#x27;s net profit so much?</h3>
+<p>
+ITC is India&#x27;s largest cigarette manufacturer, and this segment contributes a significant portion of its revenue and operating profit. Any increase in excise duties or other taxes directly affects its pricing power, sales volumes, and ultimately, its profit margins.
+</p>
+<h3>What are ITC&#x27;s other major business segments?</h3>
+<p>
+Beyond cigarettes, ITC has a diversified portfolio including Fast-Moving Consumer Goods (FMCG) like Aashirvaad and Sunfeast, Hotels, Agri-Business (e.g., commodity exports), and Paperboards, Paper &amp; Packaging.
+</p>
+<h3>How do diversified businesses help a company like ITC?</h3>
+<p>
+Diversification helps reduce reliance on a single business segment. If one segment faces challenges (like increased taxation for cigarettes), strong performance in other segments can help cushion the overall financial impact and provide more stable growth.
+</p>
+<h3>Where can I find the official Q2 FY27 results once declared?</h3>
+<p>
+The official results will be available on the stock exchange websites (BSE India and NSE India) where ITC is listed, and typically on ITC&#x27;s investor relations section of its corporate website.
+</p>
+<h3>Should I sell my ITC shares if profits decline due to taxation?</h3>
+<p>
+A short-term decline in profit due to specific regulatory changes doesn&#x27;t automatically warrant selling. Long-term investors should evaluate the company&#x27;s overall strategy, growth in other segments, dividend policy, and future outlook before making any investment decisions.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Markets: https://www.livemint.com/market/stock-market-news/itc-sets-board-meeting-date-to-declare-q2-results-2026-net-profit-may-decline-due-to-cigarette-taxation-share-outlook-11792178741965.html</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
