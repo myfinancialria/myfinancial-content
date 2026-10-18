@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Taxing Profits on Apple, Nvidia Shares: ₹1.25 Lakh Exemption in India?</title>
+<meta name="description" content="The ₹1.25 lakh Long Term Capital Gains (LTCG) exemption under Section 112A applies exclusively to Indian listed equities and equity-oriented mutual funds. Pro.">
+<meta name="keywords" content="foreign, shares, capital, indian, listed, months, assets, equity">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-18-personal_finance-taxing-profits-on-apple-nvidia-shares-125-lakh-exemption-in-india/">
+<meta property="og:title" content="Taxing Profits on Apple, Nvidia Shares: ₹1.25 Lakh Exemption in India?">
+<meta property="og:description" content="The ₹1.25 lakh Long Term Capital Gains (LTCG) exemption under Section 112A applies exclusively to Indian listed equities and equity-oriented mutual funds. Pro.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-18-personal_finance-taxing-profits-on-apple-nvidia-shares-125-lakh-exemption-in-india/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Taxing Profits on Apple, Nvidia Shares: \u20b91.25 Lakh Exemption in India?", "description": "The \u20b91.25 lakh Long Term Capital Gains (LTCG) exemption under Section 112A applies exclusively to Indian listed equities and equity-oriented mutual funds. Pro.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-18", "dateModified": "2026-10-18", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-18-personal_finance-taxing-profits-on-apple-nvidia-shares-125-lakh-exemption-in-india/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Personal Finance · 2026-10-18</div><h1>Taxing Profits on Apple, Nvidia Shares: ₹1.25 Lakh Exemption in India?</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The ₹1.25 lakh Long Term Capital Gains (LTCG) exemption under Section 112A applies exclusively to Indian listed equities and equity-oriented mutual funds.</li>
+<li>Profits from selling foreign shares, such as Apple or Nvidia, are not eligible for this specific ₹1.25 lakh exemption.</li>
+<li>Long-term capital gains (LTCG) on foreign shares are taxed at 20% with indexation benefit, applicable if held for over 24 months.</li>
+<li>Short-term capital gains (STCG) on foreign shares are added to your total income and taxed at your individual income tax slab rates.</li>
+<li>All foreign assets and income, including capital gains from foreign shares, must be mandatorily reported in your Indian Income Tax Return (ITR).</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Many Indian investors are familiar with the tax benefits associated with investing in the domestic stock market, particularly the ₹1.25 lakh annual exemption on long-term capital gains from selling Indian listed shares or equity mutual funds. This rule, designed to encourage investment in the Indian economy, often leads to a common question: does the same benefit extend to profits made from investing in global giants like Apple, Nvidia, or other foreign companies?
+</p>
+<p>
+In simple terms, no, it doesn&#x27;t. While the idea of a tax-free gain is appealing, the specific exemption of ₹1.25 lakh on LTCG is a privilege reserved for investments made in the Indian equity market, where Securities Transaction Tax (STT) is levied. When you invest in shares listed on foreign stock exchanges, the tax rules in India treat these gains differently. Your profits from selling foreign shares are fully taxable from the first rupee, though the exact tax rate depends on how long you held these shares. Understanding these distinct rules is crucial for accurate tax planning and compliance.
+</p>
+<h2>The ₹1.25 Lakh Exemption: An Indian Equity Privilege</h2>
+<h3>What is Section 112A?</h3>
+<p>
+Section 112A of the Income Tax Act, 1961, was introduced to streamline the taxation of long-term capital gains (LTCG) from equity shares and equity-oriented mutual funds. Prior to its introduction, LTCG from these assets were entirely exempt from tax if Securities Transaction Tax (STT) was paid. Section 112A now mandates that LTCG exceeding ₹1 lakh in a financial year, arising from the transfer of listed equity shares or units of an equity-oriented fund, on which STT has been paid, shall be taxed at a concessional rate of 10% without the benefit of indexation. The first ₹1 lakh of such gains in a financial year remains exempt.
+</p>
+<h3>Why foreign shares don&#x27;t qualify</h3>
+<p>
+The key condition for claiming the ₹1.25 lakh exemption under Section 112A is that the capital gains must arise from the transfer of &quot;equity share in a company or a unit of an equity oriented fund or a unit of a business trust&quot; which is listed on a recognised stock exchange in India, and on which Securities Transaction Tax (STT) has been paid. Foreign shares, by their very nature, are listed on international stock exchanges (like NASDAQ or NYSE) and are not subject to STT in India. Therefore, any long-term capital gains derived from the sale of foreign shares do not fall under the purview of Section 112A and consequently, cannot avail of the ₹1.25 lakh exemption.
+</p>
+<h2>How Foreign Share Profits are Taxed in India</h2>
+<p>
+When you invest in foreign shares, the profits you make are categorised as capital gains, just like Indian shares. However, the tax treatment differs significantly.
+</p>
+<h3>Short-Term Capital Gains (STCG) on foreign shares</h3>
+<p>
+If you sell your foreign shares after holding them for 24 months or less, any profit you make is considered a Short-Term Capital Gain (STCG). This STCG is added to your total income for the financial year. Consequently, it will be taxed at your applicable income tax slab rates. For instance, if you are in the 30% tax bracket, your STCG from foreign shares will also be taxed at 30%. There are no special concessional rates for STCG from foreign shares.
+</p>
+<h3>Long-Term Capital Gains (LTCG) on foreign shares and indexation</h3>
+<p>
+If you hold your foreign shares for more than 24 months before selling them, the profit is classified as a Long-Term Capital Gain (LTCG). Unlike LTCG on Indian listed equities (which are taxed at 10% without indexation under Section 112A), LTCG on foreign shares are taxed at a flat rate of 20%. The significant advantage here is the benefit of &quot;indexation&quot;. Indexation allows you to adjust the cost of acquisition for inflation over the holding period, thereby reducing your taxable gain. This adjustment is done using the Cost Inflation Index (CII) published by the Income Tax Department.
+</p>
+<h3>Understanding the holding period</h3>
+<p>
+For the purpose of classifying capital gains from foreign shares as short-term or long-term, the holding period is crucial. As per Indian tax laws, shares of unlisted companies and other capital assets (which include foreign listed shares for this purpose) are considered long-term if held for more than 24 months. If held for 24 months or less, they are treated as short-term. This 24-month period is a key differentiator from the 12-month period applicable to listed Indian equities.
+</p>
+<h2>Investing Overseas via LRS and Tax Implications</h2>
+<h3>RBI&#x27;s Liberalised Remittance Scheme (LRS)</h3>
+<p>
+Indian residents can invest in foreign shares under the Reserve Bank of India&#x27;s (RBI) Liberalised Remittance Scheme (LRS). Under LRS, an Indian resident individual can remit up to USD 2,50,000 per financial year (April to March) for various permissible current or capital account transactions, which includes purchasing foreign shares. This limit applies to the total amount remitted, not just for investments. You would typically open an overseas trading account with an Indian broker offering international investing or directly with a foreign broker, adhering to LRS guidelines.
+</p>
+<h3>Tax Collected at Source (TCS) on LRS remittances</h3>
+<p>
+While not directly related to capital gains taxation, it&#x27;s important to note the Tax Collected at Source (TCS) provisions on LRS remittances. As per current rules, a TCS of 20% is applicable on remittances exceeding ₹7 lakh under LRS for purposes other than education or medical treatment. This TCS can be claimed as a credit against your final tax liability when filing your Income Tax Return. This is a collection mechanism, not an additional tax, and should be factored into your cash flow planning for overseas investments.
+</p>
+<h2>Reporting Foreign Assets and Income</h2>
+<h3>Mandatory disclosure in ITR</h3>
+<p>
+The Indian Income Tax Act mandates that all resident individuals disclose details of their foreign assets and any income derived from them in their Income Tax Return (ITR). This includes foreign bank accounts, foreign shares, foreign properties, and any other financial interest outside India. Specifically, Schedule FA (Foreign Assets) in ITR forms (like ITR-2 and ITR-3, depending on your income sources) requires detailed information about your foreign shareholdings, including their value and the income generated.
+</p>
+<h3>Consequences of non-disclosure</h3>
+<p>
+Failing to disclose foreign assets and income can lead to severe penalties under the Black Money (Undisclosed Foreign Income and Assets) and Imposition of Tax Act, 2015. Penalties can be substantial, including a penalty equal to three times the tax payable on the undisclosed income or asset, and even imprisonment in certain cases. Therefore, it is crucial to maintain accurate records of your foreign investments and report them diligently in your ITR.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, a software architect in Bengaluru, with an annual income of ₹40 lakhs</strong>. Rahul decided to diversify his portfolio by investing in US technology stocks.
+</p>
+<p>
+<strong>Scenario:</strong>
+</p>
+<ul>
+<li>Rahul invested ₹10 lakhs in Nvidia shares on April 1, 2022.</li>
+<li>He sold these shares for ₹15 lakhs on October 1, 2024.</li>
+<li>Holding period: 30 months (more than 24 months, so it&#x27;s LTCG).</li>
+<li>Cost Inflation Index (CII):</li>
+<p>
+    *   FY 2022-23 (when bought): 331
+    *   FY 2024-25 (when sold): Let&#x27;s assume CII is 360 for calculation purposes (actual CII for FY 2024-25 will be announced later, using an illustrative figure here).
+</p>
+</ul>
+<p>
+<strong>Calculation of Long-Term Capital Gains (LTCG):</strong>
+</p>
+<ol>
+<li><strong>Original Cost of Acquisition:</strong> ₹10,00,000</li>
+<li><strong>Indexed Cost of Acquisition:</strong></li>
+<p>
+    *   Original Cost × (CII of year of sale / CII of year of acquisition)
+    *   ₹10,00,000 × (360 / 331) = ₹10,87,613.29 (approximately)
+</p>
+<li><strong>Net Sale Consideration:</strong> ₹15,00,000</li>
+<li><strong>Long-Term Capital Gain (LTCG):</strong></li>
+<p>
+    *   Net Sale Consideration - Indexed Cost of Acquisition
+    *   ₹15,00,000 - ₹10,87,613.29 = ₹4,12,386.71
+</p>
+<li><strong>Tax on LTCG:</strong></li>
+<p>
+    *   LTCG is taxed at 20% (plus applicable surcharge and cess).
+    *   20% of ₹4,12,386.71 = ₹82,477.34
+</p>
+</ol>
+<p>
+<strong>Comparison with Indian Equities:</strong>
+If Rahul had made a similar profit of ₹5 lakhs on Indian listed equities (held for over 12 months), the first ₹1 lakh would be exempt, and the remaining ₹4 lakhs would be taxed at 10%, resulting in a tax of ₹40,000 (plus cess). This clearly illustrates the different tax treatment for foreign shares.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your foreign stock portfolio:</strong> Identify all your investments in shares listed on international exchanges. Note down the purchase date, purchase price, and current market value for each.</li>
+<li><strong>Understand your holding periods:</strong> For each foreign stock, determine if your holding period is less than or more than 24 months. This will dictate whether future gains will be short-term or long-term.</li>
+<li><strong>Maintain meticulous records:</strong> Keep all transaction statements, contract notes, and bank statements related to your foreign stock purchases and sales. These documents are crucial for calculating capital gains and for tax reporting.</li>
+<li><strong>Consult a tax advisor:</strong> Given the complexities, especially with indexation and reporting requirements, it&#x27;s highly recommended to consult a Certified Financial Planner or a tax professional who specialises in international taxation.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>Is STT applicable to foreign share transactions?</h3>
+<p>
+No, Securities Transaction Tax (STT) is not applicable to transactions involving foreign shares as they are not traded on recognised Indian stock exchanges.
+</p>
+<h3>Can I claim any deductions against foreign stock gains?</h3>
+<p>
+You can deduct expenses directly related to the transfer of shares (like brokerage fees) from your sale consideration. For LTCG, you also get the benefit of indexation.
+</p>
+<h3>What is the holding period for LTCG on foreign shares?</h3>
+<p>
+For foreign shares, a holding period of more than 24 months qualifies the gains as Long-Term Capital Gains (LTCG). If held for 24 months or less, they are Short-Term Capital Gains (STCG).
+</p>
+<h3>Do NRIs pay tax on foreign share gains in India?</h3>
+<p>
+Non-Resident Indians (NRIs) are generally taxed in India only on income accrued or arisen in India, or income deemed to accrue or arise in India. Gains from foreign shares, if purchased and sold outside India and not connected to an Indian business, are typically not taxable in India for an NRI.
+</p>
+<h3>How do I report foreign share gains in my ITR?</h3>
+<p>
+You must report capital gains from foreign shares under Schedule CG (Capital Gains) and also provide details of the foreign assets in Schedule FA (Foreign Assets) of your Income Tax Return (ITR), typically ITR-2 or ITR-3.
+</p>
+<h3>Is there any double taxation relief for foreign share gains?</h3>
+<p>
+Yes, India has Double Taxation Avoidance Agreements (DTAAs) with many countries. If you pay tax on capital gains in the foreign country, you may be able to claim a credit for that tax against your Indian tax liability, subject to DTAA provisions and Indian tax rules.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>Reserve Bank of India (RBI): https://rbi.org.in</li>
+<li>Ministry of Finance: https://finmin.nic.in</li>
+<li>Income Tax India ITR Forms: https://incometax.gov.in/iec/foportal/help/all-itr-forms</li>
+<li>The Black Money (Undisclosed Foreign Income and Assets) and Imposition of Tax Act, 2015: https://incometax.gov.in/iec/foportal/sites/default/files/2022-09/BlackMoneyAct.pdf</li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
