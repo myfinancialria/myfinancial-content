@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Market Wrap — 19 October 2026</title>
+<meta name="description" content="Indian equities witnessed a broad-based decline today, with Nifty 50 shedding over 1% and closing below 22,900. Global cues, particularly concerns from French.">
+<meta name="keywords" content="markets, stocks, profit, economictimes, indiatimes, global, articleshow, investors">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-19-post_market-market-wrap-19-october-2026/">
+<meta property="og:title" content="Market Wrap — 19 October 2026">
+<meta property="og:description" content="Indian equities witnessed a broad-based decline today, with Nifty 50 shedding over 1% and closing below 22,900. Global cues, particularly concerns from French.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-19-post_market-market-wrap-19-october-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Market Wrap \u2014 19 October 2026", "description": "Indian equities witnessed a broad-based decline today, with Nifty 50 shedding over 1% and closing below 22,900. Global cues, particularly concerns from French.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-19", "dateModified": "2026-10-19", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-19-post_market-market-wrap-19-october-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/" class="active">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Market Wrap · 2026-10-19</div><h1>Market Wrap — 19 October 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Indian equities witnessed a broad-based decline today, with Nifty 50 shedding over 1% and closing below 22,900.</li>
+<li>Global cues, particularly concerns from French market turmoil and rising crude oil prices, weighed heavily on sentiment.</li>
+<li>PSU Banks emerged as the standout performers, bucking the broader market trend with strong gains.</li>
+<li>Urban Company Ltd. was the biggest Nifty 500 loser, plummeting nearly 10%, while Union Bank of India led the gainers.</li>
+<li>Foreign Institutional Investors (FIIs) turned net buyers after four days, infusing ₹1,166 crore, while Domestic Institutional Investors (DIIs) were net sellers.</li>
+<li>F&amp;O build-up data for today is unavailable and will populate from the next session.</li>
+</ul>
+</div>
+<h2>How the market behaved today</h2>
+<p>
+Indian markets ended significantly lower today, with the Nifty 50 closing down 1.11% at 22,888.95. The benchmark index opened with a gap down and trended lower throughout the session, hitting its day&#x27;s low towards the close. The Bank Nifty also saw declines, closing at 55,488.10, down 0.64%. Broader markets mirrored the weakness, with both Midcap and Smallcap indices falling over 1%.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>Change</th><th>High</th><th>Low</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>22888.95</td><td>-1.11%</td><td>23175.25</td><td>22845.00</td></tr>
+<tr><td>Bank Nifty</td><td>55488.10</td><td>-0.64%</td><td>55883.70</td><td>55331.10</td></tr>
+<tr><td>Midcap 100</td><td>58487.95</td><td>-1.09%</td><td>59197.55</td><td>58377.40</td></tr>
+<tr><td>Smallcap 100</td><td>18935.75</td><td>-1.01%</td><td>19148.65</td><td>18913.60</td></tr>
+</tbody></table>
+<p>
+The India VIX, a measure of market volatility, rose by 5.05% to 14.77, indicating an increase in investor apprehension.
+</p>
+<h2>What moved the market — the factors</h2>
+<p>
+The Indian market&#x27;s decline today was primarily driven by a confluence of negative global cues and a significant outflow from Domestic Institutional Investors (DIIs). French markets tumbled due to ongoing riots and political crisis, creating a ripple effect across global equities and dampening investor sentiment. While US AI stocks saw a rebound, easing some fears, the broader global picture remained cautious.
+</p>
+<p>
+Domestically, DIIs were significant net sellers, offloading shares worth ₹3,661 crore, which counteracted the FIIs&#x27; net buying of ₹1,166 crore. This DII selling pressure, coupled with rising crude oil prices adding to inflation concerns and fears of potential rate hikes, pushed Indian government bonds lower and weighed on equity markets.
+</p>
+<p>
+Sectorally, defensive sectors like FMCG, along with IT and Realty, bore the brunt of the selling pressure. However, the PSU Banking sector provided a strong counter-trend, rallying significantly and preventing an even steeper fall for the broader indices. This resilience in PSU Banks, driven by strong individual stock performances, was a notable divergence in an otherwise weak market.
+</p>
+<h2>Sectors — winners and losers</h2>
+<p>
+<strong>Top 3 Gainer Sectors:</strong>
+</p>
+<ul>
+<li><strong>PSU BANK:</strong> +2.46% - This sector was the sole major gainer, showing strong buying interest amidst a broad market decline.</li>
+<li><strong>MEDIA:</strong> -0.26% - While technically a &quot;gainer&quot; relative to other losing sectors, it still closed in negative territory, indicating broad weakness.</li>
+<li><strong>METAL:</strong> -0.55% - Similar to Media, this sector saw less severe declines compared to the broader market, but still ended in the red.</li>
+</ul>
+<p>
+<strong>Top 3 Loser Sectors:</strong>
+</p>
+<ul>
+<li><strong>FMCG:</strong> -1.44% - Faced significant selling pressure, often seen as a defensive sector but vulnerable in broader market corrections.</li>
+<li><strong>IT:</strong> -1.28% - Likely impacted by global tech sentiment and profit-booking after recent rallies.</li>
+<li><strong>REALTY:</strong> -1.20% - Witnessed declines, possibly due to concerns over interest rates and broader economic slowdown.</li>
+</ul>
+<h2>Stocks that moved the market</h2>
+<h3>Top 5 gainers (Nifty 500)</h3>
+<ul>
+<li><strong>Union Bank of India</strong> (UNIONBANK, Financial Services): close ₹180.70, +5.25%</li>
+<li><strong>Punjab National Bank</strong> (PNB, Financial Services): close ₹121.90, +4.82%</li>
+<li><strong>Karur Vysya Bank Ltd.</strong> (KARURVYSYA, Financial Services): close ₹370.05, +4.05%</li>
+<li><strong>Jammu &amp; Kashmir Bank Ltd.</strong> (J&amp;KBANK, Financial Services): close ₹139.35, +3.74%</li>
+<li><strong>Bank of Baroda</strong> (BANKBARODA, Financial Services): close ₹238.20, +3.39%</li>
+</ul>
+<h3>Top 5 losers (Nifty 500)</h3>
+<ul>
+<li><strong>Urban Company Ltd.</strong> (URBANCO, Consumer Services): close ₹142.48, -9.89%</li>
+<li><strong>Himadri Speciality Chemical Ltd.</strong> (HSCL, Chemicals): close ₹605.85, -8.30%</li>
+<li><strong>Deepak Fertilisers &amp; Petrochemicals Corp. Ltd.</strong> (DEEPAKFERT, Chemicals): close ₹1255.70, -6.58%</li>
+<li><strong>Finolex Cables Ltd.</strong> (FINCABLES, Capital Goods): close ₹1282.50, -6.23%</li>
+<li><strong>Sammaan Capital Ltd.</strong> (SAMMAANCAP, Financial Services): close ₹125.80, -6.02%</li>
+</ul>
+<h2>News that moved stocks</h2>
+<p>
+<strong>Earnings Reports Drive Individual Stock Movements</strong>
+</p>
+<ul>
+<li><strong>Bajaj Finance Q2 net profit rises 29% to Rs 6,367 crore.</strong> Bajaj Finance reported strong Q2 consolidated net profit, with expectations for AUM to grow 26-27% in FY27, indicating robust financial performance and future growth plans.</li>
+<li><strong>Ireda net profit grows to Rs 554 cr in Sep qtr.</strong> Ireda announced a robust net profit of ₹554 crore for the September quarter of FY27, with revenue from operations increasing by 14% to ₹2,345 crore.</li>
+<li><strong>Piramal Finance Q2 net profit soars 67% to Rs 545 crore.</strong> Piramal Finance saw its assets under management grow 24% to ₹1.13 lakh crore, driven by a 30% rise in retail AUM, and a significant increase in net interest income.</li>
+<li><strong>Waaree Renewable Technologies Q2 Results: Net profit falls 29% to Rs 81 crore.</strong> Waaree Renewable Technologies experienced a notable 29% drop in net profit for the September quarter, with consolidated profit at ₹81.48 crore.</li>
+</ul>
+<p>
+<strong>Global Tech and AI Developments</strong>
+</p>
+<ul>
+<li><strong>AI stocks rebound as CoreWeave jumps on Goldman Sachs upgrade.</strong> AI stocks, particularly semiconductor companies, saw a recovery after a sharp selloff, with CoreWeave gaining significantly after a Goldman Sachs upgrade. This positive sentiment in global tech helped US markets recover but had limited impact on Indian IT stocks today.</li>
+<li><strong>Amazon says its AI chips will work with popular coding language, challenging Nvidia.</strong> Amazon unveiled TorchNeuron, a tool allowing PyTorch code to run on its Trainium AI chips, aiming to reduce the need for extensive code alterations and potentially challenging established players like Nvidia.</li>
+</ul>
+<p>
+<strong>Other Corporate News</strong>
+</p>
+<ul>
+<li><strong>Titan redeems Rs 1,000 crore commercial paper.</strong> Titan Company Ltd successfully redeemed commercial papers worth ₹1,000 crore, fulfilling its financial obligations.</li>
+</ul>
+<h2>F&amp;O build-up — where traders are positioning</h2>
+<p>
+OI build-up needs the previous session&#x27;s OI — it will populate from the next run.
+</p>
+<h2>Market breadth</h2>
+<p>
+The market breadth was overwhelmingly negative today, with 407 declines against only 86 advances out of a total of 493 traded stocks. This indicates a broad-based selling pressure across the market, reflecting the overall bearish sentiment.
+</p>
+<h2>FII / DII flows</h2>
+<p>
+Foreign Institutional Investors (FIIs) turned net buyers today after four consecutive days of selling, infusing ₹1,166 crore into the Indian equity market. However, Domestic Institutional Investors (DIIs) were significant net sellers, pulling out ₹3,661 crore.
+</p>
+<table><thead><tr><th>Investor Type</th><th>Net Flow (₹ crore)</th></tr></thead><tbody>
+<tr><td>FII</td><td>1,166</td></tr>
+<tr><td>DII</td><td>-3,661</td></tr>
+</tbody></table>
+<p>
+Looking at the 5-day history, FIIs have been net sellers for most of the past week, with today being their only day of net buying. Over the same period, DIIs have consistently been net buyers, except for today&#x27;s significant outflow. This suggests DIIs might have been booking profits or rebalancing portfolios today, offsetting the FII inflows and contributing to the market&#x27;s decline.
+</p>
+<h2>Event breakdown — what happened today and how it hit the market</h2>
+<p>
+Today&#x27;s market session was predominantly driven by a combination of negative global cues and domestic institutional selling. The ongoing political crisis and riots in France led to a tumble in French financial markets, creating a cautious environment globally. While US AI stocks showed some recovery, the broader sentiment remained weak.
+</p>
+<p>
+Domestically, the significant net selling by DIIs, amounting to ₹3,661 crore, played a crucial role in pushing the indices lower. Additionally, rising crude oil prices sparked renewed inflation concerns, leading to a sell-off in Indian government bonds and adding to fears of potential interest rate hikes. This combination of external pressures and internal selling contributed to the broad-based decline seen across Nifty 50, Bank Nifty, and the broader market indices. The PSU Banking sector, however, managed to defy the trend with strong gains, possibly due to positive sentiment around their individual performances or sector-specific news not explicitly detailed.
+</p>
+<h2>Setup for tomorrow</h2>
+<p>
+Tomorrow&#x27;s session will likely continue to be influenced by global developments, especially the stability of European markets following the French political crisis. Investors will also keep an eye on US Treasury yields, which nudged higher today, and crude oil prices, which remain a key inflation concern. The USD/INR closing higher at 94.92 and the Dollar Index also showing a slight uptick could indicate continued pressure on emerging markets. Key levels to watch for Nifty 50 will be today&#x27;s low of 22,845 as immediate support, while 23,000 could act as resistance.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>[ET Markets] AI stocks rebound as CoreWeave jumps on Goldman Sachs upgrade.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/ai-stocks-rebound-as-coreweave-jumps-on-goldman-upgrade/articleshow/135052127.cms
+</p>
+<li>[ET Markets] Ireda net profit grows to Rs 554 cr in Sep qtr.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/stocks/earnings/ireda-net-profit-grows-to-rs-554-cr-in-sep-qtr/articleshow/135051929.cms
+</p>
+<li>[ET Markets] Amazon says its AI chips will work with popular coding language, challenging Nvidia.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/us-stocks/news/amazon-says-its-ai-chips-will-work-with-popular-coding-language-challenging-nvidia/articleshow/135051867.cms
+</p>
+<li>[ET Markets] Global Markets: French markets tumble as riots add to political crisis.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/us-stocks/news/global-markets-french-markets-tumble-as-riots-add-to-political-crisis/articleshow/135051572.cms
+</p>
+<li>[ET Markets] US Treasury yields nudge higher as AI fears ebb.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/bonds/us-treasury-yields-nudge-higher-as-ai-fears-ebb/articleshow/135051546.cms
+</p>
+<li>[ET Markets] Bajaj Finance Q2 consolidated net profit rises 29% to Rs 6,367 crore.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/stocks/earnings/bajaj-finance-q2-consolidated-net-profit-rises-29-to-rs-6367-crore/articleshow/135051459.cms
+</p>
+<li>[ET Markets] Waaree Renewable Technologies Q2 Results: Net profit falls 29% to Rs 81 crore.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/stocks/earnings/waaree-renewable-technologies-q2-results-net-profit-falls-29-to-rs-81-crore/articleshow/135051423.cms
+</p>
+<li>[ET Markets] Titan redeems Rs 1,000 crore commercial paper.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/bonds/titan-redeems-rs-1000-crore-commercial-paper/articleshow/135050383.cms
+</p>
+<li>[ET Markets] Piramal Finance Q2 net profit soars 67% to Rs 545 crore.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/stocks/earnings/piramal-finance-q2-net-profit-soars-67-to-rs-545-crore/articleshow/135050351.cms
+</p>
+<li>[ET Markets] PC Jeweller among 8 stocks that hit 52-week high and rallied up to 42% in a month.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/stocks/news/pc-jeweller-among-8-stocks-that-hit-52-week-high-and-rallied-up-to-42-in-a-month/slideshow/135050343.cms
+</p>
+<li>[ET Markets] US stocks today: S&amp;P 500, Nasdaq climb as AI-linked stocks recover ahead of earnings.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-today-sp-500-nasdaq-open-higher-as-ai-stocks-rebound-ahead-of-major-earnings/articleshow/135050156.cms
+</p>
+<li>[ET Markets] India bonds give up day&#x27;s gains as oil price spike adds to rate hike fears.</li>
+<p>
+    https://economictimes.indiatimes.com/markets/bonds/india-bonds-india-bonds-give-up-days-gains-as-oil-price-spike-adds-to-rate-hike-fears/articleshow/135048949.cms
+</p>
+<li>[Livemint Markets] PhonePe rebrands stock broking platform Share.Market as PhonePe Invest, offers smart tools for investors.</li>
+<p>
+    https://www.livemint.com/market/phonepe-rebrands-stock-broking-platform-share-market-as-phonepe-invest-offers-smart-tools-for-investors-11792406855628.html
+</p>
+<li>[Livemint Markets] Jio Platforms IPO: Should you subscribe? Anand Rathi sees long-term potential in AI, reasonable valuations.</li>
+<p>
+    https://www.livemint.com/market/stock-market-news/jio-platforms-ipo-should-you-subscribe-anand-rathi-sees-long-term-potential-in-ai-reasonable-valuations-11792414820060.html
+</p>
+<li>[Livemint Markets] What’s wrong with Indonesian stock market? Why it lost nearly 40% in a year and can Jakarta win back investors? Decoded.</li>
+<p>
+    https://www.livemint.com/market/whats-wrong-with-indonesian-stock-market-why-it-lost-nearly-40-in-a-year-and-can-jakarta-win-back-investors-decoded-11792416925940.html
+</p>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
