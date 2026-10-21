@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Market Wrap — 21 October 2026</title>
+<meta name="description" content="Indian equities witnessed a broad-based decline today, with all major indices closing in the red. The market was primarily weighed down by significant selling.">
+<meta name="keywords" content="stocks, profit, results, markets, economictimes, indiatimes, institutional, strong">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-21-post_market-market-wrap-21-october-2026/">
+<meta property="og:title" content="Market Wrap — 21 October 2026">
+<meta property="og:description" content="Indian equities witnessed a broad-based decline today, with all major indices closing in the red. The market was primarily weighed down by significant selling.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-21-post_market-market-wrap-21-october-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Market Wrap \u2014 21 October 2026", "description": "Indian equities witnessed a broad-based decline today, with all major indices closing in the red. The market was primarily weighed down by significant selling.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-21", "dateModified": "2026-10-21", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-21-post_market-market-wrap-21-october-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/" class="active">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Market Wrap · 2026-10-21</div><h1>Market Wrap — 21 October 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Indian equities witnessed a broad-based decline today, with all major indices closing in the red.</li>
+<li>The market was primarily weighed down by significant selling pressure in mid and small-cap stocks and sustained FII outflows.</li>
+<li>India Cements emerged as the top gainer among Nifty 500 stocks, surging over 12%.</li>
+<li>Himadri Speciality Chemical was the biggest loser, dropping nearly 11%.</li>
+<li>Foreign Institutional Investors (FIIs) remained net sellers, while Domestic Institutional Investors (DIIs) provided crucial buying support.</li>
+<li>F&amp;O positioning data is unavailable for today and will be included from the next wrap.</li>
+</ul>
+</div>
+<h2>How the market behaved today</h2>
+<p>
+Indian benchmark indices closed lower today, reversing early gains to end the session in negative territory. The Nifty 50 opened higher but saw selling pressure throughout the day, closing at 22811.35, down 0.34%. The Bank Nifty also followed suit, shedding 0.92% to settle at 54976.90. The broader market experienced a sharper correction, with the Nifty Midcap 100 declining by 1.58% and the Nifty Smallcap 100 falling by a significant 2.37%, indicating widespread profit-booking.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>Change</th><th>High</th><th>Low</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>22811.35</td><td>-0.34%</td><td>23120.90</td><td>22649.90</td></tr>
+<tr><td>Bank Nifty</td><td>54976.90</td><td>-0.92%</td><td>55867.45</td><td>54696.45</td></tr>
+<tr><td>Nifty Midcap 100</td><td>57565.85</td><td>-1.58%</td><td>58713.25</td><td>57133.70</td></tr>
+<tr><td>Nifty Smallcap 100</td><td>18487.30</td><td>-2.37%</td><td>19009.75</td><td>18373.05</td></tr>
+</tbody></table>
+<p>
+The India VIX, a measure of market volatility, rose by 6.16% to 15.68, signalling increased investor apprehension.
+</p>
+<h2>What moved the market — the factors</h2>
+<p>
+Today&#x27;s market action was largely influenced by a combination of factors. Global cues were mixed, with US stocks opening higher on positive results from SpaceX and Super Micro, particularly boosting AI-related stocks, though Netflix&#x27;s slowing sales growth raised concerns. Domestically, the market witnessed sustained outflows from Foreign Institutional Investors (FIIs), who were net sellers for the fourth time in five sessions. This selling was largely absorbed by Domestic Institutional Investors (DIIs), who continued to provide strong buying support.
+</p>
+<p>
+The broader market, especially the Nifty Midcap 100 and Nifty Smallcap 100, bore the brunt of the selling, indicating profit-booking after recent rallies. Sectorally, the IT sector was a standout performer, gaining nearly 3%, likely driven by positive sentiment around global tech and specific stock recommendations. Conversely, sectors like Metal, Auto, and Energy faced significant selling pressure. The increase in India VIX also suggested heightened caution among investors. The ongoing Jio Platforms IPO, which saw strong institutional demand on its first day, was a key event, with Moody&#x27;s terming it credit positive for Reliance Industries.
+</p>
+<h2>Sectors — winners and losers</h2>
+<p>
+The market saw a clear divergence in sectoral performance today, with Information Technology leading the gains while Metal and Auto sectors lagged.
+</p>
+<p>
+<strong>Top 3 gainer sectors:</strong>
+</p>
+<ul>
+<li><strong>IT:</strong> +2.88%. The sector saw strong buying interest, potentially buoyed by positive global tech sentiment and specific stock recommendations.</li>
+<li><strong>PHARMA:</strong> -0.19%. Despite a slight dip, the pharmaceutical sector showed relative resilience compared to the broader market.</li>
+<li><strong>PSU BANK:</strong> -0.51%. Public sector banks also managed to limit their losses, outperforming the overall market decline.</li>
+</ul>
+<p>
+<strong>Top 3 loser sectors:</strong>
+</p>
+<ul>
+<li><strong>METAL:</strong> -1.71%. The metal sector faced significant selling pressure today.</li>
+<li><strong>AUTO:</strong> -1.54%. Automobile stocks witnessed profit-booking, contributing to the market&#x27;s decline.</li>
+<li><strong>ENERGY:</strong> -1.39%. Energy stocks also ended the day with notable losses.</li>
+</ul>
+<h2>Stocks that moved the market</h2>
+<h3>Top 5 gainers (Nifty 500)</h3>
+<ul>
+<li><strong>India Cements Ltd. (INDIACEM, Construction Materials):</strong> close ₹329.80, +12.04%</li>
+<li><strong>L&amp;T Technology Services Ltd. (LTTS, Information Technology):</strong> close ₹3996.30, +10.66%. The stock was among the five recommended by technical analysts for potential gains.</li>
+<li><strong>Fractal Analytics Ltd. (FRACTAL, Information Technology):</strong> close ₹785.90, +10.15%</li>
+<li><strong>Ipca Laboratories Ltd. (IPCALAB, Healthcare):</strong> close ₹1918.90, +5.75%</li>
+<li><strong>Hexaware Technologies Ltd. (HEXT, Information Technology):</strong> close ₹604.60, +5.28%. This stock was also highlighted in technical analysts&#x27; recommendations for Thursday.</li>
+</ul>
+<h3>Top 5 losers (Nifty 500)</h3>
+<ul>
+<li><strong>Himadri Speciality Chemical Ltd. (HSCL, Chemicals):</strong> close ₹539.25, -10.99%</li>
+<li><strong>Jindal Saw Ltd. (JINDALSAW, Capital Goods):</strong> close ₹270.40, -8.53%</li>
+<li><strong>Ramkrishna Forgings Ltd. (RKFORGE, Automobile and Auto Components):</strong> close ₹635.75, -7.19%</li>
+<li><strong>Gallantt Ispat Ltd. (GALLANTT, Capital Goods):</strong> close ₹583.10, -6.88%</li>
+<li><strong>CreditAccess Grameen Ltd. (CREDITACC, Financial Services):</strong> close ₹1142.40, -6.86%</li>
+</ul>
+<h2>News that moved stocks</h2>
+<ul>
+<li><strong>Market Trading Guide: Wipro among 5 stock recommendations for Thursday</strong></li>
+<p>
+  Technical analysts have recommended Wipro, NHPC, Sagility, L&amp;T Technology Services (LTTS), and Hexaware Technologies for potential gains, citing bullish chart patterns and momentum indicators, which likely contributed to the strong performance of LTTS and Hexaware today.
+</p>
+<li><strong>Mahindra Finance Q2 net profit surges 55% to Rs 882 crore on volumes, lower credit cost</strong></li>
+<p>
+  Mahindra Finance reported a robust 55% year-on-year increase in its Q2 net profit, driven by a 15% growth in business assets under management and a 52% rise in non-vehicle finance disbursements.
+</p>
+<li><strong>Jio IPO strengthens Reliance’s financial flexibility; capex funding remains key: Moody’s</strong></li>
+<p>
+  Moody’s has deemed Jio Platforms’ IPO as credit positive for Reliance Industries, highlighting its potential to support investments and enhance debt management flexibility.
+</p>
+<li><strong>PC Jewellers Q2 Results: Net profit shoots up 58% to Rs 331 crore; company says it is now debt-free</strong></li>
+<p>
+  PC Jewellers Ltd announced an impressive 58% growth in net profit for Q2 FY27, with sales exceeding ₹1,054 crore, and the company also declared itself debt-free.
+</p>
+<li><strong>IHCL Q2 Results: Tata Group-owned hotel chain&#x27;s net profit jumps 19% to Rs 379 crore</strong></li>
+<p>
+  Indian Hotels Company Ltd (IHCL) reported a 19.35% rise in consolidated profit for the September quarter, reaching ₹379.85 crore, driven by increased revenue.
+</p>
+<li><strong>US stocks open higher as SpaceX, Super Micro results lift AI stocks</strong></li>
+<p>
+  Wall Street opened higher today, primarily led by gains in technology and AI stocks following strong quarterly results from SpaceX and Super Micro Computer, which improved investor sentiment towards the tech sector.
+</p>
+<li><strong>Jio Platforms IPO subscribed 3.16 times on Day 1, led by strong institutional demand</strong></li>
+<p>
+  The initial public offering (IPO) of Jio Platforms was subscribed 3.16 times on its first day, with Qualified Institutional Buyers (QIBs) showing particularly strong demand, subscribing 9.42 times.
+</p>
+</ul>
+<h2>F&amp;O build-up — where traders are positioning</h2>
+<p>
+OI build-up needs the previous session&#x27;s OI — it will populate from the next run.
+</p>
+<h2>Market breadth</h2>
+<p>
+The market breadth was overwhelmingly negative today, reflecting the broad-based selling pressure. Out of 495 stocks traded on the NSE, only 80 advanced, while a significant 415 declined. This indicates that the selling was not confined to a few pockets but was widespread across the market.
+</p>
+<h2>FII / DII flows</h2>
+<p>
+Foreign Institutional Investors (FIIs) continued their selling streak today, while Domestic Institutional Investors (DIIs) provided strong counter-buying.
+</p>
+<table><thead><tr><th>Investor Category</th><th>Net Flow (₹ crore)</th></tr></thead><tbody>
+<tr><td>FII</td><td>-1,149</td></tr>
+<tr><td>DII</td><td>3,201</td></tr>
+</tbody></table>
+<p>
+Looking at the 5-day history, FIIs have been net sellers for four out of the last five trading sessions, indicating a cautious stance from foreign investors. In contrast, DIIs have been consistent net buyers throughout this period, absorbing the foreign outflows and providing crucial support to the Indian markets.
+</p>
+<h2>Event breakdown — what happened today and how it hit the market</h2>
+<p>
+Today&#x27;s session was influenced by a mix of corporate earnings, the ongoing Jio Platforms IPO, and mixed global cues.
+</p>
+<p>
+The <strong>Jio Platforms IPO</strong> commenced today, receiving a strong response on its first day, with the issue subscribed 3.16 times, primarily driven by robust institutional demand. This event is seen as credit positive for Reliance Industries, potentially enhancing its financial flexibility.
+</p>
+<p>
+Several companies announced their <strong>Q2 earnings</strong>, which had stock-specific impacts. Mahindra Finance reported a 55% surge in net profit, while PC Jewellers saw a 58% jump and declared itself debt-free. Indian Hotels Company Ltd (IHCL) also posted a 19% rise in net profit. These positive results provided some individual stock strength amidst the broader market weakness.
+</p>
+<p>
+<strong>Global cues</strong> were mixed. While US stocks opened higher, buoyed by strong results from SpaceX and Super Micro Computer, particularly in the AI sector, concerns over Netflix&#x27;s slowing sales growth tempered the overall sentiment. This mixed global picture, combined with consistent FII outflows, contributed to the cautious mood in the Indian market.
+</p>
+<h2>Setup for tomorrow</h2>
+<p>
+Looking ahead to tomorrow, the market will likely continue to monitor global cues and FII flow trends. The strong institutional participation in the Jio Platforms IPO could provide some underlying support, but the broader market sentiment remains cautious given the recent selling in mid and small caps. Key levels for Nifty 50 and Bank Nifty will be crucial to watch.
+</p>
+<p>
+Globally, the USD/INR closed at 94.45, down 0.57%, while the Dollar Index was marginally up at 101.77. Brent Crude was at $108.58, down 0.19%, and WTI Crude saw a significant drop of 4.85% to $96.85. Gold and Silver showed slight gains, while the US 10Y Yield edged lower to 5.10. These global commodity and currency movements will provide overnight pointers for tomorrow&#x27;s Indian trading session.
+</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/market-trading-guide-wipro-among-5-stock-recommendations-for-thursday/slideshow/135095527.cms" rel="noopener" target="_blank">Market Trading Guide: Wipro among 5 stock recommendations for Thursday</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/netflix-shares-slide-4-as-slowing-sales-growth-raises-fresh-concerns/articleshow/135094744.cms" rel="noopener" target="_blank">Netflix shares slide 4% as slowing sales growth raises fresh concerns</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/earnings/mahindra-finance-q2-net-profit-surges-55-to-rs-882-crore-on-volumes-lower-credit-cost/articleshow/135094556.cms" rel="noopener" target="_blank">Mahindra Finance Q2 net profit surges 55% to Rs 882 crore on volumes, lower credit cost</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/ipos/fpos/jio-ipo-strengthens-reliances-financial-flexibility-capex-funding-remains-key-moodys/articleshow/135094225.cms" rel="noopener" target="_blank">Jio IPO strengthens Reliance’s financial flexibility; capex funding remains key: Moody’s</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/earnings/pc-jewellers-q2-results-net-profit-shoots-up-58-to-rs-331-crore-company-says-it-is-now-debt-free/articleshow/135094111.cms" rel="noopener" target="_blank">PC Jewellers Q2 Results: Net profit shoots up 58% to Rs 331 crore; company says it is now debt-free</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/earnings/ihcl-q2-results-tata-group-owned-hotel-chains-net-profit-jumps-19-to-rs-379-crore/articleshow/135094055.cms" rel="noopener" target="_blank">IHCL Q2 Results: Tata Group-owned hotel chain&#x27;s net profit jumps 19% to Rs 379 crore</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-today-us-stocks-open-higher-as-spacex-super-micro-results-lift-ai-stocks/articleshow/135093777.cms" rel="noopener" target="_blank">US stocks today: US stocks open higher as SpaceX, Super Micro results lift AI stocks</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/can-jio-ipo-unlock-hidden-value-in-reliance-industries-shares/videoshow/135093782.cms" rel="noopener" target="_blank">Can Jio IPO unlock hidden value in Reliance Industries shares?</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/sky-gold-and-diamonds-among-5-stocks-that-hit-52-week-highs-and-rallied-up-to-45-in-a-month/slideshow/135093530.cms" rel="noopener" target="_blank">Sky Gold and Diamonds among 5 stocks that hit 52-week highs and rallied up to 45% in a month</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/earnings/igi-q2-results-consolidated-pat-surges-43-to-rs-185-crore/articleshow/135093213.cms" rel="noopener" target="_blank">IGI Q2 Results: Consolidated PAT surges 43% to Rs 185 crore</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/digital-real-estate/realty-news/ai-data-center-projects-boost-us-warehouse-demand-and-rents-real-estate-company-jll-says/articleshow/135093158.cms" rel="noopener" target="_blank">AI data center projects boost US warehouse demand and rents, real estate company JLL says</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/digital-real-estate/realty-news/uk-annual-house-prices-rise-at-weakest-pace-since-march-ons-says/articleshow/135093001.cms" rel="noopener" target="_blank">UK annual house prices rise at weakest pace since March, ONS says</a></li>
+<li><a href="https://www.livemint.com/market/stock-market-news/zerodha-launches-us-stock-investing-how-to-invest-in-tesla-amazon-spacex-meta-micron-nvidia-and-amd-explained-11792594591349.html" rel="noopener" target="_blank">Zerodha launches US stock investing: How to invest in Tesla, Amazon, SpaceX, Meta, Micron, Nvidia and AMD — explained</a></li>
+<li><a href="https://www.livemint.com/market/ipo/reliance-jio-ipo-subscription-status-day-1-qib-nii-retail-employees-ril-shareholders-category-wise-investor-detail-11792584622711.html" rel="noopener" target="_blank">Reliance Jio IPO subscription status day 1: QIB, NII, Retail, Employees, RIL Shareholders; category wise investor detail</a></li>
+<li><a href="https://www.livemint.com/market/stock-market-news/ipo-subscription-status-comparison-reliance-jio-platforms-vs-paras-healthcare-ipo-who-is-leading-11792588404780.html" rel="noopener" target="_blank">IPO subscription status comparison: Reliance Jio Platforms vs Paras Healthcare IPO — who is leading?</a></li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
