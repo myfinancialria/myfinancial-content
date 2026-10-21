@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>ULIP vs. Term Plan + Mutual Fund: The ₹2.5 Lakh Line that Decides</title>
+<meta name="description" content="For Unit-Linked Insurance Plans (ULIPs) issued on or after February 1, 2021, maturity proceeds are tax-exempt only if the annual premium is ₹2.5 lakhs or less.">
+<meta name="keywords" content="mutual, premium, maturity, insurance, annual, investment, financial, charges">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-21-personal_finance-ulip-vs-term-plan-mutual-fund-the-25-lakh-line-that-decides/">
+<meta property="og:title" content="ULIP vs. Term Plan + Mutual Fund: The ₹2.5 Lakh Line that Decides">
+<meta property="og:description" content="For Unit-Linked Insurance Plans (ULIPs) issued on or after February 1, 2021, maturity proceeds are tax-exempt only if the annual premium is ₹2.5 lakhs or less.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-21-personal_finance-ulip-vs-term-plan-mutual-fund-the-25-lakh-line-that-decides/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ULIP vs. Term Plan + Mutual Fund: The \u20b92.5 Lakh Line that Decides", "description": "For Unit-Linked Insurance Plans (ULIPs) issued on or after February 1, 2021, maturity proceeds are tax-exempt only if the annual premium is \u20b92.5 lakhs or less.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-21", "dateModified": "2026-10-21", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-21-personal_finance-ulip-vs-term-plan-mutual-fund-the-25-lakh-line-that-decides/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Personal Finance · 2026-10-21</div><h1>ULIP vs. Term Plan + Mutual Fund: The ₹2.5 Lakh Line that Decides</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>For Unit-Linked Insurance Plans (ULIPs) issued on or after February 1, 2021, maturity proceeds are tax-exempt only if the annual premium is ₹2.5 lakhs or less.</li>
+<li>If your aggregate annual ULIP premium exceeds ₹2.5 lakhs, the maturity proceeds become taxable, similar to equity-oriented mutual funds.</li>
+<li>Below the ₹2.5 lakh annual premium threshold, a tax-free ULIP can sometimes offer competitive returns compared to investing in actively managed mutual funds.</li>
+<li>Above this threshold, a combination of a pure term insurance plan and investments in a low-cost index mutual fund generally outperforms a ULIP significantly.</li>
+<li>This tax rule has made it crucial to re-evaluate ULIPs, especially for high-premium policies, favouring the &#x27;buy term, invest the rest&#x27; strategy for many.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you&#x27;re planning your finances, especially for long-term goals and family protection, two popular approaches often come up: Unit-Linked Insurance Plans (ULIPs) and the combination of a pure Term Insurance Plan with Mutual Fund investments. ULIPs are products that offer both life insurance cover and investment growth, with your money invested in various funds chosen by you. On the other hand, a Term Plan provides only life insurance cover for a specific period, and you invest separately in mutual funds for wealth creation.
+</p>
+<p>
+The decision between these two has become clearer thanks to a specific tax rule introduced in the Union Budget 2021. This rule states that if the total annual premium you pay for a ULIP (or multiple ULIPs) is more than ₹2.5 lakhs in any financial year, the maturity amount you receive will no longer be tax-free under Section 10(10D) of the Income Tax Act. This is a significant change because the tax-free maturity was a major selling point for ULIPs. Essentially, this ₹2.5 lakh threshold now acts as a crucial dividing line, influencing which option makes more financial sense for you.
+</p>
+<h2>Understanding ULIPs and their evolution</h2>
+<p>
+Unit-Linked Insurance Plans (ULIPs) are financial products that combine the benefits of life insurance with market-linked investment returns. A portion of your premium goes towards providing life cover, while the remaining is invested in various fund options (equity, debt, or hybrid) chosen by you, similar to mutual funds. The value of your investment is determined by the Net Asset Value (NAV) of the units allocated to you.
+</p>
+<p>
+Historically, ULIPs were often criticised for their high charges, including premium allocation charges, policy administration charges, fund management charges, and mortality charges, which could eat into returns, especially in the initial years. However, over time, the Insurance Regulatory and Development Authority of India (IRDAI) introduced regulations to cap these charges and ensure greater transparency. This led to a new generation of ULIPs with lower charges and better disclosures.
+</p>
+<p>
+A key attraction of ULIPs was the tax-free maturity benefit under Section 10(10D) of the Income Tax Act, provided certain conditions regarding sum assured were met. This made them very appealing for long-term wealth creation, especially for those in higher tax brackets. However, the Union Budget 2021 brought a pivotal change. For ULIPs issued on or after February 1, 2021, if the aggregate annual premium payable exceeds ₹2.5 lakhs in any financial year, the maturity proceeds will now be taxable, similar to equity-oriented mutual funds where long-term capital gains (LTCG) over ₹1 lakh are taxed at 10% without indexation. This amendment, notified by the Central Board of Direct Taxes (CBDT), significantly altered the landscape for high-premium ULIPs.
+</p>
+<h3>The power of a pure term plan</h3>
+<p>
+A pure term insurance plan is the simplest and most cost-effective form of life insurance. It provides a substantial life cover for a specific period (the &quot;term&quot;) in exchange for regular premium payments. If the policyholder passes away during the policy term, their nominees receive the sum assured. If the policyholder survives the term, there is no payout, and the policy simply expires.
+</p>
+<p>
+The primary advantage of a term plan is its focus on pure risk protection. It does not have an investment component, which keeps the premiums significantly lower compared to endowment plans or ULIPs for the same amount of cover. This allows individuals to secure a very large life cover, ensuring their family&#x27;s financial security, without tying up a large portion of their income in insurance premiums. The philosophy behind choosing a term plan is to &#x27;buy term and invest the rest&#x27;. This means you get adequate insurance cover at a minimal cost and then invest the money saved on premiums into other financial instruments that are specifically designed for wealth creation, such as mutual funds. This separation of insurance and investment allows for clearer financial planning and often leads to better overall returns.
+</p>
+<h3>Mutual Funds for wealth creation</h3>
+<p>
+Mutual funds are investment vehicles that pool money from multiple investors to invest in a diversified portfolio of stocks, bonds, or other securities. They are managed by professional fund managers who aim to generate returns for investors. Mutual funds offer several advantages, including diversification, professional management, affordability (you can start with small amounts through SIPs), and liquidity.
+</p>
+<p>
+For long-term wealth creation, equity-oriented mutual funds, particularly index funds, are often recommended. Index funds are a type of mutual fund that passively tracks a specific market index, like the Nifty 50 or Sensex. They aim to replicate the performance of the index by investing in the same proportion as the index constituents. Because they do not require active management or extensive research, index funds typically have very low expense ratios (charges) compared to actively managed funds. This lower cost can significantly compound returns over the long term.
+</p>
+<p>
+When combined with a pure term plan, investing in mutual funds, especially low-cost index funds, allows you to leverage the power of compounding without the various charges associated with ULIPs. While long-term capital gains from equity mutual funds exceeding ₹1 lakh in a financial year are taxed at 10% (without indexation), the potential for higher returns due to lower costs and focused investment can often outweigh this tax liability, especially when compared to a taxable ULIP with higher internal charges.
+</p>
+<h2>The ₹2.5 Lakh Premium Threshold &amp; Taxation</h2>
+<p>
+The game-changer for ULIPs came with the Union Budget 2021. Prior to this, maturity proceeds from ULIPs were entirely tax-exempt under Section 10(10D) of the Income Tax Act, provided the sum assured was at least 10 times the annual premium. This made ULIPs a preferred choice for many high-net-worth individuals seeking tax-efficient wealth accumulation.
+</p>
+<p>
+However, the Finance Act, 2021, introduced a crucial amendment. For any ULIP policy issued on or after February 1, 2021, if the aggregate of the annual premium payable for such policy (or policies, if you hold multiple ULIPs) exceeds ₹2.5 lakhs in any financial year, the maturity proceeds will no longer be exempt under Section 10(10D). Instead, these proceeds will be taxable as &#x27;capital gains&#x27;. This means that the gains from such ULIPs will be treated similarly to capital gains from equity-oriented mutual funds. If the holding period is more than 12 months, the gains will be considered Long Term Capital Gains (LTCG) and taxed at 10% on gains exceeding ₹1 lakh in a financial year, without the benefit of indexation.
+</p>
+<p>
+This amendment fundamentally changes the financial appeal of high-premium ULIPs. When the maturity proceeds were tax-free, ULIPs could potentially offer competitive post-tax returns even with their internal charges. However, once the tax exemption is removed for premiums above ₹2.5 lakhs, the ULIP&#x27;s inherent charges (mortality, fund management, administration) become a significant drag on returns, making them less attractive compared to a combination of a low-cost term plan and direct investment in mutual funds, particularly index funds. The ₹2.5 lakh threshold effectively pushes investors with higher investment capacities towards separating their insurance and investment needs to achieve better net returns.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, ₹28L CTC, Bengaluru</strong>, who wants to invest ₹5 lakhs annually for 20 years to build wealth and secure his family.
+</p>
+<p>
+<strong>Scenario 1: Investing via a ULIP (Premium &gt; ₹2.5 Lakhs)</strong>
+Rahul considers a ULIP with an annual premium of ₹5 lakhs.
+</p>
+<ul>
+<li><strong>Annual Premium:</strong> ₹5,00,000</li>
+<li><strong>Investment Horizon:</strong> 20 years</li>
+<li><strong>Total Investment:</strong> ₹5,00,000 x 20 = ₹1 crore</li>
+<li><strong>Assumed ULIP Return (post-charges, pre-tax):</strong> 8% per annum (ULIPs typically have higher charges than direct mutual funds).</li>
+<li><strong>Maturity Value (pre-tax):</strong> Approximately ₹2.28 crores</li>
+</ul>
+<p>
+Since the annual premium of ₹5 lakhs exceeds the ₹2.5 lakh threshold, the maturity proceeds will be taxable.
+</p>
+<ul>
+<li><strong>Cost of acquisition (for capital gains calculation):</strong> ₹1 crore</li>
+<li><strong>Capital Gain:</strong> ₹2.28 crores - ₹1 crore = ₹1.28 crores</li>
+<li><strong>Taxable Gain:</strong> ₹1.28 crores (assuming no other exemptions)</li>
+<li><strong>Long Term Capital Gains Tax (10% on gains &gt; ₹1 lakh):</strong> (₹1.28 crores - ₹1 lakh) * 10% = ₹12,79,000</li>
+<li><strong>Net Maturity Value (post-tax):</strong> ₹2.28 crores - ₹12.79 lakhs = ₹2,15,21,000</li>
+</ul>
+<p>
+<strong>Scenario 2: Term Plan + Index Mutual Fund</strong>
+Rahul decides to go for a pure term plan and invest the rest in an index mutual fund.
+</p>
+<ul>
+<li><strong>Term Plan Premium:</strong> For a ₹2 crore cover for 20 years, a 38-year-old male might pay around ₹25,000 per annum (this is an illustrative figure and can vary).</li>
+<li><strong>Amount Available for Mutual Fund Investment:</strong> ₹5,00,000 (total budget) - ₹25,000 (term plan premium) = ₹4,75,000 per annum</li>
+<li><strong>Investment Horizon:</strong> 20 years</li>
+<li><strong>Total Investment in Mutual Fund:</strong> ₹4,75,000 x 20 = ₹95 lakhs</li>
+<li><strong>Assumed Index Fund Return:</strong> 11% per annum (Index funds typically have lower expense ratios and often track market returns closely, potentially outperforming ULIPs over the long term).</li>
+<li><strong>Maturity Value (pre-tax):</strong> Approximately ₹3.13 crores</li>
+</ul>
+<p>
+Now, let&#x27;s calculate the tax on mutual fund gains.
+</p>
+<ul>
+<li><strong>Cost of acquisition:</strong> ₹95 lakhs</li>
+<li><strong>Capital Gain:</strong> ₹3.13 crores - ₹95 lakhs = ₹2.18 crores</li>
+<li><strong>Taxable Gain:</strong> ₹2.18 crores</li>
+<li><strong>Long Term Capital Gains Tax (10% on gains &gt; ₹1 lakh):</strong> (₹2.18 crores - ₹1 lakh) * 10% = ₹21,70,000</li>
+<li><strong>Net Maturity Value (post-tax):</strong> ₹3.13 crores - ₹21.70 lakhs = ₹2,91,30,000</li>
+</ul>
+<p>
+<strong>Comparison:</strong>
+</p>
+<ul>
+<li><strong>Net Maturity Value (ULIP):</strong> ₹2.15 crores</li>
+<li><strong>Net Maturity Value (Term + MF):</strong> ₹2.91 crores</li>
+</ul>
+<p>
+In this example, the Term Plan + Index Mutual Fund combination yields approximately ₹76 lakhs more than the ULIP, even after accounting for LTCG tax on mutual funds. This significant difference is primarily due to the ULIP&#x27;s higher internal charges and the loss of its tax-free maturity status once the annual premium crosses the ₹2.5 lakh threshold.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review existing ULIPs:</strong> Check the issuance date of any ULIPs you hold. If issued on or after February 1, 2021, and your annual premium exceeds ₹2.5 lakhs, understand that maturity proceeds will be taxable.</li>
+<li><strong>Calculate aggregate premiums:</strong> If you have multiple ULIPs, sum up their annual premiums to see if the total crosses the ₹2.5 lakh threshold.</li>
+<li><strong>Assess your insurance cover:</strong> Determine if your current term insurance cover is adequate for your family&#x27;s financial needs. Use an online calculator to estimate the ideal sum assured.</li>
+<li><strong>Explore low-cost investment options:</strong> Research well-regarded index funds or diversified equity mutual funds that align with your risk profile for wealth creation, separate from your insurance needs.</li>
+<li><strong>Consult a financial planner:</strong> Discuss your specific financial goals and existing policies with a Certified Financial Planner to get personalised advice on optimising your insurance and investment portfolio.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the ₹2.5 lakh premium threshold for ULIPs?</h3>
+<p>
+For ULIPs issued on or after February 1, 2021, if the total annual premium payable in any financial year exceeds ₹2.5 lakhs, the maturity proceeds will no longer be tax-exempt under Section 10(10D) of the Income Tax Act.
+</p>
+<h3>How are ULIP maturity proceeds taxed if the premium is above ₹2.5 lakhs?</h3>
+<p>
+If the annual premium exceeds ₹2.5 lakhs, the maturity proceeds from the ULIP become taxable as capital gains. Long Term Capital Gains (LTCG) on ULIPs held for over 12 months are taxed at 10% on gains exceeding ₹1 lakh, similar to equity mutual funds.
+</p>
+<h3>Is the ₹2.5 lakh threshold applicable per ULIP policy or for all ULIPs combined?</h3>
+<p>
+The ₹2.5 lakh threshold applies to the aggregate annual premium of <em>all</em> ULIP policies held by an individual, if they were issued on or after February 1, 2021.
+</p>
+<h3>Does this tax rule apply to ULIPs purchased before February 1, 2021?</h3>
+<p>
+No, ULIPs issued before February 1, 2021, continue to enjoy tax-free maturity proceeds under Section 10(10D), provided they meet the original conditions regarding the sum assured.
+</p>
+<h3>Why is &#x27;Term Plan + Mutual Fund&#x27; often recommended over ULIPs now?</h3>
+<p>
+With the tax benefit removed for high-premium ULIPs, the &#x27;Term Plan + Mutual Fund&#x27; strategy allows for pure, cost-effective insurance cover and potentially higher wealth creation through lower-cost mutual funds, often leading to better post-tax returns.
+</p>
+<h3>Can I still buy a ULIP if my annual premium is below ₹2.5 lakhs?</h3>
+<p>
+Yes, you can. If your annual premium is ₹2.5 lakhs or less, the maturity proceeds of the ULIP will still be tax-exempt under Section 10(10D), which can make it an attractive option for some investors, especially if they value the combined offering.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
