@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Post Office vs FD vs Arbitrage Fund: Optimising Post-Tax Returns</title>
+<meta name="description" content="Post Office deposits and Bank FDs offer fixed, guaranteed returns but are fully taxable at your income tax slab rate. Arbitrage funds aim for market-linked re.">
+<meta name="keywords" content="arbitrage, office, interest, deposits, returns, market, capital, return">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-23-macro-post-office-vs-fd-vs-arbitrage-fund-optimising-post-tax-returns/">
+<meta property="og:title" content="Post Office vs FD vs Arbitrage Fund: Optimising Post-Tax Returns">
+<meta property="og:description" content="Post Office deposits and Bank FDs offer fixed, guaranteed returns but are fully taxable at your income tax slab rate. Arbitrage funds aim for market-linked re.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-23-macro-post-office-vs-fd-vs-arbitrage-fund-optimising-post-tax-returns/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Post Office vs FD vs Arbitrage Fund: Optimising Post-Tax Returns", "description": "Post Office deposits and Bank FDs offer fixed, guaranteed returns but are fully taxable at your income tax slab rate. Arbitrage funds aim for market-linked re.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-23", "dateModified": "2026-10-23", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-23-macro-post-office-vs-fd-vs-arbitrage-fund-optimising-post-tax-returns/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/" class="active">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Macro &amp; Markets · 2026-10-23</div><h1>Post Office vs FD vs Arbitrage Fund: Optimising Post-Tax Returns</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Post Office deposits and Bank FDs offer fixed, guaranteed returns but are fully taxable at your income tax slab rate.</li>
+<li>Arbitrage funds aim for market-linked returns by exploiting price differences in equity markets, with equity-like taxation.</li>
+<li>For investors in higher tax brackets, arbitrage funds held for over a year typically offer more tax-efficient returns compared to FDs or Post Office schemes.</li>
+<li>Post Office schemes and FDs offer high capital safety, while arbitrage funds carry moderate market risk, though lower than pure equity funds.</li>
+<li>Liquidity is generally highest with arbitrage funds (after any exit load period), followed by FDs and then Post Office deposits, which often have longer lock-ins.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you save or invest, you want your money to grow. Many Indians traditionally rely on fixed deposits (FDs) with banks or various schemes offered by the Post Office, like Time Deposits or National Savings Certificates (NSCs). These are popular because they offer guaranteed returns and are perceived as very safe. However, the interest you earn from these is fully added to your income and taxed according to your income tax bracket.
+</p>
+<p>
+An arbitrage fund, on the other hand, is a type of mutual fund that aims to generate returns by taking advantage of temporary price differences between the cash market and the futures market for the same stock. It tries to lock in a profit with minimal risk, but it&#x27;s still linked to the equity market. The key difference lies in how its returns are taxed; since it&#x27;s categorised as an equity-oriented fund, its long-term gains are taxed more favourably than the interest income from FDs or Post Office schemes, especially for those in higher tax brackets. Choosing the right option depends on your tax bracket, how much risk you&#x27;re comfortable with, and how easily you might need to access your money.
+</p>
+<h2>Understanding the Tax Implications</h2>
+<p>
+The post-tax return is arguably the most crucial factor when comparing investment options, especially for individuals in higher income tax brackets. The tax treatment of interest income versus capital gains can significantly alter the net earnings.
+</p>
+<h3>Taxation of Post Office Deposits and Bank FDs</h3>
+<p>
+Interest earned from Post Office Time Deposits (POTDs) and Bank Fixed Deposits (FDs) is fully taxable. This income is added to your total income and taxed at your applicable income tax slab rate. For instance, if you fall into the 30% tax bracket, 30% of the interest earned will go towards taxes. Banks and Post Offices are also mandated to deduct Tax Deducted at Source (TDS) if the interest income exceeds a certain threshold in a financial year (₹40,000 for general citizens, ₹50,000 for senior citizens). While National Savings Certificates (NSCs) offer a deduction under Section 80C for the initial investment and annually accrued interest (up to ₹1.5 lakhs), the final year&#x27;s interest and the maturity amount are still fully taxable at your slab rate.
+</p>
+<h3>Taxation of Arbitrage Funds</h3>
+<p>
+Arbitrage funds are treated as equity-oriented mutual funds for taxation purposes, provided they invest at least 65% of their corpus in equities. This classification offers a distinct tax advantage:
+</p>
+<ul>
+<li><strong>Short-Term Capital Gains (STCG):</strong> If you redeem your units within one year of investment, any gains are subject to a 15% tax.</li>
+<li><strong>Long-Term Capital Gains (LTCG):</strong> If you redeem your units after holding them for more than one year, gains up to ₹1 lakh in a financial year are exempt from tax. Gains exceeding ₹1 lakh are taxed at a concessional rate of 10%, without indexation benefit.</li>
+</ul>
+<p>
+For individuals in the 20% or 30% tax brackets, the long-term capital gains tax treatment of arbitrage funds often results in a significantly higher post-tax return compared to the fully taxable interest from FDs or Post Office schemes, assuming comparable gross returns.
+</p>
+<h2>Risk and Capital Safety</h2>
+<p>
+Understanding the inherent risks associated with each investment avenue is critical for informed decision-making. Investors must weigh the potential for returns against the safety of their principal.
+</p>
+<h3>Safety of Post Office Deposits and Bank FDs</h3>
+<p>
+Post Office deposits, such as Time Deposits and National Savings Certificates, are backed by the sovereign guarantee of the Government of India, making them among the safest investment options available. The risk of capital loss is virtually non-existent.
+</p>
+<p>
+Bank Fixed Deposits, while generally considered safe, carry a slightly higher risk than Post Office schemes, mainly due to the credit risk of the bank. However, deposits in commercial banks are insured by the Deposit Insurance and Credit Guarantee Corporation (DICGC), a subsidiary of the Reserve Bank of India (RBI). Each depositor is insured up to ₹5 lakhs (principal and interest combined) per bank, per ownership capacity. This provides a substantial safety net for most retail investors.
+</p>
+<h3>Risk Profile of Arbitrage Funds</h3>
+<p>
+Arbitrage funds are categorised as moderate-risk investments. While they aim to profit from price inefficiencies and typically hedge their positions, they are not entirely risk-free. Their returns are not guaranteed and are linked to market opportunities.
+</p>
+<ul>
+<li><strong>Market Risk:</strong> Although positions are hedged, extreme market volatility or a lack of arbitrage opportunities can impact returns.</li>
+<li><strong>Execution Risk:</strong> The fund manager&#x27;s ability to identify and execute arbitrage opportunities efficiently plays a role.</li>
+<li><strong>Liquidity Risk:</strong> In rare scenarios of extremely low market liquidity, executing arbitrage trades effectively might become challenging.</li>
+</ul>
+<p>
+Compared to pure equity funds, arbitrage funds are much less volatile, but they do not offer the absolute capital guarantee of Post Office schemes or the deposit insurance of FDs. Investors should understand that their returns will fluctuate and are not fixed.
+</p>
+<h2>Liquidity and Investment Horizon</h2>
+<p>
+Liquidity refers to how easily and quickly you can convert your investment into cash without significant loss. The ideal investment horizon for each option also varies based on its structure and taxation.
+</p>
+<h3>Liquidity of Post Office Deposits</h3>
+<p>
+Post Office Time Deposits (POTDs) have fixed tenures (1, 2, 3, or 5 years). Premature withdrawal is permitted after six months, but it comes with penalties. For withdrawals between 6 months and 1 year, interest is paid at the Post Office Savings Account rate. For withdrawals after 1 year, a 1% reduction from the prescribed interest rate is applied. National Savings Certificates (NSCs) have a 5-year lock-in period and generally do not allow premature withdrawal except in specific circumstances like the death of the holder or forfeiture by a court of law. This makes Post Office schemes relatively less liquid.
+</p>
+<h3>Liquidity of Bank FDs</h3>
+<p>
+Bank FDs also have fixed tenures, but most banks allow premature withdrawal. However, this usually entails a penalty, typically a reduction in the interest rate by 0.5% to 1% from the contracted rate for the period the deposit was held. Despite the penalty, FDs offer better liquidity than NSCs, as funds can generally be accessed without strict conditions.
+</p>
+<h3>Liquidity of Arbitrage Funds</h3>
+<p>
+Arbitrage funds are typically open-ended mutual fund schemes, meaning you can buy or sell units on any business day. This offers high liquidity. However, many arbitrage funds levy an exit load if units are redeemed within a very short period, often 7 to 30 days. Beyond this short window, redemptions are usually processed at the Net Asset Value (NAV) without any charges, making them highly liquid for medium to long-term horizons.
+</p>
+<h3>Investment Horizon and Suitability</h3>
+<ul>
+<li><strong>Post Office Deposits &amp; FDs:</strong> Best suited for investors with a defined short to medium-term horizon (1-5 years) who prioritise capital safety and predictable, fixed returns, and are in lower tax brackets or do not mind the full taxability.</li>
+<li><strong>Arbitrage Funds:</strong> Ideal for investors with a short to medium-term horizon (typically 6 months to 3 years) who seek potentially higher post-tax returns than traditional fixed-income options, are comfortable with moderate market risk, and especially benefit from the equity taxation structure if they are in higher tax brackets. They can also serve as a parking ground for funds awaiting deployment into pure equity.</li>
+</ul>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Priya, 35, ₹30L CTC, Mumbai</strong>, who is in the 30% income tax bracket. She has ₹5 lakhs to invest for one year and is evaluating her options.
+</p>
+<p>
+<strong>Scenario 1: Bank Fixed Deposit</strong>
+</p>
+<ul>
+<li>Assumed FD Interest Rate: 7.00% per annum.</li>
+<li>Gross Interest Earned: ₹5,00,000 * 7.00% = ₹35,000.</li>
+<li>Tax Liability (30% slab): ₹35,000 * 30% = ₹10,500.</li>
+<li>Post-Tax Return: ₹35,000 - ₹10,500 = ₹24,500.</li>
+<li>Effective Post-Tax Interest Rate: (₹24,500 / ₹5,00,000) * 100 = 4.90%.</li>
+<li>Maturity Amount: ₹5,00,000 + ₹24,500 = ₹5,24,500.</li>
+</ul>
+<p>
+<strong>Scenario 2: Post Office Time Deposit (5-Year)</strong>
+</p>
+<ul>
+<li>Assumed POTD Interest Rate (for 5 years): 7.50% per annum (current rate for Q3 2026).</li>
+<li>Gross Interest Earned: ₹5,00,000 * 7.50% = ₹37,500.</li>
+<li>Tax Liability (30% slab): ₹37,500 * 30% = ₹11,250.</li>
+<li>Post-Tax Return: ₹37,500 - ₹11,250 = ₹26,250.</li>
+<li>Effective Post-Tax Interest Rate: (₹26,250 / ₹5,00,000) * 100 = 5.25%.</li>
+<li>Maturity Amount: ₹5,00,000 + ₹26,250 = ₹5,26,250.</li>
+<p>
+    <em>(Note: While POTD rates are attractive, this assumes Priya is willing to lock in for 5 years or face premature withdrawal penalties after one year, which would lower the effective rate.)</em>
+</p>
+</ul>
+<p>
+<strong>Scenario 3: Arbitrage Fund</strong>
+</p>
+<ul>
+<li>Assumed Gross Return: 6.50% per annum (market-linked, not guaranteed).</li>
+<li>Gross Gain: ₹5,00,000 * 6.50% = ₹32,500.</li>
+<li>Holding Period: More than 1 year (to qualify for LTCG).</li>
+<li>Tax Liability: Since the gain (₹32,500) is less than ₹1 lakh, it is exempt from Long-Term Capital Gains tax.</li>
+<li>Post-Tax Return: ₹32,500.</li>
+<li>Effective Post-Tax Return Rate: (₹32,500 / ₹5,00,000) * 100 = 6.50%.</li>
+<li>Maturity Amount: ₹5,00,000 + ₹32,500 = ₹5,32,500.</li>
+</ul>
+<p>
+<strong>Conclusion for Priya:</strong>
+For Priya, being in the 30% tax bracket, the arbitrage fund offers the highest post-tax return (6.50%) compared to the Bank FD (4.90%) or Post Office Time Deposit (5.25%), assuming the arbitrage fund delivers its expected gross return and is held for over a year. While the gross return of the Post Office TD was higher than the assumed arbitrage fund, its full taxability significantly reduced the net return. This example highlights how tax efficiency can make a substantial difference for high-income earners.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your current savings:</strong> Check your existing fixed deposits or Post Office schemes and note their maturity dates and interest rates.</li>
+<li><strong>Determine your tax bracket:</strong> Understand which income tax slab you fall into (20% or 30% are key for this comparison) using the Income Tax India portal.</li>
+<li><strong>Assess your liquidity needs:</strong> Consider if you might need access to your funds within the next 6-12 months and how critical immediate access is.</li>
+<li><strong>Research arbitrage funds:</strong> Look up some well-performing arbitrage funds on AMFI India&#x27;s website to understand their historical returns and expense ratios.</li>
+<li><strong>Calculate potential post-tax returns:</strong> Use a simple calculator to estimate the post-tax returns for ₹5 lakhs or ₹10 lakhs across these three options based on your tax bracket and current interest/expected return rates.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the main advantage of an arbitrage fund over an FD for a high-income earner?</h3>
+<p>
+The main advantage is tax efficiency. Arbitrage funds held for over a year are taxed as Long-Term Capital Gains at 10% on gains exceeding ₹1 lakh, while FD interest is fully taxed at your income slab rate, which can be as high as 30%.
+</p>
+<h3>Are Post Office deposits completely risk-free?</h3>
+<p>
+Yes, Post Office deposits carry a sovereign guarantee from the Government of India, making them one of the safest investment options in terms of capital safety.
+</p>
+<h3>Can I withdraw money from an FD or Post Office Time Deposit before maturity?</h3>
+<p>
+Yes, both FDs and Post Office Time Deposits generally allow premature withdrawal, but it usually comes with a penalty, such as a reduction in the interest rate. NSCs have stricter lock-in periods.
+</p>
+<h3>How are arbitrage fund returns generated?</h3>
+<p>
+Arbitrage funds generate returns by simultaneously buying a stock in the cash market and selling its futures contract in the derivatives market, or vice-versa, to profit from the temporary price difference.
+</p>
+<h3>Is there any deposit insurance for Bank FDs?</h3>
+<p>
+Yes, deposits in commercial banks are insured by the DICGC up to ₹5 lakhs (principal and interest combined) per bank, per depositor, providing a safety net.
+</p>
+<h3>What is the minimum investment period for an arbitrage fund to get tax benefits?</h3>
+<p>
+To avail of the favourable Long-Term Capital Gains tax treatment, units of an arbitrage fund must be held for more than one year.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>RBI: https://rbi.org.in</li>
+<li>DICGC (via RBI): https://www.rbi.org.in/Scripts/bs_viewcontent.aspx?Id=164</li>
+<li>Ministry of Finance (Post Office Schemes): https://finmin.nic.in</li>
+<li>AMFI India: https://amfiindia.com</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
