@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>IPO Report Card: 30 to 60 Days After Listing — October 2026</title>
+<meta name="description" content="This month, we look at 56 IPOs that listed between 30 and 60 days ago. 28 of these companies are currently trading above their initial IPO (Initial Public Off.">
+<meta name="keywords" content="available, specified, listing, shares, market, company, initial, investment">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-26-ipo-report-card-30-to-60-days-after-listing-october-2026/">
+<meta property="og:title" content="IPO Report Card: 30 to 60 Days After Listing — October 2026">
+<meta property="og:description" content="This month, we look at 56 IPOs that listed between 30 and 60 days ago. 28 of these companies are currently trading above their initial IPO (Initial Public Off.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-26-ipo-report-card-30-to-60-days-after-listing-october-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "IPO Report Card: 30 to 60 Days After Listing \u2014 October 2026", "description": "This month, we look at 56 IPOs that listed between 30 and 60 days ago. 28 of these companies are currently trading above their initial IPO (Initial Public Off.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-26", "dateModified": "2026-10-26", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-26-ipo-report-card-30-to-60-days-after-listing-october-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/" class="active">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">IPO Watch · 2026-10-26</div><h1>IPO Report Card: 30 to 60 Days After Listing — October 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>This month, we look at 56 IPOs that listed between 30 and 60 days ago.</li>
+<li>28 of these companies are currently trading above their initial IPO (Initial Public Offering) price.</li>
+<li>The other 28 companies are trading below their IPO price.</li>
+<li>The highest return from the IPO price to today&#x27;s price is 201.0% for ESDS Software.</li>
+<li>The lowest return is -77.2% for Vinod Texworld.</li>
+</ul>
+</div>
+<h2>Why look 30 to 60 days after listing?</h2>
+<p>
+When a company first offers its shares to the public, it&#x27;s called an Initial Public Offering (IPO). The day these shares start trading on the stock exchange is called the <strong>listing day</strong>. Often, there&#x27;s a lot of excitement on listing day, and the share price might jump significantly, leading to a <strong>listing gain</strong> (the percentage increase from the IPO price to the listing day closing price).
+</p>
+<p>
+However, this initial excitement can sometimes fade quickly. Many factors, like the demand from large investors (called anchor investors) or short-term traders, can cause big price swings on the first day. Anchor investors, who are big institutional players, often have a &quot;lock-in&quot; period, meaning they cannot sell their shares for a certain number of days (often 30 days for a portion of their shares).
+</p>
+<p>
+By looking at an IPO 30 to 60 days after its listing, we get a calmer, more settled view. The initial frenzy has usually passed, and the market has had more time to assess the company&#x27;s value. This period often gives a more realistic picture of how the stock is performing beyond the first-day buzz.
+</p>
+<h2>The scorecard</h2>
+<p>
+Here&#x27;s how the IPOs that listed between 30 and 60 days ago are performing today, compared to their issue price. Please note that listing day closing prices and listing gains were not available in our data for these companies.
+</p>
+<table><thead><tr><th>Company</th><th>Type</th><th>IPO price (₹)</th><th>Listing close (₹)</th><th>Listing gain (%)</th><th>Price now (₹)</th><th>Change vs IPO price (%)</th><th>Days since listing</th></tr></thead><tbody>
+<tr><td>Axiom Gas Engi.</td><td>Not specified</td><td>54.0</td><td>Not available</td><td>Not available</td><td>34.0</td><td>-37.0</td><td>31</td></tr>
+<tr><td>Sonaselection India</td><td>Not specified</td><td>99.0</td><td>Not available</td><td>Not available</td><td>98.61</td><td>-0.4</td><td>32</td></tr>
+<tr><td>Kheria Autocomp</td><td>Not specified</td><td>101.0</td><td>Not available</td><td>Not available</td><td>92.05</td><td>-8.9</td><td>32</td></tr>
+<tr><td>SpectraA Technology</td><td>Not specified</td><td>118.0</td><td>Not available</td><td>Not available</td><td>227.0</td><td>92.4</td><td>32</td></tr>
+<tr><td>NSE</td><td>Not specified</td><td>1785.0</td><td>Not available</td><td>Not available</td><td>1717.65</td><td>-3.8</td><td>32</td></tr>
+<tr><td>Jindal Supreme</td><td>Not specified</td><td>93.0</td><td>Not available</td><td>Not available</td><td>137.0</td><td>47.3</td><td>33</td></tr>
+<tr><td>Hero Motors</td><td>Not specified</td><td>84.0</td><td>Not available</td><td>Not available</td><td>107.9</td><td>28.5</td><td>33</td></tr>
+<tr><td>SS Retail</td><td>Not specified</td><td>424.0</td><td>Not available</td><td>Not available</td><td>661.0</td><td>55.9</td><td>33</td></tr>
+<tr><td>Vama Wovenfab</td><td>Not specified</td><td>341.0</td><td>Not available</td><td>Not available</td><td>81.9</td><td>-76.0</td><td>34</td></tr>
+<tr><td>Shakti Polytarp</td><td>Not specified</td><td>59.0</td><td>Not available</td><td>Not available</td><td>49.5</td><td>-16.1</td><td>34</td></tr>
+<tr><td>Century Business</td><td>Not specified</td><td>74.0</td><td>Not available</td><td>Not available</td><td>57.0</td><td>-23.0</td><td>35</td></tr>
+<tr><td>Manika Plastech</td><td>Not specified</td><td>43.0</td><td>Not available</td><td>Not available</td><td>44.96</td><td>4.6</td><td>35</td></tr>
+<tr><td>Injecto Polymers</td><td>Not specified</td><td>100.0</td><td>Not available</td><td>Not available</td><td>94.0</td><td>-6.0</td><td>35</td></tr>
+<tr><td>Veegaland Developers</td><td>Not specified</td><td>140.0</td><td>Not available</td><td>Not available</td><td>125.45</td><td>-10.4</td><td>38</td></tr>
+<tr><td>Panchatv Bharat</td><td>Not specified</td><td>140.0</td><td>Not available</td><td>Not available</td><td>49.2</td><td>-64.9</td><td>38</td></tr>
+<tr><td>Maharaja &amp; Speedex India</td><td>Not specified</td><td>186.0</td><td>Not available</td><td>Not available</td><td>244.0</td><td>31.2</td><td>38</td></tr>
+<tr><td>Raksan Transformers</td><td>Not specified</td><td>273.0</td><td>Not available</td><td>Not available</td><td>233.25</td><td>-14.6</td><td>38</td></tr>
+<tr><td>Om Galaxy</td><td>Not specified</td><td>90.0</td><td>Not available</td><td>Not available</td><td>84.99</td><td>-5.6</td><td>38</td></tr>
+<tr><td>Amtech Esters</td><td>Not specified</td><td>75.0</td><td>Not available</td><td>Not available</td><td>82.5</td><td>10.0</td><td>39</td></tr>
+<tr><td>A R C I</td><td>Not specified</td><td>139.0</td><td>Not available</td><td>Not available</td><td>122.95</td><td>-11.5</td><td>39</td></tr>
+<tr><td>Manipal Payment</td><td>Not specified</td><td>339.0</td><td>Not available</td><td>Not available</td><td>308.25</td><td>-9.1</td><td>39</td></tr>
+<tr><td>LCC Projects</td><td>Not specified</td><td>146.0</td><td>Not available</td><td>Not available</td><td>118.5</td><td>-18.8</td><td>39</td></tr>
+<tr><td>Rentomojo</td><td>Not specified</td><td>404.0</td><td>Not available</td><td>Not available</td><td>527.6</td><td>30.6</td><td>39</td></tr>
+<tr><td>Karamtara Engg.</td><td>Not specified</td><td>254.0</td><td>Not available</td><td>Not available</td><td>350.85</td><td>38.1</td><td>39</td></tr>
+<tr><td>Infrax Renewable</td><td>Not specified</td><td>104.0</td><td>Not available</td><td>Not available</td><td>132.25</td><td>27.2</td><td>39</td></tr>
+<tr><td>Steamhouse India</td><td>Not specified</td><td>81.0</td><td>Not available</td><td>Not available</td><td>133.35</td><td>64.6</td><td>39</td></tr>
+<tr><td>Vinod Texworld</td><td>Not specified</td><td>94.0</td><td>Not available</td><td>Not available</td><td>21.4</td><td>-77.2</td><td>39</td></tr>
+<tr><td>Prasol Chemicals</td><td>Not specified</td><td>676.0</td><td>Not available</td><td>Not available</td><td>734.6</td><td>8.7</td><td>40</td></tr>
+<tr><td>Kanohar Elect.</td><td>Not specified</td><td>632.0</td><td>Not available</td><td>Not available</td><td>943.25</td><td>49.2</td><td>40</td></tr>
+<tr><td>Glass Wall Syst.</td><td>Not specified</td><td>182.0</td><td>Not available</td><td>Not available</td><td>214.45</td><td>17.8</td><td>40</td></tr>
+<tr><td>Pranav Construc.</td><td>Not specified</td><td>124.0</td><td>Not available</td><td>Not available</td><td>85.47</td><td>-31.1</td><td>41</td></tr>
+<tr><td>Apana Logistics</td><td>Not specified</td><td>60.0</td><td>Not available</td><td>Not available</td><td>16.61</td><td>-72.3</td><td>41</td></tr>
+<tr><td>Qualiance International</td><td>Not specified</td><td>127.0</td><td>Not available</td><td>Not available</td><td>168.7</td><td>32.8</td><td>45</td></tr>
+<tr><td>Rays of Belief</td><td>Not specified</td><td>239.0</td><td>Not available</td><td>Not available</td><td>261.5</td><td>9.4</td><td>48</td></tr>
+<tr><td>Farm Peace</td><td>Not specified</td><td>59.0</td><td>Not available</td><td>Not available</td><td>38.32</td><td>-35.1</td><td>48</td></tr>
+<tr><td>Deepa Jewellers</td><td>Not specified</td><td>177.0</td><td>Not available</td><td>Not available</td><td>211.84</td><td>19.7</td><td>48</td></tr>
+<tr><td>Fly-Hi Maritime</td><td>Not specified</td><td>102.0</td><td>Not available</td><td>Not available</td><td>42.97</td><td>-57.9</td><td>48</td></tr>
+<tr><td>Shanti Inorgan.</td><td>Not specified</td><td>83.0</td><td>Not available</td><td>Not available</td><td>187.0</td><td>125.3</td><td>49</td></tr>
+<tr><td>Phychem Technologies</td><td>Not specified</td><td>54.0</td><td>Not available</td><td>Not available</td><td>43.9</td><td>-18.7</td><td>49</td></tr>
+<tr><td>Purple Style</td><td>Not specified</td><td>575.0</td><td>Not available</td><td>Not available</td><td>493.75</td><td>-14.1</td><td>49</td></tr>
+<tr><td>Ashutosh Fibre</td><td>Not specified</td><td>92.0</td><td>Not available</td><td>Not available</td><td>127.0</td><td>38.0</td><td>49</td></tr>
+<tr><td>Priority Jewels</td><td>Not specified</td><td>200.0</td><td>Not available</td><td>Not available</td><td>292.9</td><td>46.4</td><td>52</td></tr>
+<tr><td>Paluck Technol.</td><td>Not specified</td><td>48.0</td><td>Not available</td><td>Not available</td><td>34.2</td><td>-28.7</td><td>52</td></tr>
+<tr><td>Complete Sports and Management</td><td>Not specified</td><td>135.0</td><td>Not available</td><td>Not available</td><td>165.0</td><td>22.2</td><td>52</td></tr>
+<tr><td>ESDS Software</td><td>Not specified</td><td>429.0</td><td>Not available</td><td>Not available</td><td>1291.5</td><td>201.0</td><td>52</td></tr>
+<tr><td>Kwick Forensic</td><td>Not specified</td><td>90.0</td><td>Not available</td><td>Not available</td><td>189.9</td><td>111.0</td><td>53</td></tr>
+<tr><td>Lumino Inds</td><td>Not specified</td><td>82.0</td><td>Not available</td><td>Not available</td><td>89.9</td><td>9.6</td><td>53</td></tr>
+<tr><td>Sumax Engineering</td><td>Not specified</td><td>101.0</td><td>Not available</td><td>Not available</td><td>94.0</td><td>-6.9</td><td>54</td></tr>
+<tr><td>Annu Projects</td><td>Not specified</td><td>99.0</td><td>Not available</td><td>Not available</td><td>38.0</td><td>-61.6</td><td>54</td></tr>
+<tr><td>Skyways Air Ser.</td><td>Not specified</td><td>138.0</td><td>Not available</td><td>Not available</td><td>96.4</td><td>-30.1</td><td>55</td></tr>
+<tr><td>ABH Healthcare</td><td>Not specified</td><td>102.0</td><td>Not available</td><td>Not available</td><td>39.45</td><td>-61.3</td><td>55</td></tr>
+<tr><td>Madhur Knit</td><td>Not specified</td><td>100.0</td><td>Not available</td><td>Not available</td><td>59.5</td><td>-40.5</td><td>55</td></tr>
+<tr><td>Symbiotec Pharma</td><td>Not specified</td><td>988.0</td><td>Not available</td><td>Not available</td><td>1223.45</td><td>23.8</td><td>55</td></tr>
+<tr><td>Hy-Tech Engineer</td><td>Not specified</td><td>53.0</td><td>Not available</td><td>Not available</td><td>77.13</td><td>45.5</td><td>55</td></tr>
+<tr><td>Augmont Enterpri</td><td>Not specified</td><td>788.0</td><td>Not available</td><td>Not available</td><td>1055.3</td><td>33.9</td><td>56</td></tr>
+<tr><td>Tempsens Instruments</td><td>Not specified</td><td>300.0</td><td>Not available</td><td>Not available</td><td>494.15</td><td>64.7</td><td>59</td></tr>
+</tbody></table>
+<p>
+Out of the 56 IPOs reviewed, 28 are currently trading above their initial issue price, while the other 28 are trading below it. The returns range widely, from a high of 201.0% above the IPO price to a low of -77.2% below the IPO price.
+</p>
+<h2>Reading each listing (what the numbers say)</h2>
+<p>
+Let&#x27;s look at a few examples to understand what these numbers mean for someone who was allotted shares in these IPOs:
+</p>
+<h3>Axiom Gas Engi.</h3>
+<p>
+This company had an IPO price of ₹54. Its current market price is ₹34. This means it is trading 37.0% below its IPO price. An investor who was allotted shares at ₹54 and still holds them would see a decrease in the value of their investment.
+</p>
+<h3>SpectraA Technology</h3>
+<p>
+SpectraA Technology&#x27;s IPO price was ₹118. It is currently trading at ₹227. This shows a positive change of 92.4% compared to its IPO price. An investor who received shares at ₹118 and holds them today would have seen the value of their investment increase by 92.4%.
+</p>
+<h3>NSE</h3>
+<p>
+The IPO price for NSE was ₹1785. Its current price is ₹1717.65. This means it is trading 3.8% below its IPO price. For someone who was allotted shares at ₹1785, the current market price represents a decrease in their investment&#x27;s value.
+</p>
+<h3>ESDS Software</h3>
+<p>
+ESDS Software had an IPO price of ₹429. Its current market price is ₹1291.5. This is a significant increase of 201.0% from its IPO price. An investor who was allotted shares at ₹429 and still holds them would have seen their investment more than double in value.
+</p>
+<h3>Vinod Texworld</h3>
+<p>
+Vinod Texworld&#x27;s IPO price was ₹94. Its current price is ₹21.4. This indicates a decrease of 77.2% from its IPO price. An investor who was allotted shares at ₹94 and holds them today would have seen a substantial reduction in the value of their investment.
+</p>
+<h2>Why do IPOs pop or drop on listing?</h2>
+<p>
+An IPO&#x27;s price movement on listing day, whether it &quot;pops&quot; (rises sharply) or &quot;drops&quot; (falls), is a result of basic <strong>demand and supply</strong> in the market.
+</p>
+<p>
+Imagine a school fete stall selling a special limited-edition snack.
+</p>
+<ul>
+<li>If many students want the snack but there are only a few available (high demand, low supply), the price might go up quickly. This is like an IPO that sees high <strong>subscription levels</strong> (many times more applications than shares offered), leading to a &quot;pop&quot; on listing.</li>
+<li>If very few students are interested in the snack, and there are many left (low demand, high supply), the stall might have to lower the price to sell them. This is similar to an IPO with low demand, which might &quot;drop&quot; on listing.</li>
+</ul>
+<p>
+Other factors include:
+</p>
+<ul>
+<li><strong>Market mood:</strong> If the overall stock market is doing well, it can create a positive sentiment for new IPOs. If the market is down, new listings might struggle.</li>
+<li><strong>Pricing:</strong> The company and its investment bankers decide the <strong>issue price</strong> (the price at which shares are offered in the IPO). If the price is set too high, investors might not find it attractive, leading to a drop. If it&#x27;s priced conservatively, there might be room for a listing gain.</li>
+<li><strong>Anchor investors:</strong> These are large institutional investors (like mutual funds or insurance companies) who subscribe to a significant portion of the IPO before it opens to the public. Their participation often builds confidence. However, a portion of their shares typically has a <strong>lock-in period</strong> (a time during which they cannot sell their shares). Once this lock-in period ends, if these investors decide to sell, it can increase the supply of shares and affect the price.</li>
+</ul>
+<h2>Why the first-day price is not the whole story</h2>
+<p>
+The listing day price is just a snapshot. The stock market is dynamic, and prices are always changing.
+</p>
+<ul>
+<li><strong>Volatility:</strong> New stocks can be very volatile (prices can swing up and down a lot) in their early days as the market tries to figure out their true value.</li>
+<li><strong>Broader market:</strong> The performance of the overall stock market can also influence individual stock prices. A great company might see its stock price fall if the entire market is in a downturn, and vice-versa.</li>
+<li><strong>Long-term view:</strong> A stock might list flat (no big gain or loss) but perform very well over several months or years as the company grows. Similarly, a stock that has a huge listing gain might not sustain that growth and could fall later. The initial price action doesn&#x27;t guarantee future performance.</li>
+</ul>
+<h2>A simple way to think about it</h2>
+<p>
+Think of an IPO like a new shop opening in your neighbourhood. On the first day, there might be a lot of buzz, free samples, and special offers, drawing a big crowd. The initial rush might make it seem like the shop is super busy and successful. But after a month or two, the initial excitement fades. The real test is whether people keep coming back because they like the products and service, or if the crowd disappears. The stock price 30-60 days later is like seeing how many customers are still visiting the shop after the initial hype has settled.
+</p>
+<h2>Things people get confused about</h2>
+<h3>Myth → Fact</h3>
+<ul>
+<li><strong>Myth:</strong> A big listing gain means it&#x27;s a great company.</li>
+<p>
+  <strong>Fact:</strong> A strong listing gain only reflects high initial demand for the shares, not necessarily the company&#x27;s long-term performance or fundamental strength. The company&#x27;s business results and future prospects are more important for long-term value.
+</p>
+</ul>
+<ul>
+<li><strong>Myth:</strong> If an IPO lists below its issue price, it&#x27;s a &quot;bad&quot; IPO.</li>
+<p>
+  <strong>Fact:</strong> A listing below the issue price means the market currently values the shares less than the IPO price. This could be due to market conditions, pricing, or investor sentiment at that time. It doesn&#x27;t automatically mean the company itself is bad or that the stock won&#x27;t perform well in the future.
+</p>
+</ul>
+<ul>
+<li><strong>Myth:</strong> IPOs are a guaranteed way to make quick money.</li>
+<p>
+  <strong>Fact:</strong> IPOs carry market risks, just like any other stock market investment. There is no guarantee of listing gains, and prices can go down as well as up.
+</p>
+</ul>
+<h2>FAQ</h2>
+<h3>What does &quot;issue price&quot; mean?</h3>
+<p>
+The issue price is the fixed price per share at which a company offers its shares to the public during an IPO.
+</p>
+<h3>What is the difference between Mainboard and SME IPOs?</h3>
+<p>
+Mainboard IPOs are for larger, more established companies that list on the main exchanges (NSE, BSE). SME (Small and Medium Enterprises) IPOs are for smaller companies, listed on dedicated SME platforms, often with different rules and lower minimum investment amounts.
+</p>
+<h3>How do I calculate my return if I was allotted shares?</h3>
+<p>
+You can calculate your return by taking the current market price, subtracting your IPO issue price, dividing by the IPO issue price, and then multiplying by 100 to get a percentage.
+</p>
+<h3>Should I sell my shares on listing day if there&#x27;s a gain?</h3>
+<p>
+Whether to sell on listing day or hold depends on your personal financial goals and risk tolerance. Some investors aim for quick listing gains, while others prefer to hold for the long term, believing in the company&#x27;s growth potential.
+</p>
+<h3>Is it too late to invest if an IPO has already listed?</h3>
+<p>
+No, once an IPO lists, its shares can be bought and sold on the open market just like any other stock. You can invest in a listed company at any time, subject to market conditions and your own research.
+</p>
+<h2>Sources</h2>
+<p>
+IPO prices, listing-day prices and current market prices from chittorgarh.com.
+</p>
+<p>
+<em>This is an educational explainer, not investment advice. Past performance is not indicative of future results. myfinancial is not a SEBI-registered adviser.</em>
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
