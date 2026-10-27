@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>₹50 Lakh FD for 5 Years: Senior Citizen Earnings in Small Finance Banks</title>
+<meta name="description" content="Small Finance Banks (SFBs) often offer higher Fixed Deposit (FD) interest rates compared to larger commercial banks. Senior citizens typically receive an addi.">
+<meta name="keywords" content="interest, senior, deposits, citizen, higher, financial, finance, citizens">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-27-personal_finance-50-lakh-fd-for-5-years-senior-citizen-earnings-in-small-finance-banks/">
+<meta property="og:title" content="₹50 Lakh FD for 5 Years: Senior Citizen Earnings in Small Finance Banks">
+<meta property="og:description" content="Small Finance Banks (SFBs) often offer higher Fixed Deposit (FD) interest rates compared to larger commercial banks. Senior citizens typically receive an addi.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-27-personal_finance-50-lakh-fd-for-5-years-senior-citizen-earnings-in-small-finance-banks/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "\u20b950 Lakh FD for 5 Years: Senior Citizen Earnings in Small Finance Banks", "description": "Small Finance Banks (SFBs) often offer higher Fixed Deposit (FD) interest rates compared to larger commercial banks. Senior citizens typically receive an addi.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-27", "dateModified": "2026-10-27", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-27-personal_finance-50-lakh-fd-for-5-years-senior-citizen-earnings-in-small-finance-banks/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Personal Finance · 2026-10-27</div><h1>₹50 Lakh FD for 5 Years: Senior Citizen Earnings in Small Finance Banks</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Small Finance Banks (SFBs) often offer higher Fixed Deposit (FD) interest rates compared to larger commercial banks.</li>
+<li>Senior citizens typically receive an additional interest rate benefit, usually 0.25% to 0.75% higher than regular rates.</li>
+<li>For a ₹50 lakh, 5-year FD, a senior citizen can earn significantly more interest than a non-senior citizen.</li>
+<li>FD interest is taxable as per your income tax slab, and TDS may be applicable if interest exceeds certain thresholds.</li>
+<li>Deposits up to ₹5 lakh per bank are covered by DICGC insurance, offering a safety net for your principal and interest.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you put your money into a Fixed Deposit (FD), you essentially lend it to a bank for a fixed period at a set interest rate. Small Finance Banks (SFBs) are a specific type of bank regulated by the Reserve Bank of India (RBI) that were set up to provide financial services to underserved sections of society. To attract deposits, SFBs often offer slightly higher interest rates on FDs compared to larger, established commercial banks.
+</p>
+<p>
+For senior citizens – individuals aged 60 years and above – banks, including SFBs, typically offer an additional interest rate benefit on FDs. This means that if your father, being a senior citizen, invests in an FD, he would earn more interest than you would for the same amount and tenure. This difference can add up substantially, especially on a large principal amount like ₹50 lakh over five years, making SFBs an attractive option for senior citizens seeking higher, stable returns.
+</p>
+<h2>Understanding Small Finance Banks (SFBs) and their FDs</h2>
+<p>
+Small Finance Banks (SFBs) are a relatively newer category of banks in India, licensed by the Reserve Bank of India (RBI) to further financial inclusion. Their primary objective is to provide basic banking services like accepting deposits and lending to unserved and underserved sections, including small business units, small and marginal farmers, micro and small industries, and the unorganised sector.
+</p>
+<p>
+To gather deposits and fund their lending operations, SFBs often offer more competitive interest rates on Fixed Deposits (FDs) compared to larger public and private sector banks. This higher interest rate is a key differentiator that attracts depositors, particularly those looking for better returns on their savings. These FDs work similarly to those in other banks: you deposit a lump sum for a fixed tenure, and the bank pays a predetermined interest rate. Interest can be compounded quarterly, half-yearly, or annually, depending on the bank&#x27;s policy, leading to higher effective returns over time.
+</p>
+<h3>Why SFBs offer higher rates</h3>
+<p>
+The main reason SFBs offer higher FD rates is to attract a stable deposit base. As newer entrants in the banking sector, they need to build capital and liquidity. Higher interest rates serve as an incentive for depositors to choose them over more established banks. This strategy helps them mobilise funds which are then deployed for their lending activities, fulfilling their mandate of financial inclusion.
+</p>
+<h2>Senior Citizen Benefits on FDs</h2>
+<p>
+One of the significant advantages of Fixed Deposits in India is the additional interest rate benefit extended to senior citizens. This benefit is a common practice across almost all banks, including Small Finance Banks, and is designed to provide a higher income stream for retirees and elderly individuals who often rely on fixed income sources.
+</p>
+<h3>Extra interest rates</h3>
+<p>
+Typically, senior citizens receive an additional interest rate ranging from 0.25% to 0.75% per annum over the standard rates offered to the general public. For instance, if a regular depositor gets 8.50% interest on a 5-year FD, a senior citizen might receive 9.00% or even 9.25% for the same tenure and amount. This seemingly small difference can lead to a substantial increase in overall earnings, especially on larger deposit amounts and longer tenures. Banks usually define a senior citizen as an individual aged 60 years or above.
+</p>
+<h3>Why this benefit exists</h3>
+<p>
+This special provision acknowledges that many senior citizens have limited earning capacity post-retirement and depend on their savings for daily expenses and medical needs. The higher interest rate helps them generate a more substantial and stable income from their accumulated wealth, contributing to their financial security and well-being.
+</p>
+<h2>Taxation of FD Interest</h2>
+<p>
+While Fixed Deposits are considered a safe investment, the interest earned from them is not tax-free. It is fully taxable as &quot;income from other sources&quot; and is added to your total income for the financial year.
+</p>
+<h3>TDS (Tax Deducted at Source)</h3>
+<p>
+Banks are mandated to deduct Tax Deducted at Source (TDS) if the interest income from FDs exceeds certain thresholds in a financial year.
+</p>
+<ul>
+<li>For individuals below 60 years, if the interest income from a single bank branch exceeds ₹40,000 in a financial year, TDS is deducted at 10%.</li>
+<li>For senior citizens (60 years and above), this threshold is higher, at ₹50,000 in a financial year.</li>
+<li>If the depositor does not provide their PAN, the TDS rate can be as high as 20%.</li>
+</ul>
+<h3>Avoiding TDS with Form 15G/15H</h3>
+<p>
+If your total taxable income, including FD interest, falls below the basic exemption limit, you can avoid TDS by submitting Form 15G (for non-senior citizens) or Form 15H (for senior citizens) to the bank. This declaration informs the bank that your income is below the taxable limit, and hence, no TDS should be deducted. It&#x27;s crucial to submit these forms at the beginning of each financial year to prevent TDS deductions. However, even if TDS is not deducted, the interest income remains taxable and must be reported in your Income Tax Return (ITR). You can find more details on the Income Tax Department&#x27;s website (incometax.gov.in).
+</p>
+<h2>Deposit Insurance and Risk Considerations</h2>
+<p>
+While SFBs offer attractive interest rates, understanding the safety mechanisms and potential risks is crucial for depositors.
+</p>
+<h3>DICGC Insurance Coverage</h3>
+<p>
+All banks licensed by the Reserve Bank of India, including Small Finance Banks, are covered by the Deposit Insurance and Credit Guarantee Corporation (DICGC). DICGC, a wholly-owned subsidiary of the RBI, provides insurance cover for deposits. This means that in the unlikely event of a bank failing, each depositor is insured up to a maximum of ₹5 lakh for both principal and interest amount held in the same capacity and right in that bank. This coverage extends across all types of deposits – savings, current, recurring, and fixed deposits.
+</p>
+<p>
+For instance, if you have ₹48 lakh in an FD and ₹3 lakh in a savings account with the same bank, the total coverage would still be capped at ₹5 lakh. It&#x27;s important to note that this ₹5 lakh limit is per bank, per depositor, per capacity. So, if you have deposits in multiple banks, each bank&#x27;s deposits are separately insured up to ₹5 lakh.
+</p>
+<h3>Assessing overall risk</h3>
+<p>
+While DICGC provides a crucial safety net, it&#x27;s prudent to assess a bank&#x27;s overall financial health, especially when considering large deposits. You can review public disclosures, credit ratings (if available), and news related to the bank. However, for most retail depositors, the DICGC insurance acts as a strong safeguard for deposits up to the specified limit. For amounts exceeding ₹5 lakh, diversification across multiple banks can be considered to ensure maximum insurance coverage.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider the case of <strong>Mr. Sharma, 62, a retired professional from Delhi</strong>, and his son, <strong>Ankit, 38, an IT consultant earning ₹28L CTC, Bengaluru</strong>. Both decide to invest ₹50 lakh each in a 5-year Fixed Deposit with a Small Finance Bank.
+</p>
+<p>
+For illustrative purposes, let&#x27;s assume the bank offers the following annual interest rates for a 5-year FD, compounded quarterly:
+</p>
+<ul>
+<li>Regular Rate (for Ankit): 8.50% p.a.</li>
+<li>Senior Citizen Rate (for Mr. Sharma): 9.00% p.a. (0.50% higher)</li>
+</ul>
+<p>
+Here&#x27;s how their earnings would compare:
+</p>
+<p>
+<strong>1. Ankit&#x27;s (Regular Citizen) FD Calculation:</strong>
+</p>
+<ul>
+<li>Principal (P) = ₹50,00,000</li>
+<li>Annual Interest Rate (R) = 8.50% = 0.085</li>
+<li>Compounding Frequency (n) = 4 (quarterly)</li>
+<li>Tenure (t) = 5 years</li>
+<li>Formula for Compound Interest: A = P <em> (1 + R/n)^(n</em>t)</li>
+<li>A = ₹50,00,000 <em> (1 + 0.085/4)^(4</em>5)</li>
+<li>A = ₹50,00,000 * (1.02125)^20</li>
+<li>A = ₹50,00,000 * 1.52862 (approximately)</li>
+<li>Maturity Amount (A) = ₹76,43,100</li>
+<li>Total Interest Earned = Maturity Amount - Principal = ₹76,43,100 - ₹50,00,000 = <strong>₹26,43,100</strong></li>
+</ul>
+<p>
+<strong>2. Mr. Sharma&#x27;s (Senior Citizen) FD Calculation:</strong>
+</p>
+<ul>
+<li>Principal (P) = ₹50,00,000</li>
+<li>Annual Interest Rate (R) = 9.00% = 0.09</li>
+<li>Compounding Frequency (n) = 4 (quarterly)</li>
+<li>Tenure (t) = 5 years</li>
+<li>A = ₹50,00,000 <em> (1 + 0.09/4)^(4</em>5)</li>
+<li>A = ₹50,00,000 * (1.0225)^20</li>
+<li>A = ₹50,00,000 * 1.56051 (approximately)</li>
+<li>Maturity Amount (A) = ₹78,02,550</li>
+<li>Total Interest Earned = Maturity Amount - Principal = ₹78,02,550 - ₹50,00,000 = <strong>₹28,02,550</strong></li>
+</ul>
+<p>
+<strong>Comparison:</strong>
+</p>
+<ul>
+<li>Mr. Sharma&#x27;s Interest = ₹28,02,550</li>
+<li>Ankit&#x27;s Interest = ₹26,43,100</li>
+<li>Difference in Earnings = ₹28,02,550 - ₹26,43,100 = <strong>₹1,59,450</strong></li>
+</ul>
+<p>
+In this illustrative scenario, Mr. Sharma, as a senior citizen, would earn approximately <strong>₹1.59 lakh more</strong> in interest over five years compared to Ankit, due to the higher interest rate offered by the Small Finance Bank. This highlights the significant financial benefit for senior citizens investing in FDs.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review current FD rates:</strong> Check the latest Fixed Deposit interest rates offered by various Small Finance Banks and larger commercial banks. Focus on rates for your preferred tenure and specifically compare senior citizen rates.</li>
+<li><strong>Verify senior citizen eligibility:</strong> Confirm the age criteria and required documentation for senior citizen FDs with your chosen bank. Most banks require proof of age.</li>
+<li><strong>Understand taxation implications:</strong> Calculate your potential FD interest income and understand how it will be taxed. If applicable, prepare to submit Form 15G or 15H to avoid TDS.</li>
+<li><strong>Check DICGC coverage:</strong> Ensure you are aware of the DICGC insurance limit (₹5 lakh per bank, per depositor) and consider diversifying your deposits across different banks if your total investment exceeds this limit.</li>
+<li><strong>Consult for personalised advice:</strong> If you have a substantial amount to invest or complex financial goals, consider speaking with a Certified Financial Planner to integrate FDs into your broader financial plan.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is a Small Finance Bank (SFB)?</h3>
+<p>
+SFBs are a category of banks licensed by the RBI to provide basic banking services to underserved segments, offering deposits and loans. They often provide higher interest rates on FDs to attract deposits.
+</p>
+<h3>How much more interest can a senior citizen earn on an FD?</h3>
+<p>
+Senior citizens typically earn an additional 0.25% to 0.75% interest per annum on their Fixed Deposits compared to regular depositors. This can lead to significantly higher returns over the deposit tenure.
+</p>
+<h3>Is the interest earned on an FD taxable?</h3>
+<p>
+Yes, the interest earned on Fixed Deposits is fully taxable as &quot;income from other sources&quot; and is added to your total annual income for tax calculation. TDS may be deducted if interest exceeds certain thresholds.
+</p>
+<h3>What is Form 15G/15H and when should I submit it?</h3>
+<p>
+Form 15G (for non-senior citizens) and Form 15H (for senior citizens) are declarations submitted to the bank to request non-deduction of TDS if your total income is below the taxable limit. They should be submitted at the start of each financial year.
+</p>
+<h3>Are Fixed Deposits in Small Finance Banks safe?</h3>
+<p>
+Yes, Fixed Deposits in all RBI-licensed banks, including SFBs, are insured by the DICGC up to ₹5 lakh per depositor, per bank, covering both principal and interest.
+</p>
+<h3>Can I withdraw my FD before maturity?</h3>
+<p>
+Most FDs allow premature withdrawal, but it usually comes with a penalty, such as a reduction in the interest rate by 0.50% to 1.00% from the contracted rate. It&#x27;s best to check the specific bank&#x27;s policy.
+</p>
+<h3>What is the minimum age for a senior citizen FD?</h3>
+<p>
+In India, an individual is generally considered a senior citizen for banking purposes if they are 60 years of age or above.
+</p>
+<h2>Sources</h2>
+<ol>
+<li><a href="https://rbi.org.in/Scripts/BS<em>ViewSmallFinanceBanks.aspx" rel="noopener" target="</em>blank">Reserve Bank of India (RBI) - Small Finance Banks</a></li>
+<li><a href="https://incometax.gov.in/iec/foportal/help/tds-on-interest-other-than-interest-on-securities" rel="noopener" target="_blank">Income Tax Department - Tax Deducted at Source (TDS) on Interest</a></li>
+<li><a href="https://www.dicgc.org.in" rel="noopener" target="_blank">Deposit Insurance and Credit Guarantee Corporation (DICGC)</a></li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
