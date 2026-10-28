@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Market Wrap — 28 October 2026</title>
+<meta name="description" content="Indian markets closed lower today, with the Nifty slipping 51 points and Sensex falling 353 points. Rising crude oil prices and ongoing Middle East tensions w.">
+<meta name="keywords" content="markets, stocks, unavailable, profit, economictimes, indiatimes, articleshow, strong">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-28-post_market-market-wrap-28-october-2026/">
+<meta property="og:title" content="Market Wrap — 28 October 2026">
+<meta property="og:description" content="Indian markets closed lower today, with the Nifty slipping 51 points and Sensex falling 353 points. Rising crude oil prices and ongoing Middle East tensions w.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-28-post_market-market-wrap-28-october-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Market Wrap \u2014 28 October 2026", "description": "Indian markets closed lower today, with the Nifty slipping 51 points and Sensex falling 353 points. Rising crude oil prices and ongoing Middle East tensions w.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-28", "dateModified": "2026-10-28", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-28-post_market-market-wrap-28-october-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/" class="active">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Market Wrap · 2026-10-28</div><h1>Market Wrap — 28 October 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Indian markets closed lower today, with the Nifty slipping 51 points and Sensex falling 353 points.</li>
+<li>Rising crude oil prices and ongoing Middle East tensions were the primary factors weighing on sentiment.</li>
+<li>Standout gainers and losers from the Nifty 500 were not available today.</li>
+<li>Foreign Institutional Investors (FIIs) were net buyers, injecting ₹4,240 crore into the market.</li>
+<li>Domestic Institutional Investors (DIIs) turned net sellers, offloading equities worth ₹1,250 crore.</li>
+<li>F&amp;O positioning signals were unavailable for today&#x27;s session.</li>
+</ul>
+</div>
+<h2>How the market behaved today</h2>
+<p>
+Indian markets ended the session in the red, with the benchmark Nifty 50 slipping 51 points to close at 22,699. The Sensex also saw a decline of 353 points, settling at 73,246. The market sentiment was largely negative, influenced by external factors, though a late recovery was observed.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>Change</th><th>High</th><th>Low</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>22,699</td><td>-51 points</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Bank Nifty</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Midcap 100</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Smallcap 100</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+</tbody></table>
+<p>
+India VIX: data unavailable. Volatility data was unavailable for today&#x27;s session.
+</p>
+<h2>What moved the market — the factors</h2>
+<p>
+The Indian equity market&#x27;s downturn today was primarily influenced by rising crude oil prices and persistent geopolitical tensions in the Middle East, which dampened investor sentiment. Globally, US stocks experienced a choppy session as gains in chipmakers were offset by declines in megacap tech stocks, ahead of a key Federal Reserve meeting.
+</p>
+<p>
+On the domestic front, Foreign Institutional Investors (FIIs) showed strong buying interest, pumping in a net ₹4,240 crore into Indian equities. This significant inflow, however, was partially counteracted by Domestic Institutional Investors (DIIs) who turned net sellers, pulling out ₹1,250 crore. This mixed flow indicated a cautious approach by domestic players.
+</p>
+<p>
+Several companies announced their Q2 earnings, with positive results from Hero MotoCorp, Cholamandalam Investment, Satin Creditcare, and Vedanta Aluminium, which likely provided some support to their respective stocks despite the broader market weakness. Regulatory developments from SEBI, including a review of FPI compliance norms and an MoU with the Bank of England, also kept market participants engaged.
+</p>
+<h2>Sectors — winners and losers</h2>
+<p>
+Top 3 gainer sectors: data unavailable
+Top 3 loser sectors: data unavailable
+</p>
+<h2>Stocks that moved the market</h2>
+<h3>Top 5 gainers (Nifty 500)</h3>
+<p>
+data unavailable
+</p>
+<h3>Top 5 losers (Nifty 500)</h3>
+<p>
+data unavailable
+</p>
+<h2>News that moved stocks</h2>
+<ul>
+<li><strong>Strong Q2 Earnings Boost Key Companies</strong></li>
+<p>
+  Several companies reported robust second-quarter results. Hero MotoCorp&#x27;s consolidated profit surged 41% to ₹1,861 crore, driven by strong scooter and EV sales. Cholamandalam Investment and Finance saw its net profit rise 41% to ₹1,630 crore on strong income growth and lower loan losses, with plans for a ₹5,000 crore capital raise. Satin Creditcare Network&#x27;s Q2 profit more than tripled to ₹176 crore due to improved asset quality and portfolio growth. Vedanta Aluminium doubled its Q2 net profit to ₹6,187 crore, supported by record production and higher realisations. These positive earnings reports likely provided a boost to their respective stocks.
+</p>
+</ul>
+<ul>
+<li><strong>SEBI Initiatives to Enhance Market Oversight</strong></li>
+<p>
+  The Securities and Exchange Board of India (SEBI) announced plans to review compliance requirements for Foreign Portfolio Investors (FPIs) in India, aiming to align them with global standards. Additionally, SEBI signed a Memorandum of Understanding (MoU) with the Bank of England to strengthen regulatory cooperation and information sharing concerning clearing corporations, which is expected to enhance cross-border supervision. These regulatory moves aim to improve market integrity and attract foreign investment.
+</p>
+</ul>
+<ul>
+<li><strong>Ola Electric&#x27;s Rights Issue Fully Subscribed</strong></li>
+<p>
+  Ola Electric&#x27;s ₹1,000-crore rights issue was fully subscribed ahead of its closing date, leading to an 11% jump in its stock over the week and a 4.95% rise today. This indicates strong investor confidence in the company&#x27;s growth prospects.
+</p>
+</ul>
+<ul>
+<li><strong>British Homebuilders Slump on Budget Uncertainty</strong></li>
+<p>
+  Shares of British homebuilders plummeted following the UK finance minister&#x27;s budget speech, which lacked clarity on the funding and launch of a crucial first-time buyer housing initiative. This highlights how policy uncertainty can significantly impact sector-specific stocks.
+</p>
+</ul>
+<h2>F&amp;O build-up — where traders are positioning</h2>
+<p>
+OI build-up needs the previous session&#x27;s OI — it will populate from the next run.
+</p>
+<h2>Market breadth</h2>
+<p>
+With 0 advances and 0 declines, market breadth data was unavailable today to indicate the spread of market movement.
+</p>
+<h2>FII / DII flows</h2>
+<p>
+Foreign Institutional Investors (FIIs) were net buyers today, injecting a substantial ₹4,240 crore into the Indian equity market. In contrast, Domestic Institutional Investors (DIIs) turned net sellers, offloading equities worth ₹1,250 crore.
+</p>
+<table><thead><tr><th>Investor Type</th><th>Net Flow (₹ crore)</th></tr></thead><tbody>
+<tr><td>FII</td><td>+4,240</td></tr>
+<tr><td>DII</td><td>-1,250</td></tr>
+</tbody></table>
+<p>
+Looking at the 5-day trend, FIIs have shown a mixed but generally positive stance, with net buying on three out of the last five sessions, including a significant inflow today. DIIs, on the other hand, were consistent net buyers for four consecutive days before turning net sellers today. The strong FII buying today, despite DII selling, suggests continued foreign interest in Indian markets, which could be a supportive factor going forward.
+</p>
+<h2>Event breakdown — what happened today and how it hit the market</h2>
+<p>
+Today&#x27;s market session was primarily driven by a combination of global cues and domestic earnings. The overarching sentiment was cautious due to rising crude oil prices and ongoing Middle East tensions, which led to a broad market decline.
+</p>
+<p>
+However, several Q2 earnings announcements provided company-specific positive momentum. Hero MotoCorp, Cholamandalam Investment, Satin Creditcare, and Vedanta Aluminium all reported strong profit growth, which likely supported their stock performance and prevented a steeper market fall. The news of Ola Electric&#x27;s fully subscribed rights issue also indicated strong investor confidence in the EV sector. Regulatory actions by SEBI, focusing on FPI compliance and international cooperation, aimed at strengthening market frameworks.
+</p>
+<h2>Setup for tomorrow</h2>
+<p>
+Looking ahead, global cues will continue to play a significant role. While Brent crude saw a slight dip, WTI crude rose, and US 10-year yields edged higher. US markets closed choppy, indicating mixed sentiment. Investors will be watching for further developments in crude oil prices and geopolitical events. Domestically, the momentum from Q2 earnings will likely continue to influence individual stock movements.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>[ET Markets] Satin Creditcare Q2 profit surges over three-fold as asset quality improves.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/satin-creditcare-q2-profit-surges-over-three-fold-as-asset-quality-improves/articleshow/135272520.cms
+</p>
+<li>[ET Markets] Cholamandalam Investment Q2 net profit rises 41% on strong income growth, plans Rs 5000 crore capital raise.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/cholamandalam-investment-q2-net-profit-rises-41-on-strong-income-growth-plans-rs-5000-crore-capital-raise/articleshow/135272371.cms
+</p>
+<li>[ET Markets] Hero MotoCorp Q2 profit jumps 41% as scooter and EV sales surge.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/earnings/hero-motocorp-q2-profit-jumps-41-as-scooter-and-ev-sales-surge/articleshow/135272243.cms
+</p>
+<li>[ET Markets] Ahead of Market: 10 things that will decide stock market action on Wednesday.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/ahead-of-market-10-things-that-will-decide-stock-market-action-on-wednesday/articleshow/135271636.cms
+</p>
+<li>[ET Markets] British homebuilder shares slump on lack of clarity over first-time buyer plan in budget.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/us-stocks/news/british-homebuilder-shares-slump-on-lack-of-clarity-over-first-time-buyer-plan-in-budget/articleshow/135271559.cms
+</p>
+<li>[ET Markets] Weak returns at home fuel India&#x27;s overseas retail investing boom.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/weak-returns-at-home-fuel-indias-overseas-retail-investing-boom/articleshow/135271438.cms
+</p>
+<li>[ET Markets] Hero MotoCorp Q2 Results: Profit surges 41% YoY to Rs 1,861 crore, revenue jumps 23%.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/earnings/hero-motocorp-q2-results-profit-surges-41-yoy-to-rs-1861-crore-revenue-jumps-23/articleshow/135270862.cms
+</p>
+<li>[ET Markets] Sebi to review FPI compliance norms, issue consultation paper to align with global standards.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/sebi-to-review-fpi-compliance-norms-issue-consultation-paper-to-align-with-global-standards/articleshow/135269023.cms
+</p>
+<li>[ET Markets] Acutaas Chemicals among 5 stocks hitting 52-week highs; rallied up to 18% in a month.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/acutaas-chemicals-among-5-stocks-hitting-52-week-highs-rallied-up-to-18-in-a-month/slideshow/135268346.cms
+</p>
+<li>[ET Markets] Vedanta Aluminium Q2 Results: Profit doubles to Rs 6,187 crore, revenue jumps 41%.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/earnings/vedanta-aluminium-q2-results-profit-doubles-to-rs-6187-crore-revenue-jumps-41/articleshow/135268184.cms
+</p>
+<li>[ET Markets] US stocks today: US stocks turn choppy as megacaps offset chip gains before Fed meet.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-today-sp-500-nasdaq-open-higher-as-sk-hynix-lifts-chips-fed-meet-in-focus/articleshow/135267943.cms
+</p>
+<li>[ET Markets] Sebi signs MoU with Bank of England to strengthen oversight of clearing corporations.</li>
+<p>
+  https://economictimes.indiatimes.com/markets/stocks/news/sebi-signs-mou-with-bank-of-england-to-strengthen-oversight-of-clearing-corporations/articleshow/135267165.cms
+</p>
+<li>[Livemint Markets] Ola Electric stock jumps 11% in week; rights issue fully subscribed ahead of closing date - Check key details.</li>
+<p>
+  https://www.livemint.com/market/stock-market-news/ola-electric-stock-jumps-11-in-week-rights-issue-fully-subscribed-ahead-of-closing-date-check-key-details-11793204693665.html
+</p>
+<li>[Livemint Markets] Crompton Greaves shares rebound 4% after recent losses: Can the beaten-down stock sustain its recovery?.</li>
+<p>
+  https://www.livemint.com/market/stock-market-news/crompton-greaves-shares-rebound-4-after-recent-losses-can-the-beaten-down-stock-sustain-its-recovery-11793200606334.html
+</p>
+<li>[Livemint Markets] 67% rally in 6 months, 14% crash in a week: What changed for this jewellery stock under ₹50? Do you own it?.</li>
+<p>
+  https://www.livemint.com/market/stock-market-news/67-rally-in-6-months-14-crash-in-a-week-what-changed-for-this-jewellery-stock-under-50-do-you-own-it-11793199612473.html
+</p>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
