@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Pre-Market Brief — 29 October 2026</title>
+<meta name="description" content="Global markets ended mixed, with US and European indices closing positive, while some Asian markets saw declines. GIFT Nifty signals a strong positive opening.">
+<meta name="keywords" content="markets, positive, contracts, global, indian, support, strong, inflation">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-29-pre_market-pre-market-brief-29-october-2026/">
+<meta property="og:title" content="Pre-Market Brief — 29 October 2026">
+<meta property="og:description" content="Global markets ended mixed, with US and European indices closing positive, while some Asian markets saw declines. GIFT Nifty signals a strong positive opening.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-29-pre_market-pre-market-brief-29-october-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Pre-Market Brief \u2014 29 October 2026", "description": "Global markets ended mixed, with US and European indices closing positive, while some Asian markets saw declines. GIFT Nifty signals a strong positive opening.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-29", "dateModified": "2026-10-29", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-29-pre_market-pre-market-brief-29-october-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/" class="active">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Pre-Market · 2026-10-29</div><h1>Pre-Market Brief — 29 October 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Global markets ended mixed, with US and European indices closing positive, while some Asian markets saw declines.</li>
+<li>GIFT Nifty signals a strong positive opening bias for Indian equities.</li>
+<li>Both FIIs and DIIs were net buyers in the cash segment yesterday, indicating broad support.</li>
+<li>The US Federal Reserve held rates steady, but bond market concerns over inflation persist, while the ECB rate decision is awaited.</li>
+<li>Nifty&#x27;s key levels to watch are 23000 as immediate resistance and 22700 as crucial support.</li>
+<li>Rising US bond yields and potential global inflation concerns remain key risks for today&#x27;s session.</li>
+</ul>
+</div>
+<h2>How global markets traded — and what it means for India</h2>
+<p>
+Overnight, US markets closed with modest gains, with the Dow Jones, Nasdaq, and S&amp;P 500 all inching higher. European markets also saw positive momentum, led by the FTSE 100. However, Asian markets presented a mixed picture this morning, with Japan&#x27;s Nikkei 225 rising, but Hong Kong&#x27;s Hang Seng and China&#x27;s Shanghai Composite declining, largely due to a tech selloff in China.
+</p>
+<table><thead><tr><th>Index</th><th>Value</th><th>% Change</th></tr></thead><tbody>
+<tr><td>Dow Jones</td><td>52475.10</td><td>+0.19%</td></tr>
+<tr><td>Nasdaq</td><td>26549.85</td><td>+0.27%</td></tr>
+<tr><td>S&amp;P 500</td><td>7743.98</td><td>+0.28%</td></tr>
+<tr><td>FTSE 100</td><td>10751.86</td><td>+0.54%</td></tr>
+<tr><td>Nikkei 225</td><td>64659.47</td><td>+1.10%</td></tr>
+<tr><td>Hang Seng</td><td>22958.65</td><td>-0.59%</td></tr>
+<tr><td>Shanghai</td><td>3651.43</td><td>-0.82%</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The broadly positive close in the US and Europe, coupled with a strong Nikkei, suggests a supportive global backdrop. However, the weakness in Chinese markets could introduce some caution. Overall, the overnight tone points towards a positive but potentially volatile open for Indian markets.
+</p>
+<h2>Currency, commodities and yields</h2>
+<p>
+The Indian Rupee weakened slightly against the US Dollar, with USD/INR trading at ₹95.33, up 0.16%. The Dollar Index also saw a marginal gain of 0.06% to 102.25. In commodities, crude oil prices saw a notable decline, with Brent Crude down nearly 4% to $110.73 and WTI Crude falling over 1% to $101.60. Gold and Silver also traded lower. The US 10-year Treasury yield rose by over 1% to 5.05%.
+</p>
+<table><thead><tr><th>Instrument</th><th>Value</th><th>% Change</th></tr></thead><tbody>
+<tr><td>USD/INR</td><td>95.33</td><td>+0.16%</td></tr>
+<tr><td>Dollar Index</td><td>102.25</td><td>+0.06%</td></tr>
+<tr><td>Brent Crude</td><td>110.73</td><td>-3.98%</td></tr>
+<tr><td>WTI Crude</td><td>101.60</td><td>-1.15%</td></tr>
+<tr><td>Gold</td><td>4039.60</td><td>-0.30%</td></tr>
+<tr><td>Silver</td><td>52.94</td><td>-0.96%</td></tr>
+<tr><td>US 10Y Yield</td><td>5.05</td><td>+1.04%</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> A stronger US Dollar and a higher USD/INR could be a slight headwind for Indian importers but a potential tailwind for IT and pharmaceutical exporters. The significant drop in crude oil prices is a major positive for India, potentially easing inflationary pressures and improving the current account deficit. However, the rise in US 10-year yields could make global investors more cautious about emerging markets, potentially impacting FII flows.
+</p>
+<h2>GIFT Nifty — what it&#x27;s signalling</h2>
+<p>
+The GIFT Nifty is trading at 22961.50, up 1.01%.
+</p>
+<p>
+<strong>Interpretation:</strong> This strong positive move in GIFT Nifty indicates a significant gap-up opening for the Nifty 50 today.
+</p>
+<h2>FII/DII flows — who&#x27;s driving the tape</h2>
+<p>
+Yesterday, Foreign Institutional Investors (FIIs) were net buyers in the cash segment, infusing ₹872 crore. Domestic Institutional Investors (DIIs) also remained net buyers, adding ₹643 crore to the market.
+</p>
+<table><thead><tr><th>Date</th><th>FII Net (₹ cr)</th><th>DII Net (₹ cr)</th></tr></thead><tbody>
+<tr><td>2026-10-28</td><td>+872</td><td>+643</td></tr>
+<tr><td>2026-10-27</td><td>+4,240</td><td>-1,250</td></tr>
+<tr><td>2026-10-26</td><td>-1,462</td><td>+2,610</td></tr>
+<tr><td>2026-10-23</td><td>+888</td><td>+3,235</td></tr>
+<tr><td>2026-10-22</td><td>-3,459</td><td>+2,891</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The fact that both FIIs and DIIs were net buyers yesterday suggests a broad-based positive sentiment in the market. Over the last five sessions, DIIs have consistently provided support, while FII flows have been more volatile but overall net positive, indicating a balanced demand from both institutional categories.
+</p>
+<h2>Key levels to watch — Nifty, Bank Nifty &amp; Sensex (technical)</h2>
+<table><thead><tr><th>Index</th><th>Prev Close</th><th>CPR Pivot</th><th>TC</th><th>BC</th><th>CPR Width</th><th>R1</th><th>R2</th><th>S1</th><th>S2</th><th>Swing High</th><th>Swing Low</th><th>20-DMA</th><th>50-DMA</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>22890.80</td><td>22818.77</td><td>22854.78</td><td>22782.75</td><td>0.32%</td><td>22980.78</td><td>23070.77</td><td>22728.78</td><td>22566.77</td><td>23175.25</td><td>22179.90</td><td>22683.08</td><td>23275.87</td></tr>
+<tr><td>Bank Nifty</td><td>54767.65</td><td>54531.75</td><td>54649.70</td><td>54413.80</td><td>0.43%</td><td>55015.60</td><td>55263.55</td><td>54283.80</td><td>53799.95</td><td>56065.50</td><td>53626.15</td><td>54908.89</td><td>55997.04</td></tr>
+<tr><td>Sensex</td><td>73943.61</td><td>73711.07</td><td>73827.34</td><td>73594.80</td><td>0.32%</td><td>74240.24</td><td>74536.87</td><td>73414.44</td><td>72885.27</td><td>74849.75</td><td>71327.75</td><td>73083.03</td><td>74616.46</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The narrow CPR (Central Pivot Range) for Nifty, Bank Nifty, and Sensex suggests that a trending day could be on the cards. For Nifty, a break above R1 (22980.78) could open doors for further upside towards 23070.77, while a fall below S1 (22728.78) might signal weakness. The 20-DMA and 50-DMA levels provide additional context for short-term and medium-term trends, with Nifty currently trading above its 20-DMA but below its 50-DMA.
+</p>
+<h2>Option-chain signals (OI) — where support &amp; resistance sit</h2>
+<p>
+<strong>NIFTY:</strong>
+</p>
+<ul>
+<li>PCR: 1.04</li>
+<li>Highest CALL OI (resistance): 23500 (9,455,875 contracts), 23000 (8,663,005 contracts)</li>
+<li>Highest PUT OI (support): 22700 (11,065,210 contracts), 22500 (9,859,005 contracts)</li>
+</ul>
+<p>
+<strong>BANK NIFTY:</strong>
+</p>
+<ul>
+<li>PCR: 1.02</li>
+<li>Highest CALL OI (resistance): 56000 (1,096,950 contracts), 55000 (1,093,170 contracts)</li>
+<li>Highest PUT OI (support): 55000 (1,053,030 contracts), 54000 (775,500 contracts)</li>
+</ul>
+<p>
+<strong>SENSEX:</strong>
+</p>
+<ul>
+<li>PCR: 1.13</li>
+<li>Highest CALL OI (resistance): 74000 (8,327,320 contracts), 74500 (5,300,120 contracts)</li>
+<li>Highest PUT OI (support): 73500 (7,394,620 contracts), 73800 (6,868,440 contracts)</li>
+</ul>
+<p>
+<strong>Interpretation:</strong> The PCR (Put-Call Ratio) for all three indices is above 1, indicating a neutral-to-supportive bias from option traders. For Nifty, the highest Call OI at 23000 and 23500 suggests these levels will act as strong resistance, where sellers expect the market to face a ceiling. Conversely, the highest Put OI at 22700 and 22500 indicates robust support, where buyers are likely to defend the market from falling further. Traders should respect these option-chain derived levels in conjunction with the technical levels for today&#x27;s trading range.
+</p>
+<h2>Corporate actions today</h2>
+<p>
+Several companies are trading ex-dividend today:
+</p>
+<ul>
+<li><strong>CRISIL</strong>: Interim Dividend - ₹17 Per Share</li>
+<li><strong>CMPDI</strong>: Interim Dividend - ₹1.05 Per Share</li>
+<li><strong>KSOLVES</strong>: Interim Dividend - Re 1 Per Share</li>
+<li><strong>SHRIRAMFIN</strong>: Interim Dividend - ₹6.50 Per Share</li>
+<li><strong>KAJARIACER</strong>: Interim Dividend - ₹12 Per Share</li>
+</ul>
+<p>
+For shareholders, the stock price typically adjusts downwards by the dividend amount on the ex-date.
+</p>
+<h2>Stock &amp; sector news that matters</h2>
+<ul>
+<li><strong>ACME Solar shares rally 5% after Q2 profit jumps over 100%, signs 400MV agreement with NTPC</strong></li>
+<p>
+    ACME Solar reported a substantial 133.5% jump in Q2 FY27 profit to ₹269 crore and a 67.5% rise in revenue to ₹1,007 crore, further boosted by a 25-year power purchase agreement with NTPC.
+    <strong>Why it matters:</strong> This news is highly positive for ACME Solar, potentially driving its stock performance today. It also highlights strong growth in the renewable energy sector, which could positively impact other players.
+</p>
+<li><strong>Jio Platforms is becoming more than a telecom company: Dolat Capital</strong></li>
+<p>
+    Dolat Capital suggests Jio Platforms is evolving beyond traditional telecom, driven by tariff hikes, 5G monetisation, home broadband, and enterprise digital services.
+    <strong>Why it matters:</strong> This outlook provides a positive long-term narrative for Jio Platforms, potentially influencing investor sentiment ahead of its Q2 results (due tomorrow) and for the broader telecom and digital services sector.
+</p>
+<li><strong>US Market: Fed holds rates steady, but bond investors remain concerned over inflation</strong></li>
+<p>
+    The US Federal Reserve maintained interest rates, but the Treasury yield curve steepened as investors weighed inflation risks, fiscal concerns, and the future rate outlook.
+    <strong>Why it matters:</strong> While a rate pause is generally seen as positive, persistent inflation concerns in the US bond market could lead to higher US yields, potentially impacting FII flows into emerging markets like India.
+</p>
+<li><strong>HUL shares rise 3% after Q2 results. Jefferies, Nomura cut target price but forecast 29% upside potential</strong></li>
+<p>
+    Hindustan Unilever reported a 4% year-on-year increase in Q2 FY27 net profit to ₹2,790 crore and 15% revenue growth to ₹18,226 crore, despite margin pressures from rising commodity prices.
+    <strong>Why it matters:</strong> HUL&#x27;s results provide insights into the FMCG sector&#x27;s health. While revenue growth is strong, margin compression due to commodity prices is a key concern that could affect other FMCG players.
+</p>
+<li><strong>Indian bonds track US Treasuries higher amid oil-price relief</strong></li>
+<p>
+    Indian government bonds saw gains, supported by a rally in US Treasuries and a drop in crude oil prices, although a large upcoming bond sale and a weak rupee limited the extent of the gains.
+    <strong>Why it matters:</strong> Lower crude oil prices are a significant positive for the Indian economy and bond markets, potentially easing inflation and fiscal concerns. This could lead to a more stable interest rate environment domestically.
+</p>
+<li><strong>Vedanta Aluminium more than doubles profit; cost cuts in focus to drive earnings</strong></li>
+<p>
+    Vedanta Aluminium&#x27;s September-quarter net profit more than doubled, with revenue up 41% and EBITDA surging 83% year-on-year, driven by higher production volumes and cost efficiencies.
+    <strong>Why it matters:</strong> This strong performance from Vedanta Aluminium could set a positive tone for the metals sector, highlighting the impact of operational efficiencies and commodity price movements.
+</p>
+</ul>
+<h2>Events &amp; data to watch — and how markets usually react</h2>
+<ul>
+<li><strong>European Central Bank (ECB) Rate Decision:</strong> The ECB is expected to hold interest rates steady. Central bank policy announcements are typically met with increased market volatility as investors react to the decision and accompanying commentary on the economic outlook and future policy path.</li>
+<li><strong>US Bond Market Sentiment:</strong> Continued concerns over inflation and US Treasury yields could influence global risk appetite. Markets often react to rising US yields by re-evaluating investments in emerging markets, potentially leading to FII outflows or increased caution.</li>
+<li><strong>Jio Platforms Q2 Results (tomorrow):</strong> While not today, the anticipation of results from a major listed entity like Jio Platforms can influence market sentiment, particularly for the telecom and digital services sectors.</li>
+</ul>
+<h2>What to watch in today&#x27;s session</h2>
+<ol>
+<li><strong>GIFT Nifty&#x27;s strong signal:</strong> The significant gap-up indicated by GIFT Nifty will set the initial tone for the Indian market open.</li>
+<li><strong>Crude Oil Prices:</strong> The notable fall in Brent and WTI crude prices is a key positive for India and will be closely monitored for its impact on oil marketing companies, paint, and aviation sectors.</li>
+<li><strong>FII/DII Flows:</strong> After both institutional categories were net buyers yesterday, their continued stance will be crucial for market direction.</li>
+<li><strong>Key Technical &amp; Option Chain Levels:</strong> Nifty&#x27;s 23000 Call OI resistance and 22700 Put OI support, along with the narrow CPRs, will define the day&#x27;s trading range.</li>
+<li><strong>Corporate Action Stocks:</strong> Companies going ex-dividend today, such as CRISIL, SHRIRAMFIN, and KAJARIACER, might see price adjustments and increased trading activity.</li>
+<li><strong>Global Cues:</strong> The US 10-year yield movement and the outcome of the ECB rate decision will continue to influence global risk sentiment and, consequently, Indian markets.</li>
+</ol>
+<h2>Bottom line</h2>
+<p>
+Indian markets are poised for a positive start today, largely driven by a strong GIFT Nifty signal and supportive global cues from the US and European markets, coupled with a significant drop in crude oil prices. The Nifty&#x27;s ability to sustain above the 22900-23000 zone will be key for further upside. However, rising US bond yields and lingering global inflation concerns could introduce volatility, urging traders to remain cautious and vigilant of key support and resistance levels.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>[ET Markets] ACME Solar shares rally 5% after Q2 profit jumps over 100%, signs 400MV agreement with NTPC</li>
+<li>[ET Markets] Jio Platforms is becoming more than a telecom company: Dolat Capital</li>
+<li>[ET Markets] Jio Q2 Preview: First results after listing tomorrow. What should investors expect?</li>
+<li>[ET Markets] US Market: Fed holds rates steady, but bond investors remain concerned over inflation</li>
+<li>[ET Markets] HUL shares rise 3% after Q2 results. Jefferies, Nomura cut target price but forecast 29% upside potential</li>
+<li>[ET Markets] Indian bonds track US Treasuries higher amid oil-price relief</li>
+<li>[ET Markets] Global Market: ECB rate decision in focus as Lagarde exit speculation grows</li>
+<li>[ET Markets] Vedanta Aluminium more than doubles profit; cost cuts in focus to drive earnings</li>
+<li>[Livemint Markets] HUL’s revenue growth has a party pooper, and it’s may be here to stay</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
