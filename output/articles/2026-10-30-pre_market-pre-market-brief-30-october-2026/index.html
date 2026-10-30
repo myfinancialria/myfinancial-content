@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Pre-Market Brief — 30 October 2026</title>
+<meta name="description" content="Global markets presented a mixed picture, with US indices closing lower due to tech sector weakness, while Asian markets were split. GIFT Nifty indicates a fl.">
+<meta name="keywords" content="markets, global, dividend, stocks, economictimes, indiatimes, results, shares">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-30-pre_market-pre-market-brief-30-october-2026/">
+<meta property="og:title" content="Pre-Market Brief — 30 October 2026">
+<meta property="og:description" content="Global markets presented a mixed picture, with US indices closing lower due to tech sector weakness, while Asian markets were split. GIFT Nifty indicates a fl.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-30-pre_market-pre-market-brief-30-october-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Pre-Market Brief \u2014 30 October 2026", "description": "Global markets presented a mixed picture, with US indices closing lower due to tech sector weakness, while Asian markets were split. GIFT Nifty indicates a fl.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-30", "dateModified": "2026-10-30", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-30-pre_market-pre-market-brief-30-october-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/" class="active">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Pre-Market · 2026-10-30</div><h1>Pre-Market Brief — 30 October 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Global markets presented a mixed picture, with US indices closing lower due to tech sector weakness, while Asian markets were split.</li>
+<li>GIFT Nifty indicates a flat to slightly positive start for Indian equities today.</li>
+<li>Domestic Institutional Investors (DIIs) continued to be net buyers, providing crucial support, while Foreign Institutional Investors (FIIs) were net sellers yesterday.</li>
+<li>Reliance Industries&#x27; Q2 results are due today, a key event for market sentiment and index movement.</li>
+<li>Nifty 50&#x27;s CPR suggests a narrow range, with 23000-23100 being immediate levels to watch for direction.</li>
+<li>The primary risk for the day stems from global tech sector concerns following weak earnings and heavy AI spending by US giants, alongside renewed fears over cryptocurrency security.</li>
+</ul>
+</div>
+<h2>How global markets traded — and what it means for India</h2>
+<p>
+Overnight, US markets closed lower, primarily driven by a sell-off in technology stocks following disappointing earnings and concerns over rising AI infrastructure spending. The Nasdaq led the declines, falling over 1.3%. European markets, however, showed some resilience, with the FTSE 100 closing in the green. This morning, Asian markets are mixed; Japan&#x27;s Nikkei 225 saw a significant drop, while Hong Kong&#x27;s Hang Seng posted gains, and China&#x27;s Shanghai Composite was down.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>% Change</th></tr></thead><tbody>
+<tr><td>Dow Jones</td><td>52342.56</td><td>-0.25%</td></tr>
+<tr><td>Nasdaq</td><td>26184.72</td><td>-1.38%</td></tr>
+<tr><td>S&amp;P 500</td><td>7720.39</td><td>-0.30%</td></tr>
+<tr><td>FTSE 100</td><td>10762.55</td><td>+0.38%</td></tr>
+<tr><td>Nikkei 225</td><td>63290.11</td><td>-2.12%</td></tr>
+<tr><td>Hang Seng</td><td>23294.42</td><td>+1.46%</td></tr>
+<tr><td>Shanghai</td><td>3599.02</td><td>-1.44%</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The mixed global cues, particularly the negative sentiment from US tech and the significant fall in Nikkei, suggest a cautious start for Indian markets. However, the positive close in Europe and Hang Seng could offer some counter-balance, indicating a potentially flat to mildly negative open before domestic factors take over.
+</p>
+<h2>Currency, commodities and yields</h2>
+<p>
+The Indian Rupee strengthened against the US Dollar, with USD/INR trading at 95.04, down 0.18%. The Dollar Index also eased by 0.35% to 101.68, indicating a broader weakening of the greenback. In the crude oil market, Brent crude fell by 1.66% to $112.97, while WTI crude saw an increase of 1.73% to $103.76, presenting a mixed picture for oil prices. Gold prices declined by 0.84% to $3997.60, and Silver also fell by 2.50% to $50.88. The US 10-year Treasury yield softened by 1.11% to 4.99%.
+</p>
+<p>
+<strong>Interpretation:</strong> A stronger Rupee and a weaker Dollar Index are generally positive for the Indian economy, potentially easing import costs and foreign debt servicing. The fall in Brent crude is a relief for oil marketing companies (OMCs), paint, and aviation sectors, though the rise in WTI crude suggests underlying volatility. Easing US 10-year yields could reduce the attractiveness of US bonds, potentially supporting FII flows into emerging markets like India. Lower gold prices might indicate a shift away from safe-haven assets, though this contradicts the cautious global equity sentiment.
+</p>
+<h2>GIFT Nifty — what it&#x27;s signalling</h2>
+<p>
+The GIFT Nifty is trading at 23078.50, up by 0.16%.
+</p>
+<p>
+<strong>Interpretation:</strong> This indicates a likelihood of a flat to slightly positive opening for the Nifty 50 on the NSE today, suggesting a modest upside bias at the start of the session.
+</p>
+<h2>FII/DII flows — who&#x27;s driving the tape</h2>
+<p>
+Yesterday, Foreign Institutional Investors (FIIs) were net sellers in the cash market, offloading equities worth ₹-944 crore. Domestic Institutional Investors (DIIs), however, continued their buying spree, injecting ₹1,924 crore into the market.
+</p>
+<table><thead><tr><th>Date</th><th>FII Net (₹ cr)</th><th>DII Net (₹ cr)</th></tr></thead><tbody>
+<tr><td>2026-10-29</td><td>-944</td><td>+1,924</td></tr>
+<tr><td>2026-10-28</td><td>+872</td><td>+643</td></tr>
+<tr><td>2026-10-27</td><td>+4,240</td><td>-1,250</td></tr>
+<tr><td>2026-10-26</td><td>-1,462</td><td>+2,610</td></tr>
+<tr><td>2026-10-23</td><td>+888</td><td>+3,235</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> Over the last five sessions, DIIs have consistently provided strong support to the market, being net buyers in four out of five sessions. FII flows have been mixed, with net selling in two of the last five sessions, including yesterday. This DII buying is crucial in absorbing FII selling pressure and maintaining market stability.
+</p>
+<h2>Key levels to watch — Nifty, Bank Nifty &amp; Sensex (technical)</h2>
+<table><thead><tr><th>Index</th><th>Prev Close</th><th>CPR Pivot</th><th>CPR TC</th><th>CPR BC</th><th>CPR Width</th><th>R1</th><th>R2</th><th>S1</th><th>S2</th><th>Swing High</th><th>Swing Low</th><th>20-DMA</th><th>50-DMA</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>23051.85</td><td>23025.02</td><td>23038.43</td><td>23011.6</td><td>0.12%</td><td>23144.93</td><td>23238.02</td><td>22931.93</td><td>22812.02</td><td>23175.25</td><td>22288.45</td><td>22706.95</td><td>23254.72</td></tr>
+<tr><td>Bank Nifty</td><td>54720.85</td><td>54790.03</td><td>54824.62</td><td>54755.44</td><td>0.13%</td><td>54999.32</td><td>55277.78</td><td>54511.57</td><td>54302.28</td><td>56065.5</td><td>53626.15</td><td>54920.38</td><td>55949.05</td></tr>
+<tr><td>Sensex</td><td>74522.25</td><td>74448.96</td><td>74485.6</td><td>74412.31</td><td>0.10%</td><td>74815.88</td><td>75109.52</td><td>74155.32</td><td>73788.4</td><td>74849.75</td><td>71676.1</td><td>73195.5</td><td>74566.34</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> All three indices show a narrow CPR width (0.10-0.13%), which typically suggests that a trending move, either up or down, could be more likely today rather than a sideways, range-bound session. For Nifty, the pivot at 23025.02 is critical; a sustained move above R1 (23144.93) could signal bullish momentum, while a break below S1 (22931.93) might indicate weakness. Bank Nifty&#x27;s pivot is at 54790.03, with 54999.32 as immediate resistance. Sensex has its pivot at 74448.96, with R1 at 74815.88. The 50-DMA for Nifty and Bank Nifty is currently above their previous close, suggesting some overhead resistance from longer-term averages.
+</p>
+<h2>Option-chain signals (OI) — where support &amp; resistance sit</h2>
+<p>
+For the nearest expiry, Nifty&#x27;s Put-Call Ratio (PCR) is at 0.98, indicating a neutral-to-slightly cautious sentiment. The highest Call Open Interest (OI), acting as resistance, is seen at the 23500 strike (13,766,415 contracts), followed by 23100 (13,592,475 contracts) and 23000 (12,109,305 contracts). On the Put side, the highest OI, acting as support, is at the 23000 strike (14,873,300 contracts), followed by 22900 (14,651,130 contracts) and 22800 (14,117,220 contracts).
+</p>
+<p>
+Bank Nifty has a PCR of 1.04, leaning supportive. The 55000 strike has the highest Call OI (1,157,610 contracts) and also significant Put OI (1,140,390 contracts), making it a key battleground. Further resistance is at 56000, while support is at 54000.
+</p>
+<p>
+Sensex&#x27;s PCR is 1.16, indicating a supportive bias. Resistance is seen at 76000 (highest Call OI), followed by 75000 and 74500. Strong support is visible at 74000 (highest Put OI), then 73000 and 73500.
+</p>
+<p>
+<strong>Interpretation:</strong> For Nifty, the 23000 strike is a crucial pivot, with significant Call and Put OI, suggesting it will act as a strong immediate support-resistance zone. A break and sustain above 23100 could signal strength, while a break below 23000 could invite further selling towards 22900. Bank Nifty&#x27;s 55000 level will be key, indicating a potential range around this point. Sensex appears to have stronger support at 74000. Overall, the option chain data, combined with technical levels, suggests that Nifty 23000-23100 and Bank Nifty 54500-55000 are the levels to respect today. A PCR close to 1 for Nifty suggests a balanced view, while higher PCRs for Bank Nifty and Sensex indicate a slightly more bullish underlying sentiment.
+</p>
+<h2>Corporate actions today</h2>
+<p>
+Today marks the ex-date for several corporate actions, meaning shareholders must own the stock before today to be eligible for these benefits:
+</p>
+<ul>
+<li><strong>SSWL</strong>: Interim Dividend - Rs 1.50 Per Share. The share price will adjust downwards by the dividend amount on the ex-date.</li>
+<li><strong>SAGILITY</strong>: Interim Dividend - Re 0.15 Per Share. The share price will adjust downwards by the dividend amount on the ex-date.</li>
+<li><strong>ADOR</strong>: Interim Dividend - Rs 7.50 Per Share. The share price will adjust downwards by the dividend amount on the ex-date.</li>
+<li><strong>SEITINVIT</strong>: Distribution - Rs 3.13984 Per Unit Consist Of Rs 3.13797 Per Unit As Interest / Re 0.00187 Per Unit As Other Income. Investors will receive this distribution per unit.</li>
+<li><strong>CUBEINVIT</strong>: Distribution - Rs 3.79 Per Unit Consisting Of Rs 1.76 Per Unit As Interest/Re 0.32 Per Unit As Dividend/Rs 1.71 Per Unit As Return Of Capital. Investors will receive this distribution per unit.</li>
+<li><strong>SPLPETRO</strong>: Interim Dividend - Rs 2.50 Per Share. The share price will adjust downwards by the dividend amount on the ex-date.</li>
+<li><strong>RAILTEL</strong>: Interim Dividend - Re 1 Per Share. The share price will adjust downwards by the dividend amount on the ex-date.</li>
+<li><strong>EMBASSY</strong>: Distribution - Rs 7.07 Per Unit Consisting Of Re 0.14 Per Unit As Interest/ Re 0.86 Per Unit As Dividend/ Rs 6.07 Per Unit As Repayment Of Spv Level Debt. Investors will receive this distribution per unit.</li>
+<li><strong>DALBHARAT</strong>: Interim Dividend - Rs 4 Per Share. The share price will adjust downwards by the dividend amount on the ex-date.</li>
+<li><strong>DCMSHRIRAM</strong>: Interim Dividend - Rs 4 Per Share. The share price will adjust downwards by the dividend amount on the ex-date.</li>
+<li><strong>GENUSPOWER</strong>: Buy Back. This means the company will repurchase its shares from the open market, potentially supporting the share price.</li>
+<li><strong>CHENNPETRO</strong>: Interim Dividend - Rs 25 Per Share. The share price will adjust downwards by the dividend amount on the ex-date.</li>
+<li><strong>SIYSIL</strong>: Interim Dividend - Rs 4 Per Share. The share price will adjust downwards by the dividend amount on the ex-date.</li>
+<li><strong>SUPREMEIND</strong>: Interim Dividend - Rs 12 Per Share. The share price will adjust downwards by the dividend amount on the ex-date.</li>
+<li><strong>RECLTD</strong>: Interim Dividend - Rs 3.50 Per Share. The share price will adjust downwards by the dividend amount on the ex-date.</li>
+</ul>
+<h2>Stock &amp; sector news that matters</h2>
+<ul>
+<li><strong>Reliance Industries Q2 Results 2026 Live: Jio Platforms, RIL set to announce Q2 results today.</strong></li>
+<p>
+    Reliance Industries, a heavyweight on Indian indices, is scheduled to announce its second-quarter results today.
+    <strong>Why it matters:</strong> RIL&#x27;s performance and management commentary will significantly influence market sentiment and could dictate the direction of the Nifty 50, especially given its substantial weight. Brokerage estimates will be closely watched.
+</p>
+</ul>
+<ul>
+<li><strong>Global Market: Binance breach rekindles fears over cryptocurrency security</strong></li>
+<p>
+    A reported $6.3 billion breach at Binance, described as the largest crypto heist on record, has renewed concerns about digital-asset security, causing Bitcoin and other cryptocurrencies to slump.
+    <strong>Why it matters:</strong> While not directly impacting Indian equities, this event could dampen global risk appetite and affect sentiment towards technology and fintech stocks, especially those with exposure to digital assets or blockchain technologies.
+</p>
+</ul>
+<ul>
+<li><strong>Explained: Why AI giants Google, Amazon, Intel shares crashed up to 23% in a single day</strong></li>
+<p>
+    Shares of Alphabet, Amazon, and Intel plunged after their Q3 results, as investors worried about rising AI spending, weakening cash flows, and subdued outlooks.
+    <strong>Why it matters:</strong> This global tech sell-off could spill over into Indian IT services companies, which are heavily reliant on global tech spending. Concerns about AI investment costs versus returns could impact investor perception of the sector.
+</p>
+</ul>
+<ul>
+<li><strong>Equitas SFB shares tumble 27% in 2 days on CEO exit. More pain ahead?</strong></li>
+<p>
+    Equitas Small Finance Bank shares plummeted after its CEO and founder, PN Vasudevan, resigned over a perceived conflict of interest.
+    <strong>Why it matters:</strong> This news is specific to Equitas SFB but could create some cautious sentiment around small finance banks and the broader banking sector, especially regarding corporate governance and leadership stability.
+</p>
+</ul>
+<ul>
+<li><strong>Global Market: Bank of Japan achieves 2% inflation target after 13 years</strong></li>
+<p>
+    The Bank of Japan (BoJ) announced it has achieved its long-standing 2% inflation target, though it kept its benchmark interest rate unchanged at 1.25%.
+    <strong>Why it matters:</strong> This is a significant global macro event, signaling a potential shift in monetary policy for a major global economy. While the rate remains unchanged for now, it could lead to future policy adjustments that impact global capital flows and currency markets, including the Yen&#x27;s strength against the Dollar and Rupee.
+</p>
+</ul>
+<ul>
+<li><strong>Trent&#x27;s Q2 margin, growth bring cheer. Can it sustain the momentum?</strong></li>
+<p>
+    Trent, a retail major, reported strong Q2 results with EBITDA increasing by almost 30% year-on-year, outpacing its 22.5% revenue growth.
+    <strong>Why it matters:</strong> This positive news for Trent could boost sentiment for the broader retail sector in India, suggesting strong consumer demand and efficient operations for well-managed companies.
+</p>
+</ul>
+<h2>Events &amp; data to watch — and how markets usually react</h2>
+<ul>
+<li><strong>Reliance Industries Q2 Results:</strong> This is the most significant domestic event today. Markets typically react sharply to results from index heavyweights like RIL, with the stock itself and the broader Nifty experiencing volatility based on the earnings surprise and management commentary.</li>
+<li><strong>Global Tech Sector Performance:</strong> Following the significant declines in US tech giants due to AI spending concerns, Indian IT stocks will be under scrutiny. Markets tend to react to global sector trends, and a continued sell-off in global tech could weigh on Indian IT.</li>
+<li><strong>Cryptocurrency Market Stability:</strong> The reported Binance hack and subsequent drop in Bitcoin prices could impact global risk sentiment. While direct correlation with Indian equities is limited, a broad risk-off mood globally can lead to cautious trading in emerging markets.</li>
+<li><strong>Bank of Japan&#x27;s Monetary Policy Stance:</strong> While the BoJ kept rates unchanged, achieving its inflation target is a landmark event. Central bank policy announcements, especially from major economies, can influence global currency movements and capital flows, potentially impacting FII activity in India.</li>
+</ul>
+<h2>What to watch in today&#x27;s session</h2>
+<ol>
+<li><strong>Reliance Industries&#x27; Q2 Results:</strong> The market&#x27;s reaction to RIL&#x27;s earnings and outlook will be paramount for Nifty&#x27;s direction.</li>
+<li><strong>Nifty 50&#x27;s 23000-23100 Zone:</strong> Watch if Nifty can sustain above 23000 (strong Put OI support) or if it faces resistance at 23100 (significant Call OI).</li>
+<li><strong>Global Tech Sector Cues:</strong> Monitor how Indian IT stocks react to the overnight sell-off in US tech giants and concerns over AI spending.</li>
+<li><strong>FII vs DII Flows:</strong> Observe if DII buying continues to offset FII selling, providing a floor for the market.</li>
+<li><strong>Sectoral Action:</strong> Keep an eye on the banking sector following the Equitas SFB news, and the retail sector after Trent&#x27;s positive results.</li>
+<li><strong>Crude Oil Price Volatility:</strong> The divergence between Brent and WTI crude prices needs monitoring for potential impact on related sectors.</li>
+</ol>
+<h2>Bottom line</h2>
+<p>
+Indian markets are poised for a cautious to flat opening today, influenced by mixed global cues and significant domestic earnings from Reliance Industries. The Nifty 50&#x27;s ability to hold above the 23000 mark will be crucial for determining the day&#x27;s trajectory. Investors should remain vigilant about global tech sector developments and FII flow trends, which could introduce volatility.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>[ET Markets] Global Market: Binance breach rekindles fears over cryptocurrency security. <a href="https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-binance-breach-rekindles-fears-over-cryptocurrency-security/articleshow/135351569.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-binance-breach-rekindles-fears-over-cryptocurrency-security/articleshow/135351569.cms</a></li>
+<li>[ET Markets] Reliance Industries Q2 Results 2026 Live: Jio Platforms, RIL set to announce Q2 results today. Check brokerage estimates. <a href="https://economictimes.indiatimes.com/markets/stocks/live-blog/ril-jio-platforms-q2-results-2026-live-updates-reliance-industries-jpl-quarter-2-earnings-result-fy27-revenue-dividend-share-price/liveblog/135351601.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/live-blog/ril-jio-platforms-q2-results-2026-live-updates-reliance-industries-jpl-quarter-2-earnings-result-fy27-revenue-dividend-share-price/liveblog/135351601.cms</a></li>
+<li>[ET Markets] Global Market: Wall Street&#x27;s top asset managers bet big on AI infrastructure boom. <a href="https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/global-market-wall-streets-top-asset-managers-bet-big-on-ai-infrastructure-boom/articleshow/135349828.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/global-market-wall-streets-top-asset-managers-bet-big-on-ai-infrastructure-boom/articleshow/135349828.cms</a></li>
+<li>[ET Markets] Can AWS growth help Amazon shares rebound from the post-earnings selloff? <a href="https://economictimes.indiatimes.com/markets/us-stocks/news/can-aws-growth-help-amazon-shares-rebound-from-the-post-earnings-selloff/slideshow/135350722.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/can-aws-growth-help-amazon-shares-rebound-from-the-post-earnings-selloff/slideshow/135350722.cms</a></li>
+<li>[ET Markets] Bitcoin hits 6-week low, drops below $78,000 as Binance’s $6 billion hack rattles crypto markets. What should investors do? <a href="https://economictimes.indiatimes.com/markets/cryptocurrency/bitcoin-hits-6-week-low-drops-below-78000-as-binances-6-billion-hack-rattles-crypto-markets-what-should-investors-do/articleshow/135349699.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/cryptocurrency/bitcoin-hits-6-week-low-drops-below-78000-as-binances-6-billion-hack-rattles-crypto-markets-what-should-investors-do/articleshow/135349699.cms</a></li>
+<li>[ET Markets] Coal India shares fall 3% after Q2 results; Jefferies, Motilal Oswal, others cut target price. <a href="https://economictimes.indiatimes.com/markets/stocks/news/coal-india-shares-fall-3-after-q2-results-jefferies-motilal-oswal-others-cut-target-price/articleshow/135349282.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/coal-india-shares-fall-3-after-q2-results-jefferies-motilal-oswal-others-cut-target-price/articleshow/135349282.cms</a></li>
+<li>[ET Markets] Explained: Why AI giants Google, Amazon, Intel shares crashed up to 23% in a single day. <a href="https://economictimes.indiatimes.com/markets/stocks/news/explained-why-ai-giants-google-amazon-intel-shares-crashed-up-to-23-in-a-single-day/articleshow/135349077.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/explained-why-ai-giants-google-amazon-intel-shares-crashed-up-to-23-in-a-single-day/articleshow/135349077.cms</a></li>
+<li>[ET Markets] Equitas SFB shares tumble 27% in 2 days on CEO exit. More pain ahead? <a href="https://economictimes.indiatimes.com/markets/stocks/news/equitas-sfb-shares-tumble-27-in-2-days-on-ceo-exit-more-pain-ahead/articleshow/135348776.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/equitas-sfb-shares-tumble-27-in-2-days-on-ceo-exit-more-pain-ahead/articleshow/135348776.cms</a></li>
+<li>[ET Markets] Biggest crypto heist in history: How Binance’s $6 billion hack rattled markets and what it means for investors? <a href="https://economictimes.indiatimes.com/markets/cryptocurrency/biggest-crypto-heist-in-history-how-binances-6-billion-hack-rattled-markets-and-what-it-means-for-investors/articleshow/135348042.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/cryptocurrency/biggest-crypto-heist-in-history-how-binances-6-billion-hack-rattled-markets-and-what-it-means-for-investors/articleshow/135348042.cms</a></li>
+<li>[ET Markets] Global Market: Chinese yuan hits four-year high, heads for fourth straight monthly gain. <a href="https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-chinese-yuan-hits-four-year-high-heads-for-fourth-straight-monthly-gain/articleshow/135348252.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-chinese-yuan-hits-four-year-high-heads-for-fourth-straight-monthly-gain/articleshow/135348252.cms</a></li>
+<li>[ET Markets] Global Market: Bank of Japan achieves 2% inflation target after 13 years. <a href="https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-bank-of-japan-achieves-2-inflation-target-after-13-years/articleshow/135347955.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-bank-of-japan-achieves-2-inflation-target-after-13-years/articleshow/135347955.cms</a></li>
+<li>[ET Markets] Intel Stock Crash: Can chipmaker revive its turnaround strategy? <a href="https://economictimes.indiatimes.com/markets/us-stocks/news/intel-stock-crash-can-chipmaker-revive-its-turnaround-strategy/slideshow/135347873.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/intel-stock-crash-can-chipmaker-revive-its-turnaround-strategy/slideshow/135347873.cms</a></li>
+<li>[Livemint Markets] Trent&#x27;s Q2 margin, growth bring cheer. Can it sustain the momentum? <a href="https://www.livemint.com/market/mark-to-market/trents-q2-margin-growth-brings-cheer-can-it-sustain-share-target-zudio-and-westside-11793344201078.html" rel="noopener" target="_blank">https://www.livemint.com/market/mark-to-market/trents-q2-margin-growth-brings-cheer-can-it-sustain-share-target-zudio-and-westside-11793344201078.html</a></li>
+<li>[Livemint Markets] Sudarshan Pharma shares: Up 30% in 2026 so far! Will it rebound after profit-booking trigger? Experts&#x27; views, target, SL. <a href="https://www.livemint.com/market/stock-market-news/sudarshan-pharma-shares-up-30-in-2026-so-far-will-it-rebound-after-profit-booking-trigger-experts-views-target-sl-11793345706982.html" rel="noopener" target="_blank">https://www.livemint.com/market/stock-market-news/sudarshan-pharma-shares-up-30-in-2026-so-far-will-it-rebound-after-profit-booking-trigger-experts-views-target-sl-11793345706982.html</a></li>
+<li>[Livemint Markets] Why Deepak Nitrite share price jumped 9% after Q2 results - Profit and other highlights | Check rating, stock returns. <a href="https://www.livemint.com/market/stock-market-news/why-deepak-nitrite-share-price-jumped-9-after-q2-results-profit-and-other-highlights-check-rating-stock-returns-11793345692881.html" rel="noopener" target="_blank">https://www.livemint.com/market/stock-market-news/why-deepak-nitrite-share-price-jumped-9-after-q2-results-profit-and-other-highlights-check-rating-stock-returns-11793345692881.html</a></li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
