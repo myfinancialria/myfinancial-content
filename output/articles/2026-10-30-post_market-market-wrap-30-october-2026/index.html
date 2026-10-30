@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Market Wrap — 30 October 2026</title>
+<meta name="description" content="Indian markets likely faced headwinds today, influenced by negative global cues and sustained selling by Foreign Institutional Investors (FIIs). A significant.">
+<meta name="keywords" content="profit, unavailable, earnings, markets, stocks, results, revenue, reliance">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-30-post_market-market-wrap-30-october-2026/">
+<meta property="og:title" content="Market Wrap — 30 October 2026">
+<meta property="og:description" content="Indian markets likely faced headwinds today, influenced by negative global cues and sustained selling by Foreign Institutional Investors (FIIs). A significant.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-30-post_market-market-wrap-30-october-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Market Wrap \u2014 30 October 2026", "description": "Indian markets likely faced headwinds today, influenced by negative global cues and sustained selling by Foreign Institutional Investors (FIIs). A significant.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-30", "dateModified": "2026-10-30", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-30-post_market-market-wrap-30-october-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/" class="active">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Market Wrap · 2026-10-30</div><h1>Market Wrap — 30 October 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Indian markets likely faced headwinds today, influenced by negative global cues and sustained selling by Foreign Institutional Investors (FIIs).</li>
+<li>A significant decline in US tech stocks, particularly the Nasdaq, set a cautious tone for the global markets.</li>
+<li>Data for top Nifty 500 gainers and losers was unavailable for analysis today.</li>
+<li>Foreign Institutional Investors (FIIs) were net sellers in the cash segment, while Domestic Institutional Investors (DIIs) provided crucial buying support.</li>
+<li>The market breadth data indicated a lack of clear direction, with zero advances and zero declines reported.</li>
+<li>F&amp;O build-up data for today&#x27;s session is unavailable and will be populated from the next wrap.</li>
+</ul>
+</div>
+<h2>How the market behaved today</h2>
+<p>
+Data for Nifty 50 and Bank Nifty close and percentage change is unavailable. Similarly, the day&#x27;s high and low for these indices, along with Nifty Midcap 100 and Nifty Smallcap 100, are not available.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>Change</th><th>High</th><th>Low</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Bank Nifty</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Midcap 100</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Smallcap 100</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+</tbody></table>
+<p>
+India VIX data is unavailable for today&#x27;s session, so a read on volatility cannot be provided.
+</p>
+<h2>What moved the market — the factors</h2>
+<p>
+The Indian market&#x27;s sentiment today was primarily shaped by a combination of negative global cues and the flow of institutional money. Overnight, US markets witnessed significant losses, with the Nasdaq sinking 2.2%. This sharp decline was fueled by concerns over rising capital expenditures at Amazon and cash burn warnings from Intel, leading to fresh fears about AI spending. Such a substantial drop in global tech giants often spills over into Asian markets, including India, setting a cautious tone for the trading day.
+</p>
+<p>
+On the domestic front, Foreign Institutional Investors (FIIs) were net sellers, offloading equities worth ₹-944 crore in the cash segment. This continued selling pressure from FIIs, after a mixed week, likely added to the market&#x27;s subdued mood. However, Domestic Institutional Investors (DIIs) emerged as strong buyers, pumping in ₹1,924 crore, which likely provided a significant cushion against a sharper decline. This consistent DII support has been a recurring theme, helping to absorb FII outflows.
+</p>
+<p>
+The ongoing Q2 earnings season also played a pivotal role, with several major companies announcing their results. Reliance Industries, a heavyweight, reported record Q2FY27 profit and announced plans to raise ₹15,000 crore through Non-Convertible Debentures (NCDs). While positive for the individual stock, the broader market reaction to such results depends on overall sentiment. Other notable earnings included strong performances from Bank of Baroda, Lodha Developers, Syrma SGS, Spandana Sphoorty, and NTPC Green Energy, while Zee Entertainment and Reliance Retail reported profit declines. The mixed bag of corporate results, against a backdrop of global uncertainty and FII selling, contributed to the overall market dynamics.
+</p>
+<h2>Sectors — winners and losers</h2>
+<p>
+Data for top 3 gainer sectors and top 3 loser sectors is unavailable.
+</p>
+<h2>Stocks that moved the market</h2>
+<h3>Top 5 gainers (Nifty 500)</h3>
+<p>
+Data for top 5 Nifty 500 gainers is unavailable.
+</p>
+<h3>Top 5 losers (Nifty 500)</h3>
+<p>
+Data for top 5 Nifty 500 losers is unavailable.
+</p>
+<h2>News that moved stocks</h2>
+<p>
+<strong>Q2 Earnings Season in Full Swing</strong>
+Several companies announced their Q2FY27 results today, providing key insights into their performance.
+</p>
+<ul>
+<li><strong>Syrma SGS reports best-ever quarter; Q2 revenue up 73% to Rs 1,999.5 crore</strong>: Syrma SGS Technology saw an 87.2% increase in consolidated net profit and a 73.2% rise in revenue, reaching a record high.</li>
+<li><strong>Zee Entertainment Q2 profit drops 40% to Rs 46 crore as EBITDA margin contracts to 3.2%</strong>: Zee Entertainment Enterprises reported a significant decline in consolidated net profit, despite a 13% increase in operating revenue.</li>
+<li><strong>Lodha Developers H1FY27 net profit soars 63%, expects to beat full-year guidance</strong>: Lodha Developers posted a strong 63% rise in first-half profit, driven by robust property sales.</li>
+<li><strong>Spandana Sphoorty returns to profit at Rs 18 crore in Q2FY27</strong>: Spandana Sphoorty Financial reversed a year-ago loss, reporting a consolidated profit of ₹18 crore, with assets under management growing 31%.</li>
+<li><strong>Bank of Baroda Q2 profit jumps 36% to Rs 6,532 crore on NSE stake sale</strong>: Bank of Baroda&#x27;s profit surged, boosted by gains from an NSE stake sale and higher interest income.</li>
+<li><strong>Record earnings! 5 big takeaways from RIL Q2 results investors should watch for Monday trading</strong>: Reliance Industries reported record Q2FY27 profit of ₹29,550 crore and revenue of ₹3.62 lakh crore, driven by strong refining margins and Jio growth.</li>
+<li><strong>Reliance Retail Q2 Results: Revenue up 6%, but late festive season, digital spends hit profit</strong>: Reliance Retail&#x27;s gross revenue increased by 6.4%, but net profit fell 24% year-on-year.</li>
+<li><strong>Reliance Industries Q2 Results: Profit shoots up 41% YoY to Rs 25,548 crore, revenue surges 29%</strong>: RIL&#x27;s consolidated net profit grew 41% year-on-year for the September quarter.</li>
+<li><strong>Jio Platforms Q2 Results: Profit rises 14% YoY to Rs 8,389 crore; revenue up 11%</strong>: Jio Platforms reported a 14% year-on-year rise in net profit and 11% revenue growth.</li>
+<li><strong>NTPC Green Energy Q2 Results: Profit jumps 56% YoY to Rs 137 crore, revenue rises 53%</strong>: NTPC Green Energy saw a significant jump in net profit and revenue, with improved EBITDA margins.</li>
+</ul>
+<p>
+<strong>Corporate Actions &amp; Fundraising</strong>
+</p>
+<ul>
+<li><strong>Reliance Industries announces fundraising, to raise Rs 15,000 crore through NCDs</strong>: Alongside its strong Q2 earnings, Reliance Industries approved plans to raise up to ₹15,000 crore via non-convertible debentures through private placement.</li>
+<li><strong>Dividend stocks alert: Record date Mon 2 Nov: Colgate Palmolive vs Pitti Engineering vs Route Mobile vs Tanla Platforms</strong>: Several companies, including Colgate Palmolive (India), Pitti Engineering, Route Mobile, and Tanla Platforms, have set November 2 as the record date for their dividends.</li>
+</ul>
+<p>
+<strong>Global Market Sentiment</strong>
+</p>
+<ul>
+<li><strong>US stocks today: Nasdaq sinks 2.2% as Amazon, Intel fuel fresh fears over AI spending</strong>: Wall Street experienced significant losses, with the Nasdaq falling to its lowest level in nearly three months due to concerns about AI spending.</li>
+<li><strong>US Markets: Marriott International shares in focus ahead of Q3 earnings, growth outlook amid Iran war impact</strong>: Marriott International&#x27;s Q3 earnings and growth outlook are in focus for US markets.</li>
+</ul>
+<p>
+<strong>Notable Investor Activity</strong>
+</p>
+<ul>
+<li><strong>Vijay Kedia&#x27;s portfolio stock under ₹150: This textile stock adds ₹3.7 crore to his wealth since IPO; Do you own?</strong>: Ashutosh Fibre, a textile stock in Vijay Kedia&#x27;s portfolio, has seen a significant gain since its IPO, adding ₹3.7 crore to his wealth.</li>
+</ul>
+<h2>F&amp;O build-up — where traders are positioning</h2>
+<p>
+OI build-up needs the previous session&#x27;s OI — it will populate from the next run.
+</p>
+<h2>Market breadth</h2>
+<p>
+The market breadth data for today showed 0 advances and 0 declines out of a total of 0 stocks. This indicates that the specific data for market breadth was unavailable for analysis today.
+</p>
+<h2>FII / DII flows</h2>
+<p>
+Foreign Institutional Investors (FIIs) were net sellers in the Indian equity markets today, offloading shares worth ₹-944 crore. In contrast, Domestic Institutional Investors (DIIs) continued to be net buyers, injecting ₹1,924 crore into the market.
+</p>
+<table><thead><tr><th>Investor Type</th><th>Net Flow (₹ crore)</th></tr></thead><tbody>
+<tr><td>FII</td><td>-944</td></tr>
+<tr><td>DII</td><td>1,924</td></tr>
+</tbody></table>
+<p>
+Looking at the 5-day trend, FIIs have been net sellers on two of the last five trading sessions, including today. Their net activity has been mixed, with significant buying on October 27 (₹+4,240 cr) but also substantial selling on October 26 (₹-1,462 cr) and today. DIIs, on the other hand, have consistently been net buyers over the past five sessions, providing a strong counter-balance to FII flows. Their consistent buying support has been crucial in absorbing FII outflows and preventing sharper market corrections.
+</p>
+<h2>Event breakdown — what happened today and how it hit the market</h2>
+<p>
+Today&#x27;s session was largely driven by a combination of global market sentiment and the ongoing Q2 earnings season. The significant drop in US markets overnight, particularly the Nasdaq, due to concerns surrounding tech spending, set a cautious tone for Indian equities. This global pessimism was compounded by FIIs turning net sellers in the cash market.
+</p>
+<p>
+However, the impact of these negative cues was likely mitigated by robust buying from Domestic Institutional Investors (DIIs), who continued their trend of providing strong support to the market. The Q2 earnings season was a major domestic event, with several heavyweights and mid-cap companies announcing their results. Reliance Industries, a market mover, reported record profits and announced a large fundraising plan, which could be a positive for the stock in the coming sessions. Other companies like Bank of Baroda, Lodha Developers, and Syrma SGS also reported strong numbers, potentially providing stock-specific positive momentum. Conversely, Zee Entertainment and Reliance Retail saw profit declines, which might weigh on their respective shares. Overall, the market navigated a complex environment of global headwinds and a mixed bag of corporate earnings, with DIIs playing a critical role in maintaining stability.
+</p>
+<h2>Setup for tomorrow</h2>
+<p>
+Looking ahead to tomorrow, global cues will continue to be a significant factor. The weakness seen in US markets, particularly in tech, could influence Asian markets at the open. Investors will also keep a close watch on the Dollar Index, which closed slightly down at 101.97, and crude oil prices, with Brent Crude down 1.17% to $113.54 and WTI Crude up 2.00% to $104.04. The US 10-year yield also saw a slight dip to 4.95%. The USD/INR pair closed at 94.94, showing a slight appreciation of the Rupee.
+</p>
+<p>
+Domestically, the momentum from Q2 earnings will continue to drive stock-specific action. Companies that delivered strong results, like Reliance Industries, Bank of Baroda, and Lodha Developers, might see positive sentiment, while those with weaker earnings could face pressure. The sustained buying by DIIs will be crucial in counteracting any further FII selling. Traders will monitor key support and resistance levels for the major indices, though specific levels are unavailable for today&#x27;s wrap.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/syrma-sgs-reports-best-ever-quarter-q2-revenue-up-73-to-rs-1999-5-crore/articleshow/135369732.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/zee-entertainment-q2-profit-drops-40-to-rs-46-crore-as-ebitda-margin-contracts-to-3-2/articleshow/135369566.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/lodha-developers-h1fy27-net-profit-soars-63-expects-to-beat-full-year-guidance/articleshow/135369310.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/spandana-sphoorty-returns-to-profit-at-rs-18-crore-in-q2fy27/articleshow/135369091.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/bank-of-baroda-q2-profit-jumps-36-to-rs-6532-crore-on-nse-stake-sale/articleshow/135369087.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/record-earnings-5-big-takeaways-from-ril-q2-results-investors-should-watch-for-monday-trading/articleshow/135367917.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/reliance-retail-q2-results-net-profit-falls-24-yoy-to-rs-2611-crore-gross-revenue-rises-6/articleshow/135366729.cms</li>
+<li>https://economictimes.indiatimes.com/markets/bonds/reliance-industries-to-raise-rs-15000-crore-via-ncds/articleshow/135366327.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/reliance-industries-q2-results-profit-shoots-up-41-yoy-to-rs-25548-crore-revenue-up-12/articleshow/135361960.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/jio-platforms-q2-results-profit-rises-14-yoy-to-rs-8389-crore-revenue-up-11/articleshow/135364558.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-today-nasdaq-tumbles-over-2-sp-1-at-open-as-amazon-intel-add-to-ai-spending-woes/articleshow/135364444.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/earnings/ntpc-green-energy-q2-results-profit-jumps-56-yoy-to-rs-137-crore-revenue-rises-53/articleshow/135363615.cms</li>
+<li>https://www.livemint.com/market/stock-market-news/dividend-stocks-alert-record-date-mon-2-nov-colgate-palmolive-vs-pitti-engineering-vs-route-mobile-vs-tanla-platforms-11793377023477.html</li>
+<li>https://www.livemint.com/market/stock-market-news/us-markets-marriott-international-shares-in-focus-ahead-of-q3-earnings-growth-outlook-amid-iran-war-impact-11793371045972.html</li>
+<li>https://www.livemint.com/market/stock-market-news/vijay-kedias-portfolio-stock-under-rs-150-this-textile-stock-adds-rs-3-7-crore-to-his-wealth-since-ipo-do-you-own-11793366185526.html</li>
+<li>Global Cues Data (Provided in prompt)</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
