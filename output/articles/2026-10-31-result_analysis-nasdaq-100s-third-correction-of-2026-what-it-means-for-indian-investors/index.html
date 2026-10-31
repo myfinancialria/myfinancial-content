@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Nasdaq 100&#x27;s Third Correction of 2026: What it Means for Indian Investors</title>
+<meta name="description" content="The Nasdaq 100 index recently entered its third technical correction of 2026, indicating a significant downturn in major US technology stocks. This market mov.">
+<meta name="keywords" content="correction, market, nasdaq, investors, global, companies, indian, technology">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-31-result_analysis-nasdaq-100s-third-correction-of-2026-what-it-means-for-indian-investors/">
+<meta property="og:title" content="Nasdaq 100&#x27;s Third Correction of 2026: What it Means for Indian Investors">
+<meta property="og:description" content="The Nasdaq 100 index recently entered its third technical correction of 2026, indicating a significant downturn in major US technology stocks. This market mov.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-10-31-result_analysis-nasdaq-100s-third-correction-of-2026-what-it-means-for-indian-investors/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Nasdaq 100's Third Correction of 2026: What it Means for Indian Investors", "description": "The Nasdaq 100 index recently entered its third technical correction of 2026, indicating a significant downturn in major US technology stocks. This market mov.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-10-31", "dateModified": "2026-10-31", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-10-31-result_analysis-nasdaq-100s-third-correction-of-2026-what-it-means-for-indian-investors/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/" class="active">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Result Analysis · 2026-10-31</div><h1>Nasdaq 100&#x27;s Third Correction of 2026: What it Means for Indian Investors</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The Nasdaq 100 index recently entered its third technical correction of 2026, indicating a significant downturn in major US technology stocks.</li>
+<li>This market movement was primarily triggered by a series of disappointing earnings reports from several large technology companies.</li>
+<li>A &quot;technical correction&quot; signifies a decline of 10% or more from an index&#x27;s recent peak, reflecting a shift in investor sentiment.</li>
+<li>Indian investors holding global portfolios or funds with substantial exposure to US tech equities may observe an impact on their investment values.</li>
+<li>This event underscores the critical importance of portfolio diversification and adopting a long-term investment horizon, even for international assets.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+The Nasdaq 100 is an index that tracks the performance of the 100 largest non-financial companies listed on the Nasdaq stock exchange in the United States. It&#x27;s heavily weighted towards technology giants like Apple, Microsoft, Amazon, and Google&#x27;s parent company, Alphabet. When we say the Nasdaq 100 has entered a &quot;technical correction,&quot; it simply means the index has fallen by 10% or more from its most recent high point. This isn&#x27;t a market crash, but it&#x27;s a significant pullback that signals investors are becoming more cautious or are taking profits.
+</p>
+<p>
+This particular correction is the third one the Nasdaq 100 has experienced in 2026, highlighting a period of increased volatility in the global technology sector. The primary reason for this recent downturn is that several big tech companies announced their quarterly earnings, and these results weren&#x27;t as strong as investors had hoped. This led to a widespread selling of these stocks, as investors decided to &quot;unwind their bets&quot; – essentially reducing their exposure to these companies, either due to profit booking or concerns about future growth prospects.
+</p>
+<p>
+For Indian investors, especially those who have diversified their portfolios internationally through mutual funds, ETFs, or direct equity investments in US markets, this correction can directly impact the value of their holdings. While US market movements don&#x27;t always translate directly to Indian markets, a significant event like this in the tech sector can influence global investor sentiment and potentially have indirect effects on related Indian industries.
+</p>
+<h2>Understanding the Nasdaq 100 and its Global Significance</h2>
+<p>
+The Nasdaq 100 is not just another stock market index; it is a barometer for the global technology and growth sectors. Comprising 100 of the largest non-financial companies listed on the Nasdaq Stock Market, it is renowned for its concentration of innovative, high-growth technology and internet-related firms. Companies like Apple, Microsoft, Amazon, Alphabet (Google), and Meta Platforms (Facebook) are significant constituents, making its performance a key indicator of the health and sentiment within the global tech industry.
+</p>
+<p>
+For investors worldwide, including those in India, the Nasdaq 100&#x27;s movements are closely watched because these companies often drive global innovation, set technological trends, and have substantial international operations. A correction in this index, especially the third one in a single year, signals that investors are re-evaluating the growth prospects and valuations of these tech giants. This re-evaluation can stem from various factors, including changing interest rate expectations, inflation concerns, regulatory scrutiny, or, as in this case, disappointing financial results. Its performance can influence investment decisions across different geographies, as capital flows tend to react to shifts in major global benchmarks.
+</p>
+<h3>Why Tech-Heavy Indices Matter</h3>
+<p>
+Tech companies, particularly those in the Nasdaq 100, have often been at the forefront of market rallies due to their strong growth potential and disruptive innovations. However, their high growth expectations also make them susceptible to sharper corrections when those expectations are not met. The sheer size and influence of these companies mean that their performance can have a ripple effect on other sectors and global economies. Understanding the Nasdaq 100 is crucial for any investor looking to diversify globally or understand the broader dynamics of the technology-driven economy.
+</p>
+<h2>The Triggers: Disappointing Earnings and Unwinding Tech Bets</h2>
+<p>
+The recent downturn in the Nasdaq 100 leading to its third correction of 2026 can be directly attributed to a confluence of factors, primarily disappointing earnings reports from several influential technology companies. Investors had high expectations for these firms, anticipating robust growth and profitability. However, when actual results fell short of these projections, it prompted a swift reaction in the market.
+</p>
+<p>
+&quot;Unwinding tech stock bets&quot; refers to investors actively reducing their exposure to these companies. This can happen for several reasons:
+</p>
+<ul>
+<li><strong>Profit Booking:</strong> After periods of strong performance, investors might sell shares to lock in gains, especially if future growth looks uncertain.</li>
+<li><strong>Re-evaluation of Valuations:</strong> When earnings disappoint, the high valuations assigned to many tech stocks, often based on future growth potential, come under scrutiny. Investors may decide these stocks are overpriced relative to their current performance.</li>
+<li><strong>Shift in Market Sentiment:</strong> Disappointing results from a few bellwether companies can trigger a broader shift in sentiment across the entire sector. This can lead to a domino effect where investors become more cautious about other tech stocks, even those that might not have reported earnings yet.</li>
+<li><strong>Macroeconomic Concerns:</strong> While not explicitly detailed in the source, broader macroeconomic factors like rising interest rates (which can make future earnings less valuable) or concerns about an economic slowdown can also contribute to investors &quot;unwinding&quot; their positions in growth-oriented sectors like technology.</li>
+</ul>
+<p>
+This collective action of selling, driven by a reassessment of company fundamentals and broader market outlook, creates downward pressure on the index, pushing it into correction territory.
+</p>
+<h2>Impact on Indian Investors and Portfolio Diversification</h2>
+<p>
+For Indian investors, a correction in the Nasdaq 100 can have direct and indirect implications, particularly for those who have embraced global diversification.
+</p>
+<h3>Direct Impact: International Funds and Direct Investments</h3>
+<p>
+Many Indian investors access global markets through:
+</p>
+<ul>
+<li><strong>International Mutual Funds:</strong> These funds invest in global equities, often including significant allocations to US markets and tech giants. Funds of Funds (FoFs) that specifically track the Nasdaq 100 or invest in global technology companies will directly reflect this correction in their Net Asset Values (NAVs).</li>
+<li><strong>Exchange Traded Funds (ETFs):</strong> Several Indian ETFs track global indices like the Nasdaq 100. A 10% correction in the underlying index will lead to a similar fall in the value of these ETFs.</li>
+<li><strong>Direct Equity Investments:</strong> A growing number of Indian investors are using platforms to directly invest in US stocks. For those holding shares of major tech companies, their portfolio values would have seen a notable decline.</li>
+</ul>
+<p>
+The impact is typically seen in the rupee value of these investments. While the underlying assets fall in USD terms, the INR-USD exchange rate can also play a role. If the Rupee depreciates against the Dollar during this period, it could partially cushion the fall in INR terms, but a significant correction will still be felt.
+</p>
+<h3>Indirect Impact: Sentiment and Sectoral Spillover</h3>
+<p>
+Even for investors without direct international exposure, there can be indirect effects:
+</p>
+<ul>
+<li><strong>Indian IT Sector:</strong> Many Indian IT services companies derive a significant portion of their revenue from US clients, including major tech firms. A slowdown or reduced spending by US tech giants could potentially impact the outlook for Indian IT companies.</li>
+<li><strong>Global Investor Sentiment:</strong> A major correction in a leading global index can dampen overall investor sentiment worldwide. This might lead to a more cautious approach to equities in general, including in the Indian market, though India&#x27;s domestic growth story often provides resilience.</li>
+</ul>
+<h3>The Role of Diversification</h3>
+<p>
+This event underscores the dual nature of international diversification. While it offers exposure to growth opportunities not available domestically and can sometimes provide a hedge against domestic market downturns, it also exposes investors to global risks. The key lies in strategic diversification – not just across geographies but also across asset classes and sectors. A portfolio overly concentrated in a single sector, even if globally diversified, remains vulnerable to sector-specific corrections. For guidance on appropriate diversification, investors can refer to resources from SEBI or AMFI India.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider Rahul, 38, who works in Bengaluru with a CTC of ₹28 lakhs per year. Rahul is a savvy investor who believes in global diversification and has allocated a portion of his portfolio to international equities. He invests ₹50,000 per month into a mutual fund that primarily invests in Nasdaq 100 companies.
+</p>
+<p>
+Rahul started investing in this fund two years ago. Let&#x27;s assume his total investment value in this fund, just before the recent Nasdaq 100 correction, was ₹12,00,000 (Twelve Lakhs).
+</p>
+<p>
+When the Nasdaq 100 enters a technical correction, meaning it drops by 10% or more, Rahul&#x27;s investment value would be directly impacted.
+</p>
+<ul>
+<li><strong>Original Investment Value:</strong> ₹12,00,000</li>
+<li><strong>Correction Percentage:</strong> 10%</li>
+<li><strong>Loss in Value:</strong> 10% of ₹12,00,000 = ₹1,20,000 (One Lakh Twenty Thousand)</li>
+<li><strong>New Investment Value:</strong> ₹12,00,000 - ₹1,20,000 = ₹10,80,000 (Ten Lakhs Eighty Thousand)</li>
+</ul>
+<p>
+So, a 10% correction would reduce the value of Rahul&#x27;s Nasdaq 100-linked fund from ₹12 lakhs to ₹10.8 lakhs. This drop, while significant, is part of market cycles. For a long-term investor like Rahul, such corrections can present opportunities to average down his costs if he continues his Systematic Investment Plan (SIP) or makes additional lump-sum investments at lower valuations.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review Your International Exposure:</strong> Check your mutual fund statements or direct equity holdings to understand your current allocation to US markets and particularly to technology-heavy funds. Note down the percentage of your total portfolio invested internationally.</li>
+<li><strong>Assess Your Risk Tolerance:</strong> Reflect on how this correction makes you feel. Does it cause panic, or do you view it as a potential buying opportunity? This self-assessment is crucial for aligning your portfolio with your comfort level.</li>
+<li><strong>Consider Your SIPs:</strong> If you have ongoing SIPs in international funds, decide if you want to continue them. Investing consistently during market dips can help average down your purchase cost over time. Avoid stopping SIPs purely out of fear.</li>
+<li><strong>Rebalance if Necessary:</strong> If your international equity allocation has grown significantly beyond your target due to past rallies, or if this correction has made your portfolio too concentrated, consider rebalancing. This might involve reducing exposure to overrepresented assets and increasing it in underrepresented ones.</li>
+<li><strong>Consult a Certified Financial Planner (CFP):</strong> If you&#x27;re unsure about the implications for your specific financial goals or need help with portfolio adjustments, schedule a session with a CFP. They can provide personalised advice based on your risk profile and objectives.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is a technical correction?</h3>
+<p>
+A technical correction in financial markets refers to a significant price decline of an index or individual asset, typically defined as a fall of 10% or more from its recent peak. It indicates a shift in market sentiment from optimism to caution.
+</p>
+<h3>How does the Nasdaq 100 correction affect my Indian mutual funds?</h3>
+<p>
+If your Indian mutual funds invest in global equities, particularly those with a mandate to invest in US technology stocks or indices like the Nasdaq 100, then their Net Asset Value (NAV) will directly reflect the decline in the underlying international assets.
+</p>
+<h3>Is this a good time to invest in US tech stocks?</h3>
+<p>
+Market corrections can present opportunities for long-term investors to buy quality assets at lower valuations. However, whether it&#x27;s a &quot;good time&quot; depends on your individual financial goals, risk tolerance, and investment horizon. It&#x27;s advisable to invest systematically rather than trying to time the market.
+</p>
+<h3>Should I sell my international investments now?</h3>
+<p>
+Panic selling during a market correction is generally not recommended, as it can lock in losses. For long-term investors, corrections are often temporary phases. Review your original investment thesis and consider your long-term goals before making any drastic decisions.
+</p>
+<h3>What is the difference between a correction and a bear market?</h3>
+<p>
+A correction is a decline of 10% to 20% from a market peak. A bear market, on the other hand, is a more severe and prolonged downturn, typically defined as a fall of 20% or more from recent highs, often accompanied by widespread negative sentiment and economic slowdown concerns.
+</p>
+<h3>How often do market corrections occur?</h3>
+<p>
+Market corrections are a normal and relatively frequent occurrence in financial markets. Historically, they can happen once every year or two on average, though their frequency and severity can vary significantly depending on economic conditions and market cycles.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Markets: https://www.livemint.com/market/nasdaq-100-hits-third-correction-of-2026-on-unwinding-tech-stock-bets-11793388066834.html</li>
+<li>AMFI India: https://amfiindia.com</li>
+<li>SEBI: https://sebi.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
