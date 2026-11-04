@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Pre-Market Brief — 04 November 2026</title>
+<meta name="description" content="Global markets presented a mixed picture overnight, with US indices closing higher (Nasdaq leading) while Asian markets were mixed, influenced by US midterm e.">
+<meta name="keywords" content="markets, dividend, global, trading, midterm, indian, prices, support">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-04-pre_market-pre-market-brief-04-november-2026/">
+<meta property="og:title" content="Pre-Market Brief — 04 November 2026">
+<meta property="og:description" content="Global markets presented a mixed picture overnight, with US indices closing higher (Nasdaq leading) while Asian markets were mixed, influenced by US midterm e.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-04-pre_market-pre-market-brief-04-november-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Pre-Market Brief \u2014 04 November 2026", "description": "Global markets presented a mixed picture overnight, with US indices closing higher (Nasdaq leading) while Asian markets were mixed, influenced by US midterm e.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-04", "dateModified": "2026-11-04", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-04-pre_market-pre-market-brief-04-november-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/" class="active">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Pre-Market · 2026-11-04</div><h1>Pre-Market Brief — 04 November 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Global markets presented a mixed picture overnight, with US indices closing higher (Nasdaq leading) while Asian markets were mixed, influenced by US midterm election outcomes.</li>
+<li>GIFT Nifty is signalling a positive start for the Indian market, pointing to a potential gap-up open.</li>
+<li>Foreign Institutional Investors (FIIs) were significant net buyers yesterday, continuing their buying trend over the last few sessions, while Domestic Institutional Investors (DIIs) were net sellers.</li>
+<li>The US midterm election results, with a Democratic victory, are a key global driver, impacting commodity prices (silver surge, crude slide) and raising concerns for certain tech sectors.</li>
+<li>For Nifty, the 24000 level appears to be a crucial resistance point, while 23500 could act as strong support based on Option Chain data.</li>
+<li>The main risk for today could be the continued global market reaction to the US election outcome, particularly its implications for technology and AI-related stocks, alongside a slowdown in China&#x27;s services PMI.</li>
+</ul>
+</div>
+<h2>How global markets traded — and what it means for India</h2>
+<p>
+Overnight, US markets closed largely positive, with the tech-heavy Nasdaq leading the gains, while the S&amp;P 500 also ended in the green. The Dow Jones, however, saw a slight decline. In Asia this morning, the picture is mixed; Japan&#x27;s Nikkei 225 is down, but Hong Kong&#x27;s Hang Seng and China&#x27;s Shanghai Composite are trading with significant gains. This mixed global sentiment, particularly the positive cues from the US and parts of Asia, sets a cautiously optimistic tone for the Indian markets.
+</p>
+<table><thead><tr><th>Index</th><th>% Change</th></tr></thead><tbody>
+<tr><td>Dow Jones</td><td>-0.38%</td></tr>
+<tr><td>Nasdaq</td><td>+0.83%</td></tr>
+<tr><td>S&amp;P 500</td><td>+0.36%</td></tr>
+<tr><td>FTSE 100</td><td>+0.64%</td></tr>
+<tr><td>Nikkei 225</td><td>-1.42%</td></tr>
+<tr><td>Hang Seng</td><td>+1.67%</td></tr>
+<tr><td>Shanghai</td><td>+2.16%</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The positive close in US markets, especially the Nasdaq, coupled with strong gains in some Asian markets, suggests a generally favourable global backdrop. However, the decline in Nikkei and concerns over US midterm election impacts on specific sectors might temper outright bullishness for the Indian open.
+</p>
+<h2>Currency, commodities and yields</h2>
+<p>
+The USD/INR pair saw a marginal decline to ₹94.66, indicating a slight strengthening of the Rupee against the Dollar. The Dollar Index also fell by 0.51% to 101.35, suggesting broader Dollar weakness globally. Crude oil prices (Brent and WTI) softened, with Brent trading at $102.85 and WTI at $95.74, both down from yesterday&#x27;s close. Gold prices surged by 2.91% to $4055.00, while Silver saw an even sharper jump of 4.80% to $51.97. The US 10-year Treasury yield rose by 1.19% to 4.95%.
+</p>
+<p>
+<strong>Interpretation:</strong> A stronger Rupee (USD/INR down) is generally positive for Indian importers and could ease imported inflation pressures. Falling crude oil prices are a significant tailwind for India, benefiting oil marketing companies (OMCs), paint, aviation, and logistics sectors by reducing input costs. The sharp rise in gold and silver, partly attributed to a weaker dollar and US midterm election results, might attract investor interest in precious metals. The uptick in US 10-year yields could potentially make US assets more attractive, posing a slight risk to FII flows into emerging markets like India.
+</p>
+<h2>GIFT Nifty — what it&#x27;s signalling</h2>
+<p>
+GIFT Nifty is currently trading at 23977.50, up by +0.92%.
+</p>
+<p>
+<strong>Interpretation:</strong> This indicates a positive bias for the Indian market open, suggesting a potential gap-up for the Nifty 50 today.
+</p>
+<h2>FII/DII flows — who&#x27;s driving the tape</h2>
+<p>
+Foreign Institutional Investors (FIIs) were net buyers yesterday, injecting a substantial ₹6,837 crore into the Indian equity market. Domestic Institutional Investors (DIIs), on the other hand, were net sellers, pulling out ₹3,679 crore. Over the last five sessions, FIIs have largely been net buyers, providing significant support to the market, while DIIs have shown a mixed trend with net selling in three of the last five sessions.
+</p>
+<table><thead><tr><th>Date</th><th>FII Net (₹ crore)</th><th>DII Net (₹ crore)</th></tr></thead><tbody>
+<tr><td>2026-11-03</td><td>+6,837</td><td>-3,679</td></tr>
+<tr><td>2026-11-02</td><td>+3,115</td><td>-392</td></tr>
+<tr><td>2026-10-30</td><td>+3,599</td><td>-818</td></tr>
+<tr><td>2026-10-29</td><td>-944</td><td>+1,924</td></tr>
+<tr><td>2026-10-28</td><td>+872</td><td>+643</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> Strong FII buying continues to be a key driver for market direction, indicating foreign investor confidence. While DIIs booked some profits yesterday, the overall FII stance remains supportive, suggesting a positive underlying sentiment.
+</p>
+<h2>Key levels to watch — Nifty, Bank Nifty &amp; Sensex (technical)</h2>
+<h3>NIFTY 50 (prev close 23919.45)</h3>
+<table><thead><tr><th>Level Type</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>23853.98</td></tr>
+<tr><td>CPR Top</td><td>23886.72</td></tr>
+<tr><td>CPR Bottom</td><td>23821.25</td></tr>
+<tr><td>R1</td><td>24011.82</td></tr>
+<tr><td>R2</td><td>24104.18</td></tr>
+<tr><td>S1</td><td>23761.62</td></tr>
+<tr><td>S2</td><td>23603.78</td></tr>
+<tr><td>Swing High</td><td>23946.35</td></tr>
+<tr><td>Swing Low</td><td>22372.0</td></tr>
+<tr><td>20-DMA</td><td>22877.87</td></tr>
+<tr><td>50-DMA</td><td>23226.93</td></tr>
+</tbody></table>
+<h3>BANK NIFTY (prev close 55807.6)</h3>
+<table><thead><tr><th>Level Type</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>55682.98</td></tr>
+<tr><td>CPR Top</td><td>55745.29</td></tr>
+<tr><td>CPR Bottom</td><td>55620.68</td></tr>
+<tr><td>R1</td><td>56071.47</td></tr>
+<tr><td>R2</td><td>56335.33</td></tr>
+<tr><td>S1</td><td>55419.12</td></tr>
+<tr><td>S2</td><td>55030.63</td></tr>
+<tr><td>Swing High</td><td>56065.5</td></tr>
+<tr><td>Swing Low</td><td>53626.15</td></tr>
+<tr><td>20-DMA</td><td>55021.51</td></tr>
+<tr><td>50-DMA</td><td>55825.41</td></tr>
+</tbody></table>
+<h3>SENSEX (prev close 77250.63)</h3>
+<table><thead><tr><th>Level Type</th><th>Value</th></tr></thead><tbody>
+<tr><td>CPR Pivot</td><td>77083.84</td></tr>
+<tr><td>CPR Top</td><td>77167.24</td></tr>
+<tr><td>CPR Bottom</td><td>77000.45</td></tr>
+<tr><td>R1</td><td>77562.83</td></tr>
+<tr><td>R2</td><td>77875.03</td></tr>
+<tr><td>S1</td><td>76771.64</td></tr>
+<tr><td>S2</td><td>76292.65</td></tr>
+<tr><td>Swing High</td><td>77396.04</td></tr>
+<tr><td>Swing Low</td><td>72452.37</td></tr>
+<tr><td>20-DMA</td><td>73817.43</td></tr>
+<tr><td>50-DMA</td><td>74522.55</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The CPR width for Nifty (0.27%), Bank Nifty (0.22%), and Sensex (0.22%) is relatively narrow. A narrow CPR often suggests that a trending day is more likely, rather than a sideways, range-bound session. For Nifty, a break above R1 (24011.82) could signal further upside towards R2 (24104.18), while a break below S1 (23761.62) could indicate weakness towards S2 (23603.78). Bank Nifty&#x27;s 50-DMA (55825.41) is very close to its previous close, making it a key level to watch for directional cues.
+</p>
+<h2>Option-chain signals (OI) — where support &amp; resistance sit</h2>
+<h3>NIFTY</h3>
+<ul>
+<li><strong>PCR:</strong> 0.78</li>
+<li><strong>Highest CALL OI (resistance):</strong> 24000 (9,642,555 contracts), 24500 (9,206,795 contracts)</li>
+<li><strong>Highest PUT OI (support):</strong> 23500 (7,773,025 contracts), 23900 (6,917,690 contracts)</li>
+</ul>
+<h3>BANK NIFTY</h3>
+<ul>
+<li><strong>PCR:</strong> 0.87</li>
+<li><strong>Highest CALL OI (resistance):</strong> 56000 (1,141,680 contracts), 57000 (1,132,830 contracts)</li>
+<li><strong>Highest PUT OI (support):</strong> 55000 (1,371,180 contracts), 56000 (753,780 contracts)</li>
+</ul>
+<h3>SENSEX</h3>
+<ul>
+<li><strong>PCR:</strong> 0.75</li>
+<li><strong>Highest CALL OI (resistance):</strong> 78000 (3,372,940 contracts), 77500 (2,771,260 contracts)</li>
+<li><strong>Highest PUT OI (support):</strong> 77000 (2,954,520 contracts), 76000 (2,570,340 contracts)</li>
+</ul>
+<p>
+<strong>Interpretation:</strong> For Nifty, the 24000 strike has the highest Call OI, indicating that option sellers expect this level to act as a strong ceiling or resistance. On the downside, 23500 has the highest Put OI, suggesting that option buyers are defending this level as a strong floor or support. A PCR of 0.78 for Nifty, 0.87 for Bank Nifty, and 0.75 for Sensex indicates a cautious-to-neutral sentiment, leaning slightly towards the bearish side if these values remain below 1.0. Combined with technical levels, traders will be watching Nifty&#x27;s 24000 as a key resistance to respect today, while 23500 will be a critical support. For Bank Nifty, 56000 is a significant resistance, and 55000 is a strong support.
+</p>
+<h2>Corporate actions today</h2>
+<ul>
+<li><strong>GODREJCP</strong>: Trading ex-dividend for an Interim Dividend of ₹5 per share. The stock price will adjust downwards by this amount on the ex-date.</li>
+<li><strong>CONCORDBIO</strong>: Trading ex-bonus for a 1:1 bonus issue. This means for every one share held, shareholders will receive one additional share, and the share price will adjust accordingly.</li>
+<li><strong>PRIVISCL</strong>: Trading ex-dividend for an Interim Dividend of ₹5 per share.</li>
+<li><strong>SUVIDHAA</strong>: Trading ex-rights for a Rights Issue of 3:8 at a premium of Re 0.50 per share. Existing shareholders have the right to subscribe to 3 new shares for every 8 shares held at the specified price.</li>
+<li><strong>ANZEN</strong>: Trading ex-distribution for a distribution of ₹3 per unit, comprising interest, dividend, and other income components.</li>
+<li><strong>SILVERTUC</strong>: Trading ex-dividend for an Interim Dividend of Re 0.10 per share.</li>
+<li><strong>VAIBHAVGBL</strong>: Trading ex-dividend for an Interim Dividend of ₹1.50 per share.</li>
+<li><strong>COALINDIA</strong>: Trading ex-dividend for an Interim Dividend of ₹10.25 per share.</li>
+<li><strong>SYMPHONY</strong>: Trading ex-dividend for an Interim Dividend of ₹2 per share.</li>
+<li><strong>ASIANPAINT</strong>: Trading ex-dividend for an Interim Dividend of ₹5.75 per share.</li>
+</ul>
+<h2>Stock &amp; sector news that matters</h2>
+<ul>
+<li><strong>Silver prices jump over 4% to reclaim $51/oz as Democrats secure US midterm victory.</strong></li>
+<p>
+    *   Silver prices surged significantly after Democrats won the US midterm elections, leading to a weaker dollar and lower Treasury yields.
+    *   <strong>Why it matters:</strong> This news highlights the immediate market reaction to US political outcomes. A surge in silver (and gold) could indicate a flight to safety or a weakening dollar outlook, potentially benefiting precious metals-related stocks or funds. It also signals a shift in global risk sentiment.
+</p>
+<li><strong>China Services PMI slows to three-month low; what lies ahead for Chinese stocks?</strong></li>
+<p>
+    *   China&#x27;s services sector expanded at its slowest pace in three months due to rising costs and intense competition, leading to weaker PMI and declining business confidence.
+    *   <strong>Why it matters:</strong> A slowdown in China&#x27;s services sector, a major global economy, could signal broader economic weakness. This might impact global demand for commodities and could have ripple effects on Indian companies with significant trade or supply chain links to China.
+</p>
+<li><strong>Meta raises $15 billion through bond sale to fund AI infrastructure expansion.</strong></li>
+<p>
+    *   Meta Platforms is raising substantial capital through a bond offering to finance its expanding artificial intelligence infrastructure investments.
+    *   <strong>Why it matters:</strong> This indicates continued strong investment in AI infrastructure by major tech companies. While a US-specific event, it underscores the ongoing AI theme, which could indirectly influence investor sentiment towards Indian IT services companies or those involved in AI development and data centres.
+</p>
+<li><strong>Kopsi, Taiwan, other Asian stocks tumble after US midterm elections signal Democratic victory.</strong></li>
+<p>
+    *   South Korean and Taiwanese equities, particularly chipmakers, declined due to concerns over tighter AI regulations and slower data centre investments following a potential Democratic sweep in the US midterm elections.
+    *   <strong>Why it matters:</strong> This is a direct impact of the US election on specific sectors, especially technology and chip manufacturing. Indian IT and tech-related stocks could see some cautiousness or volatility if similar regulatory concerns or investment slowdowns are anticipated globally.
+</p>
+<li><strong>Equitas Small Finance Bank shares jump 9% after Balaji Nuthalapadi’s appointment as interim CEO.</strong></li>
+<p>
+    *   Equitas Small Finance Bank&#x27;s shares rallied after the appointment of Balaji Nuthalapadi as interim CEO, following the resignation of the previous MD &amp; CEO.
+    *   <strong>Why it matters:</strong> This is a stock-specific positive trigger. Investors will be watching Equitas Small Finance Bank today to see if the momentum continues, and it could also draw attention to other small finance banks or banking sector leadership changes.
+</p>
+<li><strong>Oil slide, Treasury strength boost Indian bonds.</strong></li>
+<p>
+    *   Indian government bonds saw increased demand due to a significant decline in crude oil prices, with hopes for peace in the Middle East following the US midterm elections.
+    *   <strong>Why it matters:</strong> Lower crude oil prices are beneficial for India&#x27;s fiscal health and inflation outlook, which is positive for the broader economy and bond markets. This could also indirectly support equity markets by improving corporate margins and consumer spending power.
+</p>
+</ul>
+<h2>Events &amp; data to watch — and how markets usually react</h2>
+<ul>
+<li><strong>Global Reaction to US Midterm Elections:</strong> The ongoing analysis and implications of the Democratic victory in the US midterms will continue to shape global market sentiment. Markets typically react with volatility as they digest policy implications, especially for sectors like technology, energy, and commodities.</li>
+<li><strong>Crude Oil Price Movement:</strong> Continued softening of crude oil prices, as seen overnight, will be a key factor. A sustained decline is generally positive for India, easing inflationary pressures and improving trade balances. Conversely, a rebound could introduce headwinds.</li>
+<li><strong>FII/DII Flow Trends:</strong> The direction and magnitude of FII and DII flows will be closely watched. Consistent FII buying provides strong market support, while sustained DII selling could indicate profit-booking or reallocation.</li>
+<li><strong>Corporate Actions:</strong> Today&#x27;s ex-dividend and ex-bonus dates for several companies, including <strong>GODREJCP</strong>, <strong>COALINDIA</strong>, and <strong>ASIANPAINT</strong>, will lead to price adjustments in these stocks. Investors typically factor these in, but high-volume trading around these dates can occur.</li>
+</ul>
+<h2>What to watch in today&#x27;s session</h2>
+<ol>
+<li><strong>Global Cues:</strong> Monitor how global markets, particularly US and other Asian indices, react further to the US midterm election results and any new developments.</li>
+<li><strong>GIFT Nifty&#x27;s Open:</strong> Confirm if the positive bias indicated by GIFT Nifty translates into a strong gap-up open for the Nifty 50.</li>
+<li><strong>Key Nifty Levels:</strong> Watch Nifty&#x27;s ability to sustain above its CPR pivot (23853.98) and challenge the 24000 Call OI resistance. On the downside, 23500 Put OI support is crucial.</li>
+<li><strong>FII Flows:</strong> Observe if FIIs continue their buying spree, as their sustained participation is vital for market momentum.</li>
+<li><strong>Crude Oil Prices:</strong> Any significant movement in Brent crude prices will be important for sectors sensitive to oil, such as OMCs, aviation, and paints.</li>
+<li><strong>Corporate Actions Impact:</strong> Keep an eye on stocks like <strong>COALINDIA</strong> and <strong>ASIANPAINT</strong> as they trade ex-dividend, and <strong>CONCORDBIO</strong> for its ex-bonus.</li>
+</ol>
+<h2>Bottom line</h2>
+<p>
+The Indian market is poised for a potentially positive open, largely driven by favourable global cues from the US and a strong signal from GIFT Nifty. The continued robust buying by FIIs provides a strong underlying support. However, traders should remain cautious of the 24000 level on Nifty, which acts as a significant resistance, and monitor global reactions to the US midterm elections, especially for tech and AI-related sectors, which could introduce volatility.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>[ET Markets] 12 BSE 500 stocks defy market trend, rally up to 65% in 3 months</li>
+<li>[ET Markets] Silver prices jump over 4% to reclaim $51/oz as Democrats secure US midterm victory. What’s happening?</li>
+<li>[ET Markets] China Services PMI slows to three-month low; what lies ahead for Chinese stocks?</li>
+<li>[ET Markets] Warren Buffett has lived through 16 US Presidents. Why he ignores election impact on markets</li>
+<li>[ET Markets] Meta raises $15 billion through bond sale to fund AI infrastructure expansion</li>
+<li>[ET Markets] Glittering Prospects: Why Gold is the ultimate sweet spot this Dhanteras</li>
+<li>[ET Markets] Kopsi, Taiwan, other Asian stocks tumble after US midterm elections signal Democratic victory. What’s the connection?</li>
+<li>[ET Markets] Equitas Small Finance Bank shares jump 9% after Balaji Nuthalapadi’s appointment as interim CEO</li>
+<li>[ET Markets] Super Micro stock soars: AI server boom drives record earnings</li>
+<li>[ET Markets] Democrats’ win rattles Trump trades from AI stocks to crypto</li>
+<li>[ET Markets] Oil slide, Treasury strength boost Indian bonds</li>
+<li>[ET Markets] Gold and silver prices correct ahead of Diwali: Buying opportunity or a trap?</li>
+<li>[Livemint Markets] Small-cap stock with 1:10 stock split, 1:2 bonus shares, dividend history jumps 4% after Q2 Results 2026; do you own?</li>
+<li>[Livemint Markets] Multibagger NSE SME stock turns ₹1.22 lakh of share allottees into ₹4.80 lakh in 16 months | Do you own this?</li>
+<li>[Livemint Markets] Muhurat Trading Picks: Tata Steel, Coal India to BEL - HDFC Sec recommends these 10 stocks to buy on Diwali | Full list</li>
+<li>Official sources: NSE, SEBI, RBI (where relevant for data points)</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
