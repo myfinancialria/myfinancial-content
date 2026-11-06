@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>US Stocks After Midterm Results: Why Major Indices Surged, But Semiconductors Dipped</title>
+<meta name="description" content="Following US midterm elections, major indices like the Dow, S&amp;P 500, and Nasdaq experienced a significant surge. This rally is largely attributed to historica.">
+<meta name="keywords" content="market, semiconductor, stocks, sector, government, political, investors, divided">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-06-result_analysis-us-stocks-after-midterm-results-why-major-indices-surged-but-semiconductors-dipp/">
+<meta property="og:title" content="US Stocks After Midterm Results: Why Major Indices Surged, But Semiconductors Dipped">
+<meta property="og:description" content="Following US midterm elections, major indices like the Dow, S&amp;P 500, and Nasdaq experienced a significant surge. This rally is largely attributed to historica.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-06-result_analysis-us-stocks-after-midterm-results-why-major-indices-surged-but-semiconductors-dipp/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "US Stocks After Midterm Results: Why Major Indices Surged, But Semiconductors Dipped", "description": "Following US midterm elections, major indices like the Dow, S&P 500, and Nasdaq experienced a significant surge. This rally is largely attributed to historica.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-06", "dateModified": "2026-11-06", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-06-result_analysis-us-stocks-after-midterm-results-why-major-indices-surged-but-semiconductors-dipp/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/" class="active">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Result Analysis · 2026-11-06</div><h1>US Stocks After Midterm Results: Why Major Indices Surged, But Semiconductors Dipped</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Following US midterm elections, major indices like the Dow, S&amp;P 500, and Nasdaq experienced a significant surge.</li>
+<li>This rally is largely attributed to historical trends of market strength post-midterms and the expectation of political gridlock.</li>
+<li>A divided government is often seen positively by markets, as it reduces the likelihood of radical policy changes impacting businesses.</li>
+<li>Conversely, semiconductor stocks, including Nvidia, saw declines due to sector-specific challenges like inventory build-up and weakening demand.</li>
+<li>Investors need to understand these distinct drivers to navigate portfolio decisions effectively in a dynamic global market.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When the US midterm election results came in, the stock market reacted quite strongly, but not uniformly. On one hand, the big market benchmarks like the Dow Jones Industrial Average, S&amp;P 500, and Nasdaq Composite all climbed significantly. This is often seen as a sigh of relief from investors, who typically prefer a divided government because it means less chance of major, disruptive policy shifts. Political gridlock often translates to a more predictable business environment.
+</p>
+<p>
+However, not all sectors participated in this rally. Specifically, companies in the semiconductor industry, with Nvidia being a prominent example, experienced a downturn. This divergence indicates that while broader market sentiment improved due to political clarity, specific industries are grappling with their own unique challenges. For semiconductors, these issues often revolve around supply and demand dynamics, inventory levels, and global economic conditions, which can overshadow general market optimism.
+</p>
+<h2>Post-Midterm Market Dynamics: The Surge Explained</h2>
+<p>
+Historically, US stock markets have shown a tendency to rally in the period following midterm elections, especially when the outcome leads to a divided government. This pattern often sees the S&amp;P 500 delivering stronger returns in the 12 months after midterms compared to other periods in the presidential cycle. The recent surge in the Dow, S&amp;P 500, and Nasdaq aligns with this historical trend.
+</p>
+<h3>Why a Divided Government Can Be Market-Friendly</h3>
+<p>
+A key driver behind the post-midterm rally is the expectation of political gridlock. When one party controls the White House and another controls at least one chamber of Congress, it often leads to a legislative slowdown. This reduced likelihood of significant policy changes – whether it&#x27;s large-scale spending initiatives, new regulations, or substantial tax reforms – is generally viewed favourably by businesses and investors. Predictability, even if it means less legislative action, often translates to lower policy risk and greater confidence in long-term planning. The market tends to dislike uncertainty, and a divided government can, paradoxically, bring a form of certainty by limiting the scope for drastic policy shifts.
+</p>
+<h3>Broader Economic Context</h3>
+<p>
+Beyond the political landscape, the market&#x27;s positive reaction also factored in broader economic signals. Expectations around inflation peaking and the Federal Reserve potentially moderating its aggressive interest rate hikes played a role. While the Fed&#x27;s stance on monetary policy remains a dominant market driver, reduced political uncertainty allows investors to focus more clearly on economic fundamentals and corporate earnings, rather than potential legislative headwinds.
+</p>
+<h2>The Semiconductor Sector&#x27;s Downturn: A Deeper Look</h2>
+<p>
+While the broader market celebrated, the semiconductor sector, including major players like Nvidia, faced headwinds, leading to a decline in their stock prices. This divergence highlights that sector-specific factors can often override general market sentiment.
+</p>
+<h3>Inventory Correction and Weakening Demand</h3>
+<p>
+One of the primary reasons for the semiconductor downturn is an ongoing inventory correction. During the pandemic, strong demand for electronics and supply chain disruptions led chipmakers to ramp up production significantly. However, as global economic growth slows and consumer spending shifts, demand for personal computers, smartphones, and other consumer electronics has weakened. This has resulted in an oversupply of chips and a build-up of inventory across the supply chain. Companies are now grappling with adjusting production and clearing existing stock, which impacts their revenue and profit margins.
+</p>
+<h3>Geopolitical Tensions and Export Controls</h3>
+<p>
+Geopolitical factors, particularly the ongoing technological competition between the US and China, have also significantly impacted the semiconductor industry. New export controls imposed by the US government aim to restrict China&#x27;s access to advanced semiconductor technology. While intended to safeguard national security, these measures can limit the market for US chipmakers and create uncertainty around future sales and partnerships. Companies like Nvidia, which have a substantial presence in the Chinese market, face challenges in navigating these restrictions and their potential impact on high-performance chip sales.
+</p>
+<h3>Valuation Concerns in a Rising Rate Environment</h3>
+<p>
+High-growth technology stocks, including many semiconductor companies, often trade at higher valuations based on future growth expectations. In an environment of rising interest rates, the present value of these future earnings can decrease, making these stocks less attractive to investors. As the Federal Reserve continues its tightening cycle, investors tend to shift towards more value-oriented or less rate-sensitive sectors, contributing to pressure on growth stocks like Nvidia.
+</p>
+<h2>What it Means for Investors</h2>
+<p>
+The contrasting performance of the broader market and the semiconductor sector post-midterms offers important lessons for investors.
+</p>
+<h3>Long-Term Perspective</h3>
+<p>
+For long-term investors, market reactions to political events often present opportunities rather than reasons for panic. The historical tendency for markets to perform well post-midterms, especially with a divided government, suggests that patience can be rewarded. However, it&#x27;s crucial to differentiate between broad market movements and sector-specific challenges. While the overall market may benefit from political stability, individual sectors like semiconductors are navigating their own cyclical and structural issues. A diversified portfolio that isn&#x27;t overly concentrated in a single sector or theme remains a prudent strategy.
+</p>
+<h3>Short-Term Considerations</h3>
+<p>
+In the short term, volatility can be expected as the market digests economic data, corporate earnings, and geopolitical developments. For those with exposure to US equities, particularly through international mutual funds or direct investments, understanding the drivers behind these movements is key. The current environment highlights the importance of fundamental analysis – looking at a company&#x27;s balance sheet, earnings prospects, and competitive landscape – rather than just reacting to headline news. For sectors like semiconductors, monitoring inventory levels, demand forecasts, and the impact of geopolitical policies will be critical for investors.
+</p>
+<h2>A real example</h2>
+<p>
+Consider <strong>Priya, 42, ₹35L CTC, Gurugram</strong>, who has a diversified investment portfolio. She holds a significant portion in Indian equities and debt, but also allocates about ₹20 lakhs to US equities through an international mutual fund that tracks the S&amp;P 500, and another ₹5 lakhs directly in a few US tech stocks, including some semiconductor companies.
+</p>
+<p>
+After the US midterm results, her S&amp;P 500-tracking fund saw a positive uptick. If the S&amp;P 500 surged by, say, 3% post-midterms, her ₹20 lakh investment would have increased by ₹60,000. This reflects the broader market&#x27;s relief and historical trends.
+</p>
+<p>
+However, her direct investment in semiconductor stocks experienced a dip. Let&#x27;s assume her ₹5 lakh allocation in these stocks, including Nvidia, fell by 5% due to the sector-specific headwinds. This would mean a notional loss of ₹25,000 on that portion of her portfolio.
+</p>
+<p>
+Overall, Priya&#x27;s US equity exposure saw a net gain of ₹35,000 (₹60,000 gain - ₹25,000 loss). This example illustrates how different parts of a portfolio can react differently to the same macro event. While the broad market sentiment was positive, sector-specific issues can create pockets of underperformance, underscoring the importance of diversification and understanding the underlying drivers of each investment.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your US Equity Exposure:</strong> Check your portfolio for direct or indirect exposure to US equities, especially through international mutual funds or ETFs. Understand which indices or sectors they track. This should take about 15-20 minutes.</li>
+<li><strong>Assess Sector Concentration:</strong> If you hold individual US stocks or sector-specific funds, review your concentration in technology or semiconductor companies. Consider if your allocation aligns with your risk tolerance and long-term goals. This check should take about 10 minutes.</li>
+<li><strong>Stay Informed on Economic Data:</strong> Keep an eye on global economic indicators, particularly inflation data and central bank commentary from the US. This helps contextualise market movements beyond political events. This is an ongoing activity but a quick check of major financial news headlines can be done in 5 minutes.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>How do US midterm elections typically affect stock markets?</h3>
+<p>
+Historically, US stock markets tend to perform well in the 12 months following midterm elections, especially when the outcome leads to a divided government. This is often due to reduced policy uncertainty and legislative gridlock.
+</p>
+<h3>Why did the Dow, S&amp;P 500, and Nasdaq surge after the midterms?</h3>
+<p>
+The surge was primarily driven by historical market trends, the expectation of political gridlock from a divided government, which is seen as positive for business predictability, and potentially easing inflation expectations.
+</p>
+<h3>Why did semiconductor stocks like Nvidia fall despite the broader market rally?</h3>
+<p>
+Semiconductor stocks faced headwinds due to sector-specific issues such as an inventory glut, weakening global demand for consumer electronics, geopolitical tensions impacting trade with China, and valuation concerns in a rising interest rate environment.
+</p>
+<h3>Is a divided government always good for the stock market?</h3>
+<p>
+While often viewed positively for bringing policy predictability, a divided government is not a guaranteed market booster. Its impact depends on the specific political climate, economic conditions, and the extent of policy gridlock.
+</p>
+<h3>Should I sell my semiconductor stocks now?</h3>
+<p>
+Investment decisions should always align with your personal financial goals, risk tolerance, and investment horizon. The current downturn in semiconductor stocks is driven by cyclical and structural factors. It&#x27;s crucial to assess the long-term prospects of the companies you hold and consult with a financial advisor before making any significant changes.
+</p>
+<h3>How can Indian investors gain exposure to US stocks?</h3>
+<p>
+Indian investors can gain exposure to US stocks through international mutual funds, Exchange Traded Funds (ETFs) that invest in US markets, or directly through brokerage accounts that offer international trading facilities under the Liberalised Remittance Scheme (LRS) of the RBI.
+</p>
+<h3>What is the significance of the US-China tech rivalry for semiconductor companies?</h3>
+<p>
+The US-China tech rivalry and associated export controls can significantly impact semiconductor companies by restricting their market access, affecting supply chains, and creating uncertainty around future revenue from key markets like China.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>INDmoney article: https://news.google.com/rss/articles/CBMi3wFBVV95cUxORDhRQVVUbndOMi1vVWc2SmtxQmJDQlc1MkVTcFFDNjNQQkpXWG5UUVUxSE8yLTJhcl9OTkZidzgtQnhveUVkRTczU21rd3NmVUhZZnUyS2hrbnRGbTN4TlVndkdFLUY1NzFRaGFSSElqTEpLRFVQQUdtMlF1NGNYRlNhczBGWVg4SDlCNXJnbXI3cEFZdS1rZzVoTEdpV05WNkQ3bS1LNTNoRXhvdThSZFNQUTczWUtxYUpUU2phYm13M1NZaEtWQzN2ZGZ1TWhoODJsMUxpTldTN2FwZkFR?oc=5</li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# US Stocks After Midterm Results: Why Major Indices Surged, But Semiconductors Dipped
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Following US midterm elections, major indices like the Dow, S&amp;P 500, and Nasdaq experienced a significant surge.</li>
+<li>This rally is largely attributed to historical trends of market strength post-midterms and the expectation of political gridlock.</li>
+<li>A divided government is often seen positively by markets, as it reduces the likelihood of radical policy changes impacting businesses.</li>
+<li>Conversely, semiconductor stocks, including Nvidia, saw declines due to sector-specific challenges like inventory build-up and weakening demand.</li>
+<li>Investors need to understand these distinct drivers to navigate portfolio decisions effectively in a dynamic global market.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When the US midterm election results came in, the stock market reacted quite strongly, but not uniformly. On one hand, the big market benchmarks like the Dow Jones Industrial Average, S&amp;P 500, and Nasdaq Composite all climbed significantly. This is often seen as a sigh of relief from investors, who typically prefer a divided government because it means less chance of major, disruptive policy shifts. Political gridlock often translates to a more predictable business environment.
+</p>
+<p>
+However, not all sectors participated in this rally. Specifically, companies in the semiconductor industry, with Nvidia being a prominent example, experienced a downturn. This divergence indicates that while broader market sentiment improved due to political clarity, specific industries are grappling with their own unique challenges. For semiconductors, these issues often revolve around supply and demand dynamics, inventory levels, and global economic conditions, which can overshadow general market optimism.
+</p>
+<h2>Post-Midterm Market Dynamics: The Surge Explained</h2>
+<p>
+Historically, US stock markets have shown a tendency to rally in the period following midterm elections, especially when the outcome leads to a divided government. Since 1938, the S&amp;P 500 has almost always (95% of the time) posted price gains in the 12 months following midterms, with average returns jumping to 14% in those 12 months. Another study indicates an average S&amp;P 500 gain of about 15% in the 12 months after a US midterm election since 1950. The recent surge in the Dow, S&amp;P 500, and Nasdaq aligns with this historical trend.
+</p>
+<h3>Why a Divided Government Can Be Market-Friendly</h3>
+<p>
+A key driver behind the post-midterm rally is the expectation of political gridlock. When one party controls the White House and another controls at least one chamber of Congress, it often leads to a legislative slowdown. This reduced likelihood of significant policy changes – whether it&#x27;s large-scale spending initiatives, new regulations, or substantial tax reforms – is generally viewed favourably by businesses and investors. Predictability, even if it means less legislative action, often translates to lower policy risk and greater confidence in long-term planning. The market tends to dislike uncertainty, and a divided government can, paradoxically, bring a form of certainty by limiting the scope for drastic policy shifts.
+</p>
+<h3>Broader Economic Context</h3>
+<p>
+Beyond the political landscape, the market&#x27;s positive reaction also factored in broader economic signals. Expectations around inflation peaking and the Federal Reserve potentially moderating its aggressive interest rate hikes played a role. Lower expected borrowing costs can help companies finance their operations and make their future profits more attractive to shareholders. Additionally, falling Treasury yields, which can support stock valuations by reducing borrowing costs and making bonds less attractive, also contributed to the rally.
+</p>
+<h2>The Semiconductor Sector&#x27;s Downturn: A Deeper Look</h2>
+<p>
+While the broader market celebrated, the semiconductor sector, including major players like Nvidia, faced headwinds, leading to a decline in their stock prices. This divergence highlights that sector-specific factors can often override general market sentiment.
+</p>
+<h3>Inventory Correction and Weakening Demand</h3>
+<p>
+One of the primary reasons for the semiconductor downturn is an ongoing inventory correction. This occurs when manufacturers and their customers have excess stock of chips relative to current demand, typically following a period of high demand or over-ordering. As global economic growth slows and consumer spending shifts, demand for personal computers and smartphones has weakened, leading to an oversupply of chips. This forces companies to reduce new orders and slow production, leading to a temporary slowdown in sales and revenue for the semiconductor industry. Qualcomm&#x27;s report of weak smartphone handset sales further added to concerns about weakening consumer electronics demand affecting the entire semiconductor industry.
+</p>
+<h3>Geopolitical Tensions and Export Controls</h3>
+<p>
+Geopolitical factors, particularly the ongoing technological competition between the US and China, have also significantly impacted the semiconductor industry. New export controls imposed by the US government aim to restrict China&#x27;s access to advanced semiconductor technology. Nvidia, in particular, has reportedly moved to restrict Chinese technology companies&#x27; access to advanced AI computing power through overseas data centres, instructing global cloud computing partners to ensure a majority of services are sold to non-Chinese customers. This creates uncertainty around future sales and partnerships, especially for companies with substantial presence in the Chinese market. There were also reports of 600,000 Nvidia H200 chips being held up in Hong Kong awaiting China&#x27;s import approval.
+</p>
+<h3>Concerns Over Data Centre Construction</h3>
+<p>
+A unique factor contributing to the semiconductor downturn post-midterms was the growing resistance to data centre construction. Democratic victories in some areas, such as the Texas gubernatorial race, where the winning candidate pledged a moratorium on new data centre projects, raised concerns about tighter rules and potential delays for AI data centres. Given that Texas accounts for a significant portion of planned US data centre capacity, such restrictions could slow demand for AI chips, which are essential for these facilities.
+</p>
+<h2>What it Means for Investors</h2>
+<p>
+The contrasting performance of the broader market and the semiconductor sector post-midterms offers important lessons for investors.
+</p>
+<h3>Long-Term Perspective</h3>
+<p>
+For long-term investors, market reactions to political events often present opportunities rather than reasons for panic. The historical tendency for markets to perform well post-midterms, especially with a divided government, suggests that patience can be rewarded. However, it&#x27;s crucial to differentiate between broad market movements and sector-specific challenges. While the overall market may benefit from political stability, individual sectors like semiconductors are navigating their own cyclical and structural issues. A diversified portfolio that isn&#x27;t overly concentrated in a single sector or theme remains a prudent strategy.
+</p>
+<h3>Short-Term Considerations</h3>
+<p>
+In the short term, volatility can be expected as the market digests economic data, corporate earnings, and geopolitical developments. For those with exposure to US equities, particularly through international mutual funds or direct investments, understanding the drivers behind these movements is key. The current environment highlights the importance of fundamental analysis – looking at a company&#x27;s balance sheet, earnings prospects, and competitive landscape – rather than just reacting to headline news. For sectors like semiconductors, monitoring inventory levels, demand forecasts, and the impact of geopolitical policies will be critical for investors.
+</p>
+<h2>A real example</h2>
+<p>
+Consider <strong>Priya, 42, ₹35L CTC, Gurugram</strong>, who has a diversified investment portfolio. She holds a significant portion in Indian equities and debt, but also allocates about ₹20 lakhs to US equities through an international mutual fund that tracks the S&amp;P 500, and another ₹5 lakhs directly in a few US tech stocks, including some semiconductor companies.
+</p>
+<p>
+After the US midterm results, her S&amp;P 500-tracking fund saw a positive uptick. If the S&amp;P 500 surged by, say, 3% post-midterms (as the Dow rallied more than 3% and S&amp;P 500 gained nearly 2% in the immediate aftermath), her ₹20 lakh investment would have increased by ₹60,000. This reflects the broader market&#x27;s relief and historical trends.
+</p>
+<p>
+However, her direct investment in semiconductor stocks experienced a dip. Let&#x27;s assume her ₹5 lakh allocation in these stocks, including Nvidia, fell by 5% due to the sector-specific headwinds (Nvidia fell more than 3%, and other chipmakers saw declines of 5% or more). This would mean a notional loss of ₹25,000 on that portion of her portfolio.
+</p>
+<p>
+Overall, Priya&#x27;s US equity exposure saw a net gain of ₹35,000 (₹60,000 gain - ₹25,000 loss). This example illustrates how different parts of a portfolio can react differently to the same macro event. While the broad market sentiment was positive, sector-specific issues can create pockets of underperformance, underscoring the importance of diversification and understanding the underlying drivers of each investment.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your US Equity Exposure:</strong> Check your portfolio for direct or indirect exposure to US equities, especially through international mutual funds or ETFs. Understand which indices or sectors they track. This should take about 15-20 minutes.</li>
+<li><strong>Assess Sector Concentration:</strong> If you hold individual US stocks or sector-specific funds, review your concentration in technology or semiconductor companies. Consider if your allocation aligns with your risk tolerance and long-term goals. This check should take about 10 minutes.</li>
+<li><strong>Stay Informed on Economic Data:</strong> Keep an eye on global economic indicators, particularly inflation data and central bank commentary from the US. This helps contextualise market movements beyond political events. This is an ongoing activity but a quick check of major financial news headlines can be done in 5 minutes.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>How do US midterm elections typically affect stock markets?</h3>
+<p>
+Historically, US stock markets tend to perform well in the 12 months following midterm elections, especially when the outcome leads to a divided government, due to reduced policy uncertainty and legislative gridlock.
+</p>
+<h3>Why did the Dow, S&amp;P 500, and Nasdaq surge after the midterms?</h3>
+<p>
+The surge was primarily driven by historical market trends, the expectation of political gridlock from a divided government, which is seen as positive for business predictability, and potentially easing inflation expectations.
+</p>
+<h3>Why did semiconductor stocks like Nvidia fall despite the broader market rally?</h3>
+<p>
+Semiconductor stocks faced headwinds due to sector-specific issues such as an inventory glut, weakening global demand for consumer electronics, geopolitical tensions impacting trade with China, and concerns over data centre construction.
+</p>
+<h3>Is a divided government always good for the stock market?</h3>
+<p>
+While often viewed positively for bringing policy predictability, a divided government is not a guaranteed market booster. Its impact depends on the specific political climate, economic conditions, and the extent of policy gridlock.
+</p>
+<h3>Should I sell my semiconductor stocks now?</h3>
+<p>
+Investment decisions should always align with your personal financial goals, risk tolerance, and investment horizon. The current downturn in semiconductor stocks is driven by cyclical and structural factors. It&#x27;s crucial to assess the long-term prospects of the companies you hold and consult with a financial advisor before making any significant changes.
+</p>
+<h3>How can Indian investors gain exposure to US stocks?</h3>
+<p>
+Indian investors can gain exposure to US stocks through international mutual funds, Exchange Traded Funds (ETFs) that invest in US markets, or directly through brokerage accounts that offer international trading facilities under the Liberalised Remittance Scheme (LRS) of the RBI.
+</p>
+<h3>What is the significance of the US-China tech rivalry for semiconductor companies?</h3>
+<p>
+The US-China tech rivalry and associated export controls can significantly impact semiconductor companies by restricting their market access, affecting supply chains, and creating uncertainty around future revenue from key markets like China.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>INDmoney article: https://news.google.com/rss/articles/CBMi3wFBVV95cUxORDhRQVVUbndOMi1vVWc2SmtxQmJDQlc1MkVTcFFDNjNQQkpXWG5UUVUxSE8yLTJhcl9OTkZidzgtQnhveUVkRTczU21rd3NmVUhZZnUyS2hrbnRGbTN4TlVndkdFLUY1NzFRaGFSSElqTEpLRFVQQUdtMlF1NGNYRlNhczBGWVg4SDlCNXJnbXI3cEFZdS1rZzVoTEdpV05WNkQ3bS1LNTNoRXhvdThSZFNQUTczWUtxYUpUU2phYm13M1NZaEtWQzN2ZGZ1TWhoODJsMUxpTldTN2FwZkFR?oc=5</li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
