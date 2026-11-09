@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Market Wrap — 09 November 2026</title>
+<meta name="description" content="Indian markets closed higher today, with Nifty 50 and Bank Nifty leading the gains. Strong FII inflows and easing global crude oil prices were key positive dr.">
+<meta name="keywords" content="stocks, markets, economictimes, indiatimes, indian, articleshow, dollar, global">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-09-post_market-market-wrap-09-november-2026/">
+<meta property="og:title" content="Market Wrap — 09 November 2026">
+<meta property="og:description" content="Indian markets closed higher today, with Nifty 50 and Bank Nifty leading the gains. Strong FII inflows and easing global crude oil prices were key positive dr.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-09-post_market-market-wrap-09-november-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Market Wrap \u2014 09 November 2026", "description": "Indian markets closed higher today, with Nifty 50 and Bank Nifty leading the gains. Strong FII inflows and easing global crude oil prices were key positive dr.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-09", "dateModified": "2026-11-09", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-09-post_market-market-wrap-09-november-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/" class="active">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Market Wrap · 2026-11-09</div><h1>Market Wrap — 09 November 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Indian markets closed higher today, with Nifty 50 and Bank Nifty leading the gains.</li>
+<li>Strong FII inflows and easing global crude oil prices were key positive drivers.</li>
+<li>Bank Nifty was the standout performer, surging over 1.5%.</li>
+<li>Data Patterns (India) Ltd. was the top Nifty 500 gainer, while R R Kabel Ltd. was the biggest loser.</li>
+<li>Foreign Institutional Investors (FIIs) continued their strong buying spree, while Domestic Institutional Investors (DIIs) were net sellers.</li>
+<li>F&amp;O positioning data is unavailable for today&#x27;s wrap.</li>
+</ul>
+</div>
+<h2>How the market behaved today</h2>
+<p>
+Indian equities witnessed a positive session, with the benchmark Nifty 50 closing above the 25,000 mark and the Bank Nifty surging significantly. The market opened with a positive bias and maintained its upward momentum through the day, with Bank Nifty hitting its day&#x27;s high at close.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>Change</th><th>High</th><th>Low</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>25044.65</td><td>+0.23%</td><td>25084.05</td><td>24838.75</td></tr>
+<tr><td>Bank Nifty</td><td>59741.25</td><td>+1.51%</td><td>59741.25</td><td>58877.85</td></tr>
+<tr><td>Nifty Midcap 100</td><td>61022.55</td><td>+0.55%</td><td>61026.25</td><td>60334.10</td></tr>
+<tr><td>Nifty Smallcap 100</td><td>19185.05</td><td>+0.10%</td><td>19186.70</td><td>18954.75</td></tr>
+</tbody></table>
+<p>
+India VIX cooled off by 5.48% to 17.42, indicating a reduction in market volatility.
+</p>
+<h2>What moved the market — the factors</h2>
+<p>
+The Indian market&#x27;s positive trajectory today was primarily driven by robust inflows from Foreign Institutional Investors (FIIs) and a significant easing in global crude oil prices. FIIs were net buyers of ₹13,750 crore, extending their consistent buying trend over the past five sessions. Global cues also played a supportive role, with the US dollar dipping and US markets showing signs of a rebound, particularly in chip stocks, despite ongoing concerns around AI-related names and Nvidia. Hopes of a US-Iran peace deal further improved sentiment, leading to a rally in Indian government bonds and a drop in benchmark yields. Domestically, the PSU Bank and Pharma sectors led the charge, while IT and Metal sectors faced selling pressure.
+</p>
+<h2>Sectors — winners and losers</h2>
+<p>
+<strong>Top 3 gainer sectors:</strong>
+</p>
+<ul>
+<li>PSU BANK: +3.73% - Led by strong buying interest, possibly on the back of overall positive banking sentiment and FII inflows.</li>
+<li>PHARMA: +1.65% - Showed healthy gains, indicating renewed investor confidence in the healthcare space.</li>
+<li>BANK: +1.51% - Bank Nifty&#x27;s strong performance was reflected across the broader banking sector.</li>
+</ul>
+<p>
+<strong>Top 3 loser sectors:</strong>
+</p>
+<ul>
+<li>IT: -1.22% - Faced selling pressure, potentially due to global tech stock concerns and profit-booking.</li>
+<li>METAL: -0.46% - Witnessed a slight decline, possibly impacted by global commodity price movements or sector-specific news.</li>
+<li>FMCG: -0.15% - Closed marginally lower, indicating some cautiousness in consumer-oriented stocks.</li>
+</ul>
+<h2>Stocks that moved the market</h2>
+<h3>Top 5 gainers (Nifty 500)</h3>
+<ul>
+<li>Data Patterns (India) Ltd. (DATAPATTNS, Capital Goods): close ₹4025.00, +8.67%</li>
+<li>Indian Renewable Energy Development Agency Ltd. (IREDA, Financial Services): close ₹119.65, +7.47%</li>
+<li>Glaxosmithkline Pharmaceuticals Ltd. (GLAXO, Healthcare): close ₹2710.00, +6.71%</li>
+<li>Union Bank of India (UNIONBANK, Financial Services): close ₹197.00, +5.60% - This PSU Bank stock rallied significantly, aligning with the strong performance of the broader PSU Bank sector today.</li>
+<li>Sansera Engineering Ltd. (SANSERA, Automobile and Auto Components): close ₹4653.40, +5.42%</li>
+</ul>
+<h3>Top 5 losers (Nifty 500)</h3>
+<ul>
+<li>R R Kabel Ltd. (RRKABEL, Capital Goods): close ₹1969.40, -6.90%</li>
+<li>TD Power Systems Ltd. (TDPOWERSYS, Capital Goods): close ₹571.65, -6.26%</li>
+<li>Finolex Cables Ltd. (FINCABLES, Capital Goods): close ₹1232.40, -5.85%</li>
+<li>Tata Teleservices (Maharashtra) Ltd. (TTML, Telecommunication): close ₹39.33, -5.25%</li>
+<li>Jubilant Foodworks Ltd. (JUBLFOOD, Consumer Services): close ₹428.50, -4.99%</li>
+</ul>
+<h2>News that moved stocks</h2>
+<p>
+<strong>Global Market Dynamics &amp; Geopolitics</strong>
+</p>
+<ul>
+<li><strong>Trump administration&#x27;s embrace of &quot;perp&quot; futures sets off risk alarms for Wall Street stalwarts.</strong> The decision to launch perpetual futures by the Trump administration has raised significant concerns among established market players, who fear these offerings could disrupt the market. This news highlights potential regulatory shifts impacting global financial markets.</li>
+<li><strong>US dollar dips as easing AI and Mideast worries limit its appeal.</strong> The US dollar saw a downward trend after hitting a six-month high, driven by strong job growth figures and reduced concerns over AI and the Middle East. A weaker dollar typically bodes well for emerging markets like India.</li>
+<li><strong>Oil down more than $7 a barrel in post settlement trade as Trump signals restraint on Iran.</strong> Global oil prices dropped significantly as signals from the Trump administration indicated restraint on Iran, easing geopolitical tensions and supply concerns. This news directly contributed to the fall in crude oil prices, which is a positive for India&#x27;s import bill and inflation outlook.</li>
+<li><strong>US stocks: Dow Jones rallies 500 points, Nasdaq over 2% as chip stocks rebound; Nvidia probe weighs.</strong> Wall Street indexes climbed as investors focused on Nvidia CEO Jensen Huang&#x27;s investigation and awaited inflation data, with chip stocks rebounding despite Nvidia&#x27;s shares declining due to foreign intelligence worries. This positive sentiment from US markets provided a tailwind for Indian equities.</li>
+<li><strong>Nvidia sell-off continues: Chipmaker stock plunges 9% as Jensen Huang faces espionage controversy.</strong> Nvidia&#x27;s stock continued its decline after the company initiated an investigation into CEO Jensen Huang&#x27;s alleged links with an executive tied to intelligence efforts. This news highlights specific stock-level risks within the global tech sector.</li>
+</ul>
+<p>
+<strong>Indian Market &amp; Economy</strong>
+</p>
+<ul>
+<li><strong>India bonds continue rally ahead of inflation data.</strong> Indian government bond yields extended their rally, with the benchmark 10-year yield falling nearly 4 basis points, buoyed by easing crude oil prices and hopes of a US-Iran peace deal. This indicates improved investor sentiment and expectations of contained inflation.</li>
+<li><strong>Indian rupee breaks six-day winning streak on state banks&#x27; dollar bids.</strong> The Indian rupee ended its six-session winning streak as dollar purchases by state-run banks outweighed positive momentum, despite touching a six-month high earlier. This suggests intervention by state banks to manage currency volatility.</li>
+<li><strong>RBI&#x27;s $239 bn forward dollar position to limit rupee gains despite FPI inflows: Report.</strong> The Reserve Bank of India&#x27;s substantial net short position in the forward market could restrict the rupee&#x27;s appreciation, even with strong foreign portfolio investor inflows. This indicates the RBI&#x27;s active role in managing currency stability.</li>
+<li><strong>FIIs cut stake in 10 smallcap stocks for 3 consecutive quarters; shares fall up to 70% in CY26.</strong> Foreign Institutional Investors reduced their holdings in numerous BSE smallcap companies for three consecutive quarters, leading to significant declines in some stocks. This highlights a cautious approach by FIIs towards certain smallcap segments.</li>
+</ul>
+<p>
+<strong>Corporate &amp; IPO News</strong>
+</p>
+<ul>
+<li><strong>Uno Minda among 7 stocks hitting 52-week highs; rally up to 26% in a month.</strong> Several stocks, including Uno Minda, reached 52-week highs, demonstrating strong individual stock performance.</li>
+<li><strong>Upcoming IPO: Veritas Finance gets Sebi nod to launch public issue – Top things for investors.</strong> Veritas Finance received SEBI approval for its public issue, with plans to use the proceeds to strengthen its capital base and support future lending operations. This news indicates activity in the primary market.</li>
+</ul>
+<h2>F&amp;O build-up — where traders are positioning</h2>
+<p>
+OI build-up needs the previous session&#x27;s OI — it will populate from the next run. Data for F&amp;O build-up is unavailable for today&#x27;s wrap.
+</p>
+<h2>Market breadth</h2>
+<p>
+The market breadth was slightly negative today, with 230 advances against 262 declines out of a total of 492 stocks traded. This suggests that while the indices closed higher, the broader market saw more stocks declining than advancing.
+</p>
+<h2>FII / DII flows</h2>
+<p>
+Foreign Institutional Investors (FIIs) continued their strong buying momentum today, injecting a substantial ₹13,750 crore into the Indian markets. Domestic Institutional Investors (DIIs), however, were net sellers, offloading ₹5,969 crore.
+</p>
+<table><thead><tr><th>Investor Type</th><th>Net Flow (₹ crore)</th></tr></thead><tbody>
+<tr><td>FII</td><td>+13,750</td></tr>
+<tr><td>DII</td><td>-5,969</td></tr>
+</tbody></table>
+<p>
+Looking at the 5-day history, FIIs have been consistent net buyers, with today&#x27;s inflow matching the previous session&#x27;s figure. This sustained FII buying, totalling over ₹45,000 crore in the last five sessions, indicates strong foreign investor confidence in the Indian market, while DIIs have been consistently booking profits.
+</p>
+<h2>Event breakdown — what happened today and how it hit the market</h2>
+<p>
+Today&#x27;s session was primarily driven by a confluence of positive global cues and robust FII inflows. The market reacted positively to easing geopolitical tensions in the Middle East, particularly hopes of a US-Iran peace deal, which led to a significant drop in crude oil prices. This fall in crude is a major positive for India, easing inflationary pressures and improving the current account outlook. US markets also showed a strong rebound, contributing to the overall positive sentiment.
+</p>
+<p>
+Domestically, the strong FII buying provided significant liquidity and confidence, especially boosting the banking sector, with PSU Banks and the broader Bank Nifty being the top performers. Indian government bonds also rallied, reflecting improved sentiment ahead of inflation data. The dip in the US dollar further supported the positive mood. While some profit-booking was seen in sectors like IT and Metal, the overall market tone remained bullish, largely due to external factors and sustained foreign investor interest.
+</p>
+<h2>Setup for tomorrow</h2>
+<p>
+Looking ahead, global cues will continue to be crucial. The dip in the US Dollar Index to 101.67 and Brent Crude falling to $92.82 are positive indicators for the Indian market. US 10-year yield is slightly up at 4.86. Investors will be watching for global inflation data, especially the upcoming US consumer price index. The sustained FII buying trend, coupled with easing crude prices, suggests a supportive environment. However, the slightly negative market breadth today indicates that broader participation might be selective. Sectors like banking and pharma could remain in focus, while the performance of global tech stocks might influence the Indian IT sector.
+</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/trump-administrations-embrace-of-perp-futures-sets-off-risk-alarms-for-wall-street-stalwarts/articleshow/135688561.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/trump-administrations-embrace-of-perp-futures-sets-off-risk-alarms-for-wall-street-stalwarts/articleshow/135688561.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/forex/forex-news/us-dollar-dips-as-easing-ai-and-mideast-worries-limit-its-appeal/articleshow/135687593.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/forex/forex-news/us-dollar-dips-as-easing-ai-and-mideast-worries-limit-its-appeal/articleshow/135687593.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-us-market-opens-higher-after-last-weeks-ai-rout/articleshow/135685663.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-us-market-opens-higher-after-last-weeks-ai-rout/articleshow/135685663.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/nvidia-stock-crashes-8-after-a-foreign-intelligence-probe-initiated-by-ai-company-into-ceo-jensen-huang/articleshow/135685302.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/nvidia-stock-crashes-8-after-a-foreign-intelligence-probe-initiated-by-ai-company-into-ceo-jensen-huang/articleshow/135685302.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/dow-jones-us-stock-market-live-updates-nasdaq-sp-500-iran-war-hormuz-deal-brent-crude-oil-inflation-fed-rate-nvidia-jensen-huang-marvell-tech-qualcomm-meta-micrsoft-ai-chip-stock-price-news-9th-november-2026/liveblog/135683531.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/dow-jones-us-stock-market-live-updates-nasdaq-sp-500-iran-war-hormuz-deal-brent-crude-oil-inflation-fed-rate-nvidia-jensen-huang-marvell-tech-qualcomm-meta-micrsoft-ai-chip-stock-price-news-9th-november-2026/liveblog/135683531.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/bonds/india-bonds-continue-rally-ahead-of-inflation-data/articleshow/135681750.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/bonds/india-bonds-continue-rally-ahead-of-inflation-data/articleshow/135681750.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/uno-minda-among-7-stocks-hitting-52-week-highs-rally-up-to-26-in-a-month/slideshow/135681703.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/uno-minda-among-7-stocks-hitting-52-week-highs-rally-up-to-26-in-a-month/slideshow/135681703.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-markets-still-reliant-on-tech-stocks-despite-ai-selloff-and-democrat-win-triggered-political-risks/articleshow/135679992.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-markets-still-reliant-on-tech-stocks-despite-ai-selloff-and-democrat-win-triggered-political-risks/articleshow/135679992.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/fiis-cut-stake-in-10-smallcap-stocks-for-3-consecutive-quarters-shares-fall-up-to-70-in-cy26/slideshow/135680171.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/fiis-cut-stake-in-10-smallcap-stocks-for-3-consecutive-quarters-shares-fall-up-to-70-in-cy26/slideshow/135680171.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/forex/indian-rupee-breaks-six-day-winning-streak-on-state-banks-dollar-bids/articleshow/135678769.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/forex/indian-rupee-breaks-six-day-winning-streak-on-state-banks-dollar-bids/articleshow/135678769.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/forex/rbis-usd-239-bn-forward-dollar-position-to-limit-rupee-gains-despite-fpi-inflows-report/articleshow/135678171.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/forex/rbis-usd-239-bn-forward-dollar-position-to-limit-rupee-gains-despite-fpi-inflows-report/articleshow/135678171.cms</a></li>
+<li><a href="https://www.livemint.com/market/viking-loses-1-2-in-october-after-eschewing-many-big-ai-bets-11794256428481.html" rel="noopener" target="_blank">https://www.livemint.com/market/viking-loses-1-2-in-october-after-eschewing-many-big-ai-bets-11794256428481.html</a></li>
+<li><a href="https://www.livemint.com/market/oil-down-more-than-7-a-barrel-in-post-settlement-trade-as-trump-signals-restraint-on-iran-11794254623929.html" rel="noopener" target="_blank">https://www.livemint.com/market/oil-down-more-than-7-a-barrel-in-post-settlement-trade-as-trump-signals-restraint-on-iran-11794254623929.html</a></li>
+<li><a href="https://www.livemint.com/market/upcoming-ipo-veritas-finance-gets-sebi-nod-to-launch-public-issue-top-things-for-investors-11794247367964.html" rel="noopener" target="_blank">https://www.livemint.com/market/upcoming-ipo-veritas-finance-gets-sebi-nod-to-launch-public-issue-top-things-for-investors-11794247367964.html</a></li>
+<li>NSE India: <a href="https://www.nseindia.com/" rel="noopener" target="_blank">https://www.nseindia.com/</a></li>
+<li>RBI: <a href="https://www.rbi.org.in/" rel="noopener" target="_blank">https://www.rbi.org.in/</a></li>
+<li>SEBI: <a href="https://www.sebi.gov.in/" rel="noopener" target="_blank">https://www.sebi.gov.in/</a></li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
