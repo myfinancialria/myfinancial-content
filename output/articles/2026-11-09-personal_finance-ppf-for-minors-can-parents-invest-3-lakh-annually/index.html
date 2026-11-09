@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>PPF for Minors: Can Parents Invest ₹3 Lakh Annually?</title>
+<meta name="description" content="The Public Provident Fund (PPF) has an annual contribution limit of ₹1.5 lakh per financial year across all accounts held by an individual. This ₹1.5 lakh lim.">
+<meta name="keywords" content="account, financial, contributions, parents, interest, parent, annual, contribute">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-09-personal_finance-ppf-for-minors-can-parents-invest-3-lakh-annually/">
+<meta property="og:title" content="PPF for Minors: Can Parents Invest ₹3 Lakh Annually?">
+<meta property="og:description" content="The Public Provident Fund (PPF) has an annual contribution limit of ₹1.5 lakh per financial year across all accounts held by an individual. This ₹1.5 lakh lim.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-09-personal_finance-ppf-for-minors-can-parents-invest-3-lakh-annually/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "PPF for Minors: Can Parents Invest \u20b93 Lakh Annually?", "description": "The Public Provident Fund (PPF) has an annual contribution limit of \u20b91.5 lakh per financial year across all accounts held by an individual. This \u20b91.5 lakh lim.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-09", "dateModified": "2026-11-09", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-09-personal_finance-ppf-for-minors-can-parents-invest-3-lakh-annually/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Personal Finance · 2026-11-09</div><h1>PPF for Minors: Can Parents Invest ₹3 Lakh Annually?</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The Public Provident Fund (PPF) has an annual contribution limit of ₹1.5 lakh per financial year across all accounts held by an individual.</li>
+<li>This ₹1.5 lakh limit applies to the combined contributions made by parents into their minor child&#x27;s PPF account.</li>
+<li>If both parents contribute ₹1.5 lakh each, the total of ₹3 lakh will exceed the maximum permissible limit for the child&#x27;s account.</li>
+<li>Any amount contributed above ₹1.5 lakh in a minor&#x27;s PPF account will not earn interest and will not be eligible for tax benefits under Section 80C.</li>
+<li>Contributions to a minor&#x27;s PPF account are clubbed with the income of the parent (usually the higher-earning parent) for income tax purposes.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Many parents look for effective ways to save for their children&#x27;s future, and the Public Provident Fund (PPF) often comes up as a secure, tax-efficient option. However, there&#x27;s a common misunderstanding regarding the maximum amount that can be invested in a minor&#x27;s PPF account, especially when both parents wish to contribute.
+</p>
+<p>
+Simply put, while an individual can invest up to ₹1.5 lakh in their own PPF account each year, this same limit applies to a minor&#x27;s account, regardless of who contributes. So, if a child has a PPF account, the total money put into it by <em>both</em> parents combined in a financial year cannot exceed ₹1.5 lakh. If parents contribute more than this limit, the extra money won&#x27;t earn any interest and won&#x27;t qualify for the tax deductions that make PPF so attractive.
+</p>
+<h2>Understanding the PPF Annual Limit</h2>
+<p>
+The Public Provident Fund (PPF) is a popular long-term savings scheme in India, known for its EEE (Exempt-Exempt-Exempt) tax status, meaning contributions, interest, and maturity amounts are all tax-free. A key feature of the PPF is its annual contribution limit.
+</p>
+<h3>The ₹1.5 Lakh Cap</h3>
+<p>
+As per the rules governing the PPF scheme, an individual can deposit a minimum of ₹500 and a maximum of ₹1.5 lakh in their PPF account in a financial year. This limit is absolute and applies to the aggregate of all deposits made into an account. It&#x27;s crucial to understand that this cap of ₹1.5 lakh is per PPF account, not per person contributing to an account. This rule is clearly outlined by the Ministry of Finance.
+</p>
+<h3>Why This Limit Matters</h3>
+<p>
+Exceeding the ₹1.5 lakh annual limit has direct financial consequences. Any amount deposited beyond this threshold in a financial year will not earn any interest. Furthermore, such excess contributions will not be eligible for deduction under Section 80C of the Income Tax Act, 1961. Essentially, contributing more than the limit offers no additional financial benefit and locks up capital without returns or tax advantages.
+</p>
+<h2>Contributions to a Minor&#x27;s PPF Account</h2>
+<p>
+Parents often open PPF accounts in the name of their minor children to build a corpus for their education or other future needs. While this is a smart financial move, the rules regarding contributions to a minor&#x27;s account need careful attention.
+</p>
+<h3>Who Can Open and Contribute?</h3>
+<p>
+A PPF account for a minor can be opened by either the father or the mother as the guardian. Both parents cannot open separate PPF accounts for the same minor child. Once opened, contributions can be made by either parent. However, the crucial point to remember is that the combined contributions made by both parents (or any other individual) into the minor&#x27;s PPF account in a financial year cannot exceed the overall limit of ₹1.5 lakh. For instance, if the father contributes ₹1 lakh, the mother can only contribute up to ₹50,000 in the same financial year to the child&#x27;s account.
+</p>
+<h3>The &#x27;Clubbing&#x27; Rule Explained</h3>
+<p>
+A significant aspect of investing in a minor&#x27;s PPF account from an income tax perspective is the &#x27;clubbing of income&#x27; rule. According to Section 64(1A) of the Income Tax Act, 1961, any income that arises or accrues to a minor child is typically clubbed with the income of the parent whose total income (excluding the minor&#x27;s income) is greater. In the context of PPF, this means that the contributions made to a minor&#x27;s PPF account, while eligible for Section 80C deduction, will be considered as part of the parent&#x27;s investment for tax purposes. The interest earned on the minor&#x27;s PPF account is also clubbed with the parent&#x27;s income, though PPF interest is tax-exempt anyway. An exemption of up to ₹1,500 per annum per child is available for clubbed income, limited to two children.
+</p>
+<h2>Tax Implications and Benefits</h2>
+<p>
+The PPF scheme offers substantial tax benefits, making it an attractive option for long-term savings. Understanding these benefits, especially in the context of minor accounts, is essential for effective financial planning.
+</p>
+<h3>Section 80C Benefits</h3>
+<p>
+Contributions made to a PPF account, whether for oneself or for a minor child, are eligible for a deduction under Section 80C of the Income Tax Act, 1961. The maximum deduction allowed under this section is ₹1.5 lakh in a financial year. This limit applies to the sum of all eligible investments made by an individual, including their own PPF contributions and those made to their minor child&#x27;s PPF account. If a parent contributes to both their own PPF and their child&#x27;s PPF, the total deduction claimed under 80C for these contributions cannot exceed ₹1.5 lakh.
+</p>
+<h3>Interest and Maturity Exemptions</h3>
+<p>
+One of the most appealing features of PPF is its EEE status. The interest earned on the PPF balance is tax-exempt, and the maturity amount received after the 15-year lock-in period is also entirely tax-free. This applies equally to PPF accounts held by adults and minors. This makes PPF a powerful tool for wealth creation, especially for long-term goals like a child&#x27;s higher education or marriage, as the entire accumulated corpus remains untaxed upon withdrawal.
+</p>
+<h2>Practical Considerations for Parents</h2>
+<p>
+When planning investments in a minor&#x27;s PPF, parents should consider several practical aspects beyond just the annual limits.
+</p>
+<h3>Long-Term Planning</h3>
+<p>
+A PPF account has a lock-in period of 15 years, which can be extended in blocks of five years. This long-term nature makes it ideal for goals that are several years away, such as a child&#x27;s higher education or marriage. Parents should align their PPF contributions with these long-term objectives, understanding that the funds will not be readily accessible for shorter-term needs. While partial withdrawals are allowed under specific conditions after 7 years, the primary benefit comes from letting the corpus grow uninterrupted.
+</p>
+<h3>Alternative Investment Options</h3>
+<p>
+While PPF is excellent for its safety and tax benefits, it&#x27;s prudent for parents to diversify their investments for their children. Depending on the child&#x27;s age and the investment horizon, other options like equity mutual funds (via SIPs), Sukanya Samriddhi Yojana (for girl children), or even debt funds could be considered. A diversified portfolio can help achieve different financial goals and potentially offer higher returns, albeit with varying levels of risk. It&#x27;s about finding the right balance to meet specific needs.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Priya, 35, ₹25L CTC, Mumbai.</strong> She has a 3-year-old son, Aryan. Priya and her husband, Rohan, 37, ₹30L CTC, Bengaluru, decide they want to invest in Aryan&#x27;s future through a PPF account.
+</p>
+<p>
+In the current financial year:
+</p>
+<ol>
+<li>Priya opens a PPF account for Aryan, acting as his guardian.</li>
+<li>She deposits ₹1.2 lakh into Aryan&#x27;s PPF account.</li>
+<li>Rohan, unaware of the combined limit, also decides to contribute and deposits ₹80,000 into Aryan&#x27;s PPF account later in the same financial year.</li>
+</ol>
+<p>
+Let&#x27;s break down the impact:
+</p>
+<ul>
+<li><strong>Total Contribution:</strong> ₹1.2 lakh (Priya) + ₹80,000 (Rohan) = ₹2 lakh.</li>
+<li><strong>PPF Annual Limit:</strong> ₹1.5 lakh.</li>
+<li><strong>Excess Contribution:</strong> ₹2 lakh - ₹1.5 lakh = ₹50,000.</li>
+</ul>
+<p>
+<strong>Consequences:</strong>
+</p>
+<ul>
+<li>The first ₹1.5 lakh contributed to Aryan&#x27;s PPF account will earn interest at the prevailing PPF rate and will be eligible for a Section 80C deduction (clubbed with Priya&#x27;s income, as she is the guardian and likely the higher earner between the two for this specific clubbing rule application).</li>
+<li>The excess ₹50,000 will <strong>not</strong> earn any interest.</li>
+<li>This ₹50,000 will also <strong>not</strong> be eligible for any tax deduction under Section 80C.</li>
+<li>The bank or post office managing the PPF account will hold this excess amount, but it will essentially be a non-interest-bearing deposit until the next financial year, or it may be returned to the depositor.</li>
+</ul>
+<p>
+To avoid this, Priya and Rohan should have coordinated their contributions, ensuring their combined deposits for Aryan&#x27;s PPF did not exceed ₹1.5 lakh for the financial year.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your child&#x27;s PPF contributions:</strong> Check the total amount deposited into your minor child&#x27;s PPF account(s) during the current financial year. Include contributions from both parents if applicable.</li>
+<li><strong>Confirm the limit:</strong> Ensure the total contributions do not exceed ₹1.5 lakh for the current financial year. If you&#x27;re close to the limit, plan future deposits carefully.</li>
+<li><strong>Coordinate with your spouse:</strong> If both parents are contributing, have a quick chat to set a clear strategy and avoid exceeding the annual limit. Decide who will contribute what amount, or if one parent will handle all contributions.</li>
+<li><strong>Explore alternative savings:</strong> If you have already hit the ₹1.5 lakh limit for your child&#x27;s PPF and wish to save more, research other suitable long-term investment options like diversified mutual funds or the Sukanya Samriddhi Yojana (if applicable for a girl child).</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the maximum I can invest in my child&#x27;s PPF?</h3>
+<p>
+The maximum amount you can invest in your minor child&#x27;s PPF account is ₹1.5 lakh per financial year. This limit is cumulative for all contributions made to that specific minor&#x27;s account, regardless of who makes them.
+</p>
+<h3>Do both parents get separate limits for a minor&#x27;s PPF?</h3>
+<p>
+No, the ₹1.5 lakh annual limit applies to the minor&#x27;s PPF account itself, not to each parent. The combined contributions from both parents (or any other individual) to the minor&#x27;s PPF account cannot exceed ₹1.5 lakh in a financial year.
+</p>
+<h3>What happens if I contribute more than ₹1.5 lakh to my child&#x27;s PPF?</h3>
+<p>
+Any amount contributed beyond the ₹1.5 lakh annual limit in a minor&#x27;s PPF account will not earn interest and will not be eligible for tax benefits under Section 80C. The excess amount may be held without interest or returned by the bank/post office.
+</p>
+<h3>Are contributions to a minor&#x27;s PPF eligible for 80C deduction?</h3>
+<p>
+Yes, contributions made to a minor&#x27;s PPF account are eligible for deduction under Section 80C of the Income Tax Act, up to the overall limit of ₹1.5 lakh per financial year. This deduction is claimed by the parent whose income the minor&#x27;s income is clubbed with.
+</p>
+<h3>When does a minor&#x27;s PPF account mature?</h3>
+<p>
+A minor&#x27;s PPF account matures 15 years from the end of the financial year in which it was opened. Upon the minor attaining majority, the account holder can operate the account themselves.
+</p>
+<h3>Can a grandparent contribute to a minor&#x27;s PPF?</h3>
+<p>
+Yes, a grandparent can contribute to a minor&#x27;s PPF account. However, these contributions will also be counted towards the ₹1.5 lakh annual limit for that minor&#x27;s account, and the clubbing provisions of income tax will still apply to the parents.
+</p>
+<h3>Is the interest earned on a minor&#x27;s PPF taxable?</h3>
+<p>
+No, the interest earned on a minor&#x27;s PPF account is tax-exempt, just like an adult&#x27;s PPF account. While the income from the minor&#x27;s account is clubbed with the parent&#x27;s income, the EEE status of PPF ensures the interest remains tax-free.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Ministry of Finance, Public Provident Fund Scheme, 1968 (as amended): https://finmin.nic.in</li>
+<li>Income Tax India, Section 64(1A) and Section 80C of Income Tax Act, 1961: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
