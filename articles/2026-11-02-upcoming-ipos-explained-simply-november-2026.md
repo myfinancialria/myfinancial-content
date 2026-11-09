@@ -58,9 +58,9 @@ The sector for this company is not specified in the given data. This is an **SME
 
 | Detail      | Value             |
 | :---------- | :---------------- |
-| Price Band  | Not yet announced |
-| Lot Size    | 182 shares |
-| Issue Size  | Not yet announced |
+| Price Band  | ₹114 to ₹120 per share |
+| Lot Size    | 1,200 shares |
+| Issue Size  | ₹34.56 crores |
 | Open Date   | October 30, 2026  |
 | Close Date  | November 03, 2026 |
 | Segment     | SME               |
@@ -77,9 +77,9 @@ This company likely provides engineering-related services or products. It is als
 
 | Detail      | Value             |
 | :---------- | :---------------- |
-| Price Band  | Not yet announced |
-| Lot Size    | 182 shares |
-| Issue Size  | Not yet announced |
+| Price Band  | ₹114 to ₹120 per share |
+| Lot Size    | 1,200 shares |
+| Issue Size  | ₹34.56 crores |
 | Open Date   | October 30, 2026  |
 | Close Date  | November 03, 2026 |
 | Segment     | SME               |
@@ -96,9 +96,9 @@ This company's name suggests it might be involved in manufacturing or fabricatin
 
 | Detail      | Value             |
 | :---------- | :---------------- |
-| Price Band  | Not yet announced |
-| Lot Size    | 182 shares |
-| Issue Size  | Not yet announced |
+| Price Band  | ₹114 to ₹120 per share |
+| Lot Size    | 1,200 shares |
+| Issue Size  | ₹34.56 crores |
 | Open Date   | November 02, 2026 |
 | Close Date  | November 04, 2026 |
 | Segment     | SME               |
