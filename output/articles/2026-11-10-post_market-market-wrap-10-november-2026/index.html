@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Market Wrap — 10 November 2026</title>
+<meta name="description" content="Global inflation fears resurfaced as US consumer prices rose more than expected, fueling speculation of a 50 basis point Fed rate hike. Foreign Institutional .">
+<meta name="keywords" content="stocks, unavailable, markets, inflation, nvidia, strong, economictimes, indiatimes">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-10-post_market-market-wrap-10-november-2026/">
+<meta property="og:title" content="Market Wrap — 10 November 2026">
+<meta property="og:description" content="Global inflation fears resurfaced as US consumer prices rose more than expected, fueling speculation of a 50 basis point Fed rate hike. Foreign Institutional .">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-10-post_market-market-wrap-10-november-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Market Wrap \u2014 10 November 2026", "description": "Global inflation fears resurfaced as US consumer prices rose more than expected, fueling speculation of a 50 basis point Fed rate hike. Foreign Institutional .", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-10", "dateModified": "2026-11-10", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-10-post_market-market-wrap-10-november-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/" class="active">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Market Wrap · 2026-11-10</div><h1>Market Wrap — 10 November 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Global inflation fears resurfaced as US consumer prices rose more than expected, fueling speculation of a 50 basis point Fed rate hike.</li>
+<li>Foreign Institutional Investors (FIIs) continued their strong buying spree in Indian equities, pumping in ₹7,212 crore today.</li>
+<li>Domestic Institutional Investors (DIIs) were net sellers, offloading ₹7,173 crore from the market.</li>
+<li>The Nifty PSU Bank index saw a sharp rally, driven by strong quarterly results and improving asset quality.</li>
+<li>US tech stocks, particularly Nvidia, faced a significant sell-off amid AI sector concerns and a major IPO announcement from Anthropic.</li>
+<li>F&amp;O build-up data for individual stocks is unavailable for today&#x27;s session.</li>
+</ul>
+</div>
+<h2>How the market behaved today</h2>
+<p>
+Specific closing data for the Nifty 50 and Bank Nifty, including their percentage changes and daily ranges, is unavailable. Similarly, the closing figures and daily ranges for the Nifty Midcap 100 and Nifty Smallcap 100 are also unavailable.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>Change</th><th>High</th><th>Low</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Bank Nifty</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Midcap 100</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Smallcap 100</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+</tbody></table>
+<p>
+India VIX data is unavailable. Therefore, a read on market volatility for today cannot be provided.
+</p>
+<h2>What moved the market — the factors</h2>
+<p>
+Today&#x27;s market sentiment was largely influenced by a mix of global cues and strong domestic institutional flows. On the global front, fresh concerns over inflation in the US took centre stage. New data revealed that US consumer prices rose faster than anticipated in October, prompting traders to raise their odds of a 50 basis point rate hike by the US Federal Reserve. This led to a downturn in Wall Street, with the Dow Jones falling and tech stocks like Nvidia experiencing significant declines, raising worries about potential interest rate hikes. US Treasury yields also saw an uptick following remarks from Fed Governor Christopher Waller, who pressed the case for rate hikes.
+</p>
+<p>
+Despite these global headwinds, the Indian market saw robust buying from Foreign Institutional Investors (FIIs), who were net buyers of ₹7,212 crore today. This continued a trend of significant FII inflows into Indian equities in November, with a total of ₹53,739 crore poured in so far this month. This strong foreign buying has been a key factor in supporting the market, with the Nifty 50 extending its winning streak to seven consecutive sessions.
+</p>
+<p>
+Domestically, the Nifty PSU Bank index rallied sharply, posting its biggest one-day gain in nearly two years. This surge was attributed to strong quarterly profits, improving asset quality, and renewed interest from foreign investors in state-owned bank stocks. Meanwhile, Domestic Institutional Investors (DIIs) were net sellers, offloading ₹7,173 crore from the market.
+</p>
+<h2>Sectors — winners and losers</h2>
+<p>
+Specific data for the top 3 gainer and top 3 loser sectors is unavailable. However, based on news reports:
+</p>
+<p>
+<strong>Standout Gainer:</strong>
+</p>
+<ul>
+<li><strong>PSU Bank Index:</strong> The Nifty PSU Bank index posted its biggest one-day gain in nearly two years, driven by strong quarterly profits, improving asset quality, and returning foreign interest.</li>
+</ul>
+<h2>Stocks that moved the market</h2>
+<p>
+Specific data for the top 5 Nifty 500 gainers and losers is unavailable. However, the following stocks were highlighted in the news:
+</p>
+<p>
+<strong>Standout Movers:</strong>
+</p>
+<ul>
+<li><strong>Bank of India:</strong> Rebounded significantly from its 1-year low, contributing to the Nifty PSU Bank index rally.</li>
+<li><strong>UCO Bank:</strong> Also saw a strong rebound from its 1-year low, supporting the overall positive performance of PSU banks.</li>
+</ul>
+<h2>News that moved stocks</h2>
+<ul>
+<li><strong>US Inflation &amp; Fed Rate Hike Fears:</strong></li>
+<p>
+    - <strong>Traders raise odds of 50 bps Fed rate hike as CPI rise exceeds expectations:</strong> New data revealed that US consumer prices rose faster than anticipated in October, prompting speculation about interest rate changes. Fed Governor Christopher Waller suggested a half percentage point hike may be necessary. This news led to a downturn in US stocks and a rise in US Treasury yields.
+    - <strong>US stocks: Dow Jones falls 200 points as hot inflation revives rate-hike fears; Nvidia sinks:</strong> Wall Street faced a downturn as inflation figures surpassed projections, raising worries about potential interest rate hikes. Declines were evident across the Dow Jones Industrial Average, and Nvidia shares sank.
+    - <strong>US Treasury yields rise as Fed&#x27;s Waller presses rate hike case:</strong> Following remarks from Federal Reserve Governor Christopher Waller, short-dated Treasury yields saw an uptick, as he proposed the necessity of action despite seemingly moderated inflation data.
+</p>
+</ul>
+<ul>
+<li><strong>AI Sector &amp; IPOs (Global Impact):</strong></li>
+<p>
+    - <strong>Anthropic&#x27;s potential mega IPO joins ranks of world&#x27;s biggest stock market listings:</strong> Anthropic has kicked off its U.S. IPO roadshow, seeking to raise up to $64.4 billion by offering 825 million shares, with a latest valuation of roughly $1.4 trillion. This significant IPO is a major focus in the tech sector.
+    - <strong>TSMC to invest up to $1 billion in Anthropic, OpenAI:</strong> TSMC is set to invest up to $1 billion in the AI landscape, directing $500 million each to Anthropic and OpenAI, underscoring its belief in the AI sector.
+    - <strong>Nvidia sell-off deepens, fall 6.3%; wipes $10 billion off Jensen Huang&#x27;s wealth, slips to 12th on Forbes rich list:</strong> The latest crash in Nvidia shares has dealt a major blow to CEO Jensen Huang&#x27;s net worth, with the stock falling 6.3%. This sell-off impacted investor sentiment in the tech sector globally.
+    - <strong>Microsoft overtakes Nvidia in m-cap for first time since June &#x27;25, Nasdaq drops over 1%:</strong> Microsoft surpassed Nvidia in market capitalization, highlighting a shift in the tech landscape amid Nvidia&#x27;s woes.
+</p>
+</ul>
+<ul>
+<li><strong>Indian Specific News:</strong></li>
+<p>
+    - <strong>Bajaj Finance issues 5.74 crore warrants to promoter for Rs 5,799 crore:</strong> Bajaj Finance has allotted 5.74 crore warrants to its promoter, Bajaj Finserv, for ₹5,799 crore at an issue price of ₹1,010 per warrant.
+    - <strong>FPIs turn net buyers; pour Rs 53,739 crore in D-Street in Nov so far:</strong> Foreign investors reversed a trend of selling by making substantial purchases of Indian equities in November, with total inflows of ₹53,739 crore so far. This shift followed a global sell-off triggered by AI developments affecting markets worldwide.
+    - <strong>Nifty PSU Bank Index Performance: Bank of India, UCO Bank among 7 stocks rebound 15–56% from 1-yr lows - here’s why:</strong> State-owned bank stocks rallied sharply, with the Nifty PSU Bank index posting its biggest one-day gain in nearly two years, driven by strong quarterly profits, improving asset quality, and returning foreign interest.
+</p>
+</ul>
+<ul>
+<li><strong>Eurozone Bond Yields:</strong></li>
+<p>
+    - <strong>Eurozone bond yields fall as lower energy prices ease inflation concerns:</strong> Government bond yields in the Eurozone experienced a notable drop, particularly for French and Italian bonds, as easing inflation worries were attributed to falling oil and natural gas prices.
+</p>
+</ul>
+<h2>F&amp;O build-up — where traders are positioning</h2>
+<p>
+OI build-up needs the previous session&#x27;s OI — it will populate from the next run.
+</p>
+<h2>Market breadth</h2>
+<p>
+With 0 advances and 0 declines out of 0 total traded stocks, market breadth data is unavailable and not indicative of today&#x27;s market movement.
+</p>
+<h2>FII / DII flows</h2>
+<p>
+Foreign Institutional Investors (FIIs) continued to be net buyers in the Indian equity market today, while Domestic Institutional Investors (DIIs) were net sellers.
+</p>
+<table><thead><tr><th>Investor Type</th><th>Net Flow (₹ crore)</th></tr></thead><tbody>
+<tr><td>FII</td><td>7,212</td></tr>
+<tr><td>DII</td><td>-7,173</td></tr>
+</tbody></table>
+<p>
+Over the last five trading sessions, FIIs have been consistently net buyers, pouring significant capital into Indian equities. In contrast, DIIs have been consistent net sellers during the same period. This trend suggests strong foreign interest in the Indian market, potentially counteracting any domestic profit-booking or rebalancing efforts.
+</p>
+<h2>Event breakdown — what happened today and how it hit the market</h2>
+<p>
+The primary event driving global markets today was the release of US consumer price data for October, which showed a larger-than-expected increase. This immediately fueled speculation among traders about the Federal Reserve potentially implementing a more aggressive 50 basis point interest rate hike. The prospect of higher interest rates led to a sell-off in US stocks, particularly in the tech sector, with the Dow Jones falling and Nvidia shares sinking. US Treasury yields also rose in response to these inflation concerns and hawkish comments from Fed officials.
+</p>
+<p>
+While global markets reacted negatively to these developments, the Indian market saw strong countervailing forces. Significant inflows from Foreign Institutional Investors (FIIs) helped to absorb selling pressure and maintain positive momentum. Domestically, the Nifty PSU Bank index witnessed a sharp rally, driven by positive fundamental news regarding strong quarterly profits and improving asset quality, indicating sector-specific strength. Thus, the session was characterized by global inflation fears creating headwinds, but strong FII buying and specific sector rallies providing support to the Indian indices.
+</p>
+<h2>Setup for tomorrow</h2>
+<p>
+Tomorrow&#x27;s session will likely continue to be influenced by the fallout from the US inflation data and the ongoing speculation around the Federal Reserve&#x27;s monetary policy. Global cues suggest a cautious start, with the Dollar Index strengthening (+0.66%) and the US 10-year Treasury yield rising (+3.00%) to 5.01, which typically indicates a risk-off sentiment for emerging markets. The USD/INR also closed slightly higher at 93.92. However, falling crude oil prices (Brent -0.76%, WTI -0.61%) could offer some relief for India, a major oil importer. Gold and Silver also saw declines. Investors will be closely watching how US markets react overnight to the inflation fears and any further comments from Fed officials. Domestically, the momentum in PSU banks could continue, and any spillover from the global tech sector&#x27;s performance, particularly related to AI stocks, will be keenly observed.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/traders-raise-odds-of-50-bps-fed-rate-hike-as-cpi-rise-exceeds-expectations/articleshow/135714586.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-us-market-opens-lower-after-octobers-hot-inflation-print/articleshow/135714411.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/news/anthropics-potential-mega-ipo-joins-ranks-of-worlds-biggest-stock-market-listings/articleshow/135714028.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/news/tsmc-to-invest-up-to-1-billion-in-anthropic-openai/articleshow/135713301.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/news/us-consumer-prices-rise-above-expectations-in-october/articleshow/135712897.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/stock-market-live-updates-dow-jones-nasdaq-sp-500-anthropic-ipo-nvidia-intel-marvell-tech-ai-chip-stocks-inflation-fed-rate-hike-treasury-bond-yield-news-10th-november-2026/liveblog/135712173.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/news/nasdaq-futures-slip-with-nvidia-woes-anthropic-ipo-in-focus/articleshow/135711347.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/news/anthropics-ipo-a-close-look-at-ai-frontrunners-rapid-growth-spiraling-costs/articleshow/135711237.cms</li>
+<li>https://economictimes.indiatimes.com/markets/bonds/us-treasury-yields-rise-as-feds-waller-presses-rate-hike-case/articleshow/135708551.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/news/bajaj-finance-issues-5-74-crore-warrants-to-promoter-for-rs-5799-crore/articleshow/135708439.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/news/fpis-turn-net-buyers-pour-rs-53739-crore-in-d-street-in-nov-so-far/articleshow/135708381.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/news/eurozone-bond-yields-fall-as-lower-energy-prices-ease-inflation-concerns/articleshow/135707370.cms</li>
+<li>https://www.livemint.com/market/stock-market-news/nvidia-sell-off-deepens-fall-6-3-wipes-10-billion-off-jensen-huangs-wealth-slips-to-12th-on-forbes-rich-list-11794327860453.html</li>
+<li>https://www.livemint.com/market/stock-market-news/nifty-psu-bank-index-performance-bank-of-india-uco-bank-among-7-stocks-rebound-15-56-from-1-yr-lows-here-s-why-11794321816668.html</li>
+<li>https://www.livemint.com/market/stock-market-news/fpis-return-to-dalal-street-amid-ai-sell-off-and-oil-slump-can-proposed-tax-cuts-sustain-inflows-11794315705620.html</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
