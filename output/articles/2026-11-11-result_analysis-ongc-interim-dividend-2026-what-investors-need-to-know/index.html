@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>ONGC Interim Dividend 2026: What Investors Need to Know</title>
+<meta name="description" content="ONGC&#x27;s board announced an interim dividend of 160% after its Q2 FY27 results on November 5. This translates to a dividend payout of ₹8 per equity share, based.">
+<meta name="keywords" content="dividend, interim, company, dividends, financial, record, shareholders, receive">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-11-result_analysis-ongc-interim-dividend-2026-what-investors-need-to-know/">
+<meta property="og:title" content="ONGC Interim Dividend 2026: What Investors Need to Know">
+<meta property="og:description" content="ONGC&#x27;s board announced an interim dividend of 160% after its Q2 FY27 results on November 5. This translates to a dividend payout of ₹8 per equity share, based.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-11-result_analysis-ongc-interim-dividend-2026-what-investors-need-to-know/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "ONGC Interim Dividend 2026: What Investors Need to Know", "description": "ONGC's board announced an interim dividend of 160% after its Q2 FY27 results on November 5. This translates to a dividend payout of \u20b98 per equity share, based.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-11", "dateModified": "2026-11-11", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-11-result_analysis-ongc-interim-dividend-2026-what-investors-need-to-know/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/" class="active">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Result Analysis · 2026-11-11</div><h1>ONGC Interim Dividend 2026: What Investors Need to Know</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>ONGC&#x27;s board announced an interim dividend of 160% after its Q2 FY27 results on November 5.</li>
+<li>This translates to a dividend payout of ₹8 per equity share, based on a face value of ₹5.</li>
+<li>Investors need to purchase shares by the ex-dividend date to be eligible for this payout.</li>
+<li>Dividends are subject to income tax in the hands of the shareholder, based on their applicable slab rate.</li>
+<li>Understanding dividend announcements is crucial for long-term portfolio planning and income generation.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When a company like ONGC declares an interim dividend, it&#x27;s essentially distributing a portion of its profits to its shareholders before the full financial year concludes. This particular announcement by ONGC on November 5, following its September-quarter results for FY27, signals the company&#x27;s financial health and its commitment to rewarding investors. An interim dividend is often seen as a positive indicator, reflecting management&#x27;s confidence in the company&#x27;s ongoing performance.
+</p>
+<p>
+For you as an investor, this means that if you hold ONGC shares by a specific cut-off date, you will receive ₹8 for every share you own. This payout of 160% on the face value of ₹5 per share is a significant return for shareholders. It&#x27;s important to understand the associated dates – particularly the ex-dividend date and record date – to ensure eligibility for this dividend. These dates are crucial for determining who receives the dividend payment.
+</p>
+<h2>ONGC&#x27;s Interim Dividend 2026: The Specifics</h2>
+<p>
+ONGC, a leading public sector undertaking in India&#x27;s energy sector, declared an interim dividend of 160% for the financial year 2026-27. This decision was made during its board meeting on November 5, 2026, coinciding with the announcement of its September-quarter results.
+</p>
+<p>
+To break down the payout:
+</p>
+<ul>
+<li><strong>Face Value:</strong> Each equity share of ONGC has a face value of ₹5.</li>
+<li><strong>Dividend Percentage:</strong> The declared interim dividend is 160% of this face value.</li>
+<li><strong>Dividend Per Share:</strong> This translates to a cash payout of ₹8 per equity share (160% of ₹5 = ₹8).</li>
+</ul>
+<p>
+The announcement of &quot;last day to buy today&quot; implies that the ex-dividend date is either today or very soon. The ex-dividend date is the day on or after which a stock trades without its dividend benefit. To be eligible for the dividend, you must purchase the shares before the ex-dividend date. Following the ex-dividend date is the record date, which is the date on which the company checks its records to identify eligible shareholders. Only those whose names appear in the company&#x27;s register of members by the record date will receive the dividend payment.
+</p>
+<h2>Understanding Dividend Yield and History</h2>
+<p>
+While the Livemint summary doesn&#x27;t provide ONGC&#x27;s specific dividend yield or historical data, understanding these concepts is vital for any investor. Dividend yield is calculated by dividing the annual dividend per share by the stock&#x27;s current market price. For instance, if ONGC&#x27;s share price was ₹150 when the ₹8 dividend was announced, the interim dividend yield would be approximately 5.33% (₹8 / ₹150). A higher dividend yield can indicate a potentially attractive income stream relative to the share price.
+</p>
+<p>
+Analysing a company&#x27;s dividend history helps investors gauge the consistency and growth of its payouts over time. Companies with a track record of consistent or increasing dividends often signal financial stability and a shareholder-friendly policy. For a large PSU like ONGC, dividends often play a significant role in attracting and retaining investors, including institutional funds and retail shareholders looking for regular income. While past performance is not indicative of future results, a strong dividend history can provide comfort to income-focused investors.
+</p>
+<h2>Tax Implications of Dividends in India</h2>
+<p>
+In India, dividends received from domestic companies are taxable in the hands of the shareholders. This regime came into effect from April 1, 2020, replacing the Dividend Distribution Tax (DDT) system.
+</p>
+<p>
+Here&#x27;s a breakdown:
+</p>
+<ul>
+<li><strong>Taxable Income:</strong> Any dividend income you receive is added to your total income and taxed according to your applicable income tax slab rate. This applies to both resident and non-resident Indians.</li>
+<li><strong>TDS (Tax Deducted at Source):</strong> Companies are required to deduct TDS on dividend payments if the aggregate dividend paid to a resident shareholder exceeds ₹5,000 in a financial year. The TDS rate is typically 10% under Section 194 of the Income Tax Act.</li>
+<li><strong>Form 26AS:</strong> You can check the TDS deducted on your dividend income in your Form 26AS statement, which is available on the Income Tax India website.</li>
+<li><strong>Non-Resident Indians (NRIs):</strong> For NRIs, TDS on dividends is deducted at a rate of 20% (plus surcharge and cess) as per Section 195 of the Income Tax Act, unless a lower rate is specified under a Double Taxation Avoidance Agreement (DTAA). NRIs can claim credit for TDS deducted while filing their income tax returns in India.</li>
+</ul>
+<p>
+It is crucial for investors to factor in these tax implications when calculating their effective returns from dividend-paying stocks. Proper tax planning can help optimise your overall investment income.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Aisha, 42, a software engineer with a ₹32L CTC, based in Hyderabad.</strong> Aisha holds 1,500 shares of ONGC in her demat account, which she purchased over time for long-term investment and income generation.
+</p>
+<p>
+Here&#x27;s how ONGC&#x27;s interim dividend announcement impacts her:
+</p>
+<ol>
+<li><strong>Dividend per Share:</strong> The declared interim dividend is ₹8 per equity share.</li>
+<li><strong>Total Dividend Income:</strong> For her 1,500 shares, Aisha will receive a total dividend of:</li>
+<p>
+    1,500 shares * ₹8/share = ₹12,000
+</p>
+<li><strong>TDS Deduction:</strong> Since her total dividend income of ₹12,000 exceeds ₹5,000, ONGC will deduct TDS at 10%.</li>
+<p>
+    TDS = 10% of ₹12,000 = ₹1,200
+</p>
+<li><strong>Net Dividend Received:</strong> Aisha will receive:</li>
+<p>
+    ₹12,000 - ₹1,200 = ₹10,800 directly in her bank account linked to her demat.
+</p>
+<li><strong>Taxation at her end:</strong> Aisha&#x27;s income of ₹32L places her in the 30% income tax slab (assuming standard deductions and exemptions). When she files her income tax return, her ₹12,000 dividend income will be added to her total taxable income. The ₹1,200 TDS already deducted will be adjusted against her total tax liability. If her effective tax rate on this income is 30%, she will have to pay an additional 20% (30% - 10% already deducted) on this ₹12,000 dividend income.</li>
+<p>
+    Additional tax payable = 20% of ₹12,000 = ₹2,400.
+    However, since ₹1,200 has already been deducted, her net additional outgo will be ₹1,200 (₹2,400 - ₹1,200).
+</p>
+</ol>
+<p>
+This example illustrates that while dividends provide a direct income stream, their net impact on your finances needs to account for TDS and your personal income tax slab.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Check your demat account:</strong> Verify if you hold ONGC shares and confirm the quantity. This is essential to estimate your potential dividend payout.</li>
+<li><strong>Understand the dates:</strong> If the ex-dividend date is &quot;today&quot; or imminent, ensure your purchase is completed before it to be eligible. Note down the record date and expected payment date for your records.</li>
+<li><strong>Review your tax position:</strong> Consider how this dividend income will affect your overall tax liability for the current financial year. If you receive significant dividend income, it might be prudent to factor it into your advance tax calculations.</li>
+<li><strong>Update bank details:</strong> Ensure your bank account linked to your demat is active and updated to receive the dividend payment smoothly.</li>
+<li><strong>Revisit your portfolio strategy:</strong> Reflect on whether dividend-paying stocks like ONGC align with your long-term financial goals, especially if you are seeking regular income streams.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is an interim dividend?</h3>
+<p>
+An interim dividend is a dividend paid by a company to its shareholders before the company&#x27;s full annual earnings have been determined and before the Annual General Meeting (AGM). It&#x27;s often declared when a company has strong half-yearly or quarterly profits.
+</p>
+<h3>What is the ex-dividend date?</h3>
+<p>
+The ex-dividend date is the day on or after which a stock trades without its dividend benefit. If you buy a stock on or after the ex-dividend date, you will not be eligible to receive the recently declared dividend.
+</p>
+<h3>What is the record date?</h3>
+<p>
+The record date is the specific date on which a company determines which shareholders are eligible to receive the dividend. To be included in the list of eligible shareholders, your name must appear in the company&#x27;s records by the end of this date.
+</p>
+<h3>How are dividends taxed in India for resident individuals?</h3>
+<p>
+Dividends received from Indian companies are taxable in the hands of the shareholder at their applicable income tax slab rates. If the dividend exceeds ₹5,000 in a financial year, the company will deduct 10% TDS.
+</p>
+<h3>Do NRIs pay tax on dividends in India?</h3>
+<p>
+Yes, NRIs also pay tax on dividends received from Indian companies. TDS is typically deducted at 20% (plus surcharge and cess), though this rate can be lower if specified by a Double Taxation Avoidance Agreement (DTAA).
+</p>
+<h3>When can I expect the dividend payment?</h3>
+<p>
+Typically, dividend payments are processed within 30 days of the declaration date, but the exact payment date is usually announced by the company along with the record date.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Markets: https://www.livemint.com/market/stock-market-news/ongc-dividend-2026-last-day-to-buy-today-check-dividend-payout-record-date-history-yield-and-returns-11794363759514.html</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.# ONGC Interim Dividend 2026: What Investors Need to Know
+</p>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>ONGC&#x27;s board announced an interim dividend of 160% after its Q2 FY27 results on November 5, 2026.</li>
+<li>This translates to a dividend payout of ₹8 per equity share, based on a face value of ₹5.</li>
+<li>The record date for determining eligible shareholders has been fixed as November 12, 2026.</li>
+<li>Dividends are subject to income tax in the hands of the shareholder, based on their applicable slab rate, with TDS applicable above a certain threshold.</li>
+<li>Understanding dividend announcements, including key dates and tax implications, is crucial for effective portfolio planning.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When a company like ONGC declares an interim dividend, it&#x27;s essentially distributing a portion of its profits to its shareholders before the full financial year concludes. This particular announcement by ONGC on November 5, 2026, following its September-quarter results for FY27, signals the company&#x27;s financial health and its commitment to rewarding investors. An interim dividend is often seen as a positive indicator, reflecting management&#x27;s confidence in the company&#x27;s ongoing performance.
+</p>
+<p>
+For you as an investor, this means that if you hold ONGC shares by a specific cut-off date, you will receive ₹8 for every share you own. This payout of 160% on the face value of ₹5 per share is a significant return for shareholders. It&#x27;s important to understand the associated dates – particularly the ex-dividend date and record date – to ensure eligibility for this dividend. These dates are crucial for determining who receives the dividend payment.
+</p>
+<h2>ONGC&#x27;s Interim Dividend 2026: The Specifics</h2>
+<p>
+Oil and Natural Gas Corporation (ONGC) declared a first interim dividend of 160% for the financial year 2026-27. This decision was made during its board meeting on November 5, 2026, coinciding with the announcement of its September-quarter results.
+</p>
+<p>
+To break down the payout:
+</p>
+<ul>
+<li><strong>Face Value:</strong> Each equity share of ONGC has a face value of ₹5.</li>
+<li><strong>Dividend Percentage:</strong> The declared interim dividend is 160% of this face value.</li>
+<li><strong>Dividend Per Share:</strong> This translates to a cash payout of ₹8 per equity share (160% of ₹5 = ₹8).</li>
+</ul>
+<p>
+The <strong>record date</strong> for determining the eligibility of shareholders for this interim dividend has been fixed as <strong>November 12, 2026</strong>. The ex-dividend date typically precedes the record date by one or two business days, meaning investors would need to purchase shares before November 12, 2026, to be eligible for the dividend. The payment of this interim dividend is expected to be made within 30 days from the date of declaration (November 5, 2026).
+</p>
+<h2>Understanding ONGC&#x27;s Q2 FY27 Performance</h2>
+<p>
+The interim dividend announcement came alongside ONGC&#x27;s robust financial results for the second quarter of the financial year 2026-27 (Q2 FY27). The company reported a significant rise in its consolidated profit after tax (PAT) and revenue.
+</p>
+<p>
+Key highlights from ONGC&#x27;s Q2 FY27 results include:
+</p>
+<ul>
+<li><strong>Consolidated PAT:</strong> Increased by 46.9% year-on-year to ₹18,534.82 crore.</li>
+<li><strong>Consolidated Revenue from Operations:</strong> Rose by 25.6% year-on-year to ₹1,98,263.33 crore.</li>
+</ul>
+<p>
+Brokerage estimates had projected ONGC&#x27;s standalone profit after tax to be between ₹15,550 crore and ₹16,423 crore, indicating strong market expectations. The company also highlighted that the total payout of ₹10,064 crore for this interim dividend is its highest-ever dividend paid in a single instalment, underscoring its strong performance and commitment to shareholder returns.
+</p>
+<h2>Dividend History and Yield</h2>
+<p>
+While the immediate focus is on the current interim dividend, understanding ONGC&#x27;s historical dividend payments and its dividend yield provides a broader perspective for investors. Dividend yield is a financial ratio that indicates how much a company pays out in dividends each year relative to its share price. It is calculated by dividing the annual dividend per share by the stock&#x27;s current market price. For instance, if ONGC&#x27;s share price was ₹228.62 on November 6, 2026, the current interim dividend of ₹8 per share represents a yield that investors can factor into their calculations.
+</p>
+<p>
+ONGC has a consistent track record of rewarding its shareholders through dividends. In 2026, prior to this announcement, the company paid a dividend of Re 1 per share in September and an interim dividend of ₹6.25 per share in February. In the preceding financial year (2025-26), it paid an interim dividend of ₹6 per share in November 2025, followed by a final dividend of ₹1.25 per share in September 2025. This history of regular payouts reflects ONGC&#x27;s stable financial position and its policy of sharing profits with investors, making it an attractive option for income-focused portfolios.
+</p>
+<h2>Tax Implications of Dividends in India</h2>
+<p>
+In India, dividends received from domestic companies are taxable in the hands of the shareholders. This system has been in effect since April 1, 2020, following the abolition of the Dividend Distribution Tax (DDT).
+</p>
+<p>
+Here&#x27;s a breakdown of the tax implications:
+</p>
+<ul>
+<li><strong>Taxable Income:</strong> Any dividend income you receive is added to your total income and taxed according to your applicable income tax slab rate. This applies to both resident and non-resident Indians.</li>
+<li><strong>TDS (Tax Deducted at Source) for Resident Individuals:</strong> Companies are required to deduct TDS on dividend payments if the aggregate dividend paid to a resident shareholder from a single company exceeds ₹10,000 in a financial year (effective from FY 2025-26 onwards, earlier it was ₹5,000). The TDS rate is typically 10% under Section 194 of the Income Tax Act. If a valid PAN is not furnished, the TDS rate can be higher, at 20%.</li>
+<li><strong>TDS for Non-Resident Indians (NRIs):</strong> For NRIs, TDS on dividends is generally deducted at a rate of 20% (plus applicable surcharge and cess) as per Section 195 of the Income Tax Act. However, this rate can be reduced if a lower rate is specified under a Double Taxation Avoidance Agreement (DTAA) between India and the NRI&#x27;s country of residence, often ranging from 10-15%. To avail of a lower DTAA rate, NRIs typically need to submit a Tax Residency Certificate (TRC) and Form 10F to the company.</li>
+<li><strong>Form 26AS:</strong> You can verify the TDS deducted on your dividend income in your Form 26AS statement, available on the Income Tax India website.</li>
+</ul>
+<p>
+It is crucial for investors to factor in these tax implications when calculating their effective returns from dividend-paying stocks. Proper tax planning can help optimise your overall investment income.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Aisha, 42, a software engineer with a ₹32L CTC, based in Hyderabad.</strong> Aisha holds 1,500 shares of ONGC in her demat account, which she purchased over time for long-term investment and income generation.
+</p>
+<p>
+Here&#x27;s how ONGC&#x27;s interim dividend announcement impacts her:
+</p>
+<ol>
+<li><strong>Dividend per Share:</strong> The declared interim dividend is ₹8 per equity share.</li>
+<li><strong>Total Dividend Income:</strong> For her 1,500 shares, Aisha will receive a total dividend of:</li>
+<p>
+    1,500 shares * ₹8/share = ₹12,000
+</p>
+<li><strong>TDS Deduction:</strong> Since her total dividend income of ₹12,000 exceeds the ₹10,000 threshold for residents, ONGC will deduct TDS at 10%.</li>
+<p>
+    TDS = 10% of ₹12,000 = ₹1,200
+</p>
+<li><strong>Net Dividend Received:</strong> Aisha will receive:</li>
+<p>
+    ₹12,000 - ₹1,200 = ₹10,800 directly in her bank account linked to her demat.
+</p>
+<li><strong>Taxation at her end:</strong> Aisha&#x27;s income of ₹32L places her in the 30% income tax slab (assuming standard deductions and exemptions). When she files her income tax return, her ₹12,000 dividend income will be added to her total taxable income. The ₹1,200 TDS already deducted will be adjusted against her total tax liability. If her effective tax rate on this income is 30%, she will have to pay an additional 20% (30% - 10% already deducted) on this ₹12,000 dividend income.</li>
+<p>
+    Additional tax payable = 20% of ₹12,000 = ₹2,400.
+    However, since ₹1,200 has already been deducted, her net additional outgo will be ₹1,200 (₹2,400 - ₹1,200).
+</p>
+</ol>
+<p>
+This example illustrates that while dividends provide a direct income stream, their net impact on your finances needs to account for TDS and your personal income tax slab.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Check your demat account:</strong> Verify if you hold ONGC shares and confirm the quantity. This is essential to estimate your potential dividend payout.</li>
+<li><strong>Understand the dates:</strong> The record date is November 12, 2026. Ensure your purchase is completed before the ex-dividend date to be eligible. Note down the record date and expected payment date for your records.</li>
+<li><strong>Review your tax position:</strong> Consider how this dividend income will affect your overall tax liability for the current financial year. If you receive significant dividend income, it might be prudent to factor it into your advance tax calculations.</li>
+<li><strong>Update bank details:</strong> Ensure your bank account linked to your demat is active and updated to receive the dividend payment smoothly.</li>
+<li><strong>Revisit your portfolio strategy:</strong> Reflect on whether dividend-paying stocks like ONGC align with your long-term financial goals, especially if you are seeking regular income streams.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is an interim dividend?</h3>
+<p>
+An interim dividend is a dividend paid by a company to its shareholders before the company&#x27;s full annual earnings have been determined and before the Annual General Meeting (AGM). It&#x27;s often declared when a company has strong half-yearly or quarterly profits.
+</p>
+<h3>What is the ex-dividend date?</h3>
+<p>
+The ex-dividend date is the day on or after which a stock trades without its dividend benefit. If you buy a stock on or after the ex-dividend date, you will not be eligible to receive the recently declared dividend.
+</p>
+<h3>What is the record date?</h3>
+<p>
+The record date is the specific date on which a company determines which shareholders are eligible to receive the dividend. To be included in the list of eligible shareholders, your name must appear in the company&#x27;s records by the end of this date. For ONGC&#x27;s interim dividend, the record date is November 12, 2026.
+</p>
+<h3>How are dividends taxed in India for resident individuals?</h3>
+<p>
+Dividends received from Indian companies are taxable in the hands of the shareholder at their applicable income tax slab rates. If the dividend from a single company exceeds ₹10,000 in a financial year, the company will deduct 10% TDS.
+</p>
+<h3>Do NRIs pay tax on dividends in India?</h3>
+<p>
+Yes, NRIs also pay tax on dividends received from Indian companies. TDS is typically deducted at 20% (plus surcharge and cess) under Section 195, though this rate can be lower if specified by a Double Taxation Avoidance Agreement (DTAA).
+</p>
+<h3>When can I expect the dividend payment?</h3>
+<p>
+ONGC has stated that the interim dividend payment will be made within 30 days from the date of declaration, which was November 5, 2026.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Livemint Markets: https://www.livemint.com/market/stock-market-news/ongc-dividend-2026-last-day-to-buy-today-check-dividend-payout-record-date-history-yield-and-returns-11794363759514.html</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>

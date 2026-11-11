@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Invest in Gold Digitally: Understanding NSE Electronic Gold Receipts</title>
+<meta name="description" content="Electronic Gold Receipts (EGRs) allow investors to own gold in a dematerialised form, similar to shares. Traded on the National Stock Exchange (NSE), each EGR.">
+<meta name="keywords" content="physical, purity, investment, electronic, receipts, capital, exchange, investors">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-11-macro-invest-in-gold-digitally-understanding-nse-electronic-gold-receipts/">
+<meta property="og:title" content="Invest in Gold Digitally: Understanding NSE Electronic Gold Receipts">
+<meta property="og:description" content="Electronic Gold Receipts (EGRs) allow investors to own gold in a dematerialised form, similar to shares. Traded on the National Stock Exchange (NSE), each EGR.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-11-macro-invest-in-gold-digitally-understanding-nse-electronic-gold-receipts/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Invest in Gold Digitally: Understanding NSE Electronic Gold Receipts", "description": "Electronic Gold Receipts (EGRs) allow investors to own gold in a dematerialised form, similar to shares. Traded on the National Stock Exchange (NSE), each EGR.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-11", "dateModified": "2026-11-11", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-11-macro-invest-in-gold-digitally-understanding-nse-electronic-gold-receipts/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/" class="active">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Macro &amp; Markets · 2026-11-11</div><h1>Invest in Gold Digitally: Understanding NSE Electronic Gold Receipts</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Electronic Gold Receipts (EGRs) allow investors to own gold in a dematerialised form, similar to shares.</li>
+<li>Traded on the National Stock Exchange (NSE), each EGR unit typically represents 1 gram of 995 purity physical gold.</li>
+<li>The physical gold backing these receipts is stored securely in SEBI-approved vaults, ensuring purity and safety.</li>
+<li>EGRs offer a cost-effective and liquid way to invest in gold without the concerns of storage, making charges, or purity associated with physical gold.</li>
+<li>Investors can convert their EGRs into physical gold or sell them on the exchange, providing flexibility in their investment strategy.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+For many Indians, gold is more than just an asset; it&#x27;s a cultural symbol and a traditional store of wealth. However, investing in physical gold, whether as jewellery, coins, or bars, comes with its own set of challenges. Concerns about purity, secure storage, and the additional costs like making charges and Goods and Services Tax (GST) on jewellery often deter investors. This is where Electronic Gold Receipts (EGRs) step in as a modern alternative.
+</p>
+<p>
+Essentially, an EGR is a digital receipt for physical gold. When you buy an EGR, you&#x27;re not getting a piece of paper or a digital token that&#x27;s not backed by anything; you&#x27;re buying a claim to a specific quantity of 995 purity physical gold, which is held safely in a regulated vault. These receipts are traded on stock exchanges like the National Stock Exchange (NSE), making the process of buying and selling gold as easy as trading shares from your demat account.
+</p>
+<p>
+This innovation brings transparency, liquidity, and cost-efficiency to gold investing. It eliminates the need for physical handling, worries about theft, or the hassle of verifying purity. Whether you&#x27;re looking to diversify your portfolio or simply want to participate in gold&#x27;s price movements, EGRs offer a regulated and convenient pathway to digital gold ownership.
+</p>
+<h2>How Electronic Gold Receipts (EGRs) Function</h2>
+<p>
+Electronic Gold Receipts (EGRs) represent a significant evolution in gold investment, bridging the gap between traditional physical gold and modern digital assets. They are essentially warehouse receipts for gold, traded on stock exchanges.
+</p>
+<h3>The Trading and Holding Mechanism</h3>
+<p>
+EGRs are traded on the National Stock Exchange (NSE) in a dedicated segment, much like equity shares. To invest in EGRs, you need a demat account and a trading account with a SEBI-registered broker. When you purchase an EGR, the units are credited to your demat account in electronic form. Each unit typically represents 1 gram of 995 purity physical gold. This dematerialised format ensures ease of holding, transfer, and sale, eliminating the risks associated with storing physical gold. The trading process is transparent, with real-time price discovery based on demand and supply.
+</p>
+<h3>Understanding the Underlying Gold</h3>
+<p>
+The core strength of EGRs lies in their backing by physical gold. The gold corresponding to the EGRs is deposited in SEBI-approved vaults. These vaults are managed by agencies accredited by SEBI, ensuring stringent security and audit protocols. This mechanism guarantees that every EGR unit you own is a direct claim to a specific quantity and purity of gold, held securely and independently. The purity standard is typically 995, which is high-grade gold, ensuring investors receive a standardised product.
+</p>
+<h3>Conversion to Physical Gold</h3>
+<p>
+One of the unique features of EGRs is the option for conversion into physical gold. Investors who hold a sufficient quantity of EGRs (typically in multiples of 10 grams, though this can vary by exchange and product) can request their broker to convert their electronic holdings into physical gold. The vaulting agency then delivers the corresponding physical gold to the investor. This process involves a small fee for assaying, vaulting, and delivery. This convertibility ensures that the digital asset retains its intrinsic link to the physical commodity, offering flexibility to investors who might eventually prefer to hold physical gold.
+</p>
+<h2>Key Advantages of Investing in EGRs</h2>
+<p>
+EGRs offer several compelling benefits that make them an attractive option for both seasoned and new gold investors, addressing many of the traditional challenges associated with gold ownership.
+</p>
+<h3>Purity, Storage, and Liquidity</h3>
+<p>
+A primary concern with physical gold, especially jewellery, is its purity. EGRs eliminate this worry as they are backed by 995 purity physical gold, verified and stored in SEBI-regulated vaults. This standardisation means you don&#x27;t need to worry about the gold&#x27;s authenticity. Secure storage is another significant advantage; by holding gold in dematerialised form, investors are free from the risks of theft, loss, or the need for expensive home lockers. Furthermore, EGRs offer high liquidity. Since they are traded on a stock exchange, you can buy or sell them easily during market hours at prevailing market prices, providing quick access to your investment value.
+</p>
+<h3>Cost Efficiency and Transparency</h3>
+<p>
+Investing in physical gold often involves additional costs like making charges on jewellery, which can be substantial, and a 3% Goods and Services Tax (GST) on the full value of the jewellery. With EGRs, you avoid making charges entirely. While GST is applicable on the purchase of EGRs, it is typically on the transaction value, and the structure is generally more cost-efficient for investment purposes compared to physical jewellery. The pricing of EGRs is transparent, reflecting real-time market dynamics on the exchange, ensuring fair value discovery for both buyers and sellers. This transparency, combined with lower associated costs, makes EGRs a more efficient way to gain exposure to gold prices.
+</p>
+<h2>Taxation Aspects of EGR Investments</h2>
+<p>
+Understanding the tax implications is crucial for any investment, and Electronic Gold Receipts (EGRs) are no exception. The tax treatment of EGRs is generally aligned with that of other capital assets like shares or Gold Exchange Traded Funds (ETFs).
+</p>
+<h3>Capital Gains on EGRs</h3>
+<p>
+When you sell your EGRs, any profit you make is subject to capital gains tax.
+</p>
+<ul>
+<li><strong>Short-Term Capital Gains (STCG):</strong> If you sell your EGRs within 36 months (3 years) of purchase, the gains are considered short-term. These gains are added to your total income and taxed according to your applicable income tax slab rate.</li>
+<li><strong>Long-Term Capital Gains (LTCG):</strong> If you sell your EGRs after holding them for more than 36 months, the gains are classified as long-term. LTCG on EGRs is taxed at a flat rate of 20% after allowing for indexation benefits. Indexation adjusts the purchase price for inflation, thereby reducing the taxable gain and lowering your overall tax liability. This benefit makes long-term holding of EGRs potentially more tax-efficient.</li>
+</ul>
+<h3>GST Implications</h3>
+<p>
+At the time of purchasing EGRs, a Goods and Services Tax (GST) of 3% is applicable on the transaction value. This is similar to the GST levied on physical gold purchases. However, unlike physical gold jewellery where GST is also applied to making charges, EGRs do not have this additional component. When you convert your EGRs into physical gold, an additional GST might be applicable on the conversion charges and any difference in the value of gold, if applicable, although the primary 3% GST would have already been paid at the time of initial purchase.
+</p>
+<h2>EGRs vs. Other Gold Investment Avenues</h2>
+<p>
+Investors have a variety of options to invest in gold, each with its unique characteristics. Understanding how EGRs compare to these alternatives can help in making an informed decision.
+</p>
+<h3>EGRs vs. Physical Gold</h3>
+<p>
+The most traditional form of gold investment is physical gold, such as jewellery, coins, or bars. While physical gold offers tangible ownership and cultural value, it comes with significant drawbacks. Purity can be a concern, storage requires secure arrangements, and liquidity can be an issue when selling. Making charges on jewellery and the full 3% GST further add to the cost. EGRs, in contrast, offer certified purity (995), secure vaulting without personal storage worries, and high liquidity through exchange trading. They also avoid making charges, making them a more efficient investment vehicle for price appreciation rather than consumption.
+</p>
+<h3>EGRs vs. Gold ETFs and SGBs</h3>
+<p>
+<strong>Gold Exchange Traded Funds (ETFs)</strong> are mutual funds that invest in physical gold. Like EGRs, they are traded on stock exchanges, held in demat form, and offer high liquidity and purity. The key difference is that Gold ETFs are an indirect way of owning gold, as they are units of a fund that holds gold, whereas EGRs are direct receipts for physical gold. This distinction can be important for investors who prefer direct ownership or the option to convert to physical gold.
+</p>
+<p>
+<strong>Sovereign Gold Bonds (SGBs)</strong> are government securities denominated in grams of gold. Issued by the Reserve Bank of India (RBI) on behalf of the Government of India, SGBs offer a fixed interest rate (currently 2.50% per annum) over and above the capital appreciation. They have an eight-year maturity period with an exit option after the fifth year. SGBs also offer tax benefits, with the interest taxable as per slab, but capital gains on redemption after 8 years are exempt from tax. While SGBs are excellent for long-term, passive gold investment with an added income stream and tax benefits, they lack the immediate liquidity of EGRs and Gold ETFs, as they can only be sold on the secondary market before maturity or redeemed at specific intervals. EGRs are better suited for investors seeking higher liquidity and direct ownership with the option of physical conversion.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Priya, 35, a software engineer with ₹20L CTC, based in Mumbai</strong>, who decided to invest in gold for portfolio diversification.
+</p>
+<p>
+<strong>Scenario:</strong>
+Priya decided to invest ₹5,00,000 in Electronic Gold Receipts (EGRs) in July 2020.
+At that time, let&#x27;s assume the price of 1 gram of 995 purity gold was ₹49,000.
+Number of EGR units purchased: ₹5,00,000 / ₹49,000 per 10 grams = 102.04 units (approximately 102 grams).
+Total investment: ₹5,00,000.
+Cost Inflation Index (CII) for FY 2020-21 (year of purchase): 301.
+</p>
+<p>
+Priya held these EGRs for over three years and decided to sell them in September 2023.
+At the time of sale, let&#x27;s assume the price of 1 gram of 995 purity gold was ₹60,000.
+Sale value: 102 grams * ₹60,000 per 10 grams = ₹6,12,000.
+CII for FY 2023-24 (year of sale): 348.
+</p>
+<p>
+<strong>Calculation of Long-Term Capital Gains (LTCG):</strong>
+</p>
+<ol>
+<li><strong>Indexed Cost of Acquisition:</strong></li>
+<p>
+    (Cost of Acquisition * CII of Year of Sale) / CII of Year of Purchase
+    (₹5,00,000 * 348) / 301 = ₹5,78,073.09 (approx)
+</p>
+</ol>
+<ol>
+<li><strong>Long-Term Capital Gain:</strong></li>
+<p>
+    Sale Value - Indexed Cost of Acquisition
+    ₹6,12,000 - ₹5,78,073.09 = ₹33,926.91
+</p>
+</ol>
+<ol>
+<li><strong>Tax on LTCG:</strong></li>
+<p>
+    LTCG is taxed at 20% (plus cess, if applicable).
+    20% of ₹33,926.91 = ₹6,785.38
+</p>
+</ol>
+<p>
+In this example, Priya made a profit of ₹1,12,000 (₹6,12,000 - ₹5,00,000) on her investment. However, after accounting for indexation benefits, her taxable capital gain was reduced to ₹33,926.91, resulting in a tax liability of approximately ₹6,785. This illustrates how indexation can significantly reduce the tax burden on long-term gold investments like EGRs.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your gold investment goals:</strong> Determine if you seek capital appreciation, portfolio diversification, or a hedge against inflation, and how gold fits into your overall financial plan.</li>
+<li><strong>Check your demat account:</strong> Confirm with your broker if your existing demat and trading account supports transactions in Electronic Gold Receipts (EGRs) on the NSE.</li>
+<li><strong>Research current EGR prices and liquidity:</strong> Monitor the NSE platform for real-time EGR prices and trading volumes to understand market liquidity and price movements.</li>
+<li><strong>Understand the conversion process:</strong> If physical gold conversion is a future consideration, familiarise yourself with the minimum quantity required and associated charges for converting EGRs to physical gold.</li>
+<li><strong>Consult a Certified Financial Planner:</strong> Discuss how EGRs align with your specific financial situation, risk tolerance, and tax planning strategies before making an investment decision.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is an Electronic Gold Receipt (EGR)?</h3>
+<p>
+An EGR is a digital instrument representing ownership of physical gold of a specified purity and quantity, typically 1 gram of 995 purity gold, stored in SEBI-approved vaults. It is traded on stock exchanges like the NSE.
+</p>
+<h3>Who regulates EGRs in India?</h3>
+<p>
+Electronic Gold Receipts are regulated by the Securities and Exchange Board of India (SEBI). SEBI oversees the exchanges, vaulting agencies, and other intermediaries involved to ensure investor protection and market integrity.
+</p>
+<h3>Can I convert my EGRs into physical gold?</h3>
+<p>
+Yes, one of the key features of EGRs is their convertibility into physical gold. Investors holding a minimum specified quantity (e.g., 10 grams) can request their broker to convert their electronic units into physical gold, which is then delivered from the vault.
+</p>
+<h3>Are EGRs a safe investment?</h3>
+<p>
+EGRs are considered safe as they are backed by physical gold stored in SEBI-regulated vaults, ensuring purity and security. The trading platform is regulated by SEBI, providing transparency and investor safeguards.
+</p>
+<h3>How are capital gains on EGRs taxed?</h3>
+<p>
+Short-term capital gains (holding period up to 36 months) are added to your income and taxed at your slab rate. Long-term capital gains (holding period over 36 months) are taxed at 20% with indexation benefits.
+</p>
+<h3>What is the minimum investment required for EGRs?</h3>
+<p>
+EGRs are typically traded in units of 1 gram, making them accessible even for small investments. The minimum investment would be the price of one gram of gold plus brokerage and GST.
+</p>
+<h3>How do EGRs differ from Gold ETFs?</h3>
+<p>
+While both are digital ways to invest in gold, EGRs represent direct ownership of physical gold in a vault with an option for physical conversion. Gold ETFs are units of a mutual fund that invests in physical gold, offering indirect exposure to gold prices.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>National Stock Exchange of India: <a href="https://www.nseindia.com/products-services/equity-market-electronic-gold-receipts-egr" rel="noopener" target="_blank">https://www.nseindia.com/products-services/equity-market-electronic-gold-receipts-egr</a></li>
+<li>Securities and Exchange Board of India: <a href="https://sebi.gov.in" rel="noopener" target="_blank">https://sebi.gov.in</a></li>
+<li>Income Tax Department, Government of India: <a href="https://incometax.gov.in" rel="noopener" target="_blank">https://incometax.gov.in</a></li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
