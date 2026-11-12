@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Market Wrap — 12 November 2026</title>
+<meta name="description" content="Indian equities closed with modest gains, led by Bank Nifty and broader markets, despite mixed global cues. Strong FII inflows of ₹12,563 crore provided signi.">
+<meta name="keywords" content="stocks, markets, nvidia, sector, economictimes, indiatimes, inflation, strong">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-12-post_market-market-wrap-12-november-2026/">
+<meta property="og:title" content="Market Wrap — 12 November 2026">
+<meta property="og:description" content="Indian equities closed with modest gains, led by Bank Nifty and broader markets, despite mixed global cues. Strong FII inflows of ₹12,563 crore provided signi.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-12-post_market-market-wrap-12-november-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Market Wrap \u2014 12 November 2026", "description": "Indian equities closed with modest gains, led by Bank Nifty and broader markets, despite mixed global cues. Strong FII inflows of \u20b912,563 crore provided signi.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-12", "dateModified": "2026-11-12", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-12-post_market-market-wrap-12-november-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/" class="active">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Market Wrap · 2026-11-12</div><h1>Market Wrap — 12 November 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Indian equities closed with modest gains, led by Bank Nifty and broader markets, despite mixed global cues.</li>
+<li>Strong FII inflows of ₹12,563 crore provided significant support to the market.</li>
+<li>Realty, Media, and PSU Bank sectors were the standout performers, seeing robust buying interest.</li>
+<li>Auto, FMCG, and Energy sectors faced selling pressure, ending the day in the red.</li>
+<li>FIIs continued their buying spree for the fifth consecutive session, while DIIs remained net sellers.</li>
+<li>F&amp;O build-up data for individual stocks is unavailable for today&#x27;s session.</li>
+</ul>
+</div>
+<h2>How the market behaved today</h2>
+<p>
+Indian markets witnessed a largely positive session today, with the Nifty 50 closing slightly higher and the Bank Nifty leading the charge. The broader market indices, Nifty Midcap 100 and Nifty Smallcap 100, also posted healthy gains, indicating a positive sentiment across segments. The market opened with a slight gap up and largely trended upwards through the day, although the Nifty 50 saw some consolidation in the latter half.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>Change</th><th>High</th><th>Low</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>25299.35</td><td>+0.18%</td><td>25384.80</td><td>25142.95</td></tr>
+<tr><td>Bank Nifty</td><td>61518.50</td><td>+1.19%</td><td>61545.85</td><td>60723.10</td></tr>
+<tr><td>Midcap 100</td><td>62039.00</td><td>+0.85%</td><td>62197.80</td><td>61379.45</td></tr>
+<tr><td>Smallcap 100</td><td>19706.75</td><td>+1.12%</td><td>19787.25</td><td>19526.90</td></tr>
+</tbody></table>
+<p>
+The India VIX, a measure of market volatility, cooled off significantly, dropping by 5.35% to 16.62. This suggests a reduction in immediate market uncertainty.
+</p>
+<h2>What moved the market — the factors</h2>
+<p>
+Today&#x27;s market action was primarily driven by robust buying from Foreign Institutional Investors (FIIs), who pumped in a substantial ₹12,563 crore. This strong inflow helped offset some of the negative global sentiment stemming from the turmoil surrounding Nvidia&#x27;s CEO and its impact on US tech stocks. Domestically, there was clear sector rotation at play, with Realty, Media, and PSU Banks attracting significant buying interest. The Bank Nifty&#x27;s strong performance, gaining 1.19%, was a key contributor to the overall market&#x27;s positive close.
+</p>
+<p>
+Conversely, sectors like Auto, FMCG, and Energy faced headwinds, indicating profit-booking or concerns specific to these segments. The rupee also slipped against the dollar amidst rising oil prices and inflation fears, which could be a subtle underlying concern for the broader market. The bond market also showed weakness, tracking US Treasury yields, ahead of fresh debt supply and mounting inflation pressures.
+</p>
+<h2>Sectors — winners and losers</h2>
+<p>
+<strong>Top 3 Gainer Sectors:</strong>
+</p>
+<ul>
+<li><strong>REALTY:</strong> +4.51% - The sector saw strong buying interest, possibly on expectations of continued demand or specific positive news, despite broader inflation concerns.</li>
+<li><strong>MEDIA:</strong> +2.46% - Media stocks rallied, with specific news like Zee Entertainment&#x27;s share buyback likely boosting sentiment.</li>
+<li><strong>PSU BANK:</strong> +1.51% - Public sector banks continued their positive momentum, with some like Punjab National Bank hitting 52-week highs.</li>
+</ul>
+<p>
+<strong>Top 3 Loser Sectors:</strong>
+</p>
+<ul>
+<li><strong>AUTO:</strong> -1.02% - The auto sector faced selling pressure, potentially due to concerns about consumer spending amidst rising inflation.</li>
+<li><strong>FMCG:</strong> -0.74% - Fast-moving consumer goods companies saw declines, likely impacted by fears of reduced household purchasing power due to inflation.</li>
+<li><strong>ENERGY:</strong> -0.42% - The energy sector ended in the red, possibly influenced by global crude oil price movements or specific stock-related news.</li>
+</ul>
+<h2>Stocks that moved the market</h2>
+<h3>Top 5 gainers (Nifty 500)</h3>
+<p>
+data unavailable
+</p>
+<h3>Top 5 losers (Nifty 500)</h3>
+<p>
+data unavailable
+</p>
+<h2>News that moved stocks</h2>
+<ul>
+<li><strong>Zee Entertainment approves ₹600-crore share buyback at ₹91 apiece; promoters to stay out:</strong> Zee Entertainment&#x27;s board approved a significant share buyback program at a premium to its current market price. This news likely provided a strong boost to the <strong>Media sector</strong> and <strong>Zee Entertainment</strong> stock.</li>
+<li><strong>Punjab National Bank among 4 stocks hitting 52-week highs; rally up to 22% in a month:</strong> Punjab National Bank, along with Federal Bank and Kotak Mahindra Bank, reached fresh 52-week highs. This positive news contributed to the strong performance of the <strong>PSU Bank sector</strong> and specifically boosted <strong>Punjab National Bank</strong> and other banking stocks.</li>
+<li><strong>Clean Max Enviro Energy pledges ₹50,000 crore investment in Andhra Pradesh:</strong> Clean Max Enviro Energy Solutions announced a massive investment in integrated power generation facilities in Andhra Pradesh. This is a significant development for the <strong>renewable energy sector</strong> and could have positive long-term implications for the company and related industries.</li>
+<li><strong>October retail inflation surge may weigh on housing demand, raise rate hike concerns: Knight Frank, PHDCCI:</strong> Reports indicating a surge in October retail inflation raised concerns about its potential impact on household purchasing power and discretionary spending, including housing. This news could be a dampener for the <strong>Realty sector</strong> in the longer term and fuels speculation about future interest rate hikes by the RBI, impacting the broader <strong>market sentiment</strong>.</li>
+<li><strong>Nvidia default risk nears record high as board weighs CEO’s fate; US stocks fall as Nvidia CEO exit rattles AI stocks:</strong> Significant global news revolved around Nvidia, with its CEO Jensen Huang&#x27;s future being evaluated by the board amidst personal controversies, leading to a drop in Nvidia&#x27;s stock and unsettling the broader <strong>AI sector</strong> and <strong>US stock markets</strong>. While this primarily impacted global markets, it created a cautious backdrop for Indian equities.</li>
+</ul>
+<h2>F&amp;O build-up — where traders are positioning</h2>
+<p>
+OI build-up needs the previous session&#x27;s OI — it will populate from the next run.
+</p>
+<h3>Long build-up (bullish — price up, OI up)</h3>
+<p>
+data unavailable
+</p>
+<h3>Short build-up (bearish — price down, OI up)</h3>
+<p>
+data unavailable
+</p>
+<h3>Short covering (price up, OI down)</h3>
+<p>
+data unavailable
+</p>
+<h3>Long unwinding (price down, OI down)</h3>
+<p>
+data unavailable
+</p>
+<p>
+<strong>Interpretation:</strong>
+When we see &#x27;Long build-up&#x27;, it typically indicates fresh buying interest in a stock, suggesting that traders expect the price to continue rising. &#x27;Short build-up&#x27;, on the other hand, points to fresh selling pressure, with traders anticipating a fall in price. &#x27;Short covering&#x27; occurs when traders who had previously sold short positions buy back to close them, often leading to a temporary price bounce, but not necessarily indicating underlying strength. Lastly, &#x27;Long unwinding&#x27; suggests that traders who held long positions are selling them off, either to book profits or due to weakening conviction, which can lead to a price decline.
+</p>
+<h2>Market breadth</h2>
+<p>
+data unavailable
+</p>
+<h2>FII / DII flows</h2>
+<p>
+Foreign Institutional Investors (FIIs) were strong net buyers today, infusing ₹12,563 crore into the Indian equity market. Domestic Institutional Investors (DIIs), however, were net sellers, pulling out ₹8,435 crore.
+</p>
+<table><thead><tr><th>Investor Type</th><th>Net Flow (₹ crore)</th></tr></thead><tbody>
+<tr><td>FII</td><td>+12,563</td></tr>
+<tr><td>DII</td><td>-8,435</td></tr>
+</tbody></table>
+<p>
+Looking at the 5-day history, FIIs have been consistently net buyers, with today marking their fifth consecutive day of significant inflows. Over the same period, DIIs have been consistent net sellers, indicating a divergence in investment strategies between the two institutional categories. This sustained FII buying has been a crucial support for the Indian markets recently.
+</p>
+<h2>Event breakdown — what happened today and how it hit the market</h2>
+<p>
+Today&#x27;s session was primarily driven by a combination of strong FII inflows and selective sector rotation, which helped the Indian market maintain a positive trajectory despite mixed global cues. While the news surrounding Nvidia&#x27;s CEO and its impact on global AI stocks created some caution, the domestic market found strength from institutional buying.
+</p>
+<p>
+The <strong>Media sector</strong> saw a boost from Zee Entertainment&#x27;s significant share buyback announcement, while <strong>PSU Banks</strong> continued their upward trend, with some hitting 52-week highs. The <strong>Realty sector</strong> also performed exceptionally well, attracting considerable buying. On the flip side, concerns about rising retail inflation, as highlighted by Knight Frank and PHDCCI, weighed on sectors like <strong>Auto</strong> and <strong>FMCG</strong>, which are sensitive to consumer spending. The weakening rupee and rising bond yields also added a layer of underlying caution, suggesting that while FII flows are strong, domestic inflationary pressures remain a key monitorable.
+</p>
+<h2>Setup for tomorrow</h2>
+<p>
+Tomorrow, global cues will continue to play a role, with investors watching how US markets react to the ongoing Nvidia situation and any further developments in the AI sector. The movement in crude oil prices, the dollar index, and US Treasury yields will also be important pointers. Domestically, the market will keep an eye on the inflation narrative and any further news on bond yields. Sectors like banking and realty, which showed strength today, will be on watch, while any further weakness in auto and FMCG could indicate continued pressure. Key levels for Nifty 50 and Bank Nifty will be crucial for traders to monitor.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>https://economictimes.indiatimes.com/markets/digital-real-estate/realty-news/october-retail-inflation-surge-may-weigh-on-housing-demand-raise-rate-hike-concerns-knight-frank-phdcci/articleshow/135776096.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/nvidia-default-risk-nears-record-high-as-board-weighs-ceos-fate/articleshow/135775893.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-us-market-opens-lower-after-nvidia-ceo-steps-down/articleshow/135773944.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/news/nebius-beats-quarterly-revenue-estimates-on-strong-ai-demand/articleshow/135771184.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/news/nasdaq-sp-500-futures-fall-as-nvidia-turbulence-unsettles-ai-stocks/articleshow/135771074.cms</li>
+<li>https://economictimes.indiatimes.com/markets/companies/clean-max-enviro-energy-pledges-rs-50000-crore-investment-in-andhra-pradesh/articleshow/135771043.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/stock-market-live-updates-dow-jones-nasdaq-sp-500-nvidia-intel-micron-ai-stocks-marvell-coreweave-ai-chip-stocks-treasury-yield-news-12th-november-2026/liveblog/135771380.cms</li>
+<li>https://economictimes.indiatimes.com/markets/bonds/india-bonds-track-treasury-weakness-ahead-of-debt-supply/articleshow/135769595.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/news/punjab-national-bank-among-4-stocks-hitting-52-week-highs-rally-up-to-22-in-a-month/slideshow/135769519.cms</li>
+<li>https://economictimes.indiatimes.com/markets/us-stocks/news/nvidia-boardroom-turmoil-whats-happening-to-jensen-huang/videoshow/135769095.cms</li>
+<li>https://economictimes.indiatimes.com/markets/stocks/news/zee-entertainment-approves-rs-600-crore-share-buyback-at-rs-91-apiece-promoters-to-stay-out/articleshow/135767979.cms</li>
+<li>https://economictimes.indiatimes.com/markets/forex/forex-news/rupee-slips-with-traders-clinging-to-equity-cues-awaiting-inflation-data/articleshow/135765691.cms</li>
+<li>https://www.livemint.com/market/analysisfrom-spacex-to-anthropic-markets-have-a-new-playbook-for-mega-share-debuts-11794508676673.html</li>
+<li>https://www.livemint.com/market/nvidia-options-traders-bank-on-longer-term-stock-recovery-11794508427878.html</li>
+<li>https://www.livemint.com/market/stock-market-news/nvidia-stock-crash-short-seller-flagged-jensen-huang-s-close-ties-to-alice-huang-months-before-ceo-s-resignation-11794502597338.html</li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
