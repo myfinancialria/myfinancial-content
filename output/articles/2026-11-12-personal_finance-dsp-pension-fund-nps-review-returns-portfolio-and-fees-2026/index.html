@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>DSP Pension Fund NPS Review: Returns, Portfolio, and Fees (2026)</title>
+<meta name="description" content="DSP Pension Fund, a relatively newer entrant, offers National Pension System (NPS) investment options across equity, corporate bonds, and government securitie.">
+<meta name="keywords" content="pension, equity, corporate, charges, returns, investment, allocation, choice">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-12-personal_finance-dsp-pension-fund-nps-review-returns-portfolio-and-fees-2026/">
+<meta property="og:title" content="DSP Pension Fund NPS Review: Returns, Portfolio, and Fees (2026)">
+<meta property="og:description" content="DSP Pension Fund, a relatively newer entrant, offers National Pension System (NPS) investment options across equity, corporate bonds, and government securitie.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-12-personal_finance-dsp-pension-fund-nps-review-returns-portfolio-and-fees-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "DSP Pension Fund NPS Review: Returns, Portfolio, and Fees (2026)", "description": "DSP Pension Fund, a relatively newer entrant, offers National Pension System (NPS) investment options across equity, corporate bonds, and government securitie.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-12", "dateModified": "2026-11-12", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-12-personal_finance-dsp-pension-fund-nps-review-returns-portfolio-and-fees-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Personal Finance · 2026-11-12</div><h1>DSP Pension Fund NPS Review: Returns, Portfolio, and Fees (2026)</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>DSP Pension Fund, a relatively newer entrant, offers National Pension System (NPS) investment options across equity, corporate bonds, and government securities.</li>
+<li>Its 1-year equity returns have recently been noted as the weakest among peers in 2026, which is an important consideration for equity-focused investors.</li>
+<li>The fund&#x27;s corporate bond portfolio is characterised by a significant allocation to AA-rated instruments, suggesting a focus on credit quality within that segment.</li>
+<li>NPS subscribers can choose between Active Choice, allowing personal asset allocation, or Auto Choice, which adjusts allocation based on age.</li>
+<li>Understanding the fund&#x27;s performance, investment strategy, and fee structure is crucial for making informed long-term retirement planning decisions.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+The National Pension System (NPS) is a voluntary, long-term retirement savings scheme regulated by the Pension Fund Regulatory and Development Authority (PFRDA). It&#x27;s designed to help individuals build a retirement corpus through market-linked investments. When you invest in NPS, your money is managed by a Pension Fund Manager (PFM) like DSP Pension Fund, which invests across different asset classes such as equities, corporate bonds, and government securities.
+</p>
+<p>
+DSP Pension Fund is one of the PFMs available to NPS subscribers. This review looks at how DSP has performed, what kind of assets it invests in, and the charges it levies. For long-term savings like retirement, it&#x27;s essential to understand these aspects to ensure your chosen fund aligns with your financial goals and risk appetite.
+</p>
+<h2>Understanding DSP Pension Fund within NPS</h2>
+<p>
+DSP Pension Fund operates as one of the approved Pension Fund Managers under the National Pension System. Its primary role is to invest the contributions made by NPS subscribers into various asset classes, aiming to generate long-term returns for their retirement corpus. As a PFM, DSP offers different fund options, broadly categorised by asset class:
+</p>
+<ul>
+<li><strong>Asset Class E (Equity):</strong> Primarily invests in equity and equity-related instruments.</li>
+<li><strong>Asset Class C (Corporate Bonds):</strong> Primarily invests in corporate bonds and debt instruments.</li>
+<li><strong>Asset Class G (Government Securities):</strong> Primarily invests in government securities.</li>
+<li><strong>Asset Class A (Alternative Investment Funds):</strong> A smaller allocation for those seeking higher risk/return, subject to specific limits.</li>
+</ul>
+<p>
+Subscribers have the flexibility to choose how their contributions are allocated across these asset classes through two main options:
+</p>
+<h3>Active Choice vs. Auto Choice</h3>
+<ul>
+<li><strong>Active Choice:</strong> This option allows subscribers to actively decide the percentage allocation to each asset class. For instance, a subscriber might choose 75% in Equity, 15% in Corporate Bonds, and 10% in Government Securities, subject to maximum limits (e.g., 75% in equity until age 50, decreasing thereafter). This is suitable for those who wish to have direct control over their investment mix.</li>
+<li><strong>Auto Choice (Lifecycle Fund):</strong> For subscribers who prefer a simpler approach, Auto Choice automatically allocates funds based on their age. As the subscriber gets older, the allocation to equity gradually reduces, and the allocation to debt instruments increases, aiming to de-risk the portfolio over time. There are three types of Auto Choice: Aggressive (LC75), Moderate (LC50), and Conservative (LC25), indicating the maximum equity exposure at younger ages.</li>
+</ul>
+<p>
+DSP Pension Fund manages funds under both Active and Auto Choice, allowing subscribers to align their investment strategy with their comfort level.
+</p>
+<h2>Performance Review: Returns Across Asset Classes</h2>
+<p>
+When evaluating a Pension Fund Manager like DSP, historical returns are a key indicator, though past performance is not a guarantee of future results. Based on recent observations in 2026, DSP Pension Fund&#x27;s performance has shown varied trends across its asset classes.
+</p>
+<h3>Equity (Asset Class E) Performance</h3>
+<p>
+For the 1-year period ending in 2026, DSP Pension Fund&#x27;s equity returns have been noted as the weakest among its peers. This specific data point suggests that for investors primarily focused on short-to-medium term equity performance, other PFMs might have delivered stronger returns in this particular timeframe. However, it&#x27;s crucial to consider longer-term performance (3-year, 5-year, 10-year, and inception-to-date) to get a comprehensive picture, as equity markets can be volatile in the short run. A single year&#x27;s underperformance does not necessarily define a fund&#x27;s long-term potential.
+</p>
+<h3>Corporate Bonds (Asset Class C) and Government Securities (Asset Class G) Performance</h3>
+<p>
+While specific return figures for DSP&#x27;s corporate bond and government securities funds across all timeframes were not detailed in the provided summary, the fund&#x27;s approach to corporate bonds is noteworthy. It has been observed to hold a significant proportion of AA-rated corporate bonds. This indicates a strategy that prioritises credit quality within the corporate debt segment, potentially leading to more stable, albeit possibly lower, returns compared to funds taking on higher credit risk (e.g., investing in A-rated or lower bonds). Government securities funds (Asset Class G) typically offer lower but highly stable returns, reflecting their sovereign backing.
+</p>
+<p>
+Investors should regularly check the latest performance data published by the NPS Trust or PFRDA to compare DSP&#x27;s returns across all asset classes and time horizons against other PFMs.
+</p>
+<h2>Portfolio Strategy and Asset Allocation</h2>
+<p>
+DSP Pension Fund&#x27;s investment philosophy, particularly for its debt components, leans towards a conservative approach in terms of credit risk.
+</p>
+<h3>Corporate Bond Portfolio Focus</h3>
+<p>
+The fund&#x27;s strategy regarding corporate bonds is characterised by a preference for higher-rated instruments. Having the &quot;most AA-rated corporate bonds&quot; among peers suggests a focus on mitigating credit risk. AA-rated bonds are considered to have a high degree of safety regarding timely payment of financial obligations, though they carry slightly more risk than AAA-rated bonds. This approach aims to provide stability and predictable income, which is often desirable for a long-term retirement product like NPS.
+</p>
+<h3>Equity Investment Strategy</h3>
+<p>
+While specific details on DSP&#x27;s equity investment strategy (e.g., large-cap, multi-cap focus, growth vs. value) were not provided, all PFMs generally invest in a diversified portfolio of Indian equities. The equity component of NPS funds is designed for long-term capital appreciation, aligning with the retirement goal. The PFRDA sets guidelines for the types of securities PFMs can invest in, ensuring a level of standardisation and safety across all funds.
+</p>
+<h3>Regulatory Framework for Asset Allocation</h3>
+<p>
+All Pension Fund Managers, including DSP, operate within strict investment guidelines set by the PFRDA. These guidelines dictate the maximum and minimum allocation percentages to each asset class (Equity, Corporate Bonds, Government Securities, and Alternative Assets) and the types of instruments within each class. This regulatory oversight ensures that PFMs adhere to prudent investment practices, safeguarding subscribers&#x27; interests. The guidelines also specify diversification limits to prevent overexposure to any single security or sector.
+</p>
+<h2>Fees and Charges for DSP Pension Fund</h2>
+<p>
+The fee structure for Pension Fund Managers under NPS is highly regulated by the PFRDA, making it one of the most cost-effective investment options for retirement savings in India. The charges are uniform across all PFMs, including DSP Pension Fund.
+</p>
+<h3>Investment Management Fees</h3>
+<p>
+The PFRDA specifies the maximum investment management fees that PFMs can charge. These fees are typically very low, often expressed in basis points (bps). As of the latest regulations, the maximum investment management fee is usually around 0.09% to 0.10% per annum of the assets under management (AUM). This low-cost structure is a significant advantage of NPS, allowing a larger portion of your contributions to grow over the long term.
+</p>
+<h3>Other Charges</h3>
+<p>
+Beyond the investment management fees, subscribers also incur other charges related to the NPS account, which are not specific to the PFM but apply to the overall NPS ecosystem:
+</p>
+<ul>
+<li><strong>Point of Presence (PoP) Charges:</strong> These are transaction charges levied by the entity (bank, financial institution) through which you open your NPS account and make contributions. These can include initial registration charges and subsequent transaction charges, usually a small percentage of the contribution amount or a fixed fee.</li>
+<li><strong>Central Recordkeeping Agency (CRA) Charges:</strong> The CRA maintains your NPS account and records all transactions. There are nominal annual maintenance charges and per-transaction charges levied by the CRA.</li>
+<li><strong>Custodian Charges:</strong> These are for the safekeeping of your securities and are also very low, typically a percentage of the AUM.</li>
+<li><strong>Annuity Charges:</strong> At the time of retirement, when you convert a portion of your NPS corpus into an annuity, the annuity service provider will levy its own charges, which are separate from PFM fees.</li>
+</ul>
+<p>
+It&#x27;s important to note that all these charges are transparent and regulated by the PFRDA, ensuring that subscribers are not subject to excessive fees. Details of all charges are available on the NPS Trust website.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider Anjali, 32, earning ₹22L CTC, based in Gurugram, who started investing in NPS five years ago. She contributes ₹10,000 per month (₹1.2 lakhs per annum) to her Tier I NPS account. She chose DSP Pension Fund under the Active Choice, with an allocation of 70% in Equity (Asset Class E), 20% in Corporate Bonds (Asset Class C), and 10% in Government Securities (Asset Class G).
+</p>
+<p>
+<strong>Initial Contribution (5 years ago):</strong> ₹1.2 lakhs per annum x 5 years = ₹6 lakhs.
+</p>
+<p>
+Let&#x27;s assume the following average annualised returns over these five years for DSP Pension Fund (illustrative, not actual returns):
+</p>
+<ul>
+<li>Equity (E): 12% per annum</li>
+<li>Corporate Bonds (C): 8% per annum</li>
+<li>Government Securities (G): 7% per annum</li>
+</ul>
+<p>
+<strong>Calculation of Corpus Growth:</strong>
+</p>
+<p>
+For simplicity, we&#x27;ll calculate the approximate growth on her total contribution over 5 years. A more precise calculation would involve compounding each monthly contribution.
+</p>
+<p>
+<strong>Average Portfolio Return (Weighted):</strong>
+(70% x 12%) + (20% x 8%) + (10% x 7%)
+= 8.4% + 1.6% + 0.7%
+= 10.7% per annum
+</p>
+<p>
+If Anjali&#x27;s ₹6 lakhs had grown at an average of 10.7% per annum over 5 years:
+Future Value = Present Value * (1 + Rate)^Years
+Future Value = ₹6,00,000 * (1 + 0.107)^5
+Future Value = ₹6,00,000 * (1.657) (approx)
+Future Value ≈ ₹9,94,200
+</p>
+<p>
+So, her approximate NPS corpus with DSP Pension Fund would be around ₹9.94 lakhs. This calculation is a simplification to illustrate the concept. The actual corpus would be slightly higher due to monthly compounding and consistent contributions.
+</p>
+<p>
+Anjali reviews her PFM&#x27;s performance annually. While DSP&#x27;s 1-year equity returns in 2026 might be a concern, she would also look at 3-year and 5-year returns, and the overall fund management quality, especially its debt portfolio&#x27;s credit quality, before making any decisions to switch her PFM.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your current NPS statement:</strong> Log in to the NPS Trust website using your PRAN and check your latest account statement. Understand your current asset allocation and the PFM managing your funds.</li>
+<li><strong>Compare PFM performance:</strong> Visit the NPS Trust website or PFRDA website to access the latest performance data for all Pension Fund Managers across different asset classes and time horizons. Compare DSP Pension Fund&#x27;s returns against others, especially for your chosen asset classes.</li>
+<li><strong>Assess your risk profile:</strong> Re-evaluate if your current Active Choice asset allocation or Auto Choice option still aligns with your age, financial goals, and risk tolerance. Consider if a shift in allocation or PFM is warranted based on your long-term strategy.</li>
+<li><strong>Understand PFM fees:</strong> Familiarise yourself with the transparent fee structure of NPS, including investment management fees, CRA charges, and PoP charges, to ensure you understand the costs associated with your retirement savings.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the National Pension System (NPS)?</h3>
+<p>
+NPS is a voluntary, long-term savings scheme regulated by PFRDA, designed to help individuals build a retirement corpus. It offers market-linked returns and tax benefits under Sections 80C, 80CCD(1), and 80CCD(1B) of the Income Tax Act, 1961.
+</p>
+<h3>How does DSP Pension Fund fit into NPS?</h3>
+<p>
+DSP Pension Fund is one of the Pension Fund Managers (PFMs) approved by PFRDA. Subscribers can choose DSP to manage their NPS contributions, which it then invests across various asset classes like equity, corporate bonds, and government securities according to the chosen investment strategy.
+</p>
+<h3>Can I switch my Pension Fund Manager (PFM)?</h3>
+<p>
+Yes, NPS subscribers have the flexibility to switch their PFM once a year for Tier I accounts. This can be done online through the NPS portal or by submitting a physical request to your Point of Presence (PoP).
+</p>
+<h3>What is the difference between Active Choice and Auto Choice?</h3>
+<p>
+Active Choice allows subscribers to manually decide their asset allocation across Equity, Corporate Bonds, and Government Securities. Auto Choice, or Lifecycle Fund, automatically adjusts the asset allocation based on the subscriber&#x27;s age, gradually reducing equity exposure as they get older.
+</p>
+<h3>Are NPS returns guaranteed?</h3>
+<p>
+No, NPS returns are market-linked and are not guaranteed. The value of your investment can go up or down depending on the performance of the underlying assets managed by your chosen Pension Fund Manager.
+</p>
+<h3>What are the tax benefits of investing in NPS?</h3>
+<p>
+NPS offers tax benefits under Section 80C (up to ₹1.5 lakhs), Section 80CCD(1) (employer&#x27;s contribution up to 10% of salary), and an additional deduction under Section 80CCD(1B) for contributions up to ₹50,000, which is over and above the 80C limit.
+</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://pfrda.org.in" rel="noopener" target="_blank">PFRDA</a></li>
+<li><a href="https://npstrust.org.in" rel="noopener" target="_blank">NPS Trust</a></li>
+<li><a href="https://incometax.gov.in" rel="noopener" target="_blank">Income Tax India</a></li>
+<li><a href="https://incometaxindia.gov.in" rel="noopener" target="_blank">CBDT notifications</a></li>
+<li><a href="https://1finance.co.in/1f-dashboard/blog/dsp-pension-fund-nps-review/" rel="noopener" target="_blank">1Finance - DSP Pension Fund NPS review</a></li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
