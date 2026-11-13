@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Market Wrap — 13 November 2026</title>
+<meta name="description" content="Indian markets lacked clear directional cues today as key index data was unavailable. Strong FII buying was a significant factor, offsetting DII selling.">
+<meta name="keywords" content="markets, stocks, unavailable, economictimes, indiatimes, articleshow, global, indian">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-13-post_market-market-wrap-13-november-2026/">
+<meta property="og:title" content="Market Wrap — 13 November 2026">
+<meta property="og:description" content="Indian markets lacked clear directional cues today as key index data was unavailable. Strong FII buying was a significant factor, offsetting DII selling.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-13-post_market-market-wrap-13-november-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Market Wrap \u2014 13 November 2026", "description": "Indian markets lacked clear directional cues today as key index data was unavailable. Strong FII buying was a significant factor, offsetting DII selling.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-13", "dateModified": "2026-11-13", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-13-post_market-market-wrap-13-november-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/" class="active">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Market Wrap · 2026-11-13</div><h1>Market Wrap — 13 November 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Indian markets lacked clear directional cues today as key index data was unavailable.</li>
+<li>Strong FII buying was a significant factor, offsetting DII selling.</li>
+<li>Global sentiment was cautious, with US tech stocks facing a selloff and rising expectations for a Fed rate hike.</li>
+<li>Standout gainers and losers for the day were not available in the provided data.</li>
+<li>Foreign Institutional Investors (FIIs) remained net buyers, extending their buying streak.</li>
+<li>Futures &amp; Options (F&amp;O) positioning data for today&#x27;s session is unavailable.</li>
+</ul>
+</div>
+<h2>How the market behaved today</h2>
+<p>
+Specific closing data for the Nifty 50 and Bank Nifty, including their percentage changes and daily ranges, is unavailable. Similarly, performance details for the Nifty Midcap 100 and Nifty Smallcap 100 are also not available.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>Change</th><th>High</th><th>Low</th></tr></thead><tbody>
+<tr><td>Nifty 50</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Bank Nifty</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Midcap 100</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+<tr><td>Smallcap 100</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td><td>data unavailable</td></tr>
+</tbody></table>
+<p>
+India VIX data is unavailable. Therefore, a read on market volatility for the day cannot be provided.
+</p>
+<h2>What moved the market — the factors</h2>
+<p>
+Today&#x27;s market sentiment was primarily shaped by a mix of global cues and consistent foreign institutional inflows, even as specific Indian index performance data remains unavailable. On the global front, US stocks experienced a reversal of early gains, with the Nasdaq falling 1.42% and the S&amp;P 500 nearly 1% lower, largely due to &quot;Nvidia turmoil&quot; triggering a broad technology sector selloff. This weakness in global tech could have cast a shadow on investor sentiment worldwide.
+</p>
+<p>
+Adding to the cautious mood were rising expectations for US interest rate hikes. BofA Global Research now anticipates a Federal Reserve rate hike in January 2027 following an unexpectedly high Consumer Price Index report for October. Chicago Fed President Austan Goolsbee also voiced concerns on CNBC, stating the Fed needs to guard against demand overheating, driven partly by increased demand from the AI buildout. This hawkish outlook from the US Fed was somewhat countered by US Treasury Secretary Scott Bessent, who suggested the Fed should keep an open mind about rate adjustments, especially concerning energy shocks tied to the Iran war.
+</p>
+<p>
+Meanwhile, European stock markets, particularly the STOXX 600, showed relative stability, attributed to their lower exposure to tech giants compared to the US. In the bond markets, German government bond yields climbed, set for their biggest weekly rise in two months, as traders ramped up expectations for European Central Bank rate hikes. Closer to home, Indian government bonds fell for a third consecutive session, with the benchmark 10-year yield increasing to 7.3079%, reversing much of last week&#x27;s gains on elevated inflation and interest-rate outlook concerns.
+</p>
+<p>
+Despite these mixed global signals and domestic bond market concerns, Foreign Institutional Investors (FIIs) continued their robust buying spree, pumping a net ₹7,831 crore into Indian equities. This strong FII inflow was partially offset by Domestic Institutional Investors (DIIs) who were net sellers to the tune of ₹-6,331 crore. The sustained FII buying trend has been a significant support factor for the Indian market over the past week.
+</p>
+<h2>Sectors — winners and losers</h2>
+<p>
+Data for the top 3 gainer sectors and top 3 loser sectors is unavailable.
+</p>
+<h2>Stocks that moved the market</h2>
+<h3>Top 5 gainers (Nifty 500)</h3>
+<p>
+data unavailable
+</p>
+<h3>Top 5 losers (Nifty 500)</h3>
+<p>
+data unavailable
+</p>
+<h2>News that moved stocks</h2>
+<ul>
+<li><strong>Anthropic IPO share orders from China are said to be rebuffed</strong></li>
+<p>
+    Investors from mainland China and Hong Kong are reportedly excluded from placing orders in Anthropic&#x27;s IPO, reflecting strategic sensitivities between Washington and Beijing regarding technology. This news highlights geopolitical tensions impacting global tech investments.
+</p>
+<li><strong>BofA adds January Fed hike to forecast, says quarterly pace no longer enough</strong></li>
+<p>
+    BofA Global Research now anticipates a Federal Reserve rate hike in January 2027, a shift driven by the unexpectedly high Consumer Price Index report for October. This development signals a more aggressive stance on interest rates, potentially impacting global liquidity and investor sentiment.
+</p>
+<li><strong>US stocks: US stocks reverse early gains as Nvidia turmoil hits tech sector</strong></li>
+<p>
+    US stocks fell significantly, with the Nasdaq down 1.42% and the S&amp;P 500 nearly 1% lower, as &quot;Nvidia’s leadership turmoil&quot; triggered a broad technology selloff. This indicates a cautious global mood towards the tech sector.
+</p>
+<li><strong>MAN Industries PAT rises to Rs 82 cr in Q2</strong></li>
+<p>
+    MAN Industries (India) Ltd announced a substantial increase in consolidated profit after tax during the September quarter, alongside a notable rise in revenue from operations year-on-year. This positive earnings report could be a catalyst for the stock.
+</p>
+<li><strong>Godrej Properties buys 31-acre land in Indore for Rs 130 cr to build housing project</strong></li>
+<p>
+    Godrej Properties Ltd has acquired 31 acres of land in Indore for approximately ₹130 crore to develop residential plots. This expansion signals growth plans for Godrej Properties within the real estate sector.
+</p>
+<li><strong>Razorpay, Sembcorp Green Infra get Sebi nod to float IPOs</strong></li>
+<p>
+    Razorpay Software Ltd and Sembcorp Green Infra have received approval from SEBI for their initial public offerings. Razorpay aims to secure ₹5,000 crore, broadening its focus beyond online payments. This news indicates a healthy pipeline for the Indian IPO market, particularly in fintech and green infrastructure.
+</p>
+<li><strong>YES Bank files SC review plea over AT-1 bonds: What does it mean for investors after stock&#x27;s 15% rebound?</strong></li>
+<p>
+    YES Bank has filed a review plea with the Supreme Court regarding its October 15 ruling against the write-down of ₹8,415 crore in AT-1 bonds. This move follows a bondholders’ trustee’s contempt petition and could have implications for YES Bank&#x27;s stock and the broader banking sector&#x27;s AT-1 bond market.
+</p>
+<li><strong>Airtel Payments Bank IPO in pipeline? Bharti Airtel payments business eyes D-Street debut, says report</strong></li>
+<p>
+    Sunil Bharti Mittal indicated that Airtel Payments Bank could grow into a much larger financial services business and potentially pursue an IPO in three to four years, targeting 300 million users. This news suggests future growth avenues for Bharti Airtel&#x27;s financial services arm.
+</p>
+</ul>
+<h2>F&amp;O build-up — where traders are positioning</h2>
+<p>
+OI build-up needs the previous session&#x27;s OI — it will populate from the next run.
+</p>
+<h2>Market breadth</h2>
+<p>
+With 0 advances and 0 declines out of 0 total traded stocks, meaningful market breadth data for the day is unavailable.
+</p>
+<h2>FII / DII flows</h2>
+<p>
+Foreign Institutional Investors (FIIs) continued their strong buying trend today, injecting a net ₹7,831 crore into the Indian equity market. Conversely, Domestic Institutional Investors (DIIs) were net sellers, offloading equities worth ₹-6,331 crore.
+</p>
+<table><thead><tr><th>Investor Type</th><th>Net Flow (₹ crore)</th></tr></thead><tbody>
+<tr><td>FII</td><td>7,831</td></tr>
+<tr><td>DII</td><td>-6,331</td></tr>
+</tbody></table>
+<p>
+Over the past five trading sessions, FIIs have consistently been net buyers, demonstrating a sustained positive sentiment towards Indian equities. Their net inflows have been substantial, ranging from ₹7,212 crore to ₹14,975 crore. In contrast, DIIs have been consistent net sellers during the same period, indicating a divergence in investment strategies between foreign and domestic institutions. This consistent FII buying suggests a robust inflow of foreign capital, which has been a key support for the market.
+</p>
+<h2>Event breakdown — what happened today and how it hit the market</h2>
+<p>
+Today&#x27;s session for the Indian market was largely influenced by prevailing global sentiment and significant institutional flows, as specific domestic index performance data is unavailable. The primary driving factors appear to be the cautious global mood stemming from a tech selloff in US markets and rising expectations for a US Federal Reserve rate hike in early 2027. This hawkish outlook from the US Fed, reinforced by comments from BofA Global Research and Chicago Fed President Austan Goolsbee, created a backdrop of potential global liquidity tightening.
+</p>
+<p>
+Despite these global headwinds, the Indian market saw substantial support from Foreign Institutional Investors (FIIs), who continued their strong buying streak with net inflows of ₹7,831 crore. This consistent foreign capital infusion likely helped cushion any potential downside pressure. Domestically, concerns over elevated inflation continued to impact the Indian bond market, with the 10-year bond yield reversing much of its previous week&#x27;s gains.
+</p>
+<p>
+Company-specific news also garnered attention, with Godrej Properties announcing a significant land acquisition in Indore and MAN Industries reporting strong Q2 earnings. The IPO market saw activity with SEBI approving Razorpay and Sembcorp Green Infra&#x27;s public offerings, while YES Bank&#x27;s review plea regarding AT-1 bonds and potential IPO plans for Airtel Payments Bank kept the financial sector in focus. Overall, the session was characterized by a tug-of-war between global macro concerns and strong FII conviction in Indian equities.
+</p>
+<h2>Setup for tomorrow</h2>
+<p>
+Looking ahead to tomorrow, global cues will continue to play a crucial role. The US market&#x27;s tech sector weakness, driven by &quot;Nvidia turmoil,&quot; and the increasing likelihood of a January 2027 Fed rate hike, as forecast by BofA, will likely keep investors cautious. The Dollar Index closed higher at 103.39 (+0.21%), and the USD/INR pair also strengthened to 94.23 (+0.57%), indicating a stronger dollar which can sometimes be a headwind for emerging markets. US 10-year yields also rose to 5.14% (+0.74%), reflecting global interest rate concerns. Brent Crude closed at $95.90 (+0.08%) and WTI Crude at $88.76 (+0.02%), suggesting stable but elevated energy prices. Gold saw a minor uptick, while Silver declined. Investors will be closely watching for further developments on US inflation and Fed commentary. Given the strong FII inflows, their continued participation will be key for market direction.
+</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/anthropic-ipo-share-orders-from-china-are-said-to-be-rebuffed/articleshow/135809948.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/anthropic-ipo-share-orders-from-china-are-said-to-be-rebuffed/articleshow/135809948.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/bofa-adds-january-fed-hike-to-forecast-says-quarterly-pace-no-longer-enough/articleshow/135808910.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/bofa-adds-january-fed-hike-to-forecast-says-quarterly-pace-no-longer-enough/articleshow/135808910.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-us-market-opens-higher-after-soft-producer-prices-data/articleshow/135807296.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/us-stocks-us-market-opens-higher-after-soft-producer-prices-data/articleshow/135807296.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/chicago-feds-goolsbee-says-on-cnbc-the-fed-needs-to-guard-against-demand-overheating/articleshow/135807011.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/chicago-feds-goolsbee-says-on-cnbc-the-fed-needs-to-guard-against-demand-overheating/articleshow/135807011.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/us-treasury-chief-says-fed-should-not-hike-rates-over-energy-shock-tied-to-iran-war/articleshow/135806960.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/us-treasury-chief-says-fed-should-not-hike-rates-over-energy-shock-tied-to-iran-war/articleshow/135806960.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/earnings/man-industries-pat-rises-to-rs-82-cr-in-q2/articleshow/135806024.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/earnings/man-industries-pat-rises-to-rs-82-cr-in-q2/articleshow/135806024.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/stock-market-live-updates-dow-jones-nasdaq-sp-500-nvidia-microsoft-cerebras-amd-micron-treasury-yield-news-13th-november-2026/liveblog/135804970.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/wall-street-guide/stock-market-live-updates-dow-jones-nasdaq-sp-500-nvidia-microsoft-cerebras-amd-micron-treasury-yield-news-13th-november-2026/liveblog/135804970.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/digital-real-estate/realty-news/godrej-properties-buys-31-acre-land-in-indore-for-rs-130-cr-to-build-housing-project/articleshow/135804198.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/digital-real-estate/realty-news/godrej-properties-buys-31-acre-land-in-indore-for-rs-130-cr-to-build-housing-project/articleshow/135804198.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/bonds/german-yields-set-for-biggest-weekly-rise-in-two-months/articleshow/135804160.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/bonds/german-yields-set-for-biggest-weekly-rise-in-two-months/articleshow/135804160.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/bonds/india-10-year-bond-yield-reverses-half-of-last-weeks-drop-on-elevated-inflation/articleshow/135804127.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/bonds/india-10-year-bond-yield-reverses-half-of-last-weeks-drop-on-elevated-inflation/articleshow/135804127.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/how-us-tech-pain-is-european-stock-markets-gain/articleshow/135804056.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/how-us-tech-pain-is-european-stock-markets-gain/articleshow/135804056.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/ipos/fpos/razorpay-sembcorp-green-infra-get-sebi-nod-to-float-ipos/articleshow/135803228.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/ipos/fpos/razorpay-sembcorp-green-infra-get-sebi-nod-to-float-ipos/articleshow/135803228.cms</a></li>
+<li><a href="https://www.livemint.com/market/stock-market-news/yes-bank-files-sc-review-plea-over-at-1-bonds-what-does-it-mean-for-investors-after-stocks-15-rebound-11794591968232.html" rel="noopener" target="_blank">https://www.livemint.com/market/stock-market-news/yes-bank-files-sc-review-plea-over-at-1-bonds-what-does-it-mean-for-investors-after-stocks-15-rebound-11794591968232.html</a></li>
+<li><a href="https://www.livemint.com/market/ipo/airtel-payments-bank-ipo-in-pipeline-bharti-airtel-payments-business-eyes-d-street-debut-says-report-11794586839337.html" rel="noopener" target="_blank">https://www.livemint.com/market/ipo/airtel-payments-bank-ipo-in-pipeline-bharti-airtel-payments-business-eyes-d-street-debut-says-report-11794586839337.html</a></li>
+<li><a href="https://www.livemint.com/market/stock-market-news/upcoming-ipo-razorpay-gets-sebi-nod-for-ipo-launch-top-things-to-know-about-the-issue-11794586427364.html" rel="noopener" target="_blank">https://www.livemint.com/market/stock-market-news/upcoming-ipo-razorpay-gets-sebi-nod-for-ipo-launch-top-things-to-know-about-the-issue-11794586427364.html</a></li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
