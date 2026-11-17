@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Pre-Market Brief — 17 November 2026</title>
+<meta name="description" content="Global markets closed significantly lower overnight, with US indices down over 1.4% and Asian markets following suit. GIFT Nifty is signalling a mildly positi.">
+<meta name="keywords" content="markets, stocks, economictimes, indiatimes, indian, investors, global, articleshow">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-17-pre_market-pre-market-brief-17-november-2026/">
+<meta property="og:title" content="Pre-Market Brief — 17 November 2026">
+<meta property="og:description" content="Global markets closed significantly lower overnight, with US indices down over 1.4% and Asian markets following suit. GIFT Nifty is signalling a mildly positi.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-17-pre_market-pre-market-brief-17-november-2026/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Pre-Market Brief \u2014 17 November 2026", "description": "Global markets closed significantly lower overnight, with US indices down over 1.4% and Asian markets following suit. GIFT Nifty is signalling a mildly positi.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-17", "dateModified": "2026-11-17", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-17-pre_market-pre-market-brief-17-november-2026/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/" class="active">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><figure class="hero"><img src="hero.jpg" alt="" loading="eager"></figure><div class="byline">Pre-Market · 2026-11-17</div><h1>Pre-Market Brief — 17 November 2026</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Global markets closed significantly lower overnight, with US indices down over 1.4% and Asian markets following suit.</li>
+<li>GIFT Nifty is signalling a mildly positive open for Indian markets, up 0.29%.</li>
+<li>Foreign Institutional Investors (FIIs) were net buyers for the fifth consecutive session, while Domestic Institutional Investors (DIIs) continued to be net sellers.</li>
+<li>SEBI is reportedly considering limiting leveraged stock bets to curb market volatility amid rising retail participation.</li>
+<li>Key Nifty technical levels for the day are unavailable, suggesting traders should exercise caution.</li>
+<li>The primary risk today stems from negative global sentiment and potential regulatory changes from SEBI.</li>
+</ul>
+</div>
+<h2>How global markets traded — and what it means for India</h2>
+<p>
+Global markets witnessed a broad-based decline overnight, largely driven by concerns in the US technology sector and a cautious sentiment ahead of Nvidia&#x27;s earnings report. All major US indices closed significantly lower, with the Nasdaq leading the losses, down nearly 2.5%. This negative momentum carried over to Asian markets this morning, with the Nikkei and Hang Seng also trading in the red.
+</p>
+<table><thead><tr><th>Index</th><th>Close</th><th>% Change</th></tr></thead><tbody>
+<tr><td>Dow Jones</td><td>51608.17</td><td>-1.41%</td></tr>
+<tr><td>Nasdaq</td><td>24509.76</td><td>-2.49%</td></tr>
+<tr><td>S&amp;P 500</td><td>7416.59</td><td>-1.92%</td></tr>
+<tr><td>FTSE 100</td><td>10809.75</td><td>-0.66%</td></tr>
+<tr><td>Nikkei 225</td><td>58860.43</td><td>-1.34%</td></tr>
+<tr><td>Hang Seng</td><td>23508.17</td><td>-1.03%</td></tr>
+<tr><td>Shanghai</td><td>3584.58</td><td>-0.50%</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The widespread negative sentiment across major global markets, particularly the sharp fall in US tech stocks, suggests a cautious start for Indian equities. While GIFT Nifty indicates a positive bias, the underlying global weakness could temper enthusiasm and lead to profit-booking or increased volatility during the session.
+</p>
+<h2>Currency, commodities and yields</h2>
+<p>
+The Indian Rupee strengthened against the US Dollar, with USD/INR trading at 93.46, down 0.83%. The Dollar Index, a measure of the dollar&#x27;s value against a basket of major currencies, saw a marginal increase of 0.02% to 103.57. Crude oil prices edged higher, with Brent Crude at $92.67 (+0.25%) and WTI Crude at $85.96 (+0.28%). Gold prices saw a slight uptick of 0.16% to $3859.20, while Silver jumped 1.26% to $47.38. The US 10-Year Treasury Yield softened slightly, down 0.64% to 5.12%.
+</p>
+<p>
+<strong>Interpretation:</strong> A strengthening Rupee (USD/INR down) is generally positive for Indian importers as it makes imports cheaper, and can help ease imported inflation. However, it could be a slight headwind for export-oriented sectors like IT and pharmaceuticals. Rising crude oil prices, even if marginal, typically put pressure on oil marketing companies (OMCs), paint manufacturers, and aviation stocks due to higher input costs. A softening US 10-Year Yield could potentially reduce the attractiveness of US bonds, making emerging markets like India more appealing for FII flows, though the current yield remains elevated.
+</p>
+<h2>GIFT Nifty — what it&#x27;s signalling</h2>
+<p>
+The GIFT Nifty is trading at 25370.00, up 0.29%. This indicates a positive bias and suggests a likely gap-up opening for the Nifty 50 today.
+</p>
+<h2>FII/DII flows — who&#x27;s driving the tape</h2>
+<p>
+Foreign Institutional Investors (FIIs) were net buyers in the Indian cash market yesterday, infusing ₹4,865 crore. Conversely, Domestic Institutional Investors (DIIs) were net sellers, pulling out ₹3,519 crore. This continues a trend observed over the last five sessions where FIIs have been consistent net buyers, while DIIs have been net sellers.
+</p>
+<table><thead><tr><th>Date</th><th>FII Net (₹ crore)</th><th>DII Net (₹ crore)</th></tr></thead><tbody>
+<tr><td>226-11-16</td><td>+4,865</td><td>-3,519</td></tr>
+<tr><td>2026-11-13</td><td>+5,737</td><td>-2,254</td></tr>
+<tr><td>2026-11-12</td><td>+7,831</td><td>-6,331</td></tr>
+<tr><td>2026-11-11</td><td>+12,563</td><td>-8,435</td></tr>
+<tr><td>2026-11-09</td><td>+7,212</td><td>-7,173</td></tr>
+</tbody></table>
+<p>
+<strong>Interpretation:</strong> The sustained buying interest from FIIs, despite DII selling, has been a key driver of market momentum recently. This suggests continued foreign confidence in Indian equities. However, consistent DII selling might indicate domestic institutions are booking profits or rebalancing portfolios, which could cap upside moves if FII buying slows down.
+</p>
+<h2>Key levels to watch — Nifty, Bank Nifty &amp; Sensex (technical)</h2>
+<p>
+Technical levels for Nifty 50, Bank Nifty, and Sensex are unavailable from the provided data.
+</p>
+<p>
+<strong>Interpretation:</strong> Without specific technical levels like CPR, R1/R2, S1/S2, or moving averages, it is difficult to ascertain the immediate support and resistance zones for the indices. Traders should exercise extra caution and rely on live price action and volume to gauge intraday trends and potential turning points. The absence of these levels means that the market&#x27;s path could be less predictable, and volatility might be higher.
+</p>
+<h2>Option-chain signals (OI) — where support &amp; resistance sit</h2>
+<p>
+Option-chain data for Nifty, Bank Nifty, and Sensex is unavailable from the provided information.
+</p>
+<p>
+<strong>Interpretation:</strong> The absence of Option Chain data means we cannot identify the highest Call Open Interest (OI) strikes, which typically act as resistance, or the highest Put OI strikes, which usually provide support. Similarly, the Put-Call Ratio (PCR) is unavailable, making it difficult to gauge the overall market sentiment from options data. This lack of data implies that traders will need to rely more on price action and other indicators to determine key levels to respect today.
+</p>
+<h2>Companies reporting results today</h2>
+<ul>
+<li><strong>LIBAS</strong>: Will be announcing its financial results and discussing other business matters. This could impact the stock&#x27;s movement and potentially influence sentiment in its specific sector.</li>
+</ul>
+<h2>Corporate actions today</h2>
+<p>
+Several companies have their ex-date for corporate actions today:
+</p>
+<ul>
+<li><strong>PFC</strong>: Interim Dividend - ₹4.10 Per Share. Shareholders who own the stock before this ex-date will be eligible for the dividend. The stock price typically adjusts downwards by the dividend amount on the ex-date.</li>
+<li><strong>EDELALTS</strong>: Interim Dividend - ₹7 Per Share. Similar to PFC, the stock price will adjust for this dividend.</li>
+<li><strong>771GS2066</strong>: Interest Payment. Bondholders will receive their interest payment.</li>
+<li><strong>NILE</strong>: Interim Dividend - ₹3 Per Share. The stock price will adjust for this dividend.</li>
+<li><strong>PGINVIT</strong>: Distribution - ₹3 Per Unit. This distribution consists of ₹1.69 per unit as interest, ₹0.62 per unit as dividend, ₹0.68 per unit as repayment of SPV debt, and ₹0.01 per unit as treasury income. This is a complex distribution for unitholders.</li>
+<li><strong>OSEINTRUST</strong>: Distribution - ₹3.4596 Per Unit. This distribution comprises ₹1.8659 per unit as interest, ₹1.2797 per unit as dividend, and ₹0.3140 per unit as return of capital. Another multi-component distribution for unitholders.</li>
+<li><strong>MRF</strong>: Interim Dividend - ₹3 Per Share. The stock price will adjust for this dividend.</li>
+</ul>
+<h2>Stock &amp; sector news that matters</h2>
+<p>
+<strong>SEBI may limit leveraged stock bets to curb volatility: Report</strong>
+<strong>Summary:</strong> India&#x27;s markets regulator, SEBI, is reportedly exploring potential limits on leveraged stock purchases due to record levels of margin-funded stock bets and increasing retail participation.
+<strong>Why it matters:</strong> This is a significant development for the broader market, especially for retail traders who frequently use leverage. Any restrictions could reduce trading volumes and potentially curb speculative activity, leading to a more stable but possibly less volatile market. It could impact brokerage firms that offer high leverage.
+</p>
+<p>
+<strong>FIIs, MFs raise stakes in 5 largecap stocks for two straight quarters; shares rally up to 80%</strong>
+<strong>Summary:</strong> Foreign Institutional Investors (FIIs) and mutual funds have consistently increased their holdings in five large-cap stocks for two consecutive quarters, with these stocks delivering up to 80% returns in FY27.
+<strong>Why it matters:</strong> This news highlights strong institutional conviction in specific large-cap companies. It signals that these stocks could continue to attract buying interest and potentially outperform. Investors might look into these stocks for potential opportunities, although specific names are not provided in the summary.
+</p>
+<p>
+<strong>Traders pour cash into BlackRock’s India ETF as AI rout deepens</strong>
+<strong>Summary:</strong> Investors injected over $316 million into BlackRock’s iShares MSCI India ETF last week, marking its largest weekly inflow since June 2025. This move is seen as diversification away from technology-heavy portfolios amidst AI-related market volatility.
+<strong>Why it matters:</strong> This significant inflow into an India-focused ETF underscores global investors&#x27; confidence in the Indian market as a defensive play or an alternative to volatile tech sectors. It suggests a strong underlying demand for Indian equities, which could support the broader market.
+</p>
+<p>
+<strong>Steel prices are rising again: Is it wise to buy metal stocks? Experts pick Tata Steel, JSW and 4 others | Targets, SL</strong>
+<strong>Summary:</strong> Indian steel stocks are gaining attention due to rising domestic prices, improved margins, and robust infrastructure demand. Analysts are recommending selective exposure to companies with raw material integration.
+<strong>Why it matters:</strong> This indicates a positive outlook for the metal sector. Companies like Tata Steel and JSW Steel, if they are among those recommended, could see increased investor interest. The rising prices and demand could lead to improved earnings for steel manufacturers.
+</p>
+<p>
+<strong>Millions launches US stocks, ETFs investment facility for Indian investors</strong>
+<strong>Summary:</strong> Investment platform Millions, operated by Raise Financial Services, has introduced a feature allowing Indian investors to make fractional investments in US stocks and ETFs.
+<strong>Why it matters:</strong> This development offers Indian retail investors more avenues for global diversification. While not directly impacting Indian listed equities, it reflects the growing sophistication and options available to Indian investors, potentially diverting some capital towards international markets.
+</p>
+<h2>Events &amp; data to watch — and how markets usually react</h2>
+<ul>
+<li><strong>SEBI&#x27;s potential limits on leveraged stock bets:</strong> The report on SEBI exploring restrictions on leveraged stock purchases is a key event to watch. Markets typically react with caution to news of potential regulatory changes, especially those impacting trading practices. Increased volatility and a re-evaluation of risk appetite among retail participants could be observed.</li>
+<li><strong>Nvidia Earnings Preview (Global):</strong> While not directly an Indian event, Nvidia&#x27;s fiscal Q3 2027 earnings report is a major global event today that will test the sustainability of the AI boom. Given the global interconnectedness of markets, a significant reaction to Nvidia&#x27;s results could influence global tech sentiment, which might indirectly affect Indian IT stocks or overall market mood.</li>
+<li><strong>Corporate Earnings (LIBAS):</strong> The results from LIBAS today will be watched by investors in that specific company and potentially its sector. Earnings announcements can lead to significant stock price movements based on performance relative to expectations.</li>
+<li><strong>Corporate Actions (Dividends/Distributions):</strong> A high number of companies going ex-dividend or ex-distribution today (PFC, EDELALTS, NILE, MRF, PGINVIT, OSEINTRUST) could lead to price adjustments in these specific stocks. While generally priced in, a large number of such actions can sometimes create minor ripples in specific sectors.</li>
+</ul>
+<h2>What to watch in today&#x27;s session</h2>
+<ol>
+<li><strong>Global Market Sentiment:</strong> The negative close in US markets and continued weakness in Asian markets will set the initial tone.</li>
+<li><strong>SEBI&#x27;s Stance on Leveraged Bets:</strong> Any further clarity or official statements regarding potential limits on leveraged stock purchases could significantly impact market sentiment and trading activity.</li>
+<li><strong>FII Flows:</strong> Continue to monitor FII buying activity, which has been a strong support for the market. Any slowdown could lead to profit booking.</li>
+<li><strong>Crude Oil Prices:</strong> While marginally up, sustained increases in Brent crude could put pressure on inflation-sensitive sectors and OMCs.</li>
+<li><strong>Sectoral Action:</strong> Keep an eye on the metal sector following positive news on rising steel prices, and potentially banking stocks given the HDFC Bank vs Axis Bank recovery discussion.</li>
+<li><strong>Nvidia Earnings Impact:</strong> While an overnight event, the market&#x27;s reaction to Nvidia&#x27;s earnings will influence global tech stocks and overall risk appetite.</li>
+</ol>
+<h2>Bottom line</h2>
+<p>
+Indian markets are likely to open with a mixed bias, potentially seeing a gap-up as indicated by GIFT Nifty, but facing headwinds from weak global cues. The consistent FII buying provides a strong floor, but the reported SEBI considerations on leveraged bets introduce a new element of caution. Without clear technical and options data, traders should be agile and respect price action, keeping a close watch on global developments and any further regulatory news.
+</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/millions-launches-us-stocks-etfs-investment-facility-for-indian-investors/articleshow/135920698.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/millions-launches-us-stocks-etfs-investment-facility-for-indian-investors/articleshow/135920698.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/sebi-may-limit-leveraged-stock-bets-to-curb-volatility-report/articleshow/135920460.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/sebi-may-limit-leveraged-stock-bets-to-curb-volatility-report/articleshow/135920460.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/fiis-mfs-raise-stakes-in-5-largecap-stocks-for-two-straight-quarters-shares-rally-up-to-80/slideshow/135915639.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/fiis-mfs-raise-stakes-in-5-largecap-stocks-for-two-straight-quarters-shares-rally-up-to-80/slideshow/135915639.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/south-korean-shares-close-at-over-9-month-low-on-nvidia-caution/articleshow/135914599.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/south-korean-shares-close-at-over-9-month-low-on-nvidia-caution/articleshow/135914599.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/why-are-nokia-shares-falling-nvidia-stake-sale-sparks-concerns/slideshow/135912331.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/why-are-nokia-shares-falling-nvidia-stake-sale-sparks-concerns/slideshow/135912331.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/us-stocks/news/nvidia-earnings-preview-6-key-factors-investors-will-watch/slideshow/135911290.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/us-stocks/news/nvidia-earnings-preview-6-key-factors-investors-will-watch/slideshow/135911290.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/bonds/australia-sells-a6-billion-of-new-2057-treasury-bond/articleshow/135910893.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/bonds/australia-sells-a6-billion-of-new-2057-treasury-bond/articleshow/135910893.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/bonds/indian-bonds-gain-as-oil-slide-eases-rate-hike-concerns/articleshow/135910842.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/bonds/indian-bonds-gain-as-oil-slide-eases-rate-hike-concerns/articleshow/135910842.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/bonds/jgb-yields-climb-as-buyers-hold-back-on-long-dated-debt/articleshow/135910809.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/bonds/jgb-yields-climb-as-buyers-hold-back-on-long-dated-debt/articleshow/135910809.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/tata-consumer-share-price-today-live-17-nov-2026/liveblog/135910596.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/tata-consumer-share-price-today-live-17-nov-2026/liveblog/135910596.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/adani-ports-sez-share-price-live-17-nov-2026/liveblog/135910126.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/stock-liveblog/adani-ports-sez-share-price-live-17-nov-2026/liveblog/135910126.cms</a></li>
+<li><a href="https://economictimes.indiatimes.com/markets/stocks/news/traders-pour-cash-into-blackrocks-india-etf-as-ai-rout-deepens/articleshow/135909707.cms" rel="noopener" target="_blank">https://economictimes.indiatimes.com/markets/stocks/news/traders-pour-cash-into-blackrocks-india-etf-as-ai-rout-deepens/articleshow/135909707.cms</a></li>
+<li><a href="https://www.livemint.com/market/stock-market-news/hdfc-bank-vs-axis-bank-both-shares-recover-after-q2-sell-off-which-banking-stock-offers-higher-upside-check-targets-11794907748296.html" rel="noopener" target="_blank">https://www.livemint.com/market/stock-market-news/hdfc-bank-vs-axis-bank-both-shares-recover-after-q2-sell-off-which-banking-stock-offers-higher-upside-check-targets-11794907748296.html</a></li>
+<li><a href="https://www.livemint.com/market/stock-market-news/steel-prices-are-rising-again-is-it-wise-to-buy-metal-stocks-experts-pick-tata-steel-jsw-and-4-others-targets-sl-11794905709244.html" rel="noopener" target="_blank">https://www.livemint.com/market/stock-market-news/steel-prices-are-rising-again-is-it-wise-to-buy-metal-stocks-experts-pick-tata-steel-jsw-and-4-others-targets-sl-11794905709244.html</a></li>
+<li><a href="https://www.livemint.com/market/ipo/mahanadi-coalfields-ipo-single-profit-calculator-basis-latest-gmp-what-investors-may-earn-on-listing-11794905163788.html" rel="noopener" target="_blank">https://www.livemint.com/market/ipo/mahanadi-coalfields-ipo-single-profit-calculator-basis-latest-gmp-what-investors-may-earn-on-listing-11794905163788.html</a></li>
+</ul></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
