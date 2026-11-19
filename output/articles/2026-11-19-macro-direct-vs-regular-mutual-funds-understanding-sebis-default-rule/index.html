@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Direct vs Regular Mutual Funds: Understanding SEBI&#x27;s Default Rule</title>
+<meta name="description" content="Regular mutual funds include distributor commissions, leading to higher annual expense ratios. Direct mutual funds allow you to invest directly with the Asset.">
+<meta name="keywords" content="direct, regular, expense, investment, mutual, invest, investments, default">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-19-macro-direct-vs-regular-mutual-funds-understanding-sebis-default-rule/">
+<meta property="og:title" content="Direct vs Regular Mutual Funds: Understanding SEBI&#x27;s Default Rule">
+<meta property="og:description" content="Regular mutual funds include distributor commissions, leading to higher annual expense ratios. Direct mutual funds allow you to invest directly with the Asset.">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-19-macro-direct-vs-regular-mutual-funds-understanding-sebis-default-rule/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Direct vs Regular Mutual Funds: Understanding SEBI's Default Rule", "description": "Regular mutual funds include distributor commissions, leading to higher annual expense ratios. Direct mutual funds allow you to invest directly with the Asset.", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-19", "dateModified": "2026-11-19", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-19-macro-direct-vs-regular-mutual-funds-understanding-sebis-default-rule/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/">Personal Finance</a><a href="../../macro/" class="active">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Macro &amp; Markets · 2026-11-19</div><h1>Direct vs Regular Mutual Funds: Understanding SEBI&#x27;s Default Rule</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Regular mutual funds include distributor commissions, leading to higher annual expense ratios.</li>
+<li>Direct mutual funds allow you to invest directly with the Asset Management Company (AMC), resulting in lower expense ratios.</li>
+<li>SEBI has mandated that from November 1, 2026, direct plans will be the default option on AMC digital platforms for new investments.</li>
+<li>This regulatory change aims to increase transparency and empower investors to save on costs over the long term.</li>
+<li>Opting for direct plans can significantly enhance your accumulated wealth due to the power of compounding with lower fees.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you invest in a mutual fund, you generally have two routes: a &#x27;Regular Plan&#x27; or a &#x27;Direct Plan&#x27;. The fundamental difference lies in whether you involve an intermediary, like a financial advisor or distributor, in your investment process. A Regular Plan includes a commission paid to this intermediary, which is embedded within the fund&#x27;s annual charges, known as the expense ratio. Naturally, this makes the Regular Plan slightly more expensive.
+</p>
+<p>
+On the other hand, a Direct Plan allows you to invest directly with the mutual fund house (Asset Management Company or AMC) without any intermediary. Since there&#x27;s no commission to pay, the expense ratio for a Direct Plan is lower. The Securities and Exchange Board of India (SEBI), the regulator for the Indian securities market, has taken a significant step to promote Direct Plans. From November 1, 2026, if you are investing through an AMC&#x27;s digital platform and do not explicitly choose a plan type, the system will now default to the Direct Plan. This move is designed to make it easier for investors to access lower-cost options and potentially grow their wealth more efficiently.
+</p>
+<h2>Direct vs. Regular Mutual Funds: The Core Difference</h2>
+<p>
+The distinction between Direct and Regular mutual fund plans might seem minor at first glance, but its long-term financial impact can be substantial. Both plans invest in the exact same portfolio of securities, are managed by the same fund manager, and pursue the same investment objectives within a scheme. The key differentiator is the cost structure.
+</p>
+<h3>Understanding Expense Ratios</h3>
+<p>
+Every mutual fund scheme charges an annual fee to cover its operational costs, including fund management fees, registrar and transfer agent fees, audit fees, and marketing expenses. This annual charge, expressed as a percentage of the fund&#x27;s average net assets, is called the Expense Ratio.
+</p>
+<p>
+In a Regular Plan, a portion of this expense ratio is allocated as commission to the distributor or agent who facilitated your investment. This commission compensates them for their services, which can include advice, paperwork assistance, and ongoing support. In contrast, a Direct Plan completely bypasses these distribution costs. Since you are investing directly with the AMC, there is no intermediary commission to pay, leading to a noticeably lower expense ratio.
+</p>
+<h3>Impact on Net Asset Value (NAV)</h3>
+<p>
+Because of the difference in expense ratios, Direct Plans and Regular Plans of the same scheme will have different Net Asset Values (NAVs). The NAV of a Direct Plan will generally be higher than that of its corresponding Regular Plan, as more of the fund&#x27;s returns are retained within the scheme due to lower expenses. While this difference might appear marginal on a daily basis, its cumulative effect over years, especially with compounding, can be significant, translating into a larger investment corpus for Direct Plan investors.
+</p>
+<h2>SEBI&#x27;s New Default Plan Rule: What Changed?</h2>
+<p>
+SEBI&#x27;s recent directive marks a pivotal shift in how mutual funds are presented to investors, particularly on digital platforms. This move underscores the regulator&#x27;s commitment to enhancing transparency and protecting investor interests.
+</p>
+<h3>The Rationale Behind the Rule</h3>
+<p>
+The primary objective behind SEBI&#x27;s new rule is to empower investors by making the lower-cost Direct Plans more accessible and prominent. Historically, many digital platforms might have had interfaces where Regular Plans were either pre-selected or not clearly differentiated, potentially leading investors to inadvertently choose the higher-cost option. SEBI recognised that if an investor is independently navigating an AMC&#x27;s website or app, they should be guided towards the most cost-efficient option by default. This initiative aligns with SEBI&#x27;s broader efforts to strengthen cost disclosure requirements within the mutual fund industry.
+</p>
+<h3>How the Default Mechanism Works</h3>
+<p>
+Effective from November 1, 2026, when an investor accesses the digital platforms (websites and mobile applications) of Asset Management Companies (AMCs) to make a new investment, the &#x27;Direct Plan&#x27; option will be pre-selected as the default. This means that if an investor proceeds without actively changing the plan selection, their investment will be processed under the Direct Plan.
+</p>
+<p>
+It&#x27;s crucial to understand that this rule does not discontinue Regular Plans. Investors still have the option to choose a Regular Plan if they prefer to invest through a distributor. However, if they actively switch from the default Direct Plan to a Regular Plan on an AMC&#x27;s digital platform, the platform must display a clear disclosure informing them about the higher expense ratio associated with the Regular Plan due to distributor commissions. This ensures that investors are fully aware of the cost implications of their choice before completing the transaction. This rule specifically applies to new investments made through AMC digital platforms and does not automatically convert existing Regular Plan investments or ongoing Systematic Investment Plans (SIPs) to Direct Plans.
+</p>
+<h2>The Long-Term Wealth Impact of Expense Ratios</h2>
+<p>
+Even a seemingly small difference in expense ratios between a Direct and Regular Plan can lead to a substantial divergence in your accumulated wealth over the long run, thanks to the power of compounding.
+</p>
+<h3>Compounding Advantage</h3>
+<p>
+Compounding is often referred to as the eighth wonder of the world. It means earning returns not just on your initial investment, but also on the accumulated returns from previous periods. When you invest in a Direct Plan with a lower expense ratio, a larger portion of your investment remains invested and continues to compound. Over decades, this seemingly small annual saving compounds into a significant amount. For instance, an annual difference of just 0.5% to 1% in the expense ratio can result in your Direct Plan corpus being several lakhs higher than a Regular Plan corpus over a 15-20 year investment horizon. This is because the higher expense in a Regular Plan acts as a continuous drag on your returns, reducing the base on which future returns are calculated.
+</p>
+<h3>Transparency and Control</h3>
+<p>
+Investing in Direct Plans offers greater transparency regarding the actual costs you are paying. Without distributor commissions embedded, you get a clearer picture of the fund&#x27;s true operational costs. This empowers you to make more informed decisions, comparing funds based purely on their performance, investment strategy, and management efficiency, rather than being influenced by distribution incentives. By taking direct control of your investment decisions, you are actively managing your financial journey and optimising for long-term growth.
+</p>
+<h2>How to Switch from Regular to Direct Plans</h2>
+<p>
+For investors currently holding Regular Plan units, switching to Direct Plans can be a prudent step to enhance long-term returns. However, this process involves certain considerations, primarily related to taxation and exit loads.
+</p>
+<h3>The Process for Existing Investments</h3>
+<p>
+Switching from a Regular Plan to a Direct Plan of the same scheme is treated as a redemption of your existing Regular Plan units and a fresh purchase of Direct Plan units. This is not a mere conversion. You would typically initiate a &#x27;switch&#x27; transaction through your mutual fund folio, either via the AMC&#x27;s website or a platform like MFUtility.
+</p>
+<p>
+When you redeem your Regular Plan units, any capital gains realised from that redemption will be subject to taxation. The tax treatment depends on two main factors:
+</p>
+<ol>
+<li><strong>Type of Fund:</strong> Whether it&#x27;s an equity-oriented mutual fund (investing at least 65% in Indian equities) or a non-equity-oriented fund (like debt funds).</li>
+<li><strong>Holding Period:</strong> Whether the gains are short-term or long-term.</li>
+<p>
+    *   <strong>Equity-oriented funds:</strong> If held for 12 months or less, gains are Short-Term Capital Gains (STCG) and taxed at 20% (plus cess). If held for more than 12 months, gains are Long-Term Capital Gains (LTCG) and taxed at 12.5% on gains exceeding ₹1.25 lakh in a financial year.
+    *   <strong>Non-equity-oriented funds (Debt Funds):</strong> For investments made on or after April 1, 2023, all capital gains are treated as short-term, regardless of the holding period, and are taxed at your applicable income tax slab rate.
+</p>
+</ol>
+<p>
+Additionally, some mutual funds levy an &#x27;exit load&#x27; if units are redeemed before a specified period (e.g., 1 year). You should check the scheme information document for any applicable exit loads before initiating a switch.
+</p>
+<h3>Options for New Investments</h3>
+<p>
+For all new investments, the process is simpler. You can directly choose the &#x27;Direct Plan&#x27; option when investing through:
+</p>
+<ul>
+<li><strong>AMC Websites/Apps:</strong> As per SEBI&#x27;s new rule, this will be the default option.</li>
+<li><strong>MFUtility (MFU):</strong> A common platform for transacting across multiple AMCs.</li>
+<li><strong>Registered Investment Advisers (RIAs):</strong> Who are fee-based and do not earn commissions.</li>
+</ul>
+<p>
+Always ensure that you explicitly select or confirm the &#x27;Direct Plan&#x27; option to benefit from lower expense ratios.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Rahul, 38, ₹28L CTC, Bengaluru</strong>, who plans to invest in mutual funds for his retirement. He decides to invest ₹15,000 per month via a Systematic Investment Plan (SIP) for 25 years.
+</p>
+<p>
+We&#x27;ll assume an average annual return of 12% before expenses for the underlying fund.
+</p>
+<p>
+<strong>Scenario 1: Regular Plan Investment</strong>
+</p>
+<ul>
+<li>Assumed Expense Ratio: 1.5% per annum</li>
+<li>Effective Annual Return (after expenses): 12% - 1.5% = 10.5%</li>
+<li>Monthly SIP: ₹15,000</li>
+<li>Investment Period: 25 years (300 months)</li>
+<li>Total Invested: ₹15,000 * 300 = ₹45,00,000</li>
+<li><strong>Estimated Corpus after 25 years:</strong> Approximately ₹2,07,00,000 (₹2.07 crores)</li>
+</ul>
+<p>
+<strong>Scenario 2: Direct Plan Investment</strong>
+</p>
+<ul>
+<li>Assumed Expense Ratio: 0.5% per annum</li>
+<li>Effective Annual Return (after expenses): 12% - 0.5% = 11.5%</li>
+<li>Monthly SIP: ₹15,000</li>
+<li>Investment Period: 25 years (300 months)</li>
+<li>Total Invested: ₹15,000 * 300 = ₹45,00,000</li>
+<li><strong>Estimated Corpus after 25 years:</strong> Approximately ₹2,55,00,000 (₹2.55 crores)</li>
+</ul>
+<p>
+<strong>The Difference:</strong>
+By choosing a Direct Plan, Rahul could potentially accumulate an additional corpus of <strong>₹48,00,000 (₹2.55 crores - ₹2.07 crores)</strong> over 25 years, simply due to a 1% lower annual expense ratio. This example highlights the profound impact of even small cost differences when compounded over a long investment horizon.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review Your Mutual Fund Statements:</strong> Check your existing mutual fund holdings to identify whether they are &#x27;Direct&#x27; or &#x27;Regular&#x27; plans. This information is usually mentioned on your account statements or can be found by logging into your AMC or registrar (KFintech/CAMS) portal.</li>
+<li><strong>Evaluate Switching Existing Investments:</strong> If you hold Regular Plans, research the process to switch them to Direct Plans. Understand the potential capital gains tax implications and any exit loads that might apply before making a decision. Calculate if the long-term savings outweigh the immediate costs.</li>
+<li><strong>Prioritise Direct Plans for New Investments:</strong> For any fresh investments you plan to make, consciously choose the &#x27;Direct Plan&#x27; option. If using an AMC&#x27;s digital platform, note that it will now be the default from November 1, 2026.</li>
+<li><strong>Educate Yourself:</strong> Spend some time understanding the expense ratios of the funds you invest in. Lower expense ratios generally lead to better long-term returns.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is the primary difference between direct and regular mutual funds?</h3>
+<p>
+The main difference lies in the expense ratio. Regular plans include distributor commissions, making their expense ratios higher, while direct plans have lower expense ratios as you invest directly with the AMC without an intermediary.
+</p>
+<h3>How does SEBI&#x27;s new default plan rule work?</h3>
+<p>
+From November 1, 2026, when you invest in mutual funds through an AMC&#x27;s digital platform, the &#x27;Direct Plan&#x27; will be the default selection. If you don&#x27;t explicitly choose a plan, your investment will be processed as a Direct Plan.
+</p>
+<h3>Will my existing regular mutual fund investments automatically convert to direct plans?</h3>
+<p>
+No, SEBI&#x27;s new rule applies to new investments made via AMC digital platforms. Your existing Regular Plan investments or ongoing SIPs will not automatically convert to Direct Plans.
+</p>
+<h3>Are direct plans always better than regular plans?</h3>
+<p>
+From a cost perspective, direct plans are always more cost-efficient due to lower expense ratios, which can lead to higher returns over time. However, regular plans offer the service and advice of a distributor, which can be valuable for investors who prefer professional guidance.
+</p>
+<h3>What should I consider before switching my existing regular plan units to direct plans?</h3>
+<p>
+Before switching, consider the capital gains tax implications (Short-Term Capital Gains or Long-Term Capital Gains, depending on holding period and fund type) and any applicable exit loads. A switch is treated as a redemption and re-investment.
+</p>
+<h3>Where can I invest in direct mutual funds?</h3>
+<p>
+You can invest in direct mutual funds directly through the websites or mobile applications of individual Asset Management Companies (AMCs), through platforms like MFUtility (MFU), or via Registered Investment Advisers (RIAs) who operate on a fee-only model.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>SEBI: https://sebi.gov.in</li>
+<li>AMFI India: https://amfiindia.com</li>
+<li>Income Tax India: https://incometax.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
