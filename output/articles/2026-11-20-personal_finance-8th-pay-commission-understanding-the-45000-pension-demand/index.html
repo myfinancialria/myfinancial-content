@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>8th Pay Commission: Understanding the ₹45,000 Pension Demand</title>
+<meta name="description" content="The Bharat Pensioners Samaj has formally demanded a minimum monthly pension of ₹45,000 for central government retirees under the upcoming 8th Pay Commission. .">
+<meta name="keywords" content="pension, commission, government, pensioners, minimum, financial, employees, recommendations">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-20-personal_finance-8th-pay-commission-understanding-the-45000-pension-demand/">
+<meta property="og:title" content="8th Pay Commission: Understanding the ₹45,000 Pension Demand">
+<meta property="og:description" content="The Bharat Pensioners Samaj has formally demanded a minimum monthly pension of ₹45,000 for central government retirees under the upcoming 8th Pay Commission. .">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-20-personal_finance-8th-pay-commission-understanding-the-45000-pension-demand/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "8th Pay Commission: Understanding the \u20b945,000 Pension Demand", "description": "The Bharat Pensioners Samaj has formally demanded a minimum monthly pension of \u20b945,000 for central government retirees under the upcoming 8th Pay Commission. .", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-20", "dateModified": "2026-11-20", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-20-personal_finance-8th-pay-commission-understanding-the-45000-pension-demand/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Personal Finance · 2026-11-20</div><h1>8th Pay Commission: Understanding the ₹45,000 Pension Demand</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>The Bharat Pensioners Samaj has formally demanded a minimum monthly pension of ₹45,000 for central government retirees under the upcoming 8th Pay Commission.</li>
+<li>This proposal aims to significantly increase the financial security of pensioners, especially those currently receiving lower amounts.</li>
+<li>Past Pay Commissions have historically revised salaries and pensions for central government employees and pensioners.</li>
+<li>The 8th Pay Commission is expected to be constituted in due course, with its recommendations likely implemented around 2026 or 2027.</li>
+<li>Government pensioners should stay informed about these developments, as revisions could impact their long-term financial planning.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+Every few years, the Indian government sets up a &quot;Pay Commission&quot; to review and recommend changes to the salaries, allowances, and pensions of its employees and retirees. This is done to ensure their remuneration keeps pace with inflation and living costs. We are currently under the recommendations of the 7th Pay Commission, and discussions have begun regarding the formation of the 8th Pay Commission.
+</p>
+<p>
+A significant development is the demand from the Bharat Pensioners Samaj, a prominent pensioners&#x27; body, for a minimum monthly pension of ₹45,000. This is a substantial increase from the current minimum pension and, if accepted, would significantly boost the financial well-being of many retired central government employees, particularly those who retired at lower pay scales. It reflects a broader effort to ensure a dignified and comfortable post-retirement life for those who have served the nation.
+</p>
+<h2>Understanding the Pay Commission&#x27;s Mandate</h2>
+<p>
+The Pay Commission is an administrative body constituted by the Government of India, typically every ten years, to review and recommend changes to the remuneration structure of central government employees and pensioners. Its primary objective is to ensure that the pay and pension structures are fair, equitable, and competitive, taking into account economic conditions, inflation, and the cost of living.
+</p>
+<p>
+Historically, these commissions have played a crucial role in shaping the financial landscape for millions of government employees and their families. Their recommendations cover various aspects, including basic pay, dearness allowance (DA), house rent allowance (HRA), and, critically, pension benefits. The implementation of a Pay Commission&#x27;s recommendations often involves significant financial outlays for the government and has a ripple effect across state governments, many of which tend to follow the central government&#x27;s lead in their own pay and pension revisions. For instance, Meghalaya recently approved its 6th state panel to review pay and service conditions for its employees and pensioners, often aligning with the broader principles set by central commissions.
+</p>
+<h3>Evolution of Pension Revisions</h3>
+<p>
+Prior to the 6th Pay Commission, the minimum pension was relatively modest. The 6th Pay Commission introduced a significant hike, and the 7th Pay Commission further refined the pension structure, focusing on a more streamlined approach to calculation and enhancement. The current demand for a ₹45,000 minimum monthly pension by the Bharat Pensioners Samaj highlights the ongoing need to address the financial challenges faced by retirees, especially in an environment of rising expenses.
+</p>
+<h2>The ₹45,000 Minimum Pension Proposal</h2>
+<p>
+The demand for a minimum monthly pension of ₹45,000 under the 8th Pay Commission has been formally put forth by the Bharat Pensioners Samaj. This proposal is a key part of their broader set of recommendations for the upcoming commission. Currently, the minimum pension for central government employees is ₹9,000 per month. The proposed increase to ₹45,000 represents a five-fold jump, which, if accepted, would provide a substantial financial uplift for many retirees.
+</p>
+<h3>Rationale Behind the Demand</h3>
+<p>
+The primary rationale cited for this significant increase is the rising cost of living, healthcare expenses, and the need for pensioners to maintain a decent standard of living in their golden years. Pensioners often face unique financial challenges, including increased medical costs and reduced earning capacity. The demand aims to ensure that the basic pension is sufficient to cover these essential needs and provide a sense of financial security. The Bharat Pensioners Samaj has also advocated for higher family payouts, which would further benefit the dependents of deceased government employees.
+</p>
+<h3>Potential Calculation Methodologies</h3>
+<p>
+While the exact methodology for pension revision under the 8th Pay Commission is yet to be determined, past commissions have used various factors, including the fitment factor, multiplication factor, and a review of the pay matrix. The demand for a flat minimum pension of ₹45,000 simplifies the approach for those at the lowest end of the pension spectrum, ensuring a baseline income regardless of their last drawn salary, subject to a minimum qualifying service. It is likely that any accepted minimum pension would be part of a broader revision that also considers a higher fitment factor for all pensioners.
+</p>
+<h2>Financial Planning for Government Retirees</h2>
+<p>
+For current and future government retirees, understanding the implications of Pay Commission recommendations on their pensions is crucial for robust financial planning. While the 8th Pay Commission&#x27;s recommendations are still in the proposal stage, it&#x27;s prudent to consider how potential changes could impact your long-term financial security.
+</p>
+<h3>Diversifying Retirement Income Streams</h3>
+<p>
+Relying solely on government pension, while a stable income, might not always be sufficient to meet all retirement goals, especially with rising inflation. It is advisable for government employees to also explore other avenues for retirement savings. The National Pension System (NPS), regulated by the PFRDA, offers a market-linked retirement product that can supplement traditional pensions. Employees can contribute voluntarily to NPS Tier I and Tier II accounts, benefiting from tax deductions under Section 80CCD of the Income Tax Act.
+</p>
+<h3>Managing Healthcare Costs</h3>
+<p>
+Healthcare expenses are a significant concern for retirees. While government schemes like CGHS provide support, having additional health insurance coverage from IRDAI-regulated insurers is often beneficial. Factoring in potential out-of-pocket medical expenses into your retirement budget is a practical step.
+</p>
+<h3>Reviewing Investment Portfolios</h3>
+<p>
+Regularly reviewing your investment portfolio with a Certified Financial Planner can help ensure it aligns with your risk tolerance and retirement goals. For those receiving a government pension, a portion of savings can be directed towards stable, income-generating assets like fixed deposits, government bonds, or debt mutual funds (regulated by SEBI and AMFI) to create additional income streams.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Suresh, 62, a retired Central Government employee from Ghaziabad, currently receiving a monthly pension of ₹18,000.</strong> He retired after 33 years of service.
+</p>
+<p>
+Under the current 7th Pay Commission recommendations, his pension is calculated based on his last drawn basic pay and years of service. With a minimum pension of ₹9,000, his ₹18,000 pension is above the current floor.
+</p>
+<p>
+Now, let&#x27;s look at the potential impact if the 8th Pay Commission accepts the Bharat Pensioners Samaj&#x27;s demand for a minimum monthly pension of ₹45,000:
+</p>
+<ol>
+<li><strong>Current Pension:</strong> ₹18,000 per month.</li>
+<li><strong>Proposed Minimum Pension:</strong> ₹45,000 per month.</li>
+</ol>
+<p>
+If the ₹45,000 minimum pension is implemented, Suresh&#x27;s pension would automatically be revised upwards to ₹45,000 per month.
+</p>
+<ul>
+<li><strong>Monthly Increase:</strong> ₹45,000 - ₹18,000 = ₹27,000</li>
+<li><strong>Annual Increase:</strong> ₹27,000 * 12 = ₹3,24,000 (₹3.24 lakhs)</li>
+</ul>
+<p>
+This significant increase of ₹27,000 per month would substantially improve Suresh&#x27;s financial standing, allowing him to better manage rising healthcare costs, household expenses, and perhaps even pursue some long-held retirement dreams. This example highlights the profound impact such a revision could have on pensioners currently receiving lower amounts.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Review your current pension statements:</strong> Familiarise yourself with your existing pension details, including any dearness relief (DR) revisions. This will help you understand your baseline. (15 minutes)</li>
+<li><strong>Discuss with family members:</strong> If you have parents or older relatives who are government pensioners, talk to them about these potential changes and offer to help them stay informed. (10 minutes)</li>
+<li><strong>Monitor official announcements:</strong> Keep an eye on news from the Ministry of Finance and other official government channels for any updates regarding the constitution and terms of reference of the 8th Pay Commission. (5 minutes)</li>
+<li><strong>Consider supplementary savings:</strong> If you are a current government employee, review your retirement savings strategy. Explore options like voluntary contributions to NPS or other long-term investment plans to build a larger corpus. (30 minutes)</li>
+</ol>
+<h2>FAQ</h2>
+<h3>When is the 8th Pay Commission expected to be constituted?</h3>
+<p>
+While there&#x27;s no official date yet, Pay Commissions are typically constituted every ten years. The 7th Pay Commission&#x27;s recommendations were implemented in 2016, so the 8th Pay Commission is generally anticipated to be formed around 2024-2025, with recommendations implemented by 2026-2027.
+</p>
+<h3>Who will benefit from the 8th Pay Commission&#x27;s recommendations?</h3>
+<p>
+The recommendations of the 8th Pay Commission will primarily benefit central government employees and pensioners. State government employees and pensioners often see similar revisions in their respective states, though this is decided independently by each state.
+</p>
+<h3>How is pension currently calculated for central government retirees?</h3>
+<p>
+Under the 7th Pay Commission, pension is generally calculated as 50% of the last drawn basic pay, subject to a minimum of ₹9,000 per month. This is further adjusted with Dearness Relief (DR), which is similar to Dearness Allowance (DA) for serving employees.
+</p>
+<h3>Is the ₹45,000 minimum pension demand likely to be accepted?</h3>
+<p>
+It&#x27;s difficult to predict. The Bharat Pensioners Samaj&#x27;s demand is a proposal, and the 8th Pay Commission will consider various factors, including financial implications, before making its recommendations. Past commissions have often significantly increased minimum pensions, but a five-fold jump would be substantial.
+</p>
+<h3>Will the revised pension be taxable?</h3>
+<p>
+Yes, pension income for government retirees is generally taxable under the head &quot;Salaries&quot; as per the Income Tax Act. Any increase in pension would therefore be subject to the applicable income tax slabs.
+</p>
+<h2>Sources</h2>
+<ol>
+<li>Livemint Money: 8th Pay Commission pension update: Bharat Pensioners Samaj wants a ₹45,000 minimum pension and higher family payouts. Here&#x27;s how much retirees could gain. [https://www.livemint.com/money/personal-finance/8th-pay-commission-will-govt-pensioners-get-a-minimum-monthly-pension-of-45-000-heres-what-the-latest-demand-means-11795103610781.html]</li>
+<li>Livemint Money: Pay Commission: Meghalaya approves 6th state panel to review pay and service conditions for employees, pensioners [https://www.livemint.com/money/pay-commission-meghalaya-approves-6th-state-panel-review-pay-service-conditions-employees-pensioners-police-recruitment-117795139582730.html]</li>
+<li>Income Tax India: [https://incometax.gov.in]</li>
+<li>CBDT notifications: [https://incometaxindia.gov.in]</li>
+<li>SEBI: [https://sebi.gov.in]</li>
+<li>AMFI India: [https://amfiindia.com]</li>
+<li>IRDAI: [https://irdai.gov.in]</li>
+<li>NPS Trust: [https://npstrust.org.in]</li>
+<li>Ministry of Finance: [https://finmin.nic.in]</li>
+</ol>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
