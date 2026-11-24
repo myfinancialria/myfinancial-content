@@ -112,6 +112,9 @@ def main() -> int:
             raise SystemExit(f"Story {index} needs at least two sources.")
         if any(not str(s.get("url", "")).startswith("https://") for s in sources):
             raise SystemExit(f"Story {index} contains a missing or invalid source URL.")
+        feed_urls = {item.get("link") for item in items if item.get("link")}
+        if not any(source.get("url") in feed_urls for source in sources):
+            raise SystemExit(f"Story {index} must cite at least one supplied headline source.")
 
     slug = f"{today.isoformat()}-stories"
     title = f"Two money stories for {today.strftime('%-d %B %Y')}"
