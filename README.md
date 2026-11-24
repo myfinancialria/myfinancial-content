@@ -14,6 +14,7 @@ sticky top-nav:
 | Tab | Source | Origin repo (merged) |
 |---|---|---|
 | Personal Finance / Macro & Markets / Result Analysis / Pre-Market / Market Wrap / Explained | root `articles/` split by frontmatter `category` | *(this repo)* |
+| Stories | root `articles/` with `category: stories`; daily two-story digest | *(this repo)* |
 | F&O Pulse | `sources/daily-fno-pulse/` | `daily-fno-pulse` |
 | Business Mavericks | `sources/business-mavericks/` | `business-mavericks` |
 | Market Pulse | `sources/market-pulse/` | `myfinancial-market-pulse` |
@@ -30,6 +31,12 @@ real content.
   folder of frontmatter+markdown, and add an entry to `SOURCES` + `TABS` in
   `site_build.py`.
 - Build locally: `python site_build.py` then `open output/index.html`.
+
+### Stories tab and daily workflow
+
+The daily `generate.yml` workflow runs `write_stories.py` to create one dated digest containing exactly two short, source-linked stories. It uses recent personal-finance RSS headlines as a topic freshness signal; this is not search-volume or forum analytics. Each story must cite at least one of the supplied headline sources, and the existing grounded fact-check/correction steps run for the Stories category. The site builder publishes the digest at `/stories/` and gives it a permanent article URL.
+
+The workflow needs the same configured LLM provider credentials already used by the content engine, plus network access to the RSS feeds. No new API key is introduced. Generation failure does not block the rest of the unified site deployment; the previous Stories archive remains available. Automated fact-checking is non-blocking under the existing workflow, so an editor should review the cited sources and generated copy before relying on it for client communications. If Slack content alerts are configured, the Stories fact-check status is included in the daily alert loop.
 
 ## Workflows
 
