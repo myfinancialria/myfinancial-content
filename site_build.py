@@ -48,12 +48,14 @@ CONTENT_CAT_TAB = {
     "explainer": "explained",
     "ipo_upcoming": "ipo",
     "ipo_listing": "ipo",
+    "stories": "stories",
 }
 CONTENT_FALLBACK_TAB = "personal-finance"
 
 TABS = [
     {"key": "", "label": "Latest"},
     {"key": "personal-finance", "label": "Personal Finance"},
+    {"key": "stories", "label": "Stories"},
     {"key": "macro", "label": "Macro & Markets"},
     {"key": "results", "label": "Result Analysis"},
     {"key": "ipo", "label": "IPO Watch"},
@@ -70,6 +72,7 @@ TAB_LABEL = {t["key"]: t["label"] for t in TABS}
 TAB_BLURB = {
     "": "Personal-finance explainers, market briefs, F&O positioning and business stories — all in one place.",
     "personal-finance": "Tax, investing and money guides for 15L+ earners and NRIs.",
+    "stories": "Two short, source-linked stories each day that make personal finance easier to understand.",
     "macro": "What global and Indian macro means for your portfolio.",
     "results": "Plain-English reads of company earnings and sector moves.",
     "ipo": "Upcoming IPOs and how recent listings have performed — explained simply. Educational only, no recommendations.",
@@ -145,6 +148,7 @@ article figure.hero img { width:100%; height:100%; object-fit:cover; display:blo
 .list-item .meta { color:var(--grey); font-size:13px; }
 .list-item .meta .cat { color:var(--accent); font-weight:600; }
 .empty { color:var(--grey); font-size:15px; padding:30px 0; }
+ .stories-note { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:14px 16px; border-radius:10px; font-size:14px; margin:0 0 22px; }
 /* ---- IPO Watch page ---- */
 .disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
 .ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
@@ -482,6 +486,27 @@ def list_card(a: dict, prefix: str) -> str:
         f'<div class="meta"><span class="cat">{html.escape(label)}</span> · {a.get("date", "")}</div>'
         f'<p>{html.escape(a.get("description", ""))}</p></div>'
     )
+
+
+def render_stories_page(articles: list[dict]) -> None:
+    """Daily Stories archive, with topic-signal and editorial context."""
+    prefix = "../"
+    arts = sorted(articles, key=lambda x: x.get("date", ""), reverse=True)
+    items = "\n".join(list_card(a, prefix) for a in arts) or '<p class="empty">The first stories are being prepared. Check back soon.</p>'
+    note = ('<div class="stories-note"><strong>How topics are chosen:</strong> '
+            'Stories are informed by recent personal-finance RSS headlines. '
+            'Headline frequency is a freshness signal, not measured search volume. Each story includes its sources. '
+            'The stories are educational and do not provide personal investment advice.</div>')
+    seo = seo_block({"title": "Stories · Personal finance, made relatable | myfinancial.in",
+                     "description": TAB_BLURB["stories"], "date": dt.date.today().isoformat()},
+                    BASE_URL + "/stories/")
+    page = (HEAD.format(css=CSS, seo=seo, home=prefix, nav=build_nav(prefix, "stories"))
+            + '<div class="wrap"><h1 class="page">Stories</h1>'
+            + f'<p class="blurb">{html.escape(TAB_BLURB["stories"])}</p>'
+            + note + items + '</div>' + FOOTER)
+    out_path = OUT / "stories" / "index.html"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(page)
 
 
 def render_listing(tab_key: str, articles: list[dict]) -> None:
@@ -856,6 +881,8 @@ def main() -> int:
             render_ipo_page(tab_articles)
         elif t["key"] == "sector-analysis":
             render_sector_page()
+        elif t["key"] == "stories":
+            render_stories_page(tab_articles)
         else:
             render_listing(t["key"], tab_articles)
 
