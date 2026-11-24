@@ -492,7 +492,7 @@ def render_stories_page(articles: list[dict]) -> None:
     """Daily Stories archive, with topic-signal and editorial context."""
     prefix = "../"
     arts = sorted(articles, key=lambda x: x.get("date", ""), reverse=True)
-    items = "\\n".join(list_card(a, prefix) for a in arts) or '<p class="empty">The first stories are being prepared. Check back soon.</p>'
+    items = "\n".join(list_card(a, prefix) for a in arts) or '<p class="empty">The first stories are being prepared. Check back soon.</p>'
     note = ('<div class="stories-note"><strong>How topics are chosen:</strong> '
             'Stories are informed by current personal-finance headlines and available public signals. '
             'Headline frequency is a freshness signal, not measured search volume. Each story includes its sources. '
