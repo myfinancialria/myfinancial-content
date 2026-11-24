@@ -52,6 +52,19 @@ jobs:
             fi
           done
 
+      - name: Generate the two daily Stories
+        env:
+          LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-2.5-flash' }}
+          GEMINI_FALLBACK_MODEL: ${{ vars.GEMINI_FALLBACK_MODEL || 'gemini-2.5-flash' }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
+        run: python write_stories.py
+
       - name: Generate hero images
         env:
           LLM_PROVIDER: ${{ vars.LLM_PROVIDER || 'gemini' }}
@@ -93,7 +106,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
         run: |
-          for cat in result_analysis macro personal_finance; do
+          for cat in result_analysis macro personal_finance stories; do
             CATEGORY=$cat python fact_check.py || echo "fact-check failed for $cat"
             CATEGORY=$cat python correct.py    || echo "correction failed for $cat"
           done
