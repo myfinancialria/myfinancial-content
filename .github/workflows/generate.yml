@@ -64,6 +64,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
         run: python write_stories.py
+        continue-on-error: true
 
       - name: Generate hero images
         env:
@@ -117,7 +118,7 @@ jobs:
           SLACK_CONTENT_CHANNEL: ${{ secrets.SLACK_CONTENT_CHANNEL }}
           SLACK_CONTENT_WEBHOOK_URL: ${{ secrets.SLACK_CONTENT_WEBHOOK_URL }}
         run: |
-          for cat in result_analysis macro personal_finance; do
+          for cat in result_analysis macro personal_finance stories; do
             CATEGORY=$cat python slack_alert.py || true
           done
 
