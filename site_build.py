@@ -494,7 +494,7 @@ def render_stories_page(articles: list[dict]) -> None:
     arts = sorted(articles, key=lambda x: x.get("date", ""), reverse=True)
     items = "\n".join(list_card(a, prefix) for a in arts) or '<p class="empty">The first stories are being prepared. Check back soon.</p>'
     note = ('<div class="stories-note"><strong>How topics are chosen:</strong> '
-            'Stories are informed by current personal-finance headlines and available public signals. '
+            'Stories are informed by recent personal-finance RSS headlines. '
             'Headline frequency is a freshness signal, not measured search volume. Each story includes its sources. '
             'The stories are educational and do not provide personal investment advice.</div>')
     seo = seo_block({"title": "Stories · Personal finance, made relatable | myfinancial.in",
