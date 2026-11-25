@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --navy:#0B2545; --green:#16A34A; --red:#DC2626; --grey:#6B7280; --bg:#F8FAFC; --card:#FFFFFF; --grid:#E5E7EB; --accent:#1D4ED8; }
+* { box-sizing:border-box; }
+body { font-family:'Inter',system-ui,-apple-system,sans-serif; background:var(--bg); color:var(--navy); margin:0; padding:0; line-height:1.65; -webkit-font-smoothing:antialiased; }
+.wrap { max-width:760px; margin:0 auto; padding:40px 22px 80px; }
+header.site { display:flex; justify-content:space-between; align-items:center; padding:16px 22px; border-bottom:1px solid var(--grid); background:#fff; }
+header.site a.brand { color:var(--navy); font-weight:800; text-decoration:none; font-size:18px; }
+header.site .meta { color:var(--grey); font-size:13px; }
+nav.tabs { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid var(--grid); overflow-x:auto; -webkit-overflow-scrolling:touch; white-space:nowrap; }
+nav.tabs .inner { display:inline-flex; gap:4px; padding:0 14px; }
+nav.tabs a { display:inline-block; padding:13px 14px; color:var(--grey); text-decoration:none; font-size:14px; font-weight:600; border-bottom:2px solid transparent; }
+nav.tabs a:hover { color:var(--navy); }
+nav.tabs a.active { color:var(--accent); border-bottom-color:var(--accent); }
+h1.page { font-size:30px; font-weight:800; letter-spacing:-0.02em; margin:0 0 6px; }
+.blurb { color:var(--grey); font-size:15px; margin:0 0 24px; }
+article h1 { font-size:34px; line-height:1.2; margin:0 0 8px; font-weight:800; letter-spacing:-0.02em; }
+article .byline { color:var(--grey); font-size:14px; margin-bottom:30px; }
+article h2 { font-size:24px; margin:38px 0 14px; font-weight:700; letter-spacing:-0.01em; }
+article h3 { font-size:18px; margin:24px 0 10px; font-weight:700; color:#1E293B; }
+article p { margin:10px 0; font-size:17px; }
+article ul, article ol { padding-left:24px; }
+article li { margin:6px 0; font-size:17px; }
+article strong { font-weight:600; }
+article a { color:var(--accent); text-decoration:none; border-bottom:1px solid #BFDBFE; }
+article a:hover { background:#EFF6FF; }
+article blockquote { border-left:3px solid var(--grid); margin:14px 0; padding:6px 14px; color:var(--grey); }
+article code { background:#F1F5F9; padding:2px 6px; border-radius:4px; font-size:15px; }
+article pre { background:#0B2545; color:#E2E8F0; padding:14px 16px; border-radius:10px; overflow-x:auto; font-size:14px; }
+article pre code { background:none; padding:0; color:inherit; }
+article hr { border:none; border-top:1px solid var(--grid); margin:28px 0; }
+article table { border-collapse:collapse; width:100%; margin:18px 0; font-size:15px; }
+article th, article td { border:1px solid var(--grid); padding:8px 10px; text-align:left; }
+article th { background:#F1F5F9; }
+article figure.hero { margin:0 0 28px; border-radius:14px; overflow:hidden; aspect-ratio:16/9; background:#E2E8F0; }
+article figure.hero img { width:100%; height:100%; object-fit:cover; display:block; }
+.tldr { background:#FFFBEB; border-left:3px solid #F59E0B; padding:16px 18px; border-radius:6px; margin:24px 0; }
+.tldr p:first-child { font-weight:700; margin-top:0; color:#92400E; }
+.list-item { padding:18px 0; border-bottom:1px solid var(--grid); }
+.list-item .thumb { display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; background:#E2E8F0; margin-bottom:10px; }
+.list-item .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+.list-item h3 { margin:0 0 6px; font-size:20px; }
+.list-item h3 a { color:var(--navy); border:none; text-decoration:none; }
+.list-item .meta { color:var(--grey); font-size:13px; }
+.list-item .meta .cat { color:var(--accent); font-weight:600; }
+.empty { color:var(--grey); font-size:15px; padding:30px 0; }
+ .stories-note { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:14px 16px; border-radius:10px; font-size:14px; margin:0 0 22px; }
+/* ---- IPO Watch page ---- */
+.disclaimer { background:#EFF6FF; border:1px solid #BFDBFE; color:#1E3A8A; padding:12px 16px; border-radius:8px; font-size:14px; margin:0 0 22px; }
+.ipo-intro { color:var(--grey); font-size:16px; margin:0 0 22px; }
+.section-lead { color:var(--grey); font-size:15px; margin:2px 0 14px; }
+.ipo-sec { font-size:22px; font-weight:700; margin:34px 0 4px; letter-spacing:-0.01em; }
+.tbl-scroll { overflow-x:auto; margin:12px 0 6px; border:1px solid var(--grid); border-radius:10px; }
+table.ipo { width:100%; border-collapse:collapse; font-size:14px; min-width:560px; }
+table.ipo th, table.ipo td { padding:10px 12px; text-align:left; border-bottom:1px solid var(--grid); white-space:nowrap; }
+table.ipo th { background:#F1F5F9; color:#334155; font-weight:700; font-size:12px; text-transform:uppercase; letter-spacing:0.03em; }
+table.ipo td.company { white-space:normal; font-weight:600; color:var(--navy); }
+table.ipo tr:last-child td { border-bottom:none; }
+table.ipo .num { text-align:right; font-variant-numeric:tabular-nums; }
+.pill { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; }
+.pill.up { background:#DCFCE7; color:#166534; }
+.pill.down { background:#FEE2E2; color:#991B1B; }
+.pill.flat { background:#F1F5F9; color:#475569; }
+.pill.tag { background:#FEF3C7; color:#92400E; }
+.read-more { display:inline-block; margin:8px 0 8px; font-size:14px; font-weight:600; color:var(--accent); text-decoration:none; }
+.sector-wrap { max-width:1120px; }
+.sector-hero { background:linear-gradient(135deg,#0B2545 0%,#123D68 62%,#1D4ED8 100%); color:#fff; border-radius:18px; padding:34px 34px 30px; margin-bottom:22px; box-shadow:0 16px 34px rgba(11,37,69,.14); }
+.sector-hero .eyebrow { color:#BFDBFE; text-transform:uppercase; letter-spacing:.12em; font-size:11px; font-weight:800; margin:0 0 10px; }
+.sector-hero h1 { font-size:38px; line-height:1.1; letter-spacing:-.03em; margin:0 0 12px; }
+.sector-hero p { max-width:760px; margin:0; font-size:17px; color:#E0F2FE; }
+.sector-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; }
+.sector-meta span { border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); border-radius:999px; padding:6px 10px; font-size:12px; color:#DBEAFE; }
+.research-note { border:1px solid #BFDBFE; background:#EFF6FF; color:#1E3A8A; border-radius:10px; padding:14px 16px; font-size:14px; margin:0 0 20px; }
+.sector-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 18px; }
+.sector-toolbar label { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); }
+.sector-search { flex:1 1 240px; min-width:200px; padding:11px 13px; border:1px solid var(--grid); border-radius:9px; font:inherit; color:var(--navy); background:#fff; }
+.sector-filter { border:1px solid var(--grid); background:#fff; color:#475569; border-radius:999px; padding:8px 12px; font:inherit; font-size:13px; font-weight:700; cursor:pointer; }
+.sector-filter.active, .sector-filter:hover { background:#DBEAFE; border-color:#93C5FD; color:#1D4ED8; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.sector-card { background:#fff; border:1px solid var(--grid); border-radius:14px; overflow:hidden; box-shadow:0 4px 14px rgba(15,23,42,.035); }
+.sector-card[hidden] { display:none; }
+.sector-card summary { list-style:none; cursor:pointer; padding:20px; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.sector-card summary::-webkit-details-marker { display:none; }
+.sector-card summary > div { display:flex; gap:12px; min-width:0; }
+.sector-index { display:grid; place-items:center; flex:0 0 34px; height:34px; border-radius:10px; background:#EFF6FF; color:#1D4ED8; font-size:12px; font-weight:800; }
+.sector-card h2 { margin:0; font-size:20px; line-height:1.2; letter-spacing:-.02em; }
+.sector-card summary p { margin:5px 0 0; color:var(--grey); font-size:13px; line-height:1.45; }
+.sector-view { color:#64748B; font-size:12px; font-weight:700; white-space:nowrap; padding-top:4px; }
+.sector-card[open] .sector-view::after { content:' ↑'; }
+.sector-card:not([open]) .sector-view::after { content:' ↓'; }
+.subsector-list { border-top:1px solid var(--grid); padding:0 16px 16px; }
+.subsector-card { padding:18px 4px 20px; border-bottom:1px solid var(--grid); }
+.subsector-card:last-child { border-bottom:0; padding-bottom:4px; }
+.subsector-head { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.subsector-head h3 { margin:0; font-size:17px; color:var(--navy); }
+.signal { border-radius:999px; padding:4px 8px; font-size:11px; font-weight:800; white-space:nowrap; }
+.signal.constructive { background:#DCFCE7; color:#166534; }
+.signal.watch { background:#FEF3C7; color:#92400E; }
+.signal.defensive { background:#E0E7FF; color:#3730A3; }
+.subsector-analysis { margin:9px 0 14px; font-size:14px; color:#334155; line-height:1.55; }
+.impact-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.impact-box { background:#F8FAFC; border:1px solid #E2E8F0; border-radius:9px; padding:11px 12px; }
+.impact-box .label, .swot-box .label, .policy-strip .label { display:block; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; margin-bottom:4px; }
+.impact-box p { margin:0; font-size:13px; line-height:1.5; color:#334155; }
+.news-list { margin:0; padding-left:18px; }
+.news-list li { margin:4px 0; font-size:13px; line-height:1.4; color:#334155; }
+.news-list a, .policy-strip a { color:#1D4ED8; border-bottom:1px solid #BFDBFE; }
+.swot-title { margin:16px 0 8px; color:#64748B; text-transform:uppercase; letter-spacing:.08em; font-size:10px; font-weight:800; }
+.swot-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+.swot-box { border-radius:8px; padding:9px 10px; background:#fff; border:1px solid #E2E8F0; }
+.swot-box p { margin:0; font-size:12px; line-height:1.4; color:#334155; }
+.swot-box.s { border-left:3px solid #16A34A; }.swot-box.w { border-left:3px solid #F59E0B; }.swot-box.o { border-left:3px solid #2563EB; }.swot-box.t { border-left:3px solid #DC2626; }
+.policy-strip { margin-top:12px; border-radius:9px; padding:10px 12px; background:#F5F3FF; border:1px solid #DDD6FE; }
+.policy-strip p { margin:0; font-size:13px; line-height:1.5; color:#4338CA; }
+.sector-bottom { margin-top:22px; background:#fff; border:1px solid var(--grid); border-radius:12px; padding:18px 20px; color:#475569; font-size:13px; }
+.sector-bottom strong { color:var(--navy); }
+@media (max-width: 820px) { .sector-grid { grid-template-columns:1fr; } }
+@media (max-width: 640px) { .sector-hero { padding:26px 22px; }.sector-hero h1 { font-size:30px; }.impact-grid { grid-template-columns:1fr; } }
+footer.site { text-align:center; color:var(--grey); font-size:13px; padding:36px 22px; border-top:1px solid var(--grid); margin-top:48px; }
+@media (max-width: 640px) { .wrap { padding:26px 18px 60px; } article h1 { font-size:28px; } article h2 { font-size:21px; } article p, article li { font-size:16px; } h1.page { font-size:25px; } }
+</style>
+<title>Understanding Life Insurance Surrender Value</title>
+<meta name="description" content="Surrender value is the amount you receive if you terminate a life insurance policy before its full term. It is typically available only after paying premiums .">
+<meta name="keywords" content="surrender, policy, premiums, insurance, policies, factor, financial, premium">
+<meta name="author" content="MyFinancial">
+<link rel="canonical" href="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-25-personal_finance-understanding-life-insurance-surrender-value/">
+<meta property="og:title" content="Understanding Life Insurance Surrender Value">
+<meta property="og:description" content="Surrender value is the amount you receive if you terminate a life insurance policy before its full term. It is typically available only after paying premiums .">
+<meta property="og:url" content="https://myfinancialria.github.io/myfinancial-content/articles/2026-11-25-personal_finance-understanding-life-insurance-surrender-value/">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Understanding Life Insurance Surrender Value", "description": "Surrender value is the amount you receive if you terminate a life insurance policy before its full term. It is typically available only after paying premiums .", "author": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "publisher": {"@type": "Organization", "name": "myfinancial", "url": "https://myfinancial.in"}, "datePublished": "2026-11-25", "dateModified": "2026-11-25", "mainEntityOfPage": "https://myfinancialria.github.io/myfinancial-content/articles/2026-11-25-personal_finance-understanding-life-insurance-surrender-value/"}</script>
+</head>
+<body>
+<header class="site"><a class="brand" href="../../">myfinancial.in</a><span class="meta">Personal finance · markets · for 15L+ earners and NRIs</span></header>
+<nav class="tabs"><div class="inner"><a href="../../">Latest</a><a href="../../personal-finance/" class="active">Personal Finance</a><a href="../../stories/">Stories</a><a href="../../macro/">Macro &amp; Markets</a><a href="../../results/">Result Analysis</a><a href="../../ipo/">IPO Watch</a><a href="../../pre-market/">Pre-Market</a><a href="../../market-wrap/">Market Wrap</a><a href="../../explained/">Explained</a><a href="../../fno-pulse/">F&amp;O Pulse</a><a href="../../mavericks/">Business Mavericks</a><a href="../../market-pulse/">Market Pulse</a><a href="../../sector-analysis/">Sector Analysis</a><a href="../../news/">News</a></div></nav>
+<article class="wrap"><div class="byline">Personal Finance · 2026-11-25</div><h1>Understanding Life Insurance Surrender Value</h1>
+<div class="tldr"><p>TL;DR</p>
+<ul>
+<li>Surrender value is the amount you receive if you terminate a life insurance policy before its full term.</li>
+<li>It is typically available only after paying premiums for a minimum period, usually two to three years.</li>
+<li>The amount received is almost always less than the total premiums you have paid into the policy.</li>
+<li>Calculation involves either a Guaranteed Surrender Value (GSV) or a Special Surrender Value (SSV), with SSV often being higher.</li>
+<li>Surrendering a policy can have significant financial and tax implications, often leading to a loss.</li>
+</ul>
+</div>
+<h2>What this means in plain terms</h2>
+<p>
+When you buy a life insurance policy, you commit to paying premiums for a set period, and in return, the insurer promises a sum of money to your nominees upon your demise or to you upon policy maturity. However, sometimes circumstances change, and you might consider discontinuing the policy before its term ends. This act of prematurely closing your policy is called &#x27;surrendering&#x27; it.
+</p>
+<p>
+If you surrender a policy, the insurance company doesn&#x27;t just keep all your money. Instead, they pay you a certain amount back, known as the &#x27;surrender value&#x27;. This value is essentially a portion of the premiums you&#x27;ve paid, minus various charges and expenses incurred by the insurer. It&#x27;s important to understand that the surrender value is almost always lower than the total premiums you&#x27;ve paid, meaning you typically incur a financial loss by surrendering.
+</p>
+<h2>Understanding Surrender Value</h2>
+<p>
+A life insurance policy is a long-term contract designed to provide financial security over many years. When you decide to terminate this contract prematurely, the insurer calculates an amount to return to you, which is the surrender value. This value is distinct from a maturity benefit, which is paid out if the policy runs its full course, or a death benefit, paid to nominees upon the policyholder&#x27;s demise.
+</p>
+<p>
+The concept of surrender value primarily applies to traditional life insurance plans like endowment policies, money-back plans, and also Unit-Linked Insurance Plans (ULIPs) after their initial lock-in period. Term insurance plans, which are pure protection plans with no savings component, typically do not accrue any surrender value. Surrendering a policy should generally be a last resort, as it often results in a financial loss and the cessation of vital life cover.
+</p>
+<h2>How Surrender Value is Calculated</h2>
+<p>
+The calculation of surrender value is not straightforward and depends on several factors, including the type of policy, the number of premiums paid, and the policy&#x27;s terms and conditions. There are primarily two types of surrender values: Guaranteed Surrender Value (GSV) and Special Surrender Value (SSV).
+</p>
+<h3>Guaranteed Surrender Value (GSV)</h3>
+<p>
+The GSV is the minimum amount an insurer is legally obligated to pay if you surrender your policy. It typically becomes available after a certain number of premiums have been paid, usually two or three full years. The formula for GSV is generally:
+</p>
+<p>
+<code>GSV = (Total premiums paid excluding the first year&#x27;s premium and premiums for riders) * (Guaranteed Surrender Value Factor)</code>
+</p>
+<p>
+The &#x27;Guaranteed Surrender Value Factor&#x27; is a percentage that increases with the number of years the policy has been in force. For instance, after three years, it might be 30% of the total premiums paid (excluding the first year and rider premiums), increasing to 50% after seven years, and so on. This factor is pre-determined and specified in your policy document.
+</p>
+<h3>Special Surrender Value (SSV)</h3>
+<p>
+The SSV is often higher than the GSV and is calculated at the discretion of the insurance company, though it adheres to guidelines set by the Insurance Regulatory and Development Authority of India (IRDAI). The calculation of SSV is more complex and takes into account factors such as:
+</p>
+<ul>
+<li>The paid-up value of the policy (if premiums were stopped and the policy continued with a reduced sum assured).</li>
+<li>Accrued bonuses (for participating policies).</li>
+<li>The surrender value factor applied to the paid-up sum assured and bonuses.</li>
+<li>Future expenses and market conditions (especially for ULIPs).</li>
+</ul>
+<p>
+The formula for SSV usually involves a &#x27;Surrender Value Factor&#x27; applied to the &#x27;paid-up value&#x27; of the policy plus a factor applied to any accrued bonuses. This factor can vary based on the policy term, the number of premiums paid, and the insurer&#x27;s experience. Insurers typically use this method to offer a potentially better value than the basic GSV, especially for policies that have run for a longer duration.
+</p>
+<h2>When Can You Surrender and What are the Consequences?</h2>
+<p>
+While the option to surrender exists, it&#x27;s not available from day one. For most traditional life insurance policies (non-linked), you can typically surrender your policy only after paying premiums for a minimum of two or three full years. For Unit-Linked Insurance Plans (ULIPs), there is a mandatory lock-in period of five years. You cannot surrender a ULIP and receive any value before this five-year period is complete.
+</p>
+<h3>Consequences of Surrendering</h3>
+<ul>
+<li><strong>Financial Loss:</strong> The most significant consequence is the financial loss. The surrender value received is almost always less than the total premiums you have paid. This is because the initial premiums cover high acquisition costs, agent commissions, and administrative expenses.</li>
+<li><strong>Loss of Life Cover:</strong> Upon surrender, your life insurance cover ceases immediately. This leaves your dependents unprotected in case of an unforeseen event.</li>
+<li><strong>Loss of Future Benefits:</strong> You forfeit any future bonuses (for participating policies) and the potential for a higher maturity benefit.</li>
+<li><strong>Tax Implications:</strong> Depending on when you surrender and the premium amount, the surrender value might become taxable, further eroding your returns.</li>
+</ul>
+<h3>Alternatives to Surrendering</h3>
+<p>
+Before opting to surrender, consider these alternatives:
+</p>
+<ul>
+<li><strong>Make the Policy Paid-Up:</strong> If you can no longer afford premiums, you can choose to make your policy &#x27;paid-up&#x27;. The policy continues with a reduced sum assured based on the premiums already paid, and you don&#x27;t need to pay further premiums. The life cover continues, albeit at a lower amount, and the policy will still accrue a maturity or death benefit.</li>
+<li><strong>Policy Loan:</strong> Many traditional policies allow you to take a loan against the surrender value of your policy. This can be a viable option for short-term liquidity needs without terminating the policy.</li>
+</ul>
+<h2>Tax Implications of Surrendering Your Policy</h2>
+<p>
+The tax implications of surrendering a life insurance policy are crucial to understand, as they can significantly impact the net amount you receive. Section 10(10D) of the Income Tax Act, 1961, governs the taxability of life insurance proceeds, including surrender value.
+</p>
+<h3>General Exemption under Section 10(10D)</h3>
+<p>
+Historically, the sum received under a life insurance policy, including the surrender value, was exempt from tax under Section 10(10D) if the premium payable for any year did not exceed 10% of the actual capital sum assured (for policies issued on or after 1st April 2012). For policies issued between 1st April 2003 and 31st March 2012, this limit was 20%. If these conditions were not met, the surrender value became taxable as &quot;Income from Other Sources.&quot;
+</p>
+<h3>New Tax Rules for High-Value Policies (Applicable from April 1, 2023)</h3>
+<p>
+A significant change was introduced in the Union Budget 2023. For life insurance policies (excluding ULIPs and pure term plans) issued on or after <strong>1st April 2023</strong>, if the aggregate premium payable for any financial year exceeds ₹5 lakh, the maturity benefit (including surrender value) will <strong>not be exempt</strong> under Section 10(10D).
+</p>
+<p>
+In such cases, the surrender value received will be taxable as &quot;Income from Other Sources.&quot; The income chargeable to tax will be the amount received less the aggregate of the premium paid up to the date of surrender. This means that only the profit component (surrender value minus total premiums paid) will be taxed. This new rule aims to bring high-premium life insurance policies, often used for investment rather than pure protection, under the tax net.
+</p>
+<p>
+It is important to note that this new rule does not apply to ULIPs, which already have their own tax provisions, nor does it apply to pure term insurance plans, which typically do not have a surrender value. For policies issued before April 1, 2023, the old rules of Section 10(10D) (10% or 20% premium limit) continue to apply.
+</p>
+<h2>A real example</h2>
+<p>
+Let&#x27;s consider <strong>Priya, 42, ₹35L CTC, Mumbai</strong>, who bought a traditional endowment policy.
+</p>
+<ul>
+<li><strong>Policy Start Date:</strong> April 1, 2020</li>
+<li><strong>Sum Assured:</strong> ₹25 lakhs</li>
+<li><strong>Annual Premium:</strong> ₹1,20,000 (excluding any riders)</li>
+<li><strong>Policy Term:</strong> 20 years</li>
+<li><strong>Premiums Paid:</strong> For 4 full years (₹1,20,000 * 4 = ₹4,80,000)</li>
+<li><strong>Guaranteed Surrender Value (GSV) Factor:</strong> Let&#x27;s assume the policy document states a GSV factor of 30% after 3 years and 35% after 4 years.</li>
+<li><strong>Accrued Bonuses (estimated):</strong> ₹50,000 (for 4 years)</li>
+<li><strong>Special Surrender Value (SSV) Factor:</strong> Let&#x27;s assume the insurer&#x27;s SSV factor for a 4-year-old policy is 70% of the paid-up value and 20% of accrued bonuses.</li>
+</ul>
+<p>
+Priya decides to surrender her policy on April 1, 2024, after paying 4 annual premiums.
+</p>
+<p>
+<strong>1. Calculate Guaranteed Surrender Value (GSV):</strong>
+</p>
+<ul>
+<li>Total premiums paid (excluding 1st year): ₹1,20,000 * 3 = ₹3,60,000</li>
+<li>GSV = (Total premiums paid excluding 1st year) * GSV Factor</li>
+<li>GSV = ₹3,60,000 * 35% = ₹1,26,000</li>
+</ul>
+<p>
+<strong>2. Calculate Special Surrender Value (SSV):</strong>
+</p>
+<ul>
+<li>First, calculate the Paid-Up Value (if premiums were stopped and policy continued):</li>
+<p>
+    <em>   Paid-Up Value = (Number of premiums paid / Total number of premiums payable) </em> Sum Assured
+    <em>   Paid-Up Value = (4 / 20) </em> ₹25,00,000 = ₹5,00,000
+</p>
+<li>SSV on Paid-Up Value = Paid-Up Value * SSV Factor for Paid-Up Value</li>
+<p>
+    <em>   SSV on Paid-Up Value = ₹5,00,000 </em> 70% = ₹3,50,000
+</p>
+<li>SSV on Accrued Bonuses = Accrued Bonuses * SSV Factor for Bonuses</li>
+<p>
+    <em>   SSV on Accrued Bonuses = ₹50,000 </em> 20% = ₹10,000
+</p>
+<li>Total SSV = SSV on Paid-Up Value + SSV on Accrued Bonuses</li>
+<p>
+    *   Total SSV = ₹3,50,000 + ₹10,000 = ₹3,60,000
+</p>
+</ul>
+<p>
+The insurer will typically pay the higher of the GSV or SSV, which in this case is ₹3,60,000 (SSV).
+</p>
+<p>
+<strong>Financial Outcome:</strong>
+</p>
+<ul>
+<li>Total premiums paid by Priya: ₹4,80,000</li>
+<li>Amount received on surrender: ₹3,60,000</li>
+<li>Loss incurred: ₹4,80,000 - ₹3,60,000 = ₹1,20,000</li>
+</ul>
+<p>
+<strong>Tax Implications:</strong>
+Since Priya&#x27;s policy was issued on April 1, 2020 (before April 1, 2023), and her annual premium of ₹1,20,000 is less than 10% of the sum assured (10% of ₹25 lakhs = ₹2,50,000), the surrender value of ₹3,60,000 would be tax-exempt under Section 10(10D). If her policy had been issued after April 1, 2023, and the aggregate premium exceeded ₹5 lakh in a year, the profit component (₹3,60,000 - ₹4,80,000 = -₹1,20,000, so no profit) would be considered for tax, but in this case, there&#x27;s a loss.
+</p>
+<p>
+This example clearly illustrates the financial loss typically associated with surrendering a life insurance policy prematurely.
+</p>
+<h2>What to do this week</h2>
+<ol>
+<li><strong>Locate Your Policy Document:</strong> Find your life insurance policy document and review the section on &#x27;Surrender Value&#x27; or &#x27;Discontinuance Benefits&#x27; to understand the specific terms and conditions.</li>
+<li><strong>Check Premium Payment History:</strong> Verify how many years of premiums you have paid for your policy. This will determine if it&#x27;s eligible for a surrender value.</li>
+<li><strong>Contact Your Insurer:</strong> If you are considering surrendering, call your insurance provider&#x27;s customer service to request an exact surrender value quote for your specific policy.</li>
+<li><strong>Evaluate Alternatives:</strong> Before surrendering, explore options like making the policy paid-up or taking a policy loan, and compare them against your current financial needs.</li>
+<li><strong>Consult a Planner:</strong> If the amount involved is significant or you&#x27;re unsure about the tax implications, speak to a Certified Financial Planner for personalised advice.</li>
+</ol>
+<h2>FAQ</h2>
+<h3>What is surrender value in life insurance?</h3>
+<p>
+Surrender value is the amount an insurance company pays you if you decide to terminate your life insurance policy before its maturity date. It is a portion of the premiums you&#x27;ve paid, minus certain charges.
+</p>
+<h3>Is surrender value taxable in India?</h3>
+<p>
+For policies issued before April 1, 2023, surrender value is tax-exempt under Section 10(10D) if annual premiums were within 10% (or 20% for older policies) of the sum assured. For policies issued on or after April 1, 2023, if the aggregate annual premium exceeds ₹5 lakh, the surrender value (profit component) becomes taxable.
+</p>
+<h3>Can I surrender a life insurance policy anytime?</h3>
+<p>
+No, you typically cannot surrender a policy anytime. Most traditional policies require a minimum of two or three full years of premium payments before a surrender value accrues. ULIPs have a mandatory five-year lock-in period.
+</p>
+<h3>What is the difference between Guaranteed Surrender Value (GSV) and Special Surrender Value (SSV)?</h3>
+<p>
+GSV is a minimum, fixed percentage of premiums paid (excluding the first year and riders) guaranteed in your policy. SSV is often higher, calculated at the insurer&#x27;s discretion based on factors like paid-up value, accrued bonuses, and market conditions, but it adheres to IRDAI guidelines.
+</p>
+<h3>What happens if I stop paying premiums but don&#x27;t surrender?</h3>
+<p>
+If you stop paying premiums after the initial mandatory period, your policy might become &#x27;paid-up&#x27;. This means the life cover continues with a reduced sum assured, and you won&#x27;t need to pay further premiums, but you won&#x27;t receive the full benefits originally planned.
+</p>
+<h3>Is it advisable to surrender a life insurance policy?</h3>
+<p>
+Generally, surrendering a life insurance policy is not advisable as it almost always results in a financial loss and the cessation of your life cover. It should be considered a last resort after exploring alternatives like making the policy paid-up or taking a policy loan.
+</p>
+<h2>Sources</h2>
+<ul>
+<li>Income Tax India: https://incometax.gov.in</li>
+<li>CBDT notifications: https://incometaxindia.gov.in</li>
+<li>1Finance: https://1finance.co.in/1f-dashboard/blog/surrender-value-in-life-insurance-policies/</li>
+<li>IRDAI: https://irdai.gov.in</li>
+</ul>
+<p>
+This is general information, not personalised advice. For your situation, consult a Certified Financial Planner.
+</p></article><footer class="site">© myfinancial.in · <em>For Indians who'd rather understand than be sold to.</em> · <a href="https://myfinancial.in" style="color:inherit;">myfinancial.in</a></footer>
+</body></html>
